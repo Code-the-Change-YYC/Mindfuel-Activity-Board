@@ -1,0 +1,74 @@
+version: '3.7'
+services:
+  frontend_react:
+    image: node:13.12.0-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend_react:/app
+      - /app/node_modules
+    ports:
+      - '8081:3000'
+    command: "npm start"
+    restart: always
+    env_file: .env
+    # Needed for compose 
+    stdin_open: true
+    networks:
+      mindfuel_activity:
+        ipv4_address: 10.10.10.1
+
+  rest-api:
+    image: golang:1.14
+    working_dir: /go/src/app
+    ports:
+      - 8082:8080
+    volumes:
+      - ./rest_golang:/go/src/app
+    command: go run main.go
+    restart: always
+    env_file: .env
+    networks:
+      mindfuel_activity:
+        ipv4_address: 10.10.10.2
+
+# TO be done later
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:7.7.1
+  #   container_name: kib01
+  #   ports:
+  #     - 5601:5601
+  #   env_file: .env
+  #   restart: always
+  #   networks:
+  #     mindfuel_activity:
+  #       ipv4_address: 10.10.20.2
+
+  # es01:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+  #   container_name: es01
+  #   environment:
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     nproc: 65535
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - elastic_data:/usr/share/elasticsearch/data
+  #   ports:
+  #     - "9200:9200"
+  #   networks:
+  #     mindfuel_activity:
+  #       ipv4_address: 10.10.20.1
+
+volumes:
+  elastic_data:
+    driver: local
+
+networks:
+    mindfuel_activity:
+        driver: bridge
+        ipam:
+            config:
+                - subnet: 10.10.0.0/16
