@@ -9,7 +9,7 @@ const Map = (props: any) => {
     return (
       <div className="map" style={{ height: '100vh', width: '100vw' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: `${[process.env.REACT_APP_APIKEY]}` }}
+          bootstrapURLKeys= {{key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`}}
           defaultCenter={center}
           defaultZoom={zoom}
         >
@@ -19,3 +19,4 @@ const Map = (props: any) => {
 }
 
 export default Map;
+
