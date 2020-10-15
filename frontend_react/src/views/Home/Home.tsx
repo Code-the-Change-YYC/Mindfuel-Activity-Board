@@ -1,7 +1,6 @@
 import * as React from 'react';
 import AnalyticsBox from '../../components/analyticsBox';
 import styles from './Home.module.css';
-
 interface HomeProps {
     name: string,
 }
