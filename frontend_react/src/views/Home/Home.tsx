@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Map from '../../components/Map/MapComponent';
 import AnalyticsBox from '../../components/analyticsBox';
 import styles from './Home.module.css';
 interface HomeProps {
@@ -29,9 +30,14 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
     })
 
     return (
+      <React.Fragment>
         <div className={styles.analyticboxes}>
             { boxes }
         </div>
+        <div className={styles.map}>
+          <Map></Map>
+        </div>
+      </React.Fragment>
     );
 }
 

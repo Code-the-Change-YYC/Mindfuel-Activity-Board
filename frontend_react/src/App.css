@@ -1,4 +1,5 @@
 .App {
   text-align: start;
-  padding-left: 20px;
+  width: 100%;
+  overflow: auto;
 }
