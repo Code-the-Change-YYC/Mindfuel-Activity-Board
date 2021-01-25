@@ -6,6 +6,7 @@
 
 .analyticboxes {
     display: flex;
+    background-color: #52247F;
 }
 
 .map {
