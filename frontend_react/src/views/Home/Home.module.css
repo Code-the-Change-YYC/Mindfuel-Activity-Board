@@ -12,3 +12,20 @@
 .map {
   height: calc(100vh - 160px);
 }
+
+.timelineContainer {
+  display: flex;
+  position: fixed;
+  left: 0;
+  bottom: 2.5%;
+  width: 100%;
+  justify-content: center;
+  z-index: 2;
+}
+
+.timeline {
+  width: 30%;
+  background-color: #fffffff5;
+  border-radius: 5px;
+  padding: 5px 20px 1px 20px;
+}
