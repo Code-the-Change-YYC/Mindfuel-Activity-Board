@@ -2,13 +2,27 @@ import React from 'react';
 import styles from './Timeline.module.css';
 import { StylesProvider } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
+import Tooltip from '@material-ui/core/Tooltip';
 
-function ThumbComponent(props: any) {
+const ThumbComponent = (props: any) => {
   return (
     <span {...props}>
       <span className={styles.bar} />
       <span className={styles.bar} />
     </span>
+  );
+}
+
+const LabelComponent = (props: any) => {
+  const { children, open, value } = props;
+
+  const classes = {
+    tooltip: styles.tooltip,
+    arrow: styles.arrow
+  }
+
+  return(
+  <Tooltip open={open} classes={classes} title={value} arrow>{children}</Tooltip>
   );
 }
 
@@ -25,8 +39,8 @@ const Timeline = () => {
       <Slider
         classes={classes}
         ThumbComponent={ThumbComponent}
-        getAriaLabel={(index) => (index === 0 ? 'Minimum price' : 'Maximum price')}
         defaultValue={100}
+        ValueLabelComponent={LabelComponent}
       />
     </StylesProvider>
   );

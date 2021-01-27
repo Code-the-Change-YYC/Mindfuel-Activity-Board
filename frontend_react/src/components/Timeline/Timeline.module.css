@@ -11,7 +11,7 @@
   border: 2px solid #52247F;
   margin-top: -12px;
   margin-left: -13px;
-  /* box-shadow: #ebebeb 0 2px 2px; */
+  box-shadow: #ccc 0 2px 2px;
 }
 
 .timelineThumb:focus, .timelineThumb:hover, .timelineThumb:active {
@@ -22,10 +22,12 @@
   color:#52247F;
   height: 3px;
   opacity: 1;
+  pointer-events: None;
 }
 
 .timelineTrack {
   height: 3px;
+  pointer-events: None;
 }
 
 .bar {
@@ -35,4 +37,12 @@
   background-color: #52247F;
   margin-left: 1px;
   margin-right: 1px;
+}
+
+.tooltip {
+  background-color: #52247F;
+}
+
+.arrow {
+  color: #52247F;
 }
