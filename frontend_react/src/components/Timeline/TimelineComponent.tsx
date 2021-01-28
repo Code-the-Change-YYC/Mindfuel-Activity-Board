@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Timeline.module.css';
 import { StylesProvider } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
-import Tooltip from '@material-ui/core/Tooltip';
 
 const ThumbComponent = (props: any) => {
   return (
@@ -13,18 +12,28 @@ const ThumbComponent = (props: any) => {
   );
 }
 
-const LabelComponent = (props: any) => {
-  const { children, open, value } = props;
-
-  const classes = {
-    tooltip: styles.tooltip,
-    arrow: styles.arrow
-  }
-
-  return(
-  <Tooltip open={open} classes={classes} title={value} arrow>{children}</Tooltip>
-  );
-}
+const marks = [
+  {
+    value: 0,
+    label: '1 year',
+  },
+  {
+    value: 25,
+    label: '1 month',
+  },
+  {
+    value: 50,
+    label: '1 week',
+  },
+  {
+    value: 75,
+    label: '1 day',
+  },
+  {
+    value: 100,
+    label: 'Current',
+  },
+];
 
 const Timeline = () => {
   const classes = {
@@ -32,6 +41,8 @@ const Timeline = () => {
     thumb: styles.timelineThumb,
     track: styles.timelineTrack,
     rail: styles.timelineRail,
+    mark: styles.timelineMarks,
+    markLabel: styles.timelineMarkLabels
   }
 
   return (
@@ -40,7 +51,8 @@ const Timeline = () => {
         classes={classes}
         ThumbComponent={ThumbComponent}
         defaultValue={100}
-        ValueLabelComponent={LabelComponent}
+        step={null}
+        marks={marks}
       />
     </StylesProvider>
   );

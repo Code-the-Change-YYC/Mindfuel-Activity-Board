@@ -30,19 +30,18 @@
   pointer-events: None;
 }
 
+.timelineMarks {
+  background-color: #52247F
+}
+
+.timelineMarkLabels {
+  top: 26px;
+  
+}
 .bar {
-  /* display: inline-block !important; */
   height: 9px;
   width: 1px;
   background-color: #52247F;
   margin-left: 1px;
   margin-right: 1px;
-}
-
-.tooltip {
-  background-color: #52247F;
-}
-
-.arrow {
-  color: #52247F;
 }
