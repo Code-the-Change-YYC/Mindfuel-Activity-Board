@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Map from '../../components/Map/MapComponent';
 import AnalyticsBox from '../../components/analyticsBox';
+import Map from '../../components/Map/MapComponent';
+import Timeline from '../../components/Timeline/TimelineComponent'
 import styles from './Home.module.css';
 
 interface HomeProps {
@@ -37,6 +38,11 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
         </div>
         <div className={styles.map}>
           <Map></Map>
+        </div>
+        <div className={styles.timelineContainer}>
+          <div className={styles.timeline}>
+            <Timeline></Timeline>
+          </div>
         </div>
       </React.Fragment>
     );
