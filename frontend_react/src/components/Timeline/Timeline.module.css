@@ -36,12 +36,20 @@
 
 .timelineMarkLabels {
   top: 26px;
-  
+
 }
+
 .bar {
   height: 9px;
   width: 1px;
   background-color: #52247F;
   margin-left: 1px;
+}
+
+.barLeft {
+  margin-right: 2px;
+}
+
+.barRight {
   margin-right: 1px;
 }

@@ -6,8 +6,8 @@ import Slider from '@material-ui/core/Slider';
 const ThumbComponent = (props: any) => {
   return (
     <span {...props}>
-      <span className={styles.bar} />
-      <span className={styles.bar} />
+      <span className={styles.bar + " " + styles.barLeft} />
+      <span className={styles.bar + " " + styles.barRight} />
     </span>
   );
 }
