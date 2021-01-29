@@ -3,6 +3,7 @@ import AnalyticsBox from '../../components/analyticsBox';
 import Map from '../../components/Map/MapComponent';
 import Timeline from '../../components/Timeline/TimelineComponent'
 import styles from './Home.module.css';
+
 interface HomeProps {
     name: string,
 }
