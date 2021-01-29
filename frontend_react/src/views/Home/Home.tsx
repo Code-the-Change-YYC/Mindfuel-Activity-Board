@@ -2,6 +2,7 @@ import * as React from 'react';
 import Map from '../../components/Map/MapComponent';
 import AnalyticsBox from '../../components/analyticsBox';
 import styles from './Home.module.css';
+
 interface HomeProps {
     name: string,
 }
