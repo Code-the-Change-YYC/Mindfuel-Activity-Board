@@ -4,26 +4,6 @@
     font-size: 20px;
 }
 
-.sideNav {
-  height: 100%;
-  width: 235px;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  background-color: #52247F;
-}
-
-.logoContainer {
-  text-align: center;
-  width: 100%;
-  background-color: white;
-}
-
-.logo {
-  height: 100px;
-}
-
 .map {
   height: 100vh;
   margin-left: 235px;
