@@ -6,7 +6,6 @@
 
 .map {
   height: 100vh;
-  margin-left: 235px;
 }
 
 .timelineContainer {
@@ -14,10 +13,9 @@
   position: fixed;
   left: 0;
   bottom: 2.5%;
-  margin-left: 235px;
-  width: calc(100% - 235px);
   justify-content: center;
   z-index: 2;
+  width: 100%;
 }
 
 .timeline {
@@ -26,4 +24,17 @@
   background-color: #fffffff5;
   border-radius: 5px;
   padding: 5px 25px 1px 25px;
+}
+
+/* Account for permanent sidebar at above mobile widths */
+@media screen and (min-width: 600px) {
+  .map {
+    height: 100vh;
+    margin-left: 240px;
+  }
+
+  .timelineContainer {
+    margin-left: 235px;
+    width: calc(100% - 235px);
+  }
 }
