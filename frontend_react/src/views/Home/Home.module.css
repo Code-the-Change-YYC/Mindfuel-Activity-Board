@@ -4,13 +4,29 @@
     font-size: 20px;
 }
 
-.analyticboxes {
-    display: flex;
-    background-color: #52247F;
+.sideNav {
+  height: 100%;
+  width: 235px;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #52247F;
+}
+
+.logoContainer {
+  text-align: center;
+  width: 100%;
+  background-color: white;
+}
+
+.logo {
+  height: 100px;
 }
 
 .map {
-  height: calc(100vh - 160px);
+  height: 100vh;
+  margin-left: 235px;
 }
 
 .timelineContainer {
@@ -18,7 +34,8 @@
   position: fixed;
   left: 0;
   bottom: 2.5%;
-  width: 100%;
+  margin-left: 235px;
+  width: calc(100% - 235px);
   justify-content: center;
   z-index: 2;
 }
