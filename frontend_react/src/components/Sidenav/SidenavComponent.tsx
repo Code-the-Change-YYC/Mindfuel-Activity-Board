@@ -71,6 +71,9 @@ const Sidenav = () => {
   const buttonClasses = {
     root: styles.dashboardButton
   }
+  const iconClasses = {
+    root: styles.menuIconContainer
+  }
 
   const boxes = data.map(box => {
     return <AnalyticsBox numberValue={box.numberValue} textValue={box.textValue} icon={box.icon}></AnalyticsBox>
@@ -99,13 +102,21 @@ const Sidenav = () => {
   return (
     <React.Fragment>
       <Hidden smUp implementation="css">
+        <IconButton
+              id="iconContainer"
+              aria-label="open drawer"
+              onClick={handleDrawerToggle}
+              classes={iconClasses}
+            >
+              <MenuIcon />
+        </IconButton>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          // classes={{
-          //   paper: classes.drawerPaper,
-          // }}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}
@@ -115,9 +126,9 @@ const Sidenav = () => {
       </Hidden>
       <Hidden xsDown implementation="css">
         <Drawer
-          // classes={{
-          //   paper: classes.drawerPaper,
-          // }}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
           variant="permanent"
           open
         >
