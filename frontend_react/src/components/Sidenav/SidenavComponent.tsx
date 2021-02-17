@@ -40,7 +40,7 @@ const Sidenav = () => {
   }
 
   const boxes = data.map(box => {
-    return <AnalyticsBox numberValue={box.numberValue} textValue={box.textValue} icon={box.icon}></AnalyticsBox>
+    return <AnalyticsBox numberValue={box.numberValue} textValue={box.textValue} icon={box.icon} key={box.textValue}></AnalyticsBox>
   })
 
 
