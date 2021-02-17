@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AnalyticsBox from '../../components/analyticsBox';
 import Map from '../../components/Map/MapComponent';
+import Sidenav from '../../components/Sidenav/SidenavComponent';
 import Timeline from '../../components/Timeline/TimelineComponent'
 import styles from './Home.module.css';
 
@@ -37,6 +38,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
       <React.Fragment>
         <div className={styles.header}>
           <div className={styles.analyticboxes}>
+              <Sidenav></Sidenav>
               { boxes }
           </div>
           <div className={styles.logoContainer}>

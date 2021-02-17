@@ -1,0 +1,53 @@
+.sidenav {
+  height: 100%;
+  width: 240px;
+  position: fixed;
+  background-color: #ebecf0;
+}
+
+.menuIconContainer{
+  /* z-index: 2;
+  position: fixed !important; */
+  color: #FFDD00 !important;
+  height: 50px;
+  width: 50px;
+  margin: 20px !important;
+}
+
+.iconSize {
+  height: 30px;
+  width: 30px;
+}
+
+.drawerPaper {
+  width: 240px;
+}
+
+.sidenavContent {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.analyticsBoxes > div {
+  margin: 20px 0;
+}
+
+.analyticsBoxes > :last-child {
+  margin-bottom: 0;
+}
+
+.dashboardButton {
+  background-color: #FFDD00 !important;
+  margin-bottom: 40px !important;
+}
+
+.infoPanel{
+  min-height: 150px;
+  width: 100%;
+  /* border: 1px dashed #52247F; */
+}
+

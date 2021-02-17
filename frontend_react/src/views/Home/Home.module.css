@@ -9,11 +9,12 @@
   background-color: #52247F;
   justify-content: space-between;
   align-items: center;
-  height: 160px;
+  height: 140px;
 }
 
 .analyticboxes {
-    display: flex;
+  display: flex;
+  align-items: center;
 }
 
 .logoContainer {
@@ -21,11 +22,11 @@
 }
 
 .logo {
-  height: 160px;
+  height: 140px;
 }
 
 .map {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 140px);
 }
 
 .timelineContainer {
