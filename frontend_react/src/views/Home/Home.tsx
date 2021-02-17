@@ -8,6 +8,8 @@ interface HomeProps {
     name: string,
 }
 
+const logo = require("../../assets/mindfuel-logo.png")
+
 const data = [
     {
         "numberValue": "56",
@@ -33,8 +35,13 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
 
     return (
       <React.Fragment>
-        <div className={styles.analyticboxes}>
-            { boxes }
+        <div className={styles.header}>
+          <div className={styles.analyticboxes}>
+              { boxes }
+          </div>
+          <div className={styles.logoContainer}>
+            <img className={styles.logo} src={logo}></img>
+          </div>
         </div>
         <div className={styles.map}>
           <Map></Map>

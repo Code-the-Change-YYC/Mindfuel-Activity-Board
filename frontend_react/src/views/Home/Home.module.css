@@ -4,9 +4,24 @@
     font-size: 20px;
 }
 
+.header {
+  display: flex;
+  background-color: #52247F;
+  justify-content: space-between;
+  align-items: center;
+  height: 160px;
+}
+
 .analyticboxes {
     display: flex;
-    background-color: #52247F;
+}
+
+.logoContainer {
+  background-color: white;
+}
+
+.logo {
+  height: 160px;
 }
 
 .map {
