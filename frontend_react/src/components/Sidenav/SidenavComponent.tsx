@@ -38,10 +38,11 @@ const Sidenav = () => {
         onClick={handleDrawerToggle}
         classes={iconClasses}
       >
-        <MenuIcon style={{ fontSize: 40 }} />
+        <MenuIcon style={{ fontSize: 30 }} />
       </IconButton>
       <Drawer
         variant="temporary"
+        anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         classes={{

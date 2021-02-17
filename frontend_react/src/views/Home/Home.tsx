@@ -37,12 +37,14 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
     return (
       <React.Fragment>
         <div className={styles.header}>
-          <div className={styles.analyticboxes}>
-              <Sidenav></Sidenav>
-              { boxes }
-          </div>
           <div className={styles.logoContainer}>
             <img className={styles.logo} src={logo}></img>
+          </div>
+          <div className={styles.analyticboxes}>
+              { boxes }
+          </div>
+          <div className={styles.sidenav}>
+            <Sidenav></Sidenav>
           </div>
         </div>
         <div className={styles.map}>
