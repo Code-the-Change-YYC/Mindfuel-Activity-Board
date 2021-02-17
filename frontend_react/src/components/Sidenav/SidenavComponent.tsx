@@ -6,44 +6,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0,
-      },
-    },
-    appBar: {
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-      },
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
-    },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-    },
-  }),
-);
 
 const logo = require("../../assets/mindfuel-logo.png")
 
@@ -67,12 +29,14 @@ const data = [
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const classes = useStyles();
   const buttonClasses = {
     root: styles.dashboardButton
   }
   const iconClasses = {
-    root: styles.menuIconContainer
+    root: styles.menuIconContainer,
+  }
+  const drawerClasses = {
+    paper: styles.drawerPaper
   }
 
   const boxes = data.map(box => {
@@ -103,22 +67,22 @@ const Sidenav = () => {
     <React.Fragment>
       <Hidden smUp implementation="css">
         <IconButton
-              id="iconContainer"
               aria-label="open drawer"
+              color="inherit"
               onClick={handleDrawerToggle}
               classes={iconClasses}
             >
-              <MenuIcon />
+              <MenuIcon style={{ fontSize: 30 }}/>
         </IconButton>
         <Drawer
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           classes={{
-            paper: classes.drawerPaper,
+            paper: drawerClasses.paper,
           }}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
         >
           {drawer}
@@ -127,7 +91,7 @@ const Sidenav = () => {
       <Hidden xsDown implementation="css">
         <Drawer
           classes={{
-            paper: classes.drawerPaper,
+            paper: drawerClasses.paper,
           }}
           variant="permanent"
           open
