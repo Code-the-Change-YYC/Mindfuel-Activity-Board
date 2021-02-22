@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MapMarker from '../MapMarker/MapMarker'
 import GoogleMapReact from 'google-map-react';
 import styles from './Map.module.css';
 
@@ -13,6 +14,7 @@ const Map = () => {
           defaultCenter={center}
           defaultZoom={zoom}
         >
+          <MapMarker></MapMarker>
         </GoogleMapReact>
       </div>
     );

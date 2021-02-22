@@ -1,5 +1,5 @@
 import React from 'react';
-import AnalyticsBox from '../../components/analyticsBox';
+import AnalyticsBox from '../AnalyticsBox';
 import styles from './Sidenav.module.css';
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
