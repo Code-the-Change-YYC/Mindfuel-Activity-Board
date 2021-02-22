@@ -24,6 +24,7 @@
   background-color: #fffffff5;
   border-radius: 5px;
   padding: 5px 25px 1px 25px;
+  filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
 }
 
 /* Account for permanent sidebar at above mobile widths */
