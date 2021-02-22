@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { StylesProvider } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const logo = require("../../assets/mindfuel-logo.png")
+const logo = require("../../assets/mindfuel-logo.png");
 
 const data = [
   {
@@ -26,7 +26,7 @@ const data = [
     "textValue": "Cities",
     "icon": require("../../assets/location.svg")
   }
-]
+];
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
