@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { StylesProvider } from '@material-ui/core/styles';
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -31,7 +32,7 @@ const Sidenav = () => {
   )
 
   return (
-    <React.Fragment>
+    <StylesProvider injectFirst>
       <IconButton
         aria-label="open drawer"
         color="inherit"
@@ -54,7 +55,7 @@ const Sidenav = () => {
       >
         {drawer}
       </Drawer>
-    </React.Fragment>
+    </StylesProvider>
   )
 }
 

@@ -7,12 +7,12 @@
 
 .menuIconContainer{
   /* z-index: 2;
-  position: fixed !important; */
-  background-color: #FFDD00 !important;
-  color: #52247F !important;
+  position: fixed; */
+  background-color: #FFDD00;
+  color: #52247F;
   height: 50px;
   width: 50px;
-  margin: 20px !important;
+  margin: 20px;
 }
 
 .iconSize {
@@ -42,8 +42,8 @@
 }
 
 .dashboardButton {
-  background-color: #FFDD00 !important;
-  margin-bottom: 40px !important;
+  background-color: #FFDD00;
+  margin-bottom: 40px;
 }
 
 .infoPanel{
