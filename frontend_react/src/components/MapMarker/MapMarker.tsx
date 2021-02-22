@@ -4,7 +4,7 @@ import { Image } from 'react-bootstrap';
 
 const icon = require("../../assets/map-marker.svg")
 
-const MapMarker = () => {
+const MapMarker = (props: any) => {
 
   return (
     <Image className={styles.icon} src={icon} />
