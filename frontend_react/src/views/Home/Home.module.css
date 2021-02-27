@@ -4,13 +4,8 @@
     font-size: 20px;
 }
 
-.analyticboxes {
-    display: flex;
-    background-color: #52247F;
-}
-
 .map {
-  height: calc(100vh - 160px);
+  height: 100vh;
 }
 
 .timelineContainer {
@@ -18,9 +13,9 @@
   position: fixed;
   left: 0;
   bottom: 2.5%;
-  width: 100%;
   justify-content: center;
   z-index: 2;
+  width: 100%;
 }
 
 .timeline {
@@ -29,4 +24,18 @@
   background-color: #fffffff5;
   border-radius: 5px;
   padding: 5px 25px 1px 25px;
+  filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
+}
+
+/* Account for permanent sidebar at above mobile widths */
+@media screen and (min-width: 600px) {
+  .map {
+    height: 100vh;
+    margin-left: 240px;
+  }
+
+  .timelineContainer {
+    margin-left: 235px;
+    width: calc(100% - 235px);
+  }
 }

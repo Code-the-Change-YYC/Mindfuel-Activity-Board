@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Timeline.module.css';
-import { StylesProvider } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
+import { StylesProvider } from '@material-ui/core/styles';
 
 const ThumbComponent = (props: any) => {
   return (

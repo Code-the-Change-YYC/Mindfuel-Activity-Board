@@ -1,0 +1,63 @@
+.sidenav {
+  height: 100%;
+  width: 240px;
+  position: fixed;
+  background-color: #52247F;
+}
+
+.logoContainer {
+  text-align: center;
+  width: 100%;
+  background-color: white;
+}
+
+.logo {
+  height: 100px;
+}
+
+.menuIconContainer{
+  z-index: 2;
+  position: fixed;
+  color: #FFDD00;
+  background: #52247F;
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
+}
+
+.iconSize {
+  height: 30px;
+  width: 30px;
+}
+
+.drawerPaper {
+  width: 240px;
+}
+
+.sidenavContent {
+  height: calc(100% - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.analyticsBoxes > div {
+  margin: 20px 0;
+}
+
+.analyticsBoxes > :last-child {
+  margin-bottom: 0;
+}
+
+.dashboardButton {
+  background-color: #FFDD00;
+  margin-bottom: 20px;
+}
+
+.infoPanel{
+  min-height: 150px;
+  width: 205px;
+  border: 1px dashed #FFDD00;
+}
