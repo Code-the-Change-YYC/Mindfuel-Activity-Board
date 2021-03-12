@@ -10,13 +10,13 @@ interface HomeProps {
 }
 
 const locations: Location[] = [
-  {lat: 51.0447, lng: -114.0719},
+  {lat: 49.3527, lng: -123.5207},
+  {lat: 49.2827, lng: -123.1207},
   {lat: 51.5447, lng: -114.1719},
+  {lat: 51.0447, lng: -114.0719},
+  {lat: 45.3527, lng: -110.2207},
   {lat: 53.278046, lng: -108.005470},
   {lat: 45.630001, lng: -73.519997},
-  {lat: 49.2827, lng: -123.1207},
-  {lat: 49.3527, lng: -123.5207},
-  {lat: 45.3527, lng: -110.2207},
 ];
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {

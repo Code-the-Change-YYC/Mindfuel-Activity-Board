@@ -9,3 +9,7 @@
 .icon:hover {
   cursor: pointer;
 }
+
+.popover {
+  z-index: 0 !important;
+}

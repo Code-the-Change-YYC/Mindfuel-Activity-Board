@@ -12,8 +12,14 @@ const Map = (props: MapProps) => {
   // Default center of North America
   const [center, setCenter] = useState({ lat: 48.354594, lng: -99.998050 });
   const [zoom, setZoom] = useState(4);
+
+  const handleClick = (event: React.MouseEvent) => {
+    console.log("test")
+    setCenter({ lat: 48.354594, lng: -99.998050 });
+  };
+
   const markers = props.locations.map(loc => {
-    return <MapMarker lat={loc.lat} lng={loc.lng}></MapMarker>
+    return <MapMarker lat={loc.lat} lng={loc.lng} onClick={handleClick}></MapMarker>
   })
 
   return (
