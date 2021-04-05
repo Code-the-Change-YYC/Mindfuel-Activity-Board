@@ -8,14 +8,14 @@ const icon = require("../../assets/map-marker.svg");
 
 const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
-
+  const user = props.user;
   const popoverClasses = {
     root: styles.popover,
   };
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
-    setAnchorEl(event.currentTarget);
-    props.onMarkerClick(event);
+    setAnchorEl(event.currentTarget); // Anchor popover
+    props.onMarkerClick(user.location); // Center map by calling parent function
   };
 
   const handleClose = () => {
