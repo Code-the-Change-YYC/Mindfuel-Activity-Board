@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MapMarker.module.css";
 import Popover from "@material-ui/core/Popover";
-import { StylesProvider } from '@material-ui/core/styles';
+import { StylesProvider } from "@material-ui/core/styles";
 import { Image } from "react-bootstrap";
 
 const icon = require("../../assets/map-marker.svg");
@@ -10,11 +10,12 @@ const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
 
   const popoverClasses = {
-    root: styles.popover
-  }
+    root: styles.popover,
+  };
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget);
+    props.onMarkerClick(event);
   };
 
   const handleClose = () => {
@@ -22,7 +23,7 @@ const MapMarker = (props: any) => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
 
   return (
     <StylesProvider injectFirst>
@@ -42,7 +43,7 @@ const MapMarker = (props: any) => {
           horizontal: "center",
         }}
       >
-          The content of the Popover.
+        The content of the Popover.
       </Popover>
     </StylesProvider>
   );
