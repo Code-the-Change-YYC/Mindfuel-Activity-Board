@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./MapMarker.module.css";
-import Popover from "@material-ui/core/Popover";
+// import Popover from "@material-ui/core/Popover";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Popper from "@material-ui/core/Popper";
 import { StylesProvider } from "@material-ui/core/styles";
 import { Image } from "react-bootstrap";
 
@@ -8,6 +10,7 @@ const icon = require("../../assets/map-marker.svg");
 
 const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
+  const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
   const user = props.user;
   const popoverClasses = {
     root: styles.popover,
@@ -16,6 +19,10 @@ const MapMarker = (props: any) => {
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
     props.onMarkerClick(user.location); // Center map by calling parent function
+  };
+
+  const handleClickAway = () => {
+    setAnchorEl(null);
   };
 
   const handleClose = () => {
@@ -27,8 +34,34 @@ const MapMarker = (props: any) => {
 
   return (
     <StylesProvider injectFirst>
-      <Image className={styles.icon} src={icon} onClick={handleClick} />
-      <Popover
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Image className={styles.icon} src={icon} onClick={handleClick} />
+      </ClickAwayListener>
+      <Popper
+        placement="top"
+        // style={popoverClasses}
+        open={open}
+        id={id}
+        anchorEl={anchorEl}
+        disablePortal={true}
+        modifiers={{
+          flip: {
+            enabled: false,
+          },
+          preventOverflow: {
+            enabled: false,
+            boundariesElement: "scrollParent",
+          },
+          arrow: {
+            enabled: true,
+            element: arrowRef,
+          },
+          hide: { enabled: false },
+        }}
+      >
+        <div ref={setArrowRef}>The content of the Popover.</div>
+      </Popper>
+      {/* <Popover
         classes={popoverClasses}
         id={id}
         open={open}
@@ -44,7 +77,7 @@ const MapMarker = (props: any) => {
         }}
       >
         The content of the Popover.
-      </Popover>
+      </Popover> */}
     </StylesProvider>
   );
 };

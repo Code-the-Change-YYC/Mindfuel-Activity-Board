@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import * as sampleData from "../../api/SampleUserData.json";
 import Map from "../../components/Map/MapComponent";
 import Timeline from "../../components/Timeline/TimelineComponent";
