@@ -5,13 +5,13 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popper from "@material-ui/core/Popper";
 import { StylesProvider } from "@material-ui/core/styles";
 import { Image } from "react-bootstrap";
-
-const icon = require("../../assets/map-marker.svg");
+import PopupCard from "../PopupCard/PopupCard";
 
 const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
   const user = props.user;
+  const icon = require(`../../assets/map-marker-${user.assetType.toLowerCase()}.svg`);
   const popoverClasses = {
     root: styles.popover,
   };
@@ -39,11 +39,11 @@ const MapMarker = (props: any) => {
       </ClickAwayListener>
       <Popper
         placement="top"
-        // style={popoverClasses}
         open={open}
         id={id}
         anchorEl={anchorEl}
         disablePortal={true}
+        transition={true}
         modifiers={{
           flip: {
             enabled: false,
@@ -53,13 +53,17 @@ const MapMarker = (props: any) => {
             boundariesElement: "scrollParent",
           },
           arrow: {
-            enabled: true,
-            element: arrowRef,
+            enabled: false,
+            // element: arrowRef,
           },
           hide: { enabled: false },
         }}
       >
-        <div ref={setArrowRef}>The content of the Popover.</div>
+        {/* <img src={user.imageUrl} alt=""/> */}
+        {/* <div ref={setArrowRef} className={styles.arrow}></div> */}
+        {/* <div>test</div> */}
+        
+        <PopupCard ref={setArrowRef} user={user}></PopupCard>
       </Popper>
       {/* <Popover
         classes={popoverClasses}

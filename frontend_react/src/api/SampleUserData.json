@@ -3,7 +3,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "Alberta",
+        "region": "Alberta",
         "city": "Calgary",
         "lat": "51.5447",
         "lng": "-114.1719"
@@ -15,7 +15,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "Alberta",
+        "region": "Alberta",
         "city": "Calgary",
         "lat": "51.0447",
         "lng": "-114.0719"
@@ -27,7 +27,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "British Columbia",
+        "region": "British Columbia",
         "city": "Vancouver",
         "lat": "49.3527",
         "lng": "-123.5207"
@@ -39,7 +39,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "British Columbia",
+        "region": "British Columbia",
         "city": "Vancouver",
         "lat": "49.2827",
         "lng": "-123.1207"
@@ -51,7 +51,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "Quebec",
+        "region": "Quebec",
         "city": "Montreal",
         "lat": "45.3527",
         "lng": "-110.2207"
@@ -63,7 +63,7 @@
     {
       "location": {
         "country": "Canada",
-        "regionName": "Saskatchewan",
+        "region": "Saskatchewan",
         "city": "",
         "lat": "53.278046",
         "lng": "-108.005470"
@@ -75,7 +75,7 @@
     {
       "location": {
         "country": "United States",
-        "regionName": "Montana",
+        "region": "Montana",
         "city": "Mountain View",
         "lat": "45.630001",
         "lng": "-73.519997"

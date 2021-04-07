@@ -5,11 +5,12 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import "./PopupCard.css";
+import styles from "./PopupCard.module.css";
+import { User } from "../../utils/User";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 217,
+    maxWidth: 400,
   },
 
   media: {
@@ -17,29 +18,36 @@ const useStyles = makeStyles({
   },
 });
 
-// export default function PopupCard(props: any) {
-//   const classes = useStyles();
+type PopupCardProps = {
+  user: User;
+  ref: any;
+};
 
-//   return (
-//     <StylesProvider injectFirst>
-//       <Card className={classes.root} variant="elevation">
-//         <div className="cardActionAreaDiv">
-//           <CardActionArea>
-//             <CardMedia className={classes.media} image={props.image} />
+const PopupCard = (props: PopupCardProps) => {
+  const user = props.user;
+  const city = user.location.city ? user.location.city + "," : null
+  const region = user.location.region ? user.location.region + "," : null
+  const classes = useStyles();
 
-//             <div className="cardContentDiv">
-//               <CardContent>
-//                 <Typography gutterBottom variant="h6" component="h2">
-//                   {props.title}
-//                 </Typography>
-//                 <Typography variant="body2" color="textSecondary" component="p">
-//                   {props.location}
-//                 </Typography>
-//               </CardContent>
-//             </div>
-//           </CardActionArea>
-//         </div>
-//       </Card>
-//     </StylesProvider>
-//   );
-// }
+  return (
+      <Card className={classes.root} variant="elevation">
+        <div className="cardActionAreaDiv">
+          <CardActionArea>
+            <CardMedia className={classes.media} image={user.imageUrl} />
+            <div className="cardContentDiv">
+              <CardContent className={styles.popupRoot}>
+                <Typography gutterBottom variant="h6" component="h2">
+                  {user.asset}
+                </Typography>
+                <Typography className={styles.typographyBody2} variant="body2" color="textSecondary" component="p">
+                  {city} {region} {user.location.country}
+                </Typography>
+              </CardContent>
+            </div>
+          </CardActionArea>
+        </div>
+      </Card>
+  );
+};
+
+export default PopupCard;
