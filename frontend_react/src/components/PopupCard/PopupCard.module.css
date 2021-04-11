@@ -12,14 +12,21 @@
   align-items: center;
 }
 
-.assetWrapper {
-  margin: 5px;
+.wrapper {
+  margin: 5px 0;
+  width: 95%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.assetText {
   font-size: 14px;
   font-weight: bold;
 }
 
-.locationWrapper {
-  margin: 5px;
+.locationText {
   font-size: 12px;
 }
 
