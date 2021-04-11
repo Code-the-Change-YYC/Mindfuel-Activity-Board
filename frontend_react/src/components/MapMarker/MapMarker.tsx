@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./MapMarker.module.css";
-// import Popover from "@material-ui/core/Popover";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popper from "@material-ui/core/Popper";
 import { StylesProvider } from "@material-ui/core/styles";
@@ -12,9 +11,6 @@ const MapMarker = (props: any) => {
   const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
   const user = props.user;
   const icon = require(`../../assets/map-marker-${user.assetType.toLowerCase()}.svg`);
-  const popoverClasses = {
-    root: styles.popover,
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
@@ -22,10 +18,6 @@ const MapMarker = (props: any) => {
   };
 
   const handleClickAway = () => {
-    setAnchorEl(null);
-  };
-
-  const handleClose = () => {
     setAnchorEl(null);
   };
 
@@ -62,7 +54,7 @@ const MapMarker = (props: any) => {
           },
         }}
       >
-        <PopupCard ref={setArrowRef} user={user}></PopupCard>
+        <PopupCard user={user}></PopupCard>
         <div ref={setArrowRef} className={styles.arrow} id="arrow" />
       </Popper>
     </StylesProvider>

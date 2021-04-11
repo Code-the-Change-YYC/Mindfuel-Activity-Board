@@ -5,7 +5,6 @@ import { Card, Image } from "react-bootstrap";
 
 type PopupCardProps = {
   user: User;
-  ref: any;
 };
 
 const PopupCard = (props: PopupCardProps) => {
