@@ -50,9 +50,9 @@
     },
     {
       "location": {
-        "country": "Canada",
-        "region": "Quebec",
-        "city": "Montreal",
+        "country": "United States",
+        "region": "Montana",
+        "city": "Mountain View",
         "lat": "45.3527",
         "lng": "-110.2207"
       },
@@ -74,9 +74,9 @@
     },
     {
       "location": {
-        "country": "United States",
-        "region": "Montana",
-        "city": "Mountain View",
+        "country": "Canada",
+        "region": "Quebec",
+        "city": "Montreal",
         "lat": "45.630001",
         "lng": "-73.519997"
       },

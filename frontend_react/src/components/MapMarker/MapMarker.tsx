@@ -30,7 +30,7 @@ const MapMarker = (props: any) => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  const id = open ? styles.popper : undefined;
 
   return (
     <StylesProvider injectFirst>
@@ -59,29 +59,8 @@ const MapMarker = (props: any) => {
           hide: { enabled: false },
         }}
       >
-        {/* <img src={user.imageUrl} alt=""/> */}
-        {/* <div ref={setArrowRef} className={styles.arrow}></div> */}
-        {/* <div>test</div> */}
-        
         <PopupCard ref={setArrowRef} user={user}></PopupCard>
       </Popper>
-      {/* <Popover
-        classes={popoverClasses}
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
-        }}
-      >
-        The content of the Popover.
-      </Popover> */}
     </StylesProvider>
   );
 };

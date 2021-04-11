@@ -1,43 +1,41 @@
 .card {
-    width: 205px;
-    height: 90px;
-    background: #FFDD00;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  width: 205px;
+  height: 90px;
+  background: #ffdd00;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 }
 
 .mainWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .textWrapper {
-    width: 50%;
-    padding-top: 10px;
+  width: 50%;
+  padding-top: 10px;
 }
 
 .totalNumber {
-    font-family: sans-serif;
-    font-style: normal;
-    font-weight: bold;
-    line-height: 42px;
-    color: #52247F;
-    font-size: 30px;
-    align-self: center;
-    padding-left: 10px;
+  font-weight: bold;
+  line-height: 42px;
+  color: #52247f;
+  font-size: 30px;
+  align-self: center;
+  padding-left: 10px;
 }
 
 .icon {
-    height: 70px;
-    width: 70px;
+  height: 70px;
+  width: 70px;
 }
 
 .totalText {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 21px;
-    color: #52247F;
-    padding-left: 10px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #52247f;
+  padding-left: 10px;
 }

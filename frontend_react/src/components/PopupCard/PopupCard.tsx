@@ -1,22 +1,7 @@
 import React from "react";
-import { makeStyles, StylesProvider } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
 import styles from "./PopupCard.module.css";
 import { User } from "../../utils/User";
-
-const useStyles = makeStyles({
-  root: {
-    maxWidth: 400,
-  },
-
-  media: {
-    height: 102,
-  },
-});
+import { Card, Image } from "react-bootstrap";
 
 type PopupCardProps = {
   user: User;
@@ -25,28 +10,16 @@ type PopupCardProps = {
 
 const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
-  const city = user.location.city ? user.location.city + "," : null
-  const region = user.location.region ? user.location.region + "," : null
-  const classes = useStyles();
+  const city = user.location.city ? user.location.city + "," : null;
 
   return (
-      <Card className={classes.root} variant="elevation">
-        <div className="cardActionAreaDiv">
-          <CardActionArea>
-            <CardMedia className={classes.media} image={user.imageUrl} />
-            <div className="cardContentDiv">
-              <CardContent className={styles.popupRoot}>
-                <Typography gutterBottom variant="h6" component="h2">
-                  {user.asset}
-                </Typography>
-                <Typography className={styles.typographyBody2} variant="body2" color="textSecondary" component="p">
-                  {city} {region} {user.location.country}
-                </Typography>
-              </CardContent>
-            </div>
-          </CardActionArea>
-        </div>
-      </Card>
+    <Card className={styles.card + " " + styles.mainWrapper}>
+      <Image className={styles.assetImage} src={user.imageUrl} />
+      <div className={styles.assetWrapper}>{user.asset}</div>
+      <div className={styles.locationWrapper}>
+        {city} {user.location.region}
+      </div>
+    </Card>
   );
 };
 
