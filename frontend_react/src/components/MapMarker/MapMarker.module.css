@@ -23,11 +23,11 @@
 .arrow:after {
   content: " ";
   position: absolute;
-  top: -25px;
-  left: 0;
-  transform: rotate(45deg);
   width: 10px;
   height: 10px;
+  top: -5px;
+  left: 0;
+  transform: rotate(45deg);
   background-color: white;
-  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 0px 0px rgba(0, 0, 0, 0.1);
 }

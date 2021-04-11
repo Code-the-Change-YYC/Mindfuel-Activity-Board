@@ -53,13 +53,17 @@ const MapMarker = (props: any) => {
             boundariesElement: "scrollParent",
           },
           arrow: {
-            enabled: false,
-            // element: arrowRef,
+            enabled: true,
+            element: arrowRef,
           },
           hide: { enabled: false },
+          offset: {
+            offset: "0, 10",
+          },
         }}
       >
         <PopupCard ref={setArrowRef} user={user}></PopupCard>
+        <div ref={setArrowRef} className={styles.arrow} id="arrow" />
       </Popper>
     </StylesProvider>
   );
