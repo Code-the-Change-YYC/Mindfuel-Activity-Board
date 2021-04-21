@@ -1,0 +1,33 @@
+.icon {
+  height: 30px;
+  width: 30px;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.4));
+  position: absolute;
+  transform: translate(-15px, -27px); /* Adjust for centering of icon */
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+#popper {
+  z-index: 1000;
+}
+
+.arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.arrow:after {
+  content: " ";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: -5px;
+  left: 0;
+  transform: rotate(45deg);
+  background-color: white;
+  box-shadow: 3px 0px 0px rgba(0, 0, 0, 0.1);
+}
