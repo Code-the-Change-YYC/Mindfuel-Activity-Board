@@ -1,8 +1,8 @@
 import React from "react";
 import * as sampleData from "../../api/SampleUserData.json";
-import Map from "../../components/Map/MapComponent";
-import Timeline from "../../components/Timeline/TimelineComponent";
-import Sidenav from "../../components/Sidenav/SidenavComponent";
+import Map from "../../components/Map/Map";
+import Timeline from "../../components/Timeline/Timeline";
+import Sidenav from "../../components/Sidenav/Sidenav";
 import { User} from "../../utils/User";
 import styles from "./Home.module.css";
 
