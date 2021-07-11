@@ -19,11 +19,15 @@
   z-index: 2;
   position: fixed;
   color: #ffdd00;
-  background: #52247f;
+  background-color: #52247f;
   height: 50px;
   width: 50px;
   margin: 10px;
   filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+.menuIconButton:hover {
+  background-color: #4b2274;
 }
 
 .drawerPaper {
