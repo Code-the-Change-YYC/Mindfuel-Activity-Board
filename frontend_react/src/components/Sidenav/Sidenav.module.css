@@ -2,7 +2,7 @@
   height: 100%;
   width: 240px;
   position: fixed;
-  background-color: #52247F;
+  background-color: #52247f;
 }
 
 .logoContainer {
@@ -15,20 +15,19 @@
   height: 100px;
 }
 
-.menuIconContainer{
+.menuIconButton {
   z-index: 2;
   position: fixed;
-  color: #FFDD00;
-  background: #52247F;
+  color: #ffdd00;
+  background-color: #52247f;
   height: 50px;
   width: 50px;
   margin: 10px;
-  filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.2));
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
 }
 
-.iconSize {
-  height: 30px;
-  width: 30px;
+.menuIconButton:hover {
+  background-color: #4b2274;
 }
 
 .drawerPaper {
@@ -52,12 +51,16 @@
 }
 
 .dashboardButton {
-  background-color: #FFDD00;
+  background-color: #ffdd00;
   margin-bottom: 20px;
 }
 
-.infoPanel{
+.dashboardButton:hover {
+  background-color: #e7c800;
+}
+
+.infoPanel {
   min-height: 150px;
   width: 205px;
-  border: 1px dashed #FFDD00;
+  border: 1px dashed #ffdd00;
 }
