@@ -1,8 +1,9 @@
 import React from "react";
 import Popover from "@material-ui/core/Popover";
-import Button from "@material-ui/core/Button";
 import styles from "./SocialsComponent.module.css";
 import IconButton from "@material-ui/core/IconButton";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { StylesProvider } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 
@@ -14,6 +15,13 @@ const SocialsComponent = () => {
     React.useState<HTMLButtonElement | null>(null);
   const iconClasses = {
     root: styles.socialsIconButton,
+  };
+  const popoverClasses = {
+    paper: styles.popoverPaper,
+  };
+  const loadingClasses = {
+    colorPrimary: styles.loadingIndicator,
+    bar: styles.loadingBar,
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,7 +36,7 @@ const SocialsComponent = () => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <React.Fragment>
+    <StylesProvider injectFirst>
       <IconButton
         aria-label="open drawer"
         color="inherit"
@@ -38,6 +46,7 @@ const SocialsComponent = () => {
         <TwitterIcon style={{ fontSize: 30 }} />
       </IconButton>
       <Popover
+        classes={popoverClasses}
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -63,9 +72,10 @@ const SocialsComponent = () => {
           options={{ height: 400, width: 275 }}
           noFooter={true}
           noHeader={true}
+          placeholder={<LinearProgress classes={loadingClasses} />}
         />
       </Popover>
-    </React.Fragment>
+    </StylesProvider>
   );
 };
 

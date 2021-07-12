@@ -16,6 +16,10 @@ const Map = (props: MapProps) => {
     lng: -99.99805,
   });
   const [zoom, setZoom] = React.useState(4);
+  const defaultMapOptions = {
+    fullscreenControl: false,
+    zoomControl: false,
+  };
 
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.lat, lng: +userLocation.lng });
@@ -37,7 +41,7 @@ const Map = (props: MapProps) => {
       ></MapMarker>
     );
   });
-
+  console.log(GoogleMapReact)
   return (
     <div className={styles.map}>
       <GoogleMapReact
@@ -47,6 +51,7 @@ const Map = (props: MapProps) => {
         onChange={handleMapChange}
         defaultZoom={zoom}
         center={center}
+        options={defaultMapOptions}
       >
         {markers}
       </GoogleMapReact>
