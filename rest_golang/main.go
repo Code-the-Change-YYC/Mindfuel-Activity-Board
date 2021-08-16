@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	// EW "mindfuel.ca/activity_rest/elastic"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/url"
@@ -29,6 +30,9 @@ func main() {
 	// TODO: Remove flags and migrate to env
 	flag.Parse()
 	log.SetFlags(0)
+
+	// Create sample JSON of users for testing
+	// EW.SaveUsertoElastic()
 
     done = make(chan interface{}) // Channel to indicate that the receiverHandler is done
     interrupt = make(chan os.Signal) // Channel to listen for interrupt signal to terminate gracefully
