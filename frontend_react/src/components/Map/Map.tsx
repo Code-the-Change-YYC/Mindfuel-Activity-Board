@@ -41,7 +41,7 @@ const Map = (props: MapProps) => {
       ></MapMarker>
     );
   });
-  console.log(GoogleMapReact)
+
   return (
     <div className={styles.map}>
       <GoogleMapReact
