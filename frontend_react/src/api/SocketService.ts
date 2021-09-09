@@ -1,10 +1,5 @@
-import { io, Socket } from "socket.io-client";
-
-interface SocketServiceInterface {
-  webSocket: Socket | undefined;
-  connect: (websocketAddress: string) => void;
-  disconnect: () => void;
-}
+import { io } from "socket.io-client";
+import { SocketServiceInterface } from "../utils/SocketService";
 
 const SocketService: SocketServiceInterface = {
   webSocket: undefined,
@@ -19,7 +14,7 @@ SocketService.connect = (websocketAddress) => {
     SocketService.webSocket.on("connect", () => {
       console.log("Connected to socket!");
 
-      SocketService.webSocket?.on("message", (payload) => {
+      SocketService.webSocket?.on("message", (payload: any) => {
         console.log("JSON received: " + payload);
       });
 
