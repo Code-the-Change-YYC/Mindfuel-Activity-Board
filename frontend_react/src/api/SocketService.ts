@@ -22,7 +22,19 @@ SocketService.connect = (websocketAddress) => {
       SocketService.webSocket?.on("message", (payload) => {
         console.log("JSON received: " + payload);
       });
+
+      SocketService.webSocket?.on("disconnect", () => {
+        console.log("Socket disconnected!");
+        SocketService.disconnect();
+      });
     });
+  }
+};
+
+SocketService.disconnect = () => {
+  if (SocketService.webSocket) {
+    SocketService.webSocket.close();
+    SocketService.webSocket = undefined;
   }
 };
 
