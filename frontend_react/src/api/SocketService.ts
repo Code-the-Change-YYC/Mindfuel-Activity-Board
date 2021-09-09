@@ -1,18 +1,29 @@
 import { io, Socket } from "socket.io-client";
 
 interface SocketServiceInterface {
-    webSocket: Socket | undefined,
-    connect: (websocketAddress: string) => void,
-    disconnect: () => void
+  webSocket: Socket | undefined;
+  connect: (websocketAddress: string) => void;
+  disconnect: () => void;
+}
+
+const SocketService: SocketServiceInterface = {
+  webSocket: undefined,
+  connect: (websocketAddress: string) => {},
+  disconnect: () => {},
 };
 
-// const websocketAddress = "wss://wonderville.org:5556";
-// const socket = io(websocketAddress);
+SocketService.connect = (websocketAddress) => {
+  if (SocketService.webSocket == undefined) {
+    SocketService.webSocket = io(websocketAddress);
 
-// socket.on("connect", () => console.log("Connected to socket!"));
+    SocketService.webSocket.on("connect", () => {
+      console.log("Connected to socket!");
 
-// socket.on("message", (data) => {
-//   console.log(data);
-// });
+      SocketService.webSocket?.on("message", (payload) => {
+        console.log("JSON received: " + payload);
+      });
+    });
+  }
+};
 
-// export {};
+export default SocketService;
