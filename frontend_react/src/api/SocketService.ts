@@ -1,12 +1,18 @@
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-const websocketAddress = "wss://wonderville.org:5556";
-const socket = io(websocketAddress);
+interface SocketServiceInterface {
+    webSocket: Socket | undefined,
+    connect: (websocketAddress: string) => void,
+    disconnect: () => void
+};
 
-socket.on("connect", () => console.log("Connected to socket!"));
+// const websocketAddress = "wss://wonderville.org:5556";
+// const socket = io(websocketAddress);
 
-socket.on("message", (data) => {
-  console.log(data);
-});
+// socket.on("connect", () => console.log("Connected to socket!"));
 
-export {};
+// socket.on("message", (data) => {
+//   console.log(data);
+// });
+
+// export {};
