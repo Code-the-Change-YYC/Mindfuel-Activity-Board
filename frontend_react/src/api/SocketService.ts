@@ -18,14 +18,25 @@ SocketService.connect = (websocketAddress) => {
       console.log("New message: " + JSON.parse(event.data));
     };
 
-    SocketService.onclose = () => {
-      // Retry connection until disconnect has been called.
+    SocketService.webSocket.onclose = function (event: CloseEvent) {
+      console.log(
+        "Socket was closed. Reconnect will be attempted in 10 seconds.",
+        event.reason
+      );
+      setTimeout(() => {
+        SocketService.connect(websocketAddress);
+      }, 10000);
+    };
 
+    SocketService.webSocket.onerror = function (err) {
+      console.error("Socket encountered error, closing socket.");
+      SocketService.webSocket?.close();
     };
   }
 };
 
 SocketService.disconnect = () => {
+  console.log("Disconnecting socket.");
   if (SocketService.webSocket) {
     SocketService.webSocket.close();
     SocketService.webSocket = undefined;
