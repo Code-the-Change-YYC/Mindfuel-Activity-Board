@@ -1,5 +1,4 @@
-import { io } from "socket.io-client";
-import { SocketServiceInterface } from "../utils/SocketService";
+import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 
 const SocketService: SocketServiceInterface = {
   webSocket: undefined,
@@ -8,21 +7,21 @@ const SocketService: SocketServiceInterface = {
 };
 
 SocketService.connect = (websocketAddress) => {
-  if (SocketService.webSocket == undefined) {
-    SocketService.webSocket = io(websocketAddress);
+  if (SocketService.webSocket === undefined) {
+    SocketService.webSocket = new WebSocket(websocketAddress);
 
-    SocketService.webSocket.on("connect", () => {
-      console.log("Connected to socket!");
+    SocketService.webSocket.onopen = () => {
+      console.log("New client connected!");
+    };
 
-      SocketService.webSocket?.on("message", (payload: any) => {
-        console.log("JSON received: " + payload);
-      });
+    SocketService.webSocket.onmessage = (event) => {
+      console.log("New message: " + JSON.parse(event.data));
+    };
 
-      SocketService.webSocket?.on("disconnect", () => {
-        console.log("Socket disconnected!");
-        SocketService.disconnect();
-      });
-    });
+    SocketService.onclose = () => {
+      // Retry connection until disconnect has been called.
+
+    };
   }
 };
 

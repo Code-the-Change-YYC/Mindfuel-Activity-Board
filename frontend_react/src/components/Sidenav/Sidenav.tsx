@@ -58,7 +58,7 @@ const Sidenav = () => {
   const drawer = (
     <div className={styles.sidenav}>
       <div className={styles.logoContainer}>
-        <img className={styles.logo} src={logo} />
+        <img className={styles.logo} src={logo} alt="mindfuel-logo"/>
       </div>
       <div className={styles.sidenavContent}>
         <div className={styles.analyticsBoxes}>{boxes}</div>
