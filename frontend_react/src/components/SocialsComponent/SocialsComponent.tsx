@@ -11,8 +11,9 @@ const twitterLink =
   "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";
 
 const SocialsComponent = () => {
-  const [anchorEl, setAnchorEl] =
-    React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
   const iconClasses = {
     root: styles.socialsIconButton,
   };
@@ -62,7 +63,7 @@ const SocialsComponent = () => {
       >
         <div className={styles.popoverHeader}>
           Tweets by&nbsp;
-          <a href={twitterLink} target="_blank">
+          <a href={twitterLink} target="_blank" rel="noopener noreferrer">
             @MindFuelca
           </a>
         </div>
