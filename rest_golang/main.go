@@ -2,46 +2,77 @@ package main
 
 import (
 	"flag"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/url"
 	"os"
 	"os/signal"
+	"time"
+
+	"github.com/gorilla/websocket"
 )
 
-var done chan interface{}
-var interrupt chan os.Signal
-var addr = flag.String("addr", "wonderville.org:5556", "wss service address")
+var addr = flag.String("addr", "wonderville.org:5556", "http service address")
+var done = make(chan struct{})
 
-func receiveHandler(connection *websocket.Conn) {
-    defer close(done)
-    for {
-        _, msg, err := connection.ReadMessage()
-        if err != nil {
-            log.Println("Error in receive:", err)
-            return
-        }
-        log.Printf("Received: %s\n", msg)
-    }
+func messageHandler(c *websocket.Conn) {
+	defer close(done)
+	for {
+		_, message, err := c.ReadMessage()
+		if err != nil {
+			log.Println("Error in recv: ", err)
+			return
+		}
+		log.Printf("recv: %s", message)
+		// ** store messages here using structs
+	}
 }
 
 func main() {
-	// TODO: Remove flags and migrate to env
 	flag.Parse()
 	log.SetFlags(0)
 
-    done = make(chan interface{}) // Channel to indicate that the receiverHandler is done
-    interrupt = make(chan os.Signal) // Channel to listen for interrupt signal to terminate gracefully
- 
-    signal.Notify(interrupt, os.Interrupt) // Notify the interrupt channel for SIGINT
-	
-	socketUrl := url.URL{Scheme: "wss", Host: *addr}
-	log.Printf("Connecting to %s",socketUrl.String())
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt)
 
-    conn, _, err := websocket.DefaultDialer.Dial(socketUrl.String(), nil)
-    if err != nil {
-        log.Fatal("Error connecting to Websocket Server:", err)
-    }
-    defer conn.Close()
-    go receiveHandler(conn)
+	u := url.URL{Scheme: "wss", Host: *addr}
+	log.Printf("connecting to %s", u.String())
+
+	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
+	if err != nil {
+		log.Fatal("error connecting: ", err)
+	}
+	defer c.Close()
+	go messageHandler(c)
+
+	// Not sure if we need all this
+	ticker := time.NewTicker(time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-done:
+			return
+		case t := <-ticker.C:
+			err := c.WriteMessage(websocket.TextMessage, []byte(t.String()))
+			if err != nil {
+				log.Println("write: ", err)
+				return
+			}
+		case <-interrupt:
+			log.Println("interrupt")
+
+			// Cleanly close the connection by sending a close message and then
+			// waiting (with timeout) for the server to close the connection.
+			err := c.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(websocket.CloseNormalClosure, ""))
+			if err != nil {
+				log.Println("write close:", err)
+				return
+			}
+			select {
+			case <-done:
+			case <-time.After(time.Second):
+			}
+			return
+		}
+	}
 }
