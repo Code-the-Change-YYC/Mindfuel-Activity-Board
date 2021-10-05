@@ -13,8 +13,8 @@ const PopupCard = (props: PopupCardProps) => {
 
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
-      <Image className={styles.assetImage} src={user.imageUrl} />
-      <div className={styles.wrapper + " " + styles.assetText}>{user.asset}</div>
+      <Image className={styles.assetImage} src={user.asset?.imageUrl} />
+      <div className={styles.wrapper + " " + styles.assetText}>{user.asset?.name}</div>
       <div className={styles.wrapper + " " + styles.locationText}>
         {city} {user.location.region}
       </div>

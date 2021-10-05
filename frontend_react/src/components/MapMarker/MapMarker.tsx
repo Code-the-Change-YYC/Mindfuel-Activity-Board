@@ -10,7 +10,7 @@ const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
   const user = props.user;
-  const icon = require(`../../assets/map-marker-${user.assetType.toLowerCase()}.svg`);
+  const icon = require(`../../assets/map-marker-${user.asset.type.toLowerCase()}.svg`);
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover

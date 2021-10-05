@@ -1,7 +1,7 @@
 const userReducer = (state = [], action: any) => {
   switch (action.type) {
     case "ADD_USER":
-      console.log("User added: ", action.socketData);
+      console.log("User added: ", action.user);
       return state;
     default:
       return state;

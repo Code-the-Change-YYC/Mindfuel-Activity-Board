@@ -22,7 +22,7 @@ const Map = (props: MapProps) => {
   };
 
   const handleMarkerClick = (userLocation: Location) => {
-    setCenter({ lat: +userLocation.lat, lng: +userLocation.lng });
+    setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
   };
 
   const handleMapChange = (value: ChangeEventValue) => {
@@ -35,8 +35,8 @@ const Map = (props: MapProps) => {
       <MapMarker
         key={index}
         user={user}
-        lat={user.location.lat}
-        lng={user.location.lng}
+        lat={user.location.latitude}
+        lng={user.location.longitude}
         onMarkerClick={handleMarkerClick}
       ></MapMarker>
     );
