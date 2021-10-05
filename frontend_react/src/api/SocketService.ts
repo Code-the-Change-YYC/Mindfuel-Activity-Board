@@ -1,4 +1,6 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
+import { addUser } from "../store/home/actions";
+import store from "../store/home/store";
 
 const SocketService: SocketServiceInterface = {
   webSocket: undefined,
@@ -16,6 +18,7 @@ SocketService.connect = (websocketAddress) => {
 
     SocketService.webSocket.onmessage = (event) => {
       console.log("New message: " + JSON.parse(event.data));
+      store.dispatch(addUser(event.data));
     };
 
     SocketService.webSocket.onclose = function (event: CloseEvent) {

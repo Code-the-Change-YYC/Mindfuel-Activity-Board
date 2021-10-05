@@ -1,5 +1,6 @@
-export const addUser = () => {
+export const addUser = (socketData: MessageEvent) => {
     return {
-        type: "ADD_USER"
+        type: "ADD_USER",
+        socketData: socketData
     }
 }
