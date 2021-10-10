@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
+	"log"
 	elastic "gopkg.in/olivere/elastic.v7"
 )
 
@@ -26,21 +26,40 @@ func saveUsertoElastic() {
 		fmt.Println("Elastic init fail : ", err)
 		panic("client failed")
 	}
+	//check if index already exsist
+	indexName := "wondervilleasset"
+	indices := []string{indexName}
 
-	//we need to get json from the socket and then this should write it
-	//it will replace the something that is in the bracket
-	dataJSON, err := json.Marshal("something")
-	js := string(dataJSON)
-	ind, err := esclient.Index().
-		Index("wondervilleasset").
-		BodyJson(js).
-		Do(ctx)
+	existService := elastic.NewIndicesExistsService(esclient)
+	typeOfService := reflect.TypeOf(existService)
 
-	if err != nil {
-		panic(err)
+	for i := 0; i < typeOfService.NumMethod(); i++ {
+		method := typeOfService.Method(i)
+
 	}
 
-	fmt.Println("inserstion successful")
+	existService.Index(indices)
+	
+	exist, err := existService.Do(ctx)
+
+	if err != nil{
+		log.Fatalf(err)
+	} else {
+	//we need to get json from the socket and then this should write it
+	//it will replace the something that is in the bracket
+		dataJSON, err := json.Marshal("something")
+		js := string(dataJSON)
+		ind, err := esclient.Index().
+			Index("wondervilleasset").
+			BodyJson(js).
+			Do(ctx)
+
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println("inserstion successful")
+	}
 }
 
 // func saveUsertoElastic(jsonBytes []byte) {
