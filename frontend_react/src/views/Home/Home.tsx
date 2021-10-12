@@ -7,15 +7,18 @@ import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
 import SocketService from "../../api/SocketService";
+import { useSelector } from "react-redux";
+import { State } from "../../utils/State";
 
 interface HomeProps {
   name: string;
 }
 
-const users: User[] = sampleData.users;
+// const users: User[] = sampleData.users;
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
   const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
+  const users: User[] = useSelector((state: State) => state.liveUsers)
 
   useEffect(() => {
     // Connect to socket on mount
