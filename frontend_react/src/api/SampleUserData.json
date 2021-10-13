@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "Alberta",
@@ -20,7 +20,7 @@
       }
     },
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "Alberta",
@@ -39,7 +39,7 @@
       }
     },
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "British Columbia",
@@ -58,7 +58,7 @@
       }
     },
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "British Columbia",
@@ -77,7 +77,7 @@
       }
     },
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "United States",
         "region": "Montana",
@@ -96,7 +96,7 @@
       }
     },
     {
-      "type": "wondervilleSession",
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "Saskatchewan",
@@ -116,6 +116,20 @@
     },
     {
       "type": "wondervilleSession",
+      "location": {
+        "country": "Canada",
+        "region": "Quebec",
+        "city": "Montreal",
+        "latitude": "45.940003",
+        "longitude": "-73.639997"
+      },
+      "asset": {
+        "name": "Wonderville Session",
+        "type": "Session"
+      }
+    },
+    {
+      "type": "wondervilleAsset",
       "location": {
         "country": "Canada",
         "region": "Quebec",

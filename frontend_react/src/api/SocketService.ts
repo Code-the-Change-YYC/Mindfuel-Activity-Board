@@ -63,6 +63,11 @@ SocketService.parseSocketData = (socketData: string) => {
     if (user.type === "wondervilleAsset") {
       user.ip = jsonData.payload.ip;
       user.asset = JSON.parse(jsonData.payload.asset);
+    } else {
+      user.asset = {
+        name: "Wonderville Session",
+        type: "Session"
+      };
     }
     return user;
   } catch (SyntaxError) {
