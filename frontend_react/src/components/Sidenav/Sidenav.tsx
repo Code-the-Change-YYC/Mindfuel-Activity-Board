@@ -62,7 +62,6 @@ const Sidenav = () => {
       </div>
       <div className={styles.sidenavContent}>
         <div className={styles.analyticsBoxes}>{boxes}</div>
-        <div className={styles.infoPanel}></div>
         <Button classes={buttonClasses} variant="contained">
           Dashboard
         </Button>

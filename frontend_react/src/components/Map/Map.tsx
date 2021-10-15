@@ -4,22 +4,26 @@ import { Location } from "../../utils/Location";
 import MapMarker from "../MapMarker/MapMarker";
 import GoogleMapReact, { ChangeEventValue } from "google-map-react";
 import styles from "./Map.module.css";
+import { useEffect } from "react";
 
 type MapProps = {
   users: User[];
+  center: { lat: number; lng: number };
 };
 
 const Map = (props: MapProps) => {
   // Default center of North America
-  const [center, setCenter] = React.useState({
-    lat: 48.354594,
-    lng: -99.99805,
-  });
+  const [center, setCenter] = React.useState(props.center);
   const [zoom, setZoom] = React.useState(4);
   const defaultMapOptions = {
     fullscreenControl: false,
     zoomControl: false,
   };
+
+  // Set center every time the center prop changes
+  useEffect(() => {
+    setCenter(props.center);
+  }, [props.center]);
 
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });

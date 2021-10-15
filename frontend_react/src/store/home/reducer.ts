@@ -1,19 +1,34 @@
-import { State } from "../../utils/State";
+import { AppState } from "../../utils/AppState";
+import { User } from "../../utils/User";
 
-const initialState: State = {
+const initialState: AppState = {
   liveUsers: [],
+  mapCenter: { lat: 48.354594, lng: -99.99805 },
 };
 
-const userReducer = (state: State | undefined = initialState, action: any) => {
+const userReducer = (
+  state: AppState | undefined = initialState,
+  action: any
+) => {
   switch (action.type) {
     case "ADD_USER":
-      console.log("User added: ", action.user);
+      const user = action.user;
+      console.log("User added: ", user);
+      const newMapCenter = {
+        lat: user.location.latitude,
+        lng: user.location.longitude,
+      };
+      const liveUsers = [...state.liveUsers, user];
+
+      // Sort in descending order by latitude to avoid overlapping on map
+      liveUsers.sort(
+        (a: User, b: User) => b.location.latitude - a.location.latitude
+      );
+
       return {
         ...state,
-        liveUsers: [
-          ...state.liveUsers,
-          action.user
-        ]
+        liveUsers: [...state.liveUsers, user],
+        mapCenter: newMapCenter,
       };
     default:
       return state;
