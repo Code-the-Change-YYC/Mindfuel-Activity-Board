@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { User } from "../../utils/User";
 import { Location } from "../../utils/Location";
 import MapMarker from "../MapMarker/MapMarker";
@@ -8,13 +8,15 @@ import { useEffect } from "react";
 
 type MapProps = {
   users: User[];
+  newUser: User | null;
   center: { lat: number; lng: number };
 };
 
 const Map = (props: MapProps) => {
-  // Default center of North America
   const [center, setCenter] = React.useState(props.center);
   const [zoom, setZoom] = React.useState(4);
+  const [markers, setMarkers] = React.useState<ReactElement[]>([]);
+
   const defaultMapOptions = {
     fullscreenControl: false,
     zoomControl: false,
@@ -25,6 +27,10 @@ const Map = (props: MapProps) => {
     setCenter(props.center);
   }, [props.center]);
 
+  useEffect(() => {
+    setMarkers(updateMarkers(props.users, props.newUser));
+  }, [props.users]);
+
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
   };
@@ -34,18 +40,21 @@ const Map = (props: MapProps) => {
     setCenter(value.center);
   };
 
-  const markers = props.users.map((user, index) => {
-    return (
-      <MapMarker
-        key={index}
-        user={user}
-        open={false}
-        lat={user.location.latitude}
-        lng={user.location.longitude}
-        onMarkerClick={handleMarkerClick}
-      ></MapMarker>
-    );
-  });
+  const updateMarkers = (users: User[], newUser: User | null) => {
+    return users.map((user, index) => {
+      const open = newUser && user === newUser ? true : false;
+      return (
+        <MapMarker
+          key={index}
+          user={user}
+          open={open}
+          lat={user.location.latitude}
+          lng={user.location.longitude}
+          onMarkerClick={handleMarkerClick}
+        ></MapMarker>
+      );
+    });
+  };
 
   return (
     <div className={styles.map}>

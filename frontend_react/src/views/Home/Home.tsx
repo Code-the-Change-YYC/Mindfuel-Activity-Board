@@ -14,7 +14,7 @@ interface HomeProps {
   name: string;
 }
 
-// const users: User[] = sampleData.users;
+const users: User[] = sampleData.users;
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
   const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
@@ -35,7 +35,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
       <Sidenav></Sidenav>
       <SocialsComponent></SocialsComponent>
       <div className={styles.map}>
-        <Map users={appState.liveUsers} center={appState.mapCenter}></Map>
+        <Map users={appState.liveUsers} newUser={appState.newUser} center={appState.mapCenter}></Map>
         <div className={styles.timelineContainer}>
           <div className={styles.timeline}>
             <Timeline></Timeline>

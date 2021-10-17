@@ -3,6 +3,7 @@ import { User } from "../../utils/User";
 
 const initialState: AppState = {
   liveUsers: [],
+  newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
 };
 
@@ -27,6 +28,7 @@ const userReducer = (
 
       return {
         ...state,
+        newUser: user,
         liveUsers: [...state.liveUsers, user],
         mapCenter: newMapCenter,
       };
