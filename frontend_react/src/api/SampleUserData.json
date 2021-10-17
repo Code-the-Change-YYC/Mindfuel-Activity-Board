@@ -3,11 +3,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Alberta",
+        "country_name": "Canada",
+        "region_name": "Alberta",
         "city": "Calgary",
-        "latitude": "51.5447",
-        "longitude": "-114.1719"
+        "latitude": 51.5447,
+        "longitude": -114.1719
       },
       "asset": {
         "name": "Save The World",
@@ -22,11 +22,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Alberta",
+        "country_name": "Canada",
+        "region_name": "Alberta",
         "city": "Calgary",
-        "latitude": "51.0447",
-        "longitude": "-114.0719"
+        "latitude": 51.0447,
+        "longitude": -114.0719
       },
       "asset": {
         "name": "Solar Energy Defenders",
@@ -41,11 +41,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "British Columbia",
+        "country_name": "Canada",
+        "region_name": "British Columbia",
         "city": "Vancouver",
-        "latitude": "49.3527",
-        "longitude": "-123.5207"
+        "latitude": 49.3527,
+        "longitude": -123.5207
       },
       "asset": {
         "name": "Pirates of the Lodestone",
@@ -60,11 +60,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "British Columbia",
+        "country_name": "Canada",
+        "region_name": "British Columbia",
         "city": "Vancouver",
-        "latitude": "49.2827",
-        "longitude": "-123.1207"
+        "latitude": 49.2827,
+        "longitude": -123.1207
       },
       "asset": {
         "name":"Save The World",
@@ -79,11 +79,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "United States",
-        "region": "Montana",
+        "country_name": "United States",
+        "region_name": "Montana",
         "city": "Mountain View",
-        "latitude": "45.3527",
-        "longitude": "-110.2207"
+        "latitude": 45.3527,
+        "longitude": -110.2207
       },
       "asset": {
         "name": "Crash Test: Power Shootout",
@@ -98,11 +98,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Saskatchewan",
+        "country_name": "Canada",
+        "region_name": "Saskatchewan",
         "city": "",
-        "latitude": "53.278046",
-        "longitude": "-108.005470"
+        "latitude": 53.278046,
+        "longitude": -108.005470
       },
       "asset": {
         "name": "Crash Test: Power Shootout",
@@ -117,11 +117,11 @@
     {
       "type": "wondervilleSession",
       "location": {
-        "country": "Canada",
-        "region": "Quebec",
+        "country_name": "Canada",
+        "region_name": "Quebec",
         "city": "Montreal",
-        "latitude": "45.940003",
-        "longitude": "-73.639997"
+        "latitude": 45.940003,
+        "longitude": -73.639997
       },
       "asset": {
         "name": "Wonderville Session",
@@ -131,11 +131,11 @@
     {
       "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Quebec",
+        "country_name": "Canada",
+        "region_name": "Quebec",
         "city": "Montreal",
-        "latitude": "45.630001",
-        "longitude": "-73.519997"
+        "latitude": 45.630001,
+        "longitude": -73.519997
       },
       "asset": {
         "name": "Pirates of the Lodestone",

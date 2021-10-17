@@ -39,6 +39,7 @@ const Map = (props: MapProps) => {
       <MapMarker
         key={index}
         user={user}
+        open={false}
         lat={user.location.latitude}
         lng={user.location.longitude}
         onMarkerClick={handleMarkerClick}
