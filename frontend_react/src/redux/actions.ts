@@ -1,4 +1,4 @@
-import { User } from "../../utils/User"
+import { User } from "../utils/User"
 
 export const addUser = (user: User) => {
     return {

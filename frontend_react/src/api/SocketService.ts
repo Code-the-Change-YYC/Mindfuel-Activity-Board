@@ -1,8 +1,8 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
 import { Location } from "../utils/Location";
-import { addUser } from "../store/home/actions";
-import store from "../store/home/store";
+import { addUser } from "../redux/actions";
+import store from "../redux/store";
 
 const SocketService: SocketServiceInterface = {
   webSocket: undefined,

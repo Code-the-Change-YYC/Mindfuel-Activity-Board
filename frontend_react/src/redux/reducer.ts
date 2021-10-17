@@ -1,5 +1,5 @@
-import { AppState } from "../../utils/AppState";
-import { User } from "../../utils/User";
+import { AppState } from "../utils/AppState";
+import { User } from "../utils/User";
 
 const initialState: AppState = {
   liveUsers: [],

@@ -32,7 +32,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
 
   return (
     <React.Fragment>
-      <Sidenav></Sidenav>
+      <Sidenav users={appState.liveUsers}></Sidenav>
       <SocialsComponent></SocialsComponent>
       <div className={styles.map}>
         <Map users={appState.liveUsers} newUser={appState.newUser} center={appState.mapCenter}></Map>
