@@ -6,6 +6,7 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
+import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import SocketService from "../../api/SocketService";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
@@ -34,6 +35,10 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
     <React.Fragment>
       <Sidenav users={appState.liveUsers}></Sidenav>
       <SocialsComponent></SocialsComponent>
+      <div className={styles.buttonGroup}>
+        <StatsSummary></StatsSummary>
+        <SocialsComponent></SocialsComponent>
+      </div>
       <div className={styles.map}>
         <Map users={appState.liveUsers} newUser={appState.newUser} center={appState.mapCenter}></Map>
         <div className={styles.timelineContainer}>
