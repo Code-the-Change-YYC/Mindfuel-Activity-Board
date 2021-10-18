@@ -17,11 +17,11 @@ interface HomeProps {
 const users: User[] = sampleData.users;
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
-  const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
   const appState: AppState = useSelector((state: AppState) => state);
 
   useEffect(() => {
     // Connect to socket on mount
+    const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
     SocketService.connect(websocketAddress);
 
     // Call disconnect() on unmount

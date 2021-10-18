@@ -1,10 +1,10 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { User } from "../../utils/User";
 import { Location } from "../../utils/Location";
 import MapMarker from "../MapMarker/MapMarker";
 import GoogleMapReact, { ChangeEventValue } from "google-map-react";
 import styles from "./Map.module.css";
-import { useEffect } from "react";
+import { isEqual } from "lodash";
 
 type MapProps = {
   users: User[];
@@ -13,9 +13,9 @@ type MapProps = {
 };
 
 const Map = (props: MapProps) => {
-  const [center, setCenter] = React.useState(props.center);
-  const [zoom, setZoom] = React.useState(4);
-  const [markers, setMarkers] = React.useState<ReactElement[]>([]);
+  const [center, setCenter] = useState(props.center);
+  const [zoom, setZoom] = useState(4);
+  const [markers, setMarkers] = useState<ReactElement[]>([]);
 
   const defaultMapOptions = {
     fullscreenControl: false,
@@ -28,6 +28,22 @@ const Map = (props: MapProps) => {
   }, [props.center]);
 
   useEffect(() => {
+    const updateMarkers = (users: User[], newUser: User | null) => {
+      return users.map((user, index) => {
+        const open = newUser && isEqual(user, newUser) ? true : false;
+        return (
+          <MapMarker
+            key={index}
+            user={user}
+            open={open}
+            lat={user.location.latitude}
+            lng={user.location.longitude}
+            onMarkerClick={handleMarkerClick}
+          ></MapMarker>
+        );
+      });
+    };
+
     setMarkers(updateMarkers(props.users, props.newUser));
   }, [props.users]);
 
@@ -38,22 +54,6 @@ const Map = (props: MapProps) => {
   const handleMapChange = (value: ChangeEventValue) => {
     // Capture change in center and zoom position any time the map is moved
     setCenter(value.center);
-  };
-
-  const updateMarkers = (users: User[], newUser: User | null) => {
-    return users.map((user, index) => {
-      const open = newUser && user === newUser ? true : false;
-      return (
-        <MapMarker
-          key={index}
-          user={user}
-          open={open}
-          lat={user.location.latitude}
-          lng={user.location.longitude}
-          onMarkerClick={handleMarkerClick}
-        ></MapMarker>
-      );
-    });
   };
 
   return (

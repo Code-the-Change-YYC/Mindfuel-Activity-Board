@@ -17,7 +17,7 @@ const PopupCard = (props: PopupCardProps) => {
   if (loc.city && loc.region_name) {
     var locString = `${loc.city}, ${loc.region_name}`;
   } else {
-    var locString = loc.country_name;
+    locString = loc.country_name;
   }
 
   return (
