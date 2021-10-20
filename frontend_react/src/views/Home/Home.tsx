@@ -7,6 +7,8 @@ import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
 import SocketService from "../../api/SocketService";
+import { useSelector } from "react-redux";
+import { AppState } from "../../utils/AppState";
 
 interface HomeProps {
   name: string;
@@ -15,10 +17,11 @@ interface HomeProps {
 const users: User[] = sampleData.users;
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
-  const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
+  const appState: AppState = useSelector((state: AppState) => state);
 
   useEffect(() => {
     // Connect to socket on mount
+    const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
     SocketService.connect(websocketAddress);
 
     // Call disconnect() on unmount
@@ -29,10 +32,10 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
 
   return (
     <React.Fragment>
-      <Sidenav></Sidenav>
+      <Sidenav users={appState.liveUsers}></Sidenav>
       <SocialsComponent></SocialsComponent>
       <div className={styles.map}>
-        <Map users={users}></Map>
+        <Map users={appState.liveUsers} newUser={appState.newUser} center={appState.mapCenter}></Map>
         <div className={styles.timelineContainer}>
           <div className={styles.timeline}>
             <Timeline></Timeline>

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./PopupCard.module.css";
 import { User } from "../../utils/User";
 import { Card, Image } from "react-bootstrap";
+import wondervilleLogo from "../../assets/wonderville-logo.png";
 
 type PopupCardProps = {
   user: User;
@@ -9,14 +10,24 @@ type PopupCardProps = {
 
 const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
-  const city = user.location.city ? user.location.city + "," : null;
+  const loc = user.location;
+  const imageUrl =
+    user.type === "wondervilleSession" ? wondervilleLogo : user.asset?.imageUrl;
+
+  if (loc.city && loc.region_name) {
+    var locString = `${loc.city}, ${loc.region_name}`;
+  } else {
+    locString = loc.country_name;
+  }
 
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
-      <Image className={styles.assetImage} src={user.imageUrl} />
-      <div className={styles.wrapper + " " + styles.assetText}>{user.asset}</div>
+      <Image className={styles.assetImage} src={imageUrl} />
+      <div className={styles.wrapper + " " + styles.assetText}>
+        {user.asset?.name}
+      </div>
       <div className={styles.wrapper + " " + styles.locationText}>
-        {city} {user.location.region}
+        {locString}
       </div>
     </Card>
   );

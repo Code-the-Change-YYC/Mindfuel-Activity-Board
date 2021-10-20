@@ -58,9 +58,3 @@
 .dashboardButton:hover {
   background-color: #e7c800;
 }
-
-.infoPanel {
-  min-height: 150px;
-  width: 205px;
-  border: 1px dashed #ffdd00;
-}

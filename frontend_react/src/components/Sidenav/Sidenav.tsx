@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import AnalyticsBox from "../AnalyticsBox";
 import styles from "./Sidenav.module.css";
 import Button from "@material-ui/core/Button";
@@ -7,29 +7,39 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
+import { User } from "../../utils/User";
+import { AnalyticsData } from "../../utils/AnalyticsData";
+
+type SidenavProps = {
+  users: User[];
+};
 
 const logo = require("../../assets/mindfuel-logo.png");
 
-const data = [
-  {
-    numberValue: "56",
-    textValue: "Total Users",
+const initialData: { [id: string]: AnalyticsData } = {
+  totalSessions: {
+    numberValue: 0,
+    textValue: "Total Sessions",
     icon: require("../../assets/users.svg"),
   },
-  {
-    numberValue: "3",
+  totalCountries: {
+    numberValue: 0,
     textValue: "Countries",
     icon: require("../../assets/flag.svg"),
   },
-  {
-    numberValue: "16",
+  totalCities: {
+    numberValue: 0,
     textValue: "Cities",
     icon: require("../../assets/location.svg"),
   },
-];
+};
 
-const Sidenav = () => {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+const Sidenav = (props: SidenavProps) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
+  const [data, setData] =
+    useState<{ [id: string]: AnalyticsData }>(initialData);
+
   const buttonClasses = {
     root: styles.dashboardButton,
   };
@@ -40,16 +50,39 @@ const Sidenav = () => {
     paper: styles.drawerPaper,
   };
 
-  const boxes = data.map((box) => {
-    return (
-      <AnalyticsBox
-        numberValue={box.numberValue}
-        textValue={box.textValue}
-        icon={box.icon}
-        key={box.textValue}
-      ></AnalyticsBox>
-    );
-  });
+  useEffect(() => {
+    const updateData = (users: User[]): { [id: string]: AnalyticsData } => {
+      const updatedData = { ...data };
+      updatedData.totalSessions.numberValue = users.length;
+      updatedData.totalCountries.numberValue = new Set(
+        users.map((user) => user.location.country_name)
+      ).size;
+      updatedData.totalCities.numberValue = new Set(
+        users
+          .filter((user) => (user.location.city === "" ? false : true))
+          .map((user) => user.location.city)
+      ).size;
+      return updatedData;
+    };
+
+    const updateAnalyticsBoxes = (data: {
+      [id: string]: AnalyticsData;
+    }): ReactElement[] => {
+      return Object.keys(data).map((key) => {
+        return (
+          <AnalyticsBox
+            numberValue={data[key].numberValue}
+            textValue={data[key].textValue}
+            icon={data[key].icon}
+            key={data[key].textValue}
+          ></AnalyticsBox>
+        );
+      });
+    };
+
+    setData(updateData(props.users));
+    setAnalyticsBoxes(updateAnalyticsBoxes(data));
+  }, [props.users]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -58,11 +91,10 @@ const Sidenav = () => {
   const drawer = (
     <div className={styles.sidenav}>
       <div className={styles.logoContainer}>
-        <img className={styles.logo} src={logo} alt="mindfuel-logo"/>
+        <img className={styles.logo} src={logo} alt="mindfuel-logo" />
       </div>
       <div className={styles.sidenavContent}>
-        <div className={styles.analyticsBoxes}>{boxes}</div>
-        <div className={styles.infoPanel}></div>
+        <div className={styles.analyticsBoxes}>{analyticsBoxes}</div>
         <Button classes={buttonClasses} variant="contained">
           Dashboard
         </Button>

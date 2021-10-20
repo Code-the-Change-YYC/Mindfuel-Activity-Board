@@ -1,88 +1,151 @@
 {
   "users": [
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Alberta",
+        "country_name": "Canada",
+        "region_name": "Alberta",
         "city": "Calgary",
-        "lat": "51.5447",
-        "lng": "-114.1719"
+        "latitude": 51.5447,
+        "longitude": -114.1719
       },
-      "assetType": "Game",
-      "asset": "Save The World",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png"
+      "asset": {
+        "name": "Save The World",
+        "type": "Game",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Alberta",
+        "country_name": "Canada",
+        "region_name": "Alberta",
         "city": "Calgary",
-        "lat": "51.0447",
-        "lng": "-114.0719"
+        "latitude": 51.0447,
+        "longitude": -114.0719
       },
-      "assetType": "Game",
-      "asset": "Solar Energy Defenders",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Solar-Energy-Defenders-Thumb.png"
+      "asset": {
+        "name": "Solar Energy Defenders",
+        "type": "Game",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Solar-Energy-Defenders-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "British Columbia",
+        "country_name": "Canada",
+        "region_name": "British Columbia",
         "city": "Vancouver",
-        "lat": "49.3527",
-        "lng": "-123.5207"
+        "latitude": 49.3527,
+        "longitude": -123.5207
       },
-      "assetType": "Activity",
-      "asset": "Pirates of the Lodestone",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png"
+      "asset": {
+        "name": "Pirates of the Lodestone",
+        "type": "Activity",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "British Columbia",
+        "country_name": "Canada",
+        "region_name": "British Columbia",
         "city": "Vancouver",
-        "lat": "49.2827",
-        "lng": "-123.1207"
+        "latitude": 49.2827,
+        "longitude": -123.1207
       },
-      "assetType": "Game",
-      "asset": "Save The World",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png"
+      "asset": {
+        "name":"Save The World",
+        "type": "Game",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "United States",
-        "region": "Montana",
+        "country_name": "United States",
+        "region_name": "Montana",
         "city": "Mountain View",
-        "lat": "45.3527",
-        "lng": "-110.2207"
+        "latitude": 45.3527,
+        "longitude": -110.2207
       },
-      "assetType": "Game",
-      "asset": "Crash Test: Power Shootout",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png"
+      "asset": {
+        "name": "Crash Test: Power Shootout",
+        "type": "Game",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleAsset",
       "location": {
-        "country": "Canada",
-        "region": "Saskatchewan",
+        "country_name": "Canada",
+        "region_name": "Saskatchewan",
         "city": "",
-        "lat": "53.278046",
-        "lng": "-108.005470"
+        "latitude": 53.278046,
+        "longitude": -108.005470
       },
-      "assetType": "Game",
-      "asset": "Crash Test: Power Shootout",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png"
+      "asset": {
+        "name": "Crash Test: Power Shootout",
+        "type": "Game",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     },
     {
+      "type": "wondervilleSession",
       "location": {
-        "country": "Canada",
-        "region": "Quebec",
+        "country_name": "Canada",
+        "region_name": "Quebec",
         "city": "Montreal",
-        "lat": "45.630001",
-        "lng": "-73.519997"
+        "latitude": 45.940003,
+        "longitude": -73.639997
       },
-      "assetType": "Activity",
-      "asset": "Pirates of the Lodestone",
-      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png"
+      "asset": {
+        "name": "Wonderville Session",
+        "type": "Session"
+      }
+    },
+    {
+      "type": "wondervilleAsset",
+      "location": {
+        "country_name": "Canada",
+        "region_name": "Quebec",
+        "city": "Montreal",
+        "latitude": 45.630001,
+        "longitude": -73.519997
+      },
+      "asset": {
+        "name": "Pirates of the Lodestone",
+        "type": "Activity",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
     }
   ]
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popper from "@material-ui/core/Popper";
@@ -7,10 +7,17 @@ import { Image } from "react-bootstrap";
 import PopupCard from "../PopupCard/PopupCard";
 
 const MapMarker = (props: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLImageElement | null>(null);
-  const [arrowRef, setArrowRef] = React.useState<HTMLDivElement | null>(null);
+  const markerEl = useRef(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
+  const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user = props.user;
-  const icon = require(`../../assets/map-marker-${user.assetType.toLowerCase()}.svg`);
+  const icon = require(`../../assets/map-marker-${user.asset.type.toLowerCase()}.svg`);
+
+  useEffect(() => {
+    if (props.open) {
+      setAnchorEl(markerEl.current);
+    }
+  }, [props.open]);
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
@@ -27,7 +34,12 @@ const MapMarker = (props: any) => {
   return (
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Image className={styles.icon} src={icon} onClick={handleClick} />
+        <Image
+          ref={markerEl}
+          className={styles.icon}
+          src={icon}
+          onClick={handleClick}
+        />
       </ClickAwayListener>
       <Popper
         placement="top"

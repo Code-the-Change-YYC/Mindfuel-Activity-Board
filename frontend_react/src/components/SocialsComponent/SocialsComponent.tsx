@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Popover from "@material-ui/core/Popover";
 import styles from "./SocialsComponent.module.css";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,7 +11,7 @@ const twitterLink =
   "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";
 
 const SocialsComponent = () => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(
     null
   );
   const iconClasses = {
