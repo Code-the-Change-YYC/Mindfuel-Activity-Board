@@ -4,14 +4,7 @@ import { Location } from "../utils/Location";
 import { addUser } from "../redux/actions";
 import store from "../redux/store";
 
-const SocketService: SocketServiceInterface = {
-  webSocket: undefined,
-  connect: (websocketAddress: string) => {},
-  disconnect: () => {},
-  parseSocketData: (socketData: string) => null,
-};
-
-SocketService.connect = (websocketAddress) => {
+const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
     SocketService.webSocket = new WebSocket(websocketAddress);
 
@@ -44,7 +37,7 @@ SocketService.connect = (websocketAddress) => {
   }
 };
 
-SocketService.disconnect = () => {
+const disconnect = () => {
   console.log("Disconnecting socket.");
   if (SocketService.webSocket) {
     SocketService.webSocket.close();
@@ -52,7 +45,7 @@ SocketService.disconnect = () => {
   }
 };
 
-SocketService.parseSocketData = (socketData: string) => {
+const parseSocketData = (socketData: string) => {
   try {
     const jsonData = JSON.parse(socketData);
     const userLocation: Location = jsonData.payload.location;
@@ -66,14 +59,21 @@ SocketService.parseSocketData = (socketData: string) => {
     } else {
       user.asset = {
         name: "Wonderville Session",
-        type: "Session"
+        type: "Session",
       };
     }
     return user;
   } catch (SyntaxError) {
-    console.log("Error: String was not a valid JSON!");
+    console.log("Error: String was not a valid JSON! Socket Data:", socketData);
     return null;
   }
+};
+
+const SocketService: SocketServiceInterface = {
+  webSocket: undefined,
+  connect: connect,
+  disconnect: disconnect,
+  parseSocketData: parseSocketData,
 };
 
 export default SocketService;

@@ -14,7 +14,6 @@ const userReducer = (
   switch (action.type) {
     case "ADD_USER":
       const user = action.user;
-      console.log("User added: ", user);
       const newMapCenter = {
         lat: user.location.latitude,
         lng: user.location.longitude,

@@ -4,4 +4,4 @@ export type Stats = {
   top: string;
   topUrl: string;
   rank: number;
-}
+};
