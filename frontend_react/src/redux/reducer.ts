@@ -2,12 +2,14 @@ import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 
 const initialState: AppState = {
+  displayedUsers: [],
   liveUsers: [],
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
+  loading: false,
 };
 
-const userReducer = (
+const rootReducer = (
   state: AppState | undefined = initialState,
   action: any
 ) => {
@@ -31,9 +33,14 @@ const userReducer = (
         liveUsers: [...state.liveUsers, user],
         mapCenter: newMapCenter,
       };
+    case "LOADING":
+      return {
+        ...state,
+        loading: action.loading,
+      };
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default rootReducer;

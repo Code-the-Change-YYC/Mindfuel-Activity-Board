@@ -1,7 +1,14 @@
-import http from "../http-common";
 import { ApiServiceInterface } from "../utils/ApiServiceInterface";
 import { Stats } from "../utils/Stats";
 import { User } from "../utils/User";
+import axios from "axios";
+
+const http = axios.create({
+  baseURL: "http://localhost:8082/api",
+  headers: {
+    "Content-type": "application/json",
+  },
+});
 
 const getHistoricalUsers = (fromDate: String) => {
   return http.get<User[]>("/historicalUsers", {

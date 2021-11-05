@@ -1,7 +1,7 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
 import { Location } from "../utils/Location";
-import { addUser } from "../redux/actions";
+import { addLiveUser } from "../redux/actions";
 import store from "../redux/store";
 
 const connect = (websocketAddress: string) => {
@@ -16,7 +16,7 @@ const connect = (websocketAddress: string) => {
       console.log("New message: " + JSON.parse(event.data));
       const user = SocketService.parseSocketData(event.data);
       if (user != null) {
-        store.dispatch(addUser(user));
+        store.dispatch(addLiveUser(user));
       }
     };
 
