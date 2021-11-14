@@ -1,10 +1,9 @@
-import React from "react";
+import * as React from "react";
 import styles from "./StatsSummary.module.css";
 import { Stats } from "../../utils/Stats";
 import { IconButton } from "@material-ui/core";
 import { EqualizerOutlined } from "@material-ui/icons";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -83,16 +82,14 @@ const StatsSummary = (props: StatsProps) => {
       <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
     </IconButton>
 
-    
-    <Button onClick={handleOpen}>Open modal</Button>
     <Modal
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styleModal}>
-
+      
+    <Box sx = {styleModal}>
     <TableContainer component={Paper}>
       <Table size="small" sx = { styleTable}aria-label="simple table">
         <TableHead>
@@ -109,7 +106,7 @@ const StatsSummary = (props: StatsProps) => {
               key={row.daily}
               sx={styleRow}
             >
-              <TableCell component="th" scope="row">{icons[row.daily]}</TableCell>
+              <TableCell component = 'th' scope="row">{icons[row.daily]}</TableCell>
               <TableCell>{row.daily}</TableCell>
               <TableCell>{row.session}</TableCell>
               <TableCell>{row.top}</TableCell>
@@ -118,8 +115,9 @@ const StatsSummary = (props: StatsProps) => {
         </TableBody>
       </Table>
     </TableContainer>   
-      </Box>
+    </Box>
     </Modal>
+    
     </div>
     
   );
