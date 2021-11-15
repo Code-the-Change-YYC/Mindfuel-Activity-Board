@@ -38,6 +38,16 @@ const rootReducer = (
         ...state,
         loading: action.loading,
       };
+    case "DISPLAY_LIVE_USERS":
+      return {
+        ...state,
+        displayedUsers: state.liveUsers,
+      };
+    case "DISPLAY_HISTORICAL_USERS":
+      return {
+        ...state,
+        displayedUsers: action.historicalUsers,
+      };
     default:
       return state;
   }

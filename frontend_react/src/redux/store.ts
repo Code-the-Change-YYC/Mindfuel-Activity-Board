@@ -1,15 +1,14 @@
-import { applyMiddleware, compose, createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import ApiService from "../api/ApiService";
 import rootReducer from "./reducer";
 
 const store = createStore(
   rootReducer,
-  compose(
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-      (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(thunk.withExtraArgument(ApiService))
-  )
+  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(ApiService)))
 );
 
 export default store;
+
+export type AppDispatch = typeof store.dispatch;

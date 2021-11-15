@@ -5,7 +5,7 @@ import Home from './views/Home/Home';
 function App() {
   return (
     <div className="App">
-        <Home name="MindFuel team"></Home>
+        <Home></Home>
     </div>
   );
 }

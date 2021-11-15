@@ -10,15 +10,20 @@ import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import SocketService from "../../api/SocketService";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
-
-interface HomeProps {
-  name: string;
-}
+import { CircularProgress, StylesProvider } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 const users: User[] = sampleData.users;
 
-const Home: React.FunctionComponent<HomeProps> = (props) => {
+const Home = () => {
   const appState: AppState = useSelector((state: AppState) => state);
+  const loadingClasses = {
+    root: styles.loadingIndicatorRoot,
+    colorPrimary: styles.loadingIndicatorColor,
+  };
+  const alertClasses = {
+    root: styles.alertRoot,
+  };
 
   useEffect(() => {
     // Connect to socket on mount
@@ -32,21 +37,30 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
   }, []); // Pass in an empty array to only run an effect once.
 
   return (
-    <React.Fragment>
+    <StylesProvider injectFirst>
+      <Alert classes={alertClasses} onClose={() => {}} severity="error">
+        {/* <AlertTitle>Error</AlertTitle> */}
+        Something went wrong — <strong>check it out!</strong>
+      </Alert>
       <Sidenav users={appState.liveUsers}></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
         <SocialsComponent></SocialsComponent>
       </div>
       <div className={styles.map}>
-        <Map users={appState.liveUsers} newUser={appState.newUser} center={appState.mapCenter}></Map>
+        {appState.loading && <CircularProgress classes={loadingClasses} />}
+        <Map
+          users={appState.liveUsers}
+          newUser={appState.newUser}
+          center={appState.mapCenter}
+        ></Map>
         <div className={styles.timelineContainer}>
           <div className={styles.timeline}>
             <Timeline></Timeline>
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </StylesProvider>
   );
 };
 

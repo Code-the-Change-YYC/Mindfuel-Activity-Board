@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Timeline.module.css';
 import Slider from '@material-ui/core/Slider';
 import { StylesProvider } from '@material-ui/core/styles';
+import { fetchHistoricalUsers } from '../../redux/actions';
+import { useAppDispatch } from '../../redux/hooks';
 
 const ThumbComponent = (props: any) => {
   return (
@@ -36,6 +38,7 @@ const marks = [
 ];
 
 const Timeline = () => {
+  const dispatch = useAppDispatch();
   const classes = {
     root: styles.timelineRoot,
     thumb: styles.timelineThumb,
@@ -45,6 +48,11 @@ const Timeline = () => {
     markLabel: styles.timelineMarkLabels
   }
 
+  
+  const handleChange = (event: any, newValue: number | number[]) => {
+    dispatch(fetchHistoricalUsers('test'));
+  };
+  
   return (
     <StylesProvider injectFirst>
       <Slider
@@ -53,6 +61,7 @@ const Timeline = () => {
         defaultValue={100}
         step={null}
         marks={marks}
+        onChangeCommitted={handleChange}
       />
     </StylesProvider>
   );
