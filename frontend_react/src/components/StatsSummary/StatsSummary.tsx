@@ -3,15 +3,15 @@ import styles from "./StatsSummary.module.css";
 import { Stats } from "../../utils/Stats";
 import { IconButton } from "@material-ui/core";
 import { EqualizerOutlined } from "@material-ui/icons";
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Box from '@material-ui/core/Box';
+import Modal from '@material-ui/core/Modal';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 function createData(daily: string, session: number, top: string) {
   return {daily, session, top};
@@ -89,11 +89,15 @@ const StatsSummary = (props: StatsProps) => {
       aria-describedby="modal-modal-description"
     >
       
-    <Box sx = {styleModal}>
+    <Box 
+    // sx = {styleModal}
+    >
     <TableContainer component={Paper}>
-      <Table size="small" sx = { styleTable}aria-label="simple table">
+      <Table size="small" 
+      // sx = { styleTable}
+      aria-label="simple table">
         <TableHead>
-          <TableRow sx = {{bgcolor:'#FFDD00'}}>
+          <TableRow >
             <TableCell>Icon</TableCell>
             <TableCell>Daily</TableCell>
             <TableCell>Sessions</TableCell>
@@ -104,7 +108,7 @@ const StatsSummary = (props: StatsProps) => {
           {rows.map((row) => (
             <TableRow
               key={row.daily}
-              sx={styleRow}
+              // sx={styleRow}
             >
               <TableCell component = 'th' scope="row">{icons[row.daily]}</TableCell>
               <TableCell>{row.daily}</TableCell>
@@ -117,7 +121,7 @@ const StatsSummary = (props: StatsProps) => {
     </TableContainer>   
     </Box>
     </Modal>
-    
+
     </div>
     
   );
