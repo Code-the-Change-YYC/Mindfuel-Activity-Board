@@ -1,4 +1,4 @@
-import { AppState } from "../utils/AppState";
+import { AppState, StatusEnum } from "../utils/AppState";
 import { User } from "../utils/User";
 
 const initialState: AppState = {
@@ -7,6 +7,8 @@ const initialState: AppState = {
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,
+  errorMessage: null,
+  status: StatusEnum.LIVE,
 };
 
 const rootReducer = (
@@ -20,7 +22,7 @@ const rootReducer = (
         lat: user.location.latitude,
         lng: user.location.longitude,
       };
-      const liveUsers = [...state.liveUsers, user];
+      const liveUsers: User[] = [...state.liveUsers, user];
 
       // Sort in descending order by latitude to avoid overlapping on map
       liveUsers.sort(
@@ -29,8 +31,10 @@ const rootReducer = (
 
       return {
         ...state,
-        newUser: user,
-        liveUsers: [...state.liveUsers, user],
+        newUser: state.status === StatusEnum.LIVE ? user : null,
+        displayedUsers:
+          state.status === StatusEnum.LIVE ? liveUsers : state.displayedUsers,
+        liveUsers: liveUsers,
         mapCenter: newMapCenter,
       };
     case "LOADING":
@@ -42,11 +46,18 @@ const rootReducer = (
       return {
         ...state,
         displayedUsers: state.liveUsers,
+        status: StatusEnum.LIVE,
       };
     case "DISPLAY_HISTORICAL_USERS":
       return {
         ...state,
         displayedUsers: action.historicalUsers,
+        status: StatusEnum.HISTORICAL,
+      };
+    case "ERROR":
+      return {
+        ...state,
+        errorMessage: action.errorMessage,
       };
     default:
       return state;

@@ -10,8 +10,8 @@ import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import SocketService from "../../api/SocketService";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
-import { CircularProgress, StylesProvider } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import { CircularProgress } from "@material-ui/core";
+import AppAlert from "../../components/AppAlert/AppAlert";
 
 const users: User[] = sampleData.users;
 
@@ -20,9 +20,6 @@ const Home = () => {
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
-  };
-  const alertClasses = {
-    root: styles.alertRoot,
   };
 
   useEffect(() => {
@@ -37,17 +34,16 @@ const Home = () => {
   }, []); // Pass in an empty array to only run an effect once.
 
   return (
-    <StylesProvider injectFirst>
-      <Alert classes={alertClasses} onClose={() => {}} severity="error">
-        {/* <AlertTitle>Error</AlertTitle> */}
-        Something went wrong — <strong>check it out!</strong>
-      </Alert>
+    <React.Fragment>
       <Sidenav users={appState.liveUsers}></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
         <SocialsComponent></SocialsComponent>
       </div>
       <div className={styles.map}>
+        {appState.errorMessage && (
+          <AppAlert message={appState.errorMessage} severity="error"></AppAlert>
+        )}
         {appState.loading && <CircularProgress classes={loadingClasses} />}
         <Map
           users={appState.liveUsers}
@@ -60,7 +56,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </StylesProvider>
+    </React.Fragment>
   );
 };
 

@@ -49,23 +49,13 @@
 }
 
 .loadingIndicatorColor {
-  color: #52247f;
-}
-
-.alertRoot {
-  position: fixed;
-  top: 0;
-  z-index: 2;
+  color: #52247f !important;
 }
 
 /* Account for permanent sidebar at above mobile widths */
 @media screen and (min-width: 600px) {
   .map {
     height: 100vh;
-    margin-left: 240px;
-  }
-
-  .alertRoot {
     margin-left: 240px;
   }
 

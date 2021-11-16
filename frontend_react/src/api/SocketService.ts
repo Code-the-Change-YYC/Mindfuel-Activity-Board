@@ -1,8 +1,10 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
 import { Location } from "../utils/Location";
-import { addLiveUser } from "../redux/actions";
+import { addLiveUser, setError } from "../redux/actions";
 import store from "../redux/store";
+
+let retries = 0;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
@@ -20,17 +22,29 @@ const connect = (websocketAddress: string) => {
       }
     };
 
-    SocketService.webSocket.onclose = function (event: CloseEvent) {
-      console.log(
-        "Socket was closed. Reconnect will be attempted in 10 seconds.",
-        event.reason
+    SocketService.webSocket.onclose = (event: CloseEvent) => {
+      store.dispatch(
+        setError(
+          "Socket was closed. Reconnect will be attempted in 60 seconds."
+        )
       );
-      setTimeout(() => {
-        SocketService.connect(websocketAddress);
-      }, 10000);
+
+      if (retries < 10) {
+        setTimeout(() => {
+          retries++;
+          SocketService.webSocket = undefined;
+          SocketService.connect(websocketAddress);
+        }, 60000);
+      } else {
+        store.dispatch(
+          setError(
+            "Max socket connection retries reached. Please refresh the page to try connecting again."
+          )
+        );
+      }
     };
 
-    SocketService.webSocket.onerror = function (err) {
+    SocketService.webSocket.onerror = (err) => {
       console.error("Socket encountered error, closing socket.");
       SocketService.webSocket?.close();
     };
