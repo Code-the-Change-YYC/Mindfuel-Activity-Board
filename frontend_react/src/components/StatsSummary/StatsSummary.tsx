@@ -12,6 +12,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { StylesProvider } from "@material-ui/core/styles";
+import gameIcon from "../../assets/map-marker-game.svg";
+import videoIcon from "../../assets/map-marker-video.svg";
+import activityIcon from "../../assets/map-marker-activity.svg";
+import storyIcon from "../../assets/map-marker-story.svg";
+import { Image } from "react-bootstrap";
 
 function createData(daily: string, session: number, top: string) {
   return {daily, session, top};
@@ -20,36 +26,28 @@ function createData(daily: string, session: number, top: string) {
 const rows = [
   createData('Game', 37895, 'Save The World'),
   createData('Video', 3437, 'Waste No More' ),
-  createData('Activity', 2593, 'Pirates of the Lodestone'),
   createData('Story', 400, 'A Cup full of Nano' ),
+  createData('Activity', 2593, 'Pirates of the Lodestone')
 ];
 
 
 var icons: any = {
-  'Game' : 1,
-  'Video' : 2,
-  'Activity' : 3,
-  'Story' : 4
+  'Game' : gameIcon,
+  'Video' : videoIcon,
+  'Activity' : activityIcon,
+  'Story' : storyIcon
 }
 
 const styleModal = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'purple',
-  border: '3px solid white',
-  boxShadow: '5px 3px 10px white',
-  p: 3,
+  root: styles.styleModal
 };
 
-const styleTable = {
-  bgcolor: 'white'
+const styleTableHeader = {
+  root: styles.styleTableHeader
 }
 
 const styleRow = {
-  borderBottom:'2px solid purple',
-  bgcolor: 'white'
+  root: styles.styleRow
 }
 
 type StatsProps = {
@@ -72,6 +70,7 @@ const StatsSummary = (props: StatsProps) => {
   const handleClose = () => setOpen(false);
 
   return (
+    <StylesProvider injectFirst>
     <div> 
     <IconButton
       aria-label="open drawer"
@@ -88,13 +87,12 @@ const StatsSummary = (props: StatsProps) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      
-    <Box 
-    // sx = {styleModal}
-    >
+
+    <div className={styles.styleModal}>  
     <TableContainer component={Paper}>
-      <Table size="small" 
-      // sx = { styleTable}
+      <Table 
+      size="small" 
+      classes = {styleTableHeader}
       aria-label="simple table">
         <TableHead>
           <TableRow >
@@ -108,9 +106,10 @@ const StatsSummary = (props: StatsProps) => {
           {rows.map((row) => (
             <TableRow
               key={row.daily}
-              // sx={styleRow}
+              classes = {styleRow}
             >
-              <TableCell component = 'th' scope="row">{icons[row.daily]}</TableCell>
+              {console.log(icons[row.daily])}
+              <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} /></TableCell>
               <TableCell>{row.daily}</TableCell>
               <TableCell>{row.session}</TableCell>
               <TableCell>{row.top}</TableCell>
@@ -119,10 +118,10 @@ const StatsSummary = (props: StatsProps) => {
         </TableBody>
       </Table>
     </TableContainer>   
-    </Box>
-    </Modal>
-
     </div>
+    </Modal>
+    </div>
+    </StylesProvider>
     
   );
 };

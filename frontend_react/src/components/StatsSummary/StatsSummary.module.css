@@ -9,3 +9,23 @@
 .statsButton:hover {
   background-color: #e7c800;
 }
+
+.styleModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 10px solid purple;
+  box-shadow: 5px 3px 10px white;
+  padding: 3;
+}
+
+.styleTableHeader {
+  background-color: #e7c800;
+}
+
+.styleRow {
+  border-bottom: 2px solid purple;
+  background-color:white;
+}
