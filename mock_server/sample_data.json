@@ -1,0 +1,152 @@
+{
+    "users": [
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "Alberta",
+          "city": "Calgary",
+          "latitude": 51.5447,
+          "longitude": -114.1719
+        },
+        "asset": {
+          "name": "Save The World",
+          "type": "Game",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "Alberta",
+          "city": "Calgary",
+          "latitude": 51.0447,
+          "longitude": -114.0719
+        },
+        "asset": {
+          "name": "Solar Energy Defenders",
+          "type": "Game",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Solar-Energy-Defenders-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "British Columbia",
+          "city": "Vancouver",
+          "latitude": 49.3527,
+          "longitude": -123.5207
+        },
+        "asset": {
+          "name": "Pirates of the Lodestone",
+          "type": "Activity",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "British Columbia",
+          "city": "Vancouver",
+          "latitude": 49.2827,
+          "longitude": -123.1207
+        },
+        "asset": {
+          "name":"Save The World",
+          "type": "Game",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "United States",
+          "region_name": "Montana",
+          "city": "Mountain View",
+          "latitude": 45.3527,
+          "longitude": -110.2207
+        },
+        "asset": {
+          "name": "Crash Test: Power Shootout",
+          "type": "Game",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "Saskatchewan",
+          "city": "",
+          "latitude": 53.278046,
+          "longitude": -108.005470
+        },
+        "asset": {
+          "name": "Crash Test: Power Shootout",
+          "type": "Game",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      },
+      {
+        "type": "wondervilleSession",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "Quebec",
+          "city": "Montreal",
+          "latitude": 45.940003,
+          "longitude": -73.639997
+        },
+        "asset": {
+          "name": "Wonderville Session",
+          "type": "Session"
+        }
+      },
+      {
+        "type": "wondervilleAsset",
+        "location": {
+          "country_name": "Canada",
+          "region_name": "Quebec",
+          "city": "Montreal",
+          "latitude": 45.630001,
+          "longitude": -73.519997
+        },
+        "asset": {
+          "name": "Pirates of the Lodestone",
+          "type": "Activity",
+          "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+          "active": true,
+          "url": "",
+          "id": 0,
+          "uuid": null
+        }
+      }
+    ]
+  }
+  
