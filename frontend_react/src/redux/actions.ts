@@ -17,7 +17,7 @@ export const fetchHistoricalUsers = (fromDate: string) => {
       (response: AxiosResponse<User[]>) => {
         console.log("from time", fromDate);
         console.log(response.data);
-        dispatch(displayHistoricalUsers(response.data));
+        dispatch(displayHistoricalUsers([]));
         dispatch(loading(false));
       },
       () => {

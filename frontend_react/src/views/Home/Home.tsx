@@ -35,18 +35,19 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Sidenav users={appState.liveUsers}></Sidenav>
+      <Sidenav users={appState.displayedUsers}></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
         <SocialsComponent></SocialsComponent>
       </div>
+      <SocialsComponent></SocialsComponent>
       <div className={styles.map}>
         {appState.alert && (
           <AppAlert alert={appState.alert}></AppAlert>
         )}
         {appState.loading && <CircularProgress classes={loadingClasses} />}
         <Map
-          users={appState.liveUsers}
+          users={appState.displayedUsers}
           newUser={appState.newUser}
           center={appState.mapCenter}
         ></Map>

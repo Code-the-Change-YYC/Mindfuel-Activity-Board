@@ -1,9 +1,10 @@
 import { AppState, StatusEnum } from "../utils/AppState";
 import { User } from "../utils/User";
+import * as sampleData from "../api/SampleUserData.json";
 
 const initialState: AppState = {
-  displayedUsers: [],
-  liveUsers: [],
+  displayedUsers: sampleData.users,
+  liveUsers: sampleData.users,
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,

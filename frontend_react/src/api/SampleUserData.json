@@ -25,6 +25,25 @@
         "country_name": "Canada",
         "region_name": "Alberta",
         "city": "Calgary",
+        "latitude": 51.3447,
+        "longitude": -114.0719
+      },
+      "asset": {
+        "name": "Pirates of the Lodestone",
+        "type": "Activity",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
+      }
+    },
+    {
+      "type": "wondervilleAsset",
+      "location": {
+        "country_name": "Canada",
+        "region_name": "Alberta",
+        "city": "Calgary",
         "latitude": 51.0447,
         "longitude": -114.0719
       },
