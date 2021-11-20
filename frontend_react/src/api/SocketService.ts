@@ -1,16 +1,22 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
 import { Location } from "../utils/Location";
-import { addLiveUser, setError } from "../redux/actions";
+import { addLiveUser, loading, setAlert } from "../redux/actions";
 import store from "../redux/store";
 
 let retries = 0;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
+    store.dispatch(loading(true));
     SocketService.webSocket = new WebSocket(websocketAddress);
 
     SocketService.webSocket.onopen = () => {
+      store.dispatch(loading(false));
+      if (retries > 0) {
+        retries = 0; // Reset retries count
+        setAlert("Successfully connected!");
+      }
       console.log("New client connected!");
     };
 
@@ -23,9 +29,11 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onclose = (event: CloseEvent) => {
+      store.dispatch(loading(false));
       store.dispatch(
-        setError(
-          "Socket was closed. Reconnect will be attempted in 60 seconds."
+        setAlert(
+          "Connection was closed. Reconnect will be attempted in 60 seconds.",
+          "error"
         )
       );
 
@@ -37,8 +45,9 @@ const connect = (websocketAddress: string) => {
         }, 60000);
       } else {
         store.dispatch(
-          setError(
-            "Max socket connection retries reached. Please refresh the page to try connecting again."
+          setAlert(
+            "Max socket connection retries reached. Please refresh the page to try connecting again.",
+            "error"
           )
         );
       }

@@ -1,3 +1,4 @@
+import { AlertModel } from "./Alert.model";
 import { User } from "./User";
 
 export type AppState = {
@@ -6,7 +7,7 @@ export type AppState = {
   newUser: User | null;
   mapCenter: { lat: number; lng: number };
   loading: boolean;
-  errorMessage: String | null;
+  alert: AlertModel | null;
   status: StatusEnum;
 };
 

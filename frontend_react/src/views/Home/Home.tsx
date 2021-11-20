@@ -41,8 +41,8 @@ const Home = () => {
         <SocialsComponent></SocialsComponent>
       </div>
       <div className={styles.map}>
-        {appState.errorMessage && (
-          <AppAlert message={appState.errorMessage} severity="error"></AppAlert>
+        {appState.alert && (
+          <AppAlert alert={appState.alert}></AppAlert>
         )}
         {appState.loading && <CircularProgress classes={loadingClasses} />}
         <Map

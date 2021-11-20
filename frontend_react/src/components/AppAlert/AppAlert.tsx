@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./AppAlert.module.css";
-import { setError } from "../../redux/actions";
+import { setAlert } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/hooks";
-import Alert, { Color } from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
+import { AlertModel } from "../../utils/Alert.model";
 
 type AlertProps = {
-  message: String;
-  severity: Color | undefined;
+  alert: AlertModel;
 };
 
 const AppAlert = (props: AlertProps) => {
@@ -16,12 +16,23 @@ const AppAlert = (props: AlertProps) => {
   };
 
   const onClose = () => {
-    dispatch(setError(null));
+    dispatch(setAlert(null));
   };
 
+  // Automatically close success alerts after 5 seconds
+  setTimeout(() => {
+    if (props.alert.severity === "success") {
+      onClose();
+    }
+  }, 5000);
+
   return (
-    <Alert onClose={onClose} classes={alertClasses} severity={props.severity}>
-      {props.message}
+    <Alert
+      onClose={onClose}
+      classes={alertClasses}
+      severity={props.alert.severity}
+    >
+      {props.alert.message}
     </Alert>
   );
 };

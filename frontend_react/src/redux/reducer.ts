@@ -7,7 +7,7 @@ const initialState: AppState = {
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,
-  errorMessage: null,
+  alert: null,
   status: StatusEnum.LIVE,
 };
 
@@ -54,10 +54,10 @@ const rootReducer = (
         displayedUsers: action.historicalUsers,
         status: StatusEnum.HISTORICAL,
       };
-    case "ERROR":
+    case "ALERT":
       return {
         ...state,
-        errorMessage: action.errorMessage,
+        alert: action.alert,
       };
     default:
       return state;

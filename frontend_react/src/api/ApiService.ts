@@ -10,7 +10,7 @@ const http = axios.create({
   },
 });
 
-const getHistoricalUsers = (fromDate: String) => {
+const getHistoricalUsers = (fromDate: string) => {
   // return http.get<User[]>("/historicalUsers", {
   //   params: { fromDate: fromDate },
   // });
