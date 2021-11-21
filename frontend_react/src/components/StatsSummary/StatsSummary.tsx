@@ -109,7 +109,7 @@ const StatsSummary = (props: StatsProps) => {
               classes = {styleRow}
             >
               {console.log(icons[row.daily])}
-              <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} /></TableCell>
+              <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} className={styles.icon} /></TableCell>
               <TableCell>{row.daily}</TableCell>
               <TableCell>{row.session}</TableCell>
               <TableCell>{row.top}</TableCell>
