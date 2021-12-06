@@ -1,0 +1,36 @@
+.statsButton {
+  background-color: #ffdd00;
+  color: #1da1f2;
+  height: 50px;
+  width: 50px;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+.statsButton:hover {
+  background-color: #e7c800;
+}
+
+.styleModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 10px solid #52247f;
+  box-shadow: 5px 3px 10px #5a2b87;
+  padding: 3;
+}
+
+.styleTableHeader {
+  background-color: #e7c800;
+}
+
+.styleRow {
+  border-bottom: 2px solid #52247f;
+  background-color:white;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
