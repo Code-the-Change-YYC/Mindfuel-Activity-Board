@@ -34,7 +34,6 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
   return (
     <React.Fragment>
       <Sidenav users={appState.liveUsers}></Sidenav>
-      <SocialsComponent></SocialsComponent>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
         <SocialsComponent></SocialsComponent>
