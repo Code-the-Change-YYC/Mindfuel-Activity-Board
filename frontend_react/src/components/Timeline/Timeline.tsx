@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Timeline.module.css";
 import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
-import { displayLiveUsers, fetchHistoricalUsers } from "../../redux/actions";
+import { fetchHistoricalUsers, updateHistoricalUsers } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/hooks";
 
 const ThumbComponent = (props: any) => {
@@ -65,7 +65,7 @@ const Timeline = () => {
         fromDate.setDate(fromDate.getDate() - 1);
         break;
       case 100:
-        dispatch(displayLiveUsers());
+        dispatch(updateHistoricalUsers(null));
         return;
     }
 

@@ -9,9 +9,11 @@ import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { User } from "../../utils/User";
 import { AnalyticsData } from "../../utils/AnalyticsData";
+import _ from "lodash";
 
 type SidenavProps = {
-  users: User[];
+  liveUsers: User[];
+  historicalUsers: User[] | null;
 };
 
 const logo = require("../../assets/mindfuel-logo.png");
@@ -80,9 +82,13 @@ const Sidenav = (props: SidenavProps) => {
       });
     };
 
-    setData(updateData(props.users));
+    setData(
+      updateData(
+        _.isNil(props.historicalUsers) ? props.liveUsers : props.historicalUsers
+      )
+    );
     setAnalyticsBoxes(updateAnalyticsBoxes(data));
-  }, [props.users]);
+  }, [props.liveUsers, props.historicalUsers]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

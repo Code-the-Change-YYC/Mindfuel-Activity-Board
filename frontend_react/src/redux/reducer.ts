@@ -1,15 +1,15 @@
-import { AppState, StatusEnum } from "../utils/AppState";
+import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
+import _ from "lodash";
 
 const initialState: AppState = {
-  displayedUsers: sampleData.users,
   liveUsers: sampleData.users,
+  historicalUsers: sampleData.users,
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,
   alert: null,
-  status: StatusEnum.LIVE,
 };
 
 const rootReducer = (
@@ -19,10 +19,10 @@ const rootReducer = (
   switch (action.type) {
     case "ADD_USER":
       const user = action.user;
-      const newMapCenter = {
+      const newMapCenter = _.isNil(state.historicalUsers) ? {
         lat: user.location.latitude,
         lng: user.location.longitude,
-      };
+      } : state.mapCenter;
       const liveUsers: User[] = [...state.liveUsers, user];
 
       // Sort in descending order by latitude to avoid overlapping on map
@@ -30,11 +30,14 @@ const rootReducer = (
         (a: User, b: User) => b.location.latitude - a.location.latitude
       );
 
+      // Record sorted index so that it is displayed on map properly
+      user.index = liveUsers.findIndex(user);
+      
+      // TODO: Process duplicate dates + activity, keep latest date
+  
       return {
         ...state,
-        newUser: state.status === StatusEnum.LIVE ? user : null,
-        displayedUsers:
-          state.status === StatusEnum.LIVE ? liveUsers : state.displayedUsers,
+        newUser: user,
         liveUsers: liveUsers,
         mapCenter: newMapCenter,
       };
@@ -43,17 +46,12 @@ const rootReducer = (
         ...state,
         loading: action.loading,
       };
-    case "DISPLAY_LIVE_USERS":
+    case "UPDATE_HISTORICAL_USERS":
+      // TODO: Process duplicates?
+
       return {
         ...state,
-        displayedUsers: state.liveUsers,
-        status: StatusEnum.LIVE,
-      };
-    case "DISPLAY_HISTORICAL_USERS":
-      return {
-        ...state,
-        displayedUsers: action.historicalUsers,
-        status: StatusEnum.HISTORICAL,
+        historicalUsers: action.historicalUsers,
       };
     case "ALERT":
       return {

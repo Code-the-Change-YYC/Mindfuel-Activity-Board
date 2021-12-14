@@ -4,17 +4,19 @@ import { Location } from "../../utils/Location";
 import MapMarker from "../MapMarker/MapMarker";
 import GoogleMapReact, { ChangeEventValue } from "google-map-react";
 import styles from "./Map.module.css";
-import { isEqual } from "lodash";
+import _ from "lodash";
 
 type MapProps = {
-  users: User[];
   newUser: User | null;
+  liveUsers: User[];
+  historicalUsers: User[] | null;
   center: { lat: number; lng: number };
 };
 
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState(props.center);
   const [zoom, setZoom] = useState(4);
+  const liveMarkers: ReactElement[] = [];
   const [markers, setMarkers] = useState<ReactElement[]>([]);
 
   const defaultMapOptions = {
@@ -22,15 +24,11 @@ const Map = (props: MapProps) => {
     zoomControl: false,
   };
 
-  // Set center every time the center prop changes
-  useEffect(() => {
-    setCenter(props.center);
-  }, [props.center]);
-
+  // Set historical markers when historical users prop changes
   useEffect(() => {
     const updateMarkers = (users: User[], newUser: User | null) => {
       return users.map((user, index) => {
-        const open = newUser && isEqual(user, newUser) ? true : false;
+        const open = newUser && _.isEqual(user, newUser) ? true : false;
         return (
           <MapMarker
             key={index}
@@ -44,8 +42,16 @@ const Map = (props: MapProps) => {
       });
     };
 
-    setMarkers(updateMarkers(props.users, props.newUser));
-  }, [props.users]);
+    let markers: ReactElement[];
+    if (_.isNil(props.historicalUsers)) {
+      markers = updateMarkers(props.liveUsers, props.newUser);
+      setCenter(props.center);
+    } else {
+      markers = updateMarkers(props.historicalUsers, null);
+    }
+
+    setMarkers(markers);
+  }, [props.liveUsers, props.historicalUsers]);
 
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });

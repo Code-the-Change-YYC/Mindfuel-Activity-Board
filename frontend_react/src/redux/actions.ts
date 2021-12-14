@@ -17,7 +17,7 @@ export const fetchHistoricalUsers = (fromDate: string) => {
       (response: AxiosResponse<User[]>) => {
         console.log("from time", fromDate);
         console.log(response.data);
-        dispatch(displayHistoricalUsers([]));
+        dispatch(updateHistoricalUsers([]));
         dispatch(loading(false));
       },
       () => {
@@ -44,12 +44,6 @@ export const setAlert = (
   };
 };
 
-export const displayLiveUsers = () => {
-  return {
-    type: "DISPLAY_LIVE_USERS",
-  };
-};
-
 export const addLiveUser = (user: User) => {
   return {
     type: "ADD_USER",
@@ -64,9 +58,9 @@ export const loading = (loading: boolean) => {
   };
 };
 
-const displayHistoricalUsers = (historicalUsers: User[]) => {
+export const updateHistoricalUsers = (historicalUsers: User[] | null) => {
   return {
-    type: "DISPLAY_HISTORICAL_USERS",
+    type: "UPDATE_HISTORICAL_USERS",
     historicalUsers: historicalUsers,
   };
 };
