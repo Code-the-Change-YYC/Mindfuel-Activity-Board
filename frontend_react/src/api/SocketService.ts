@@ -75,6 +75,7 @@ const parseSocketData = (socketData: string) => {
     const user: User = {
       type: jsonData.type,
       location: userLocation,
+      date: new Date(),
     };
     if (user.type === "wondervilleAsset") {
       user.ip = jsonData.payload.ip;

@@ -3,9 +3,17 @@ import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
 import _ from "lodash";
 
+const sampleUsers: User[] = sampleData.users.map(user => {
+  const newUser: User = {
+    ...user,
+    date: new Date(),
+  };
+  return newUser;
+})
+
 const initialState: AppState = {
-  liveUsers: sampleData.users,
-  historicalUsers: sampleData.users,
+  liveUsers: sampleUsers,
+  historicalUsers: null,
   newUser: null,
   mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,
@@ -24,14 +32,6 @@ const rootReducer = (
         lng: user.location.longitude,
       } : state.mapCenter;
       const liveUsers: User[] = [...state.liveUsers, user];
-
-      // Sort in descending order by latitude to avoid overlapping on map
-      liveUsers.sort(
-        (a: User, b: User) => b.location.latitude - a.location.latitude
-      );
-
-      // Record sorted index so that it is displayed on map properly
-      user.index = liveUsers.findIndex(user);
       
       // TODO: Process duplicate dates + activity, keep latest date
   

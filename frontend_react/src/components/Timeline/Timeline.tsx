@@ -54,6 +54,7 @@ const Timeline = () => {
     switch (newValue) {
       case 0:
         fromDate.setDate(fromDate.getDate() - 3 * 30.4167);
+        console.log(fromDate)
         break;
       case 25:
         fromDate.setDate(fromDate.getDate() - 30.4167);

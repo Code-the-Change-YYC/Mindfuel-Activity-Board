@@ -16,7 +16,6 @@ type MapProps = {
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState(props.center);
   const [zoom, setZoom] = useState(4);
-  const liveMarkers: ReactElement[] = [];
   const [markers, setMarkers] = useState<ReactElement[]>([]);
 
   const defaultMapOptions = {
@@ -26,8 +25,39 @@ const Map = (props: MapProps) => {
 
   // Set historical markers when historical users prop changes
   useEffect(() => {
+    // Group a user list by location
+    const groupByLocation = (users: any[]): { [location: string]: any } => {
+      return users.reduce((storage, user) => {
+        // Create a string key based on combination of lat/long
+        const group = `${user.location.latitude}_${user.location.longitude}`;
+        storage[group] = storage[group] || [];
+        storage[group].push(user);
+        return storage;
+      }, {});
+    };
+
     const updateMarkers = (users: User[], newUser: User | null) => {
-      return users.map((user, index) => {
+      const processedUsers: User[] = [];
+
+      // Group users by location
+      const groupedUsers = groupByLocation(users);
+
+      // For each location keep the latest user by date
+      for (const key in groupedUsers) {
+        const users: User[] = groupedUsers[key];
+        let latestUser: User = users[0];
+
+        users.forEach(user => latestUser = user.date > latestUser.date ? user : latestUser);
+
+        processedUsers.push(latestUser);
+      };
+
+      // Sort in descending order by latitude to avoid overlapping on map
+      processedUsers.sort(
+        (a: User, b: User) => b.location.latitude - a.location.latitude
+      );
+
+      return processedUsers.map((user, index) => {
         const open = newUser && _.isEqual(user, newUser) ? true : false;
         return (
           <MapMarker
@@ -49,7 +79,7 @@ const Map = (props: MapProps) => {
     } else {
       markers = updateMarkers(props.historicalUsers, null);
     }
-
+    console.log(markers.length);
     setMarkers(markers);
   }, [props.liveUsers, props.historicalUsers]);
 

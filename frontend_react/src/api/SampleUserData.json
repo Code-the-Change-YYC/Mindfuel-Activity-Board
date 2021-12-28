@@ -86,7 +86,7 @@
         "longitude": -123.1207
       },
       "asset": {
-        "name":"Save The World",
+        "name": "Save The World",
         "type": "Game",
         "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
         "active": true,
@@ -121,7 +121,7 @@
         "region_name": "Saskatchewan",
         "city": "",
         "latitude": 53.278046,
-        "longitude": -108.005470
+        "longitude": -108.00547
       },
       "asset": {
         "name": "Crash Test: Power Shootout",
@@ -145,6 +145,25 @@
       "asset": {
         "name": "Wonderville Session",
         "type": "Session"
+      }
+    },
+    {
+      "type": "wondervilleAsset",
+      "location": {
+        "country_name": "Canada",
+        "region_name": "Quebec",
+        "city": "Montreal",
+        "latitude": 45.630001,
+        "longitude": -73.519997
+      },
+      "asset": {
+        "name": "Pirates of the Lodestone",
+        "type": "Activity",
+        "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+        "active": true,
+        "url": "",
+        "id": 0,
+        "uuid": null
       }
     },
     {

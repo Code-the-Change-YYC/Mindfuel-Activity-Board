@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import * as sampleData from "../../api/SampleUserData.json";
 import Map from "../../components/Map/Map";
 import Timeline from "../../components/Timeline/Timeline";
 import Sidenav from "../../components/Sidenav/Sidenav";
-import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
@@ -12,8 +10,6 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { CircularProgress } from "@material-ui/core";
 import AppAlert from "../../components/AppAlert/AppAlert";
-
-const users: User[] = sampleData.users;
 
 const Home = () => {
   const appState: AppState = useSelector((state: AppState) => state);
