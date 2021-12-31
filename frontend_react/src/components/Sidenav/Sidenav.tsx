@@ -10,11 +10,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { User } from "../../utils/User";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import _ from "lodash";
-
-type SidenavProps = {
-  liveUsers: User[];
-  historicalUsers: User[] | null;
-};
+import { useSelector } from "react-redux";
+import { AppState } from "../../utils/AppState";
 
 const logo = require("../../assets/mindfuel-logo.png");
 
@@ -36,11 +33,15 @@ const initialData: { [id: string]: AnalyticsData } = {
   },
 };
 
-const Sidenav = (props: SidenavProps) => {
+const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
   const [data, setData] =
     useState<{ [id: string]: AnalyticsData }>(initialData);
+  const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
+  const historicalUsers: User[] | null = useSelector(
+    (state: AppState) => state.historicalUsers
+  );
 
   const buttonClasses = {
     root: styles.dashboardButton,
@@ -84,11 +85,11 @@ const Sidenav = (props: SidenavProps) => {
 
     setData(
       updateData(
-        _.isNil(props.historicalUsers) ? props.liveUsers : props.historicalUsers
+        _.isNil(historicalUsers) ? liveUsers : historicalUsers
       )
     );
     setAnalyticsBoxes(updateAnalyticsBoxes(data));
-  }, [props.liveUsers, props.historicalUsers]);
+  }, [liveUsers, historicalUsers]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

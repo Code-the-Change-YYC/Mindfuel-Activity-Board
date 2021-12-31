@@ -10,9 +10,11 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { CircularProgress } from "@material-ui/core";
 import AppAlert from "../../components/AppAlert/AppAlert";
+import { AlertModel } from "../../utils/Alert.model";
 
 const Home = () => {
-  const appState: AppState = useSelector((state: AppState) => state);
+  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
+  const loading = useSelector((state: AppState) => state.loading);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
@@ -31,23 +33,15 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Sidenav
-        liveUsers={appState.liveUsers}
-        historicalUsers={appState.liveUsers}
-      ></Sidenav>
+      <Sidenav></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
         <SocialsComponent></SocialsComponent>
       </div>
       <div className={styles.map}>
-        {appState.alert && <AppAlert alert={appState.alert}></AppAlert>}
-        {appState.loading && <CircularProgress classes={loadingClasses} />}
-        <Map
-          newUser={appState.newUser}
-          liveUsers={appState.liveUsers}
-          historicalUsers={appState.historicalUsers}
-          center={appState.mapCenter}
-        ></Map>
+        {alert && <AppAlert alert={alert}></AppAlert>}
+        {loading && <CircularProgress classes={loadingClasses} />}
+        <Map></Map>
         <div className={styles.timelineContainer}>
           <div className={styles.timeline}>
             <Timeline></Timeline>

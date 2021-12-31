@@ -5,18 +5,20 @@ import MapMarker from "../MapMarker/MapMarker";
 import GoogleMapReact, { ChangeEventValue } from "google-map-react";
 import styles from "./Map.module.css";
 import _ from "lodash";
+import { useSelector } from "react-redux";
+import { AppState } from "../../utils/AppState";
 
-type MapProps = {
-  newUser: User | null;
-  liveUsers: User[];
-  historicalUsers: User[] | null;
-  center: { lat: number; lng: number };
-};
+const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
-const Map = (props: MapProps) => {
-  const [center, setCenter] = useState(props.center);
+const Map = () => {
+  const [center, setCenter] = useState(defaultCenter);
   const [zoom, setZoom] = useState(4);
   const [markers, setMarkers] = useState<ReactElement[]>([]);
+  const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
+  const historicalUsers: User[] | null = useSelector(
+    (state: AppState) => state.historicalUsers
+  );
+  const newUser: User | null = useSelector((state: AppState) => state.newUser);
 
   const defaultMapOptions = {
     fullscreenControl: false,
@@ -47,10 +49,13 @@ const Map = (props: MapProps) => {
         const users: User[] = groupedUsers[key];
         let latestUser: User = users[0];
 
-        users.forEach(user => latestUser = user.date > latestUser.date ? user : latestUser);
+        users.forEach(
+          (user) =>
+            (latestUser = user.date > latestUser.date ? user : latestUser)
+        );
 
         processedUsers.push(latestUser);
-      };
+      }
 
       // Sort in descending order by latitude to avoid overlapping on map
       processedUsers.sort(
@@ -73,15 +78,20 @@ const Map = (props: MapProps) => {
     };
 
     let markers: ReactElement[];
-    if (_.isNil(props.historicalUsers)) {
-      markers = updateMarkers(props.liveUsers, props.newUser);
-      setCenter(props.center);
+    if (_.isNil(historicalUsers)) {
+      markers = updateMarkers(liveUsers, newUser);
+      if (!_.isNil(newUser)) {
+        setCenter({
+          lat: newUser.location.latitude,
+          lng: newUser.location.longitude,
+        });
+      }
     } else {
-      markers = updateMarkers(props.historicalUsers, null);
+      markers = updateMarkers(historicalUsers, null);
     }
-    console.log(markers.length);
+
     setMarkers(markers);
-  }, [props.liveUsers, props.historicalUsers]);
+  }, [liveUsers, historicalUsers]);
 
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
