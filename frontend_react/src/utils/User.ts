@@ -3,8 +3,12 @@ import { Location } from "./Location";
 
 export type User = {
   type: string;
-  location: Location;
-  date: Date;
-  ip?: string;
-  asset?: Asset;
+  date?: Date;
+  payload: {
+    location: Location;
+    ip?: string;
+    asset?: Asset;
+    stats?: any;
+    rank?: number;
+  };
 };

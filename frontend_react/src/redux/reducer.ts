@@ -15,7 +15,6 @@ const initialState: AppState = {
   liveUsers: sampleUsers,
   historicalUsers: null,
   newUser: null,
-  mapCenter: { lat: 48.354594, lng: -99.99805 },
   loading: false,
   alert: null,
 };
@@ -27,10 +26,6 @@ const rootReducer = (
   switch (action.type) {
     case "ADD_USER":
       const user = action.user;
-      const newMapCenter = _.isNil(state.historicalUsers) ? {
-        lat: user.location.latitude,
-        lng: user.location.longitude,
-      } : state.mapCenter;
       const liveUsers: User[] = [...state.liveUsers, user];
       
       // TODO: Process duplicate dates + activity, keep latest date
@@ -39,7 +34,6 @@ const rootReducer = (
         ...state,
         newUser: user,
         liveUsers: liveUsers,
-        mapCenter: newMapCenter,
       };
     case "LOADING":
       return {

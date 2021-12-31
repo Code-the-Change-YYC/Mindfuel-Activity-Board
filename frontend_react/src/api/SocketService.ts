@@ -70,22 +70,8 @@ const disconnect = () => {
 
 const parseSocketData = (socketData: string) => {
   try {
-    const jsonData = JSON.parse(socketData);
-    const userLocation: Location = jsonData.payload.location;
-    const user: User = {
-      type: jsonData.type,
-      location: userLocation,
-      date: new Date(),
-    };
-    if (user.type === "wondervilleAsset") {
-      user.ip = jsonData.payload.ip;
-      user.asset = JSON.parse(jsonData.payload.asset);
-    } else {
-      user.asset = {
-        name: "Wonderville Session",
-        type: "Session",
-      };
-    }
+    const user: User = JSON.parse(socketData);
+    user.date = new Date();
     return user;
   } catch (SyntaxError) {
     console.log("Error: String was not a valid JSON! Socket Data:", socketData);

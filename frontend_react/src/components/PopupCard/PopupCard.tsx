@@ -10,9 +10,15 @@ type PopupCardProps = {
 
 const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
-  const loc = user.location;
+  const loc = user.payload.location;
   const imageUrl =
-    user.type === "wondervilleSession" ? wondervilleLogo : user.asset?.imageUrl;
+    user.type === "wondervilleSession"
+      ? wondervilleLogo
+      : user.payload.asset?.imageUrl;
+  const name =
+    user.type === "wondervilleSession"
+      ? "Wonderville Session"
+      : user.payload.asset?.name;
 
   if (loc.city && loc.region_name) {
     var locString = `${loc.city}, ${loc.region_name}`;
@@ -24,7 +30,7 @@ const PopupCard = (props: PopupCardProps) => {
     <Card className={styles.card + " " + styles.mainWrapper}>
       <Image className={styles.assetImage} src={imageUrl} />
       <div className={styles.wrapper + " " + styles.assetText}>
-        {user.asset?.name}
+        {name}
       </div>
       <div className={styles.wrapper + " " + styles.locationText}>
         {locString}

@@ -23,6 +23,10 @@ const Map = () => {
   const defaultMapOptions = {
     fullscreenControl: false,
     zoomControl: false,
+    minZoom: 2.5,
+    restriction: {
+      latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
+    },
   };
 
   // Set historical markers when historical users prop changes
@@ -31,7 +35,7 @@ const Map = () => {
     const groupByLocation = (users: any[]): { [location: string]: any } => {
       return users.reduce((storage, user) => {
         // Create a string key based on combination of lat/long
-        const group = `${user.location.latitude}_${user.location.longitude}`;
+        const group = `${user.payload.location.latitude}_${user.payload.location.longitude}`;
         storage[group] = storage[group] || [];
         storage[group].push(user);
         return storage;
@@ -49,17 +53,19 @@ const Map = () => {
         const users: User[] = groupedUsers[key];
         let latestUser: User = users[0];
 
-        users.forEach(
-          (user) =>
-            (latestUser = user.date > latestUser.date ? user : latestUser)
-        );
+        users.forEach((user) => {
+          if (!_.isNil(user.date) && !_.isNil(latestUser.date)) {
+            latestUser = user.date > latestUser.date ? user : latestUser;
+          }
+        });
 
         processedUsers.push(latestUser);
       }
 
       // Sort in descending order by latitude to avoid overlapping on map
       processedUsers.sort(
-        (a: User, b: User) => b.location.latitude - a.location.latitude
+        (a: User, b: User) =>
+          b.payload.location.latitude - a.payload.location.latitude
       );
 
       return processedUsers.map((user, index) => {
@@ -69,8 +75,8 @@ const Map = () => {
             key={index}
             user={user}
             open={open}
-            lat={user.location.latitude}
-            lng={user.location.longitude}
+            lat={user.payload.location.latitude}
+            lng={user.payload.location.longitude}
             onMarkerClick={handleMarkerClick}
           ></MapMarker>
         );
@@ -82,8 +88,8 @@ const Map = () => {
       markers = updateMarkers(liveUsers, newUser);
       if (!_.isNil(newUser)) {
         setCenter({
-          lat: newUser.location.latitude,
-          lng: newUser.location.longitude,
+          lat: newUser.payload.location.latitude,
+          lng: newUser.payload.location.longitude,
         });
       }
     } else {

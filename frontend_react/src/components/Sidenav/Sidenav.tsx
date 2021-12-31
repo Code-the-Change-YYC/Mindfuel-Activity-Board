@@ -58,12 +58,12 @@ const Sidenav = () => {
       const updatedData = { ...data };
       updatedData.totalSessions.numberValue = users.length;
       updatedData.totalCountries.numberValue = new Set(
-        users.map((user) => user.location.country_name)
+        users.map((user) => user.payload.location.country_name)
       ).size;
       updatedData.totalCities.numberValue = new Set(
         users
-          .filter((user) => (user.location.city === "" ? false : true))
-          .map((user) => user.location.city)
+          .filter((user) => (user.payload.location.city === "" ? false : true))
+          .map((user) => user.payload.location.city)
       ).size;
       return updatedData;
     };
