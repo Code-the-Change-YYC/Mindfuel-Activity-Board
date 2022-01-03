@@ -3,13 +3,13 @@ import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
 import _ from "lodash";
 
-const sampleUsers: User[] = sampleData.users.map(user => {
+const sampleUsers: User[] = sampleData.users.map((user) => {
   const newUser: User = {
     ...user,
     date: new Date(),
   };
   return newUser;
-})
+});
 
 const initialState: AppState = {
   liveUsers: sampleUsers,
@@ -27,9 +27,9 @@ const rootReducer = (
     case "ADD_USER":
       const user = action.user;
       const liveUsers: User[] = [...state.liveUsers, user];
-      
+
       // TODO: Process duplicate dates + activity, keep latest date
-  
+
       return {
         ...state,
         newUser: user,
@@ -41,8 +41,6 @@ const rootReducer = (
         loading: action.loading,
       };
     case "UPDATE_HISTORICAL_USERS":
-      // TODO: Process duplicates?
-
       return {
         ...state,
         historicalUsers: action.historicalUsers,

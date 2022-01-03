@@ -15,9 +15,7 @@ export const fetchHistoricalUsers = (fromDate: string) => {
     dispatch(loading(true));
     return ApiService.getHistoricalUsers(fromDate).then(
       (response: AxiosResponse<User[]>) => {
-        console.log("from time", fromDate);
-        console.log(response.data);
-        dispatch(updateHistoricalUsers([]));
+        dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));
       },
       () => {

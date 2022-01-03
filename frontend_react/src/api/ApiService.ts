@@ -4,17 +4,16 @@ import { User } from "../utils/User";
 import axios from "axios";
 
 const http = axios.create({
-  // baseURL: "http://localhost:8082/api",
+  baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
   headers: {
     "Content-type": "application/json",
   },
 });
 
 const getHistoricalUsers = (fromDate: string) => {
-  // return http.get<User[]>("/historicalUsers", {
-  //   params: { fromDate: fromDate },
-  // });
-  return http.get("https://jsonplaceholder.typicode.com/users");
+  return http.get<User[]>("/user", {
+    params: { fromDate: fromDate },
+  });
 };
 
 const getStatsSummary = () => {

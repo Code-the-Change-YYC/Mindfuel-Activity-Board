@@ -3,6 +3,7 @@ import styles from "./PopupCard.module.css";
 import { User } from "../../utils/User";
 import { Card, Image } from "react-bootstrap";
 import wondervilleLogo from "../../assets/wonderville-logo.png";
+import _ from "lodash";
 
 type PopupCardProps = {
   user: User;
@@ -12,7 +13,7 @@ const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
   const loc = user.payload.location;
   const imageUrl =
-    user.type === "wondervilleSession"
+    user.type === "wondervilleSession" || _.isNil(user.payload.asset?.imageUrl)
       ? wondervilleLogo
       : user.payload.asset?.imageUrl;
   const name =
@@ -29,9 +30,7 @@ const PopupCard = (props: PopupCardProps) => {
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
       <Image className={styles.assetImage} src={imageUrl} />
-      <div className={styles.wrapper + " " + styles.assetText}>
-        {name}
-      </div>
+      <div className={styles.wrapper + " " + styles.assetText}>{name}</div>
       <div className={styles.wrapper + " " + styles.locationText}>
         {locString}
       </div>

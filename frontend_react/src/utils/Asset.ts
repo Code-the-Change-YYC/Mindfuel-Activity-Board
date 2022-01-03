@@ -4,6 +4,6 @@ export type Asset = {
   id: number;
   uuid: string | null;
   type: string;
-  imageUrl: string;
+  imageUrl: string | null;
   active: boolean;
 };

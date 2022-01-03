@@ -3,7 +3,7 @@ import { Location } from "./Location";
 
 export type User = {
   type: string;
-  date?: Date;
+  date?: Date | string;
   payload: {
     location: Location;
     ip?: string;
