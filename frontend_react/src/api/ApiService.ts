@@ -1,6 +1,5 @@
-import { ApiServiceInterface } from "../utils/ApiServiceInterface";
+import { ApiServiceInterface, UsersApiResponse } from "../utils/ApiServiceInterface";
 import { Stats } from "../utils/Stats";
-import { User } from "../utils/User";
 import axios from "axios";
 
 const http = axios.create({
@@ -11,7 +10,7 @@ const http = axios.create({
 });
 
 const getHistoricalUsers = (fromDate: string) => {
-  return http.get<User[]>("/user", {
+  return http.get<UsersApiResponse>("/user", {
     params: { fromDate: fromDate },
   });
 };

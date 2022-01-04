@@ -21,7 +21,7 @@ const AppAlert = (props: AlertProps) => {
 
   // Automatically close success alerts after 5 seconds
   setTimeout(() => {
-    if (props.alert.severity === "success") {
+    if (props.alert.severity === "success" || props.alert.severity === "info") {
       onClose();
     }
   }, 5000);

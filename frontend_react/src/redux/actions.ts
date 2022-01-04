@@ -1,10 +1,14 @@
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
-import { ApiServiceInterface } from "../utils/ApiServiceInterface";
+import {
+  ApiServiceInterface,
+  UsersApiResponse,
+} from "../utils/ApiServiceInterface";
 import { AlertModel } from "../utils/Alert.model";
 import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
+import { countReset } from "console";
 
 export const fetchHistoricalUsers = (fromDate: string) => {
   return (
@@ -14,9 +18,19 @@ export const fetchHistoricalUsers = (fromDate: string) => {
   ) => {
     dispatch(loading(true));
     return ApiService.getHistoricalUsers(fromDate).then(
-      (response: AxiosResponse<User[]>) => {
+      (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));
+
+        const totalSessions: number = response.data.counts.totalSessions;
+        if (response.data.users.length == 150 && totalSessions > 150) {
+          dispatch(
+            setAlert(
+              `There were lots of users! Only showing 150 of ${totalSessions} total user sessions on the map.`,
+              "info"
+            )
+          );
+        }
       },
       () => {
         dispatch(loading(false));
@@ -56,9 +70,10 @@ export const loading = (loading: boolean) => {
   };
 };
 
-export const updateHistoricalUsers = (historicalUsers: User[] | null) => {
+export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   return {
     type: "UPDATE_HISTORICAL_USERS",
-    historicalUsers: historicalUsers,
+    historicalUsers: response?.users,
+    counts: response?.counts,
   };
 };
