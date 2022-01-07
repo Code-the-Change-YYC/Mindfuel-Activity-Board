@@ -12,7 +12,10 @@ import (
 )
 
 var addr = flag.String("addr", "wonderville.org:5556", "http service address")
+
+// var addr = flag.String("addr", "localhost:3210", "http service address")
 var done = make(chan struct{})
+var mock_server_url = "ws://localhost:3210"
 
 func messageHandler(c *websocket.Conn) {
 	defer close(done)
@@ -34,7 +37,10 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
+	// if testing locally, comment the below line and
+	// uncomment the one below it
 	u := url.URL{Scheme: "wss", Host: *addr}
+	// u := url.URL{Scheme: "ws", Host: *addr}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
