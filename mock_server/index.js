@@ -17,6 +17,7 @@ wss.on("connection", ws => {
     setInterval(() => {
         if (i < users.length){
             ws.send(JSON.stringify(users[i]))
+            console.log(`Emitted ${users[i].type}, ${users[i].payload.location.country_name}`)
             i++
         }
         else {
