@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"log"
 	"net/url"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
+	"mindfuel.ca/activity_rest/model"
 )
 
 var addr = flag.String("addr", "wonderville.org:5556", "http service address")
@@ -25,8 +27,35 @@ func messageHandler(c *websocket.Conn) {
 			log.Println("Error in recv: ", err)
 			return
 		}
-		log.Printf("recv: %s", message)
-		// ** store messages here using structs
+
+		var msg interface{}
+		err = json.Unmarshal([]byte(message), &msg)
+		if err != nil {
+			log.Println("Error in unmarshalling json: ", err)
+			return
+		}
+		// cast the message into a map to see what kind of message it is
+		msgMap := (msg).(map[string]interface{})
+
+		var asset model.AssetMessage
+		var session model.SessionMessage
+		if msgMap["type"] == "wondervilleAsset" {
+			err = json.Unmarshal([]byte(message), &asset)
+			if err != nil {
+				log.Println("Error in unmarshalling json: ", err)
+				return
+			}
+			log.Println("Wonderville Asset: ", asset)
+		} else if msgMap["type"] == "wondervilleSession" {
+			err = json.Unmarshal([]byte(message), &session)
+			if err != nil {
+				log.Println("Error in unmarshalling json: ", err)
+				return
+			}
+			log.Println("Wonderville Session: ", session)
+		} else {
+			log.Println("Other type of asset: ", msg)
+		}
 	}
 }
 
