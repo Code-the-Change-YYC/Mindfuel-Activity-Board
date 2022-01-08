@@ -70,7 +70,18 @@ services:
       mindfuel_activity:
         ipv4_address: 10.10.20.1
 
+  mongodb_contaier:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
 volumes:
+  mongodb_data_container:
   elastic_data:
     driver: local
 
