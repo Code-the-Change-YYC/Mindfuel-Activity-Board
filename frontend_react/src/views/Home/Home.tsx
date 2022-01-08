@@ -40,9 +40,9 @@ const Home = () => {
       </div>
       <div className={styles.map}>
         {alert && <AppAlert alert={alert}></AppAlert>}
-        {loading && <CircularProgress classes={loadingClasses} />}
         <Map></Map>
-        <div className={styles.timelineContainer}>
+        <div className={styles.centeredContainer}>
+          {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.timeline}>
             <Timeline></Timeline>
           </div>

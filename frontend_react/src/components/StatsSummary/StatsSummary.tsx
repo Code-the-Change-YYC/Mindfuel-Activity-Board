@@ -13,10 +13,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { StylesProvider } from "@material-ui/core/styles";
-import gameIcon from "../../assets/map-marker-game.svg";
-import videoIcon from "../../assets/map-marker-video.svg";
-import activityIcon from "../../assets/map-marker-activity.svg";
-import storyIcon from "../../assets/map-marker-story.svg";
+import gameIcon from "../../res/assets/map-marker-game.svg";
+import videoIcon from "../../res/assets/map-marker-video.svg";
+import activityIcon from "../../res/assets/map-marker-activity.svg";
+import storyIcon from "../../res/assets/map-marker-story.svg";
 import { Image } from "react-bootstrap";
 
 function createData(daily: string, session: number, top: string) {

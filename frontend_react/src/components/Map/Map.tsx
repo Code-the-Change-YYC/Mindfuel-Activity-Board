@@ -2,11 +2,12 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { User } from "../../utils/User";
 import { Location } from "../../utils/Location";
 import MapMarker from "../MapMarker/MapMarker";
-import GoogleMapReact, { ChangeEventValue } from "google-map-react";
+import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
 import styles from "./Map.module.css";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
+import { Theme, useMediaQuery } from "@material-ui/core";
 
 const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
@@ -19,14 +20,30 @@ const Map = () => {
     (state: AppState) => state.historicalUsers
   );
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
+  // Hide map control for mobile screens
+  const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
-  const defaultMapOptions = {
-    fullscreenControl: false,
-    zoomControl: false,
-    minZoom: 2.5,
-    restriction: {
-      latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
-    },
+  const defaultMapOptions = (maps: Maps) => {
+
+    return {
+      fullscreenControl: false,
+      zoomControl: false,
+      minZoom: 2.5,
+      restriction: {
+        latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
+      },
+      mapTypeControl: showMapControl,
+      mapTypeId: maps.MapTypeId.ROADMAP,
+      mapTypeControlOptions: {
+        style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: maps.ControlPosition.LEFT_TOP,
+        mapTypeIds: [
+          maps.MapTypeId.ROADMAP,
+          maps.MapTypeId.SATELLITE,
+          maps.MapTypeId.HYBRID,
+        ],
+      },
+    };
   };
 
   // Set historical markers when historical users prop changes

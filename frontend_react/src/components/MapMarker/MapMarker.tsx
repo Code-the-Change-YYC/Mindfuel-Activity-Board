@@ -14,7 +14,7 @@ const MapMarker = (props: any) => {
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user: User = props.user;
   const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
-  const icon = require(`../../assets/map-marker-${assetType}.svg`);
+  const icon = require(`../../res/assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {
     if (props.open) {

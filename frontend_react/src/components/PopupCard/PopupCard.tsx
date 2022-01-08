@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./PopupCard.module.css";
 import { User } from "../../utils/User";
 import { Card, Image } from "react-bootstrap";
-import wondervilleLogo from "../../assets/wonderville-logo.png";
+import wondervilleLogo from "../../res/assets/wonderville-logo.png";
 import _ from "lodash";
 import { AssetType } from "../../utils/AssetType.enum";
 

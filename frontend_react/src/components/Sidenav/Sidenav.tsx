@@ -13,23 +13,23 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 
-const logo = require("../../assets/mindfuel-logo.png");
+const logo = require("../../res/assets/mindfuel-logo.png");
 
 const initialData: { [id: string]: AnalyticsData } = {
   totalSessions: {
     numberValue: 0,
     textValue: "Total Sessions",
-    icon: require("../../assets/users.svg"),
+    icon: require("../../res/assets/users.svg"),
   },
   totalCountries: {
     numberValue: 0,
     textValue: "Countries",
-    icon: require("../../assets/flag.svg"),
+    icon: require("../../res/assets/flag.svg"),
   },
   totalCities: {
     numberValue: 0,
     textValue: "Cities",
-    icon: require("../../assets/location.svg"),
+    icon: require("../../res/assets/location.svg"),
   },
 };
 
