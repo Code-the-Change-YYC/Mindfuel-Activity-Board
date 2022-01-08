@@ -46,26 +46,32 @@ func messageHandler(c *websocket.Conn) {
 
 		var asset model.AssetMessage
 		var session model.SessionMessage
-		if msgMap["type"] == "wondervilleAsset" {
+
+		dateTime := time.Now().UTC()
+		asset.Date = dateTime
+		session.Date = dateTime
+
+		switch msgMap["type"] {
+		case "wondervilleAsset":
 			err = json.Unmarshal([]byte(message), &asset)
 			if err != nil {
 				log.Println("Error in unmarshalling json: ", err)
 				return
 			}
-			insertionTime := time.Now().UTC()
-			asset.Date = insertionTime
-			session.Date = insertionTime
 			log.Println("Wonderville Asset: ", asset)
-			mongo.CreateIssue(mongoClient, asset)
-		} else if msgMap["type"] == "wondervilleSession" {
+			mongo.InsertAssets(mongoClient, asset)
+		case "wondervilleSession":
 			err = json.Unmarshal([]byte(message), &session)
 			if err != nil {
 				log.Println("Error in unmarshalling json: ", err)
 				return
 			}
 			log.Println("Wonderville Session: ", session)
-		} else {
-			log.Println("Other type of asset: ", msg)
+			mongo.InsertSessions(mongoClient, session)
+
+			log.Println("Wonderville Session: ", session)
+		default:
+			log.Println("Unrecognized message: ", msg)
 		}
 	}
 }
