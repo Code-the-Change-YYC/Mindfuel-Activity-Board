@@ -1,4 +1,4 @@
-package connectionhelper
+package mongo
 
 import (
 	"context"
@@ -20,7 +20,8 @@ var mongoOnce sync.Once
 
 //I have used below constants just to hold required database config's.
 const (
-	CONNECTIONSTRING = "mongodb://localhost:27017"
+	// CONNECTIONSTRING = "mongodb://localhost:27017"
+	CONNECTIONSTRING = "mongodb://root:rootpassword@localhost:27017/?authSource=admin"
 )
 
 //GetMongoClient - Return mongodb connection to work with

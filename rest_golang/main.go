@@ -9,17 +9,24 @@ import (
 	"os/signal"
 	"time"
 
+	"mindfuel.ca/activity_rest/mongo"
+
 	"github.com/gorilla/websocket"
 	"mindfuel.ca/activity_rest/model"
 )
 
-var addr = flag.String("addr", "wonderville.org:5556", "http service address")
+// var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-// var addr = flag.String("addr", "localhost:3210", "http service address")
+var addr = flag.String("addr", "localhost:3210", "http service address")
 var done = make(chan struct{})
 var mock_server_url = "ws://localhost:3210"
 
 func messageHandler(c *websocket.Conn) {
+	mongoClient, err := mongo.GetMongoClient()
+	if err != nil {
+		log.Println("Error creating a mongodb client")
+		return
+	}
 	defer close(done)
 	for {
 		_, message, err := c.ReadMessage()
@@ -46,6 +53,8 @@ func messageHandler(c *websocket.Conn) {
 				return
 			}
 			log.Println("Wonderville Asset: ", asset)
+
+			mongo.CreateIssue(mongoClient, asset)
 		} else if msgMap["type"] == "wondervilleSession" {
 			err = json.Unmarshal([]byte(message), &session)
 			if err != nil {
@@ -68,8 +77,8 @@ func main() {
 
 	// if testing locally, comment the below line and
 	// uncomment the one below it
-	u := url.URL{Scheme: "wss", Host: *addr}
-	// u := url.URL{Scheme: "ws", Host: *addr}
+	// u := url.URL{Scheme: "wss", Host: *addr}
+	u := url.URL{Scheme: "ws", Host: *addr}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
