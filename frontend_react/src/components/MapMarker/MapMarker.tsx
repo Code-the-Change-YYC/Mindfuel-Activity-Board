@@ -6,13 +6,14 @@ import { StylesProvider } from "@material-ui/core/styles";
 import { Image } from "react-bootstrap";
 import PopupCard from "../PopupCard/PopupCard";
 import { User } from "../../utils/User";
+import { AssetType } from "../../utils/AssetType.enum";
 
 const MapMarker = (props: any) => {
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user: User = props.user;
-  const assetType = user.type === "wondervilleSession" ? "session" : user.payload.asset?.type.toLowerCase();
+  const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
   const icon = require(`../../assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {

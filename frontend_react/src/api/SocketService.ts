@@ -15,7 +15,7 @@ const connect = (websocketAddress: string) => {
       store.dispatch(loading(false));
       if (retries > 0) {
         retries = 0; // Reset retries count
-        setAlert("Successfully connected!");
+        store.dispatch(setAlert("Successfully connected!"));
       }
       console.log("New client connected!");
     };

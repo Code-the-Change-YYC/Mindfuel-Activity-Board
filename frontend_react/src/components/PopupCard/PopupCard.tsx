@@ -4,6 +4,7 @@ import { User } from "../../utils/User";
 import { Card, Image } from "react-bootstrap";
 import wondervilleLogo from "../../assets/wonderville-logo.png";
 import _ from "lodash";
+import { AssetType } from "../../utils/AssetType.enum";
 
 type PopupCardProps = {
   user: User;
@@ -13,11 +14,11 @@ const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
   const loc = user.payload.location;
   const imageUrl =
-    user.type === "wondervilleSession" || _.isNil(user.payload.asset?.imageUrl)
+    user.type === AssetType.WondervilleSession || _.isNil(user.payload.asset?.imageUrl)
       ? wondervilleLogo
       : user.payload.asset?.imageUrl;
   const name =
-    user.type === "wondervilleSession"
+    user.type === AssetType.WondervilleSession
       ? "Wonderville Session"
       : user.payload.asset?.name;
 

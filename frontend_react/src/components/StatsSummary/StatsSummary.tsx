@@ -63,7 +63,6 @@ const StatsSummary = (props: StatsProps) => {
   };
 
   const handleOpen = () => {
-    console.log("Stats clicked");
     setOpen(true);
   };
 
@@ -108,7 +107,6 @@ const StatsSummary = (props: StatsProps) => {
               key={row.daily}
               classes = {styleRow}
             >
-              {console.log(icons[row.daily])}
               <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} className={styles.icon} /></TableCell>
               <TableCell>{row.daily}</TableCell>
               <TableCell>{row.session}</TableCell>

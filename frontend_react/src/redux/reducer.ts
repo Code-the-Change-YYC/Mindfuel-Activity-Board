@@ -2,8 +2,10 @@ import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
 import _ from "lodash";
+import { AssetType } from "../utils/AssetType.enum";
+import { sameDay, sameLocation } from "../utils/helpers";
 
-const sampleUsers: User[] = sampleData.users.map((user) => {
+sampleData.users.map((user) => {
   const newUser: User = {
     ...user,
     date: new Date(),
@@ -11,8 +13,10 @@ const sampleUsers: User[] = sampleData.users.map((user) => {
   return newUser;
 });
 
+const sampleUsers: User[] = sampleData.users;
+
 const initialState: AppState = {
-  liveUsers: sampleUsers,
+  liveUsers: [],
   historicalUsers: null,
   newUser: null,
   loading: false,
@@ -25,10 +29,28 @@ const rootReducer = (
 ) => {
   switch (action.type) {
     case "ADD_USER":
-      const user = action.user;
-      const liveUsers: User[] = [...state.liveUsers, user];
+      const user: User = action.user;
+      user.payload = _.omit(user.payload, ["stats", "rank"]);
 
-      // TODO: Process duplicate dates + activity, keep latest date
+      // Do not include duplicate wondervilleSessions from the same day
+      if (user.type === AssetType.WondervilleSession) {
+        const duplicates = state.liveUsers
+          .filter(
+            (existingUser: User) =>
+              existingUser.type === AssetType.WondervilleSession
+          )
+          .filter(
+            (existingUser: User) =>
+              sameDay(existingUser.date, user.date) &&
+              sameLocation(existingUser.payload.location, user.payload.location)
+          );
+
+        if (duplicates.length > 0) {
+          return state;
+        }
+      }
+
+      const liveUsers: User[] = [...state.liveUsers, user];
 
       return {
         ...state,
@@ -43,6 +65,7 @@ const rootReducer = (
     case "UPDATE_HISTORICAL_USERS":
       return {
         ...state,
+        newUser: null,
         historicalUsers: action.historicalUsers,
       };
     case "ALERT":

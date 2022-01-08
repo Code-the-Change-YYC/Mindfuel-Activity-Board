@@ -1,8 +1,9 @@
 import { Asset } from "./Asset";
+import { AssetType } from "./AssetType.enum";
 import { Location } from "./Location";
 
 export type User = {
-  type: string;
+  type: AssetType | string;
   date?: Date | string;
   payload: {
     location: Location;
