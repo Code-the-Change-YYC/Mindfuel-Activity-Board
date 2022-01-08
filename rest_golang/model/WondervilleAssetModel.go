@@ -1,13 +1,17 @@
 package model
 
+import "time"
+
 type AssetMessage struct {
 	Type    string       `bson:"type"`
 	Payload AssetPayload `bson:"payload"`
+	Date    time.Time    `bson:"date"`
 }
 
 type SessionMessage struct {
 	Type    string         `bson:"type"`
 	Payload SessionPayload `bson:"payload"`
+	Date    time.Time      `bson:"date"`
 }
 
 type AssetPayload struct {

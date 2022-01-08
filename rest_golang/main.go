@@ -52,8 +52,10 @@ func messageHandler(c *websocket.Conn) {
 				log.Println("Error in unmarshalling json: ", err)
 				return
 			}
+			insertionTime := time.Now().UTC()
+			asset.Date = insertionTime
+			session.Date = insertionTime
 			log.Println("Wonderville Asset: ", asset)
-
 			mongo.CreateIssue(mongoClient, asset)
 		} else if msgMap["type"] == "wondervilleSession" {
 			err = json.Unmarshal([]byte(message), &session)
