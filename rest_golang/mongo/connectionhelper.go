@@ -2,8 +2,11 @@ package mongo
 
 import (
 	"context"
+	"log"
+	"os"
 	"sync"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -18,14 +21,15 @@ var clientInstanceError error
 //Used to execute client creation procedure only once.
 var mongoOnce sync.Once
 
-//I have used below constants just to hold required database config's.
-const (
-	// CONNECTIONSTRING = "mongodb://localhost:27017"
-	CONNECTIONSTRING = "mongodb://root:rootpassword@localhost:27017/?authSource=admin"
-)
-
 //GetMongoClient - Return mongodb connection to work with
 func GetMongoClient() (*mongo.Client, error) {
+	envVar := godotenv.Load("../.env")
+
+	if envVar != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	CONNECTIONSTRING := os.Getenv("MONGO_DB_URL")
 	//Perform connection creation operation only once.
 	mongoOnce.Do(func() {
 		// Set client options
