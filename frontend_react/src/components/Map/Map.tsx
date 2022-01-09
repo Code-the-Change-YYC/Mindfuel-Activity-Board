@@ -8,23 +8,30 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { Theme, useMediaQuery } from "@material-ui/core";
+import { useAppDispatch } from "../../redux/hooks";
+import { setMapBounds } from "../../redux/actions";
 
 const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
 const Map = () => {
+  const dispatch = useAppDispatch();
   const [center, setCenter] = useState(defaultCenter);
   const [zoom, setZoom] = useState(4);
   const [markers, setMarkers] = useState<ReactElement[]>([]);
+  const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+
+  // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
   const historicalUsers: User[] | null = useSelector(
     (state: AppState) => state.historicalUsers
   );
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
+
   // Hide map control for mobile screens
-  const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-
+  const showMapControl = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("sm")
+  );
   const defaultMapOptions = (maps: Maps) => {
-
     return {
       fullscreenControl: false,
       zoomControl: false,
@@ -112,17 +119,46 @@ const Map = () => {
     } else {
       markers = updateMarkers(historicalUsers, null);
     }
+    let maps: Maps;
 
     setMarkers(markers);
   }, [liveUsers, historicalUsers]);
 
-  const handleMarkerClick = (userLocation: Location) => {
-    setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
+  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined) => {
+    if (_.isNil(bounds)) {
+      return null;
+    }
+
+    const sw = bounds.getSouthWest();
+    const ne = bounds.getNorthEast();
+
+    return {
+      latBounds: {
+        lower: Math.min(sw.lat(), ne.lat()),
+        upper: Math.max(sw.lat(), ne.lat()),
+      },
+      lngBounds: {
+        lower: Math.min(sw.lng(), ne.lng()),
+        upper: Math.max(sw.lng(), ne.lng()),
+      },
+    };
+  };
+
+  const handleGoogleApiLoad = (maps: { map: google.maps.Map }) => {
+    setMapsApi(maps.map);
+    const bounds = getMapBounds(maps.map.getBounds());
+    dispatch(setMapBounds(bounds));
   };
 
   const handleMapChange = (value: ChangeEventValue) => {
-    // Capture change in center and zoom position any time the map is moved
+    // Capture change in center position and bounds when the map is moved
     setCenter(value.center);
+    const bounds = getMapBounds(mapsApi?.getBounds());
+    dispatch(setMapBounds(bounds));
+  };
+
+  const handleMarkerClick = (userLocation: Location) => {
+    setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
   };
 
   return (
@@ -131,6 +167,7 @@ const Map = () => {
         bootstrapURLKeys={{
           key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
         }}
+        onGoogleApiLoaded={handleGoogleApiLoad}
         onChange={handleMapChange}
         defaultZoom={zoom}
         center={center}

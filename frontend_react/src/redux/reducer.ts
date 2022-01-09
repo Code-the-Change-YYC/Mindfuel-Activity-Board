@@ -1,7 +1,7 @@
 import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
-import _ from "lodash";
+import _, { update } from "lodash";
 import { AssetType } from "../utils/AssetType.enum";
 import { sameDay, sameLocation } from "../utils/helpers";
 
@@ -18,6 +18,7 @@ const sampleUsers: User[] = sampleData.users;
 const initialState: AppState = {
   liveUsers: [],
   historicalUsers: null,
+  mapBounds: null,
   newUser: null,
   loading: false,
   alert: null,
@@ -57,16 +58,21 @@ const rootReducer = (
         newUser: user,
         liveUsers: liveUsers,
       };
-    case "LOADING":
-      return {
-        ...state,
-        loading: action.loading,
-      };
     case "UPDATE_HISTORICAL_USERS":
       return {
         ...state,
         newUser: null,
         historicalUsers: action.historicalUsers,
+      };
+    case "UPDATE_MAP_BOUNDS":
+      return {
+        ...state,
+        mapBounds: action.mapBounds,
+      };
+    case "LOADING":
+      return {
+        ...state,
+        loading: action.loading,
       };
     case "ALERT":
       return {

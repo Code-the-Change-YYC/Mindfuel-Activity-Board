@@ -8,7 +8,6 @@ import { AlertModel } from "../utils/Alert.model";
 import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
-import { countReset } from "console";
 
 export const fetchHistoricalUsers = (fromDate: string) => {
   return (
@@ -39,6 +38,13 @@ export const fetchHistoricalUsers = (fromDate: string) => {
         );
       }
     );
+  };
+};
+
+export const setMapBounds = (bounds: AppState["mapBounds"]) => {
+  return {
+    type: "UPDATE_MAP_BOUNDS",
+    mapBounds: bounds,
   };
 };
 
