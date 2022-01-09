@@ -1,62 +1,66 @@
 package model
 
+import "time"
+
 type AssetMessage struct {
-	Type    string       `json:"type"`
-	Payload AssetPayload `json:"payload"`
+	Type    string       `bson:"type"`
+	Payload AssetPayload `bson:"payload"`
+	Date    time.Time    `bson:"date"`
 }
 
 type SessionMessage struct {
-	Type    string         `json:"type"`
-	Payload SessionPayload `json:"payload"`
+	Type    string         `bson:"type"`
+	Payload SessionPayload `bson:"payload"`
+	Date    time.Time      `bson:"date"`
 }
 
 type AssetPayload struct {
-	Ip       string   `json:"ip"`
-	Url      string   `json:"url"`
-	Location Location `json:"location"`
-	Asset    Asset    `json:"asset"`
-	Stats    Stats    `json:"stats"`
-	Rank     int      `json:"rank"`
+	Ip       string   `bson:"ip"`
+	Url      string   `bson:"url"`
+	Location Location `bson:"location"`
+	Asset    Asset    `bson:"asset"`
+	Stats    Stats    `bson:"stats"`
+	Rank     int      `bson:"rank"`
 }
 
 type SessionPayload struct {
-	Location Location `json:"location"`
+	Location Location `bson:"location"`
 }
 
 type Stats struct {
-	Top     TopStats   `json:"stats"`
-	Summary []StatType `json:"statsSummary"`
+	Top     TopStats   `bson:"stats"`
+	Summary []StatType `bson:"statsSummary"`
 }
 
 type TopStats struct {
-	Game     StatType `json:"Game"`
-	Video    StatType `json:"Video"`
-	Activity StatType `json:"Activity"`
-	Story    StatType `json:"Story"`
+	Game     StatType `bson:"Game"`
+	Video    StatType `bson:"Video"`
+	Activity StatType `bson:"Activity"`
+	Story    StatType `bson:"Story"`
 }
 
 type StatType struct {
-	Type   string `json:"type"`
-	Hits   int    `json:"hits"`
-	Top    string `json:"top"`
-	TopUrl string `json:"topUrl"`
-	Rank   int    `json:"rank"`
+	Type   string `bson:"type"`
+	Hits   int    `bson:"hits"`
+	Top    string `bson:"top"`
+	TopUrl string `bson:"topUrl"`
+	Rank   int    `bson:"rank"`
 }
 
 type Location struct {
-	Country   string  `json:"country_name"`
-	Region    string  `json:"region_name"`
-	City      string  `json:"city"`
-	Longitude float32 `json:"longitude"`
-	Latitude  float32 `json:"latitude"`
+	Country   string  `bson:"country_name"`
+	Region    string  `bson:"region_name"`
+	City      string  `bson:"city"`
+	Longitude float32 `bson:"longitude"`
+	Latitude  float32 `bson:"latitude"`
 }
 
 type Asset struct {
-	Name     string `json:"name"`
-	Url      string `json:"url"`
-	Id       int    `json:"id"`
-	UUID     string `json:"uuid"`
-	Type     string `json:"type"`
-	ImageUrl string `json:"imageUrl"`
-	Active   bool   `json:"active"`
+	Name     string `bson:"name"`
+	Url      string `bson:"url"`
+	Id       int    `bson:"id"`
+	UUID     string `bson:"uuid"`
+	Type     string `bson:"type"`
+	ImageUrl string `bson:"imageUrl"`
+	Active   bool   `bson:"active"`
 }

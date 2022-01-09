@@ -50,27 +50,19 @@ services:
       mindfuel_activity:
         ipv4_address: 10.10.20.2
 
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
-    container_name: es01
+
+  mongodb_contaier:
+    image: mongo:latest
     environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      nproc: 65535
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elastic_data:/usr/share/elasticsearch/data
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
     ports:
-      - "9200:9200"
-    networks:
-      mindfuel_activity:
-        ipv4_address: 10.10.20.1
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
 
 volumes:
+  mongodb_data_container:
   elastic_data:
     driver: local
 
