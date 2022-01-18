@@ -15,8 +15,11 @@ import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
 import _ from "lodash";
+import { useAppDispatch } from "../../redux/hooks";
+import { fetchHistoricalUsers } from "../../redux/actions";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const alert: AlertModel | null = useSelector(
     (state: AppState) => state.alert
   );
@@ -25,7 +28,7 @@ const Home = () => {
     (state: AppState) => state.historicalUsers
   );
   const [mapBounds, setMapBounds] = useState<MapBounds>();
-  const [fromDate, setFromDate] = useState<Date>();
+  const [fromDate, setFromDate] = useState<Date | null>();
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
@@ -45,14 +48,25 @@ const Home = () => {
 
   const handleMapBoundsChange = (mapBounds?: MapBounds) => {
     setMapBounds(mapBounds);
-    if (!_.isNil(historicalUsers) && historicalUsers.length != 0) {
+    if (!_.isNil(historicalUsers) && historicalUsers.length > 0) {
       setShowAreaButton(true);
     }
   };
 
-  const handleDateChange = (fromDate: Date) => {
+  const handleSearchAreaClick = () => {
+    getHistoricalUsers();
+    setShowAreaButton(false);
+  };
+
+  const handleDateChange = (fromDate: Date | null) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
+  };
+
+  const getHistoricalUsers = () => {
+    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
+    }
   };
 
   return (
@@ -68,11 +82,11 @@ const Home = () => {
         <div className={styles.centeredContainer}>
           {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.searchAreaButton}>
-            <SearchAreaButton
-              show={showSearchAreaButton}
-              mapBounds={mapBounds}
-              fromDate={fromDate}
-            ></SearchAreaButton>
+            {showSearchAreaButton && (
+              <SearchAreaButton
+                handleClick={handleSearchAreaClick}
+              ></SearchAreaButton>
+            )}
           </div>
           <div className={styles.timeline}>
             <Timeline

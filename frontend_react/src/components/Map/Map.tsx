@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { Theme, useMediaQuery } from "@material-ui/core";
 import { useAppDispatch } from "../../redux/hooks";
-import Timeline from "../Timeline/Timeline";
 import { MapBounds } from "../../utils/MapBounds";
 
 type MapProps = {
@@ -38,7 +37,6 @@ const Map = (props: MapProps) => {
   );
   const defaultMapOptions = (maps: Maps) => {
     return {
-      fullscreenControl: false,
       zoomControl: false,
       minZoom: 2.5,
       restriction: {
@@ -129,9 +127,9 @@ const Map = (props: MapProps) => {
     setMarkers(markers);
   }, [liveUsers, historicalUsers]);
 
-  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined) => {
+  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
     if (_.isNil(bounds)) {
-      return bounds;
+      return undefined;
     }
 
     const sw = bounds.getSouthWest();

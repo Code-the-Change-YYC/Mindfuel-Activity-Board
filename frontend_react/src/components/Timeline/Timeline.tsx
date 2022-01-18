@@ -5,9 +5,10 @@ import { StylesProvider } from "@material-ui/core/styles";
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/hooks";
 import { MapBounds } from "../../utils/MapBounds";
+import _ from "lodash";
 
 type TimelineProps = {
-  onDateChange: (fromDate: Date) => void;
+  onDateChange: (fromDate: Date | null) => void;
   mapBounds?: MapBounds;
 };
 
@@ -55,7 +56,7 @@ const Timeline = (props: TimelineProps) => {
   };
 
   const handleChange = (event: any, newValue: number | number[]) => {
-    const fromDate: Date = new Date();
+    let fromDate: Date | null = new Date();
 
     switch (newValue) {
       case 0:
@@ -72,12 +73,17 @@ const Timeline = (props: TimelineProps) => {
         fromDate.setDate(fromDate.getDate() - 1);
         break;
       case 100:
-        dispatch(updateHistoricalUsers(null));
-        return;
+        fromDate = null;
+        break;
     }
 
     props.onDateChange(fromDate);
-    dispatch(fetchHistoricalUsers(fromDate.toISOString(), props.mapBounds));
+    if (!_.isNil(fromDate) && !_.isNil(props.mapBounds)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), props.mapBounds));
+    } else {
+      dispatch(updateHistoricalUsers(null));
+    }
+    
   };
 
   return (

@@ -19,6 +19,8 @@ const MapMarker = (props: any) => {
   useEffect(() => {
     if (props.open) {
       setAnchorEl(markerEl.current);
+    } else {
+      setAnchorEl(null);
     }
   }, [props.open]);
 

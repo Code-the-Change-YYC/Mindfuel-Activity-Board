@@ -10,7 +10,7 @@ import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
 import { MapBounds } from "../utils/MapBounds";
 
-export const fetchHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
+export const fetchHistoricalUsers = (fromDate: string, mapBounds: MapBounds) => {
   return (
     dispatch: Dispatch,
     getState: () => AppState,

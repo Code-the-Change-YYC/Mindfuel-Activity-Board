@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./AppAlert.module.css";
 import { setAlert } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/hooks";
@@ -15,16 +15,26 @@ const AppAlert = (props: AlertProps) => {
     root: styles.alertRoot,
   };
 
+  useEffect(() => {
+    // Automatically close success alerts after 5 seconds
+    const timer = setTimeout(() => {
+      if (
+        props.alert.severity === "success" ||
+        props.alert.severity === "info"
+      ) {
+        onClose();
+      }
+    }, 5000);
+
+    // Clear timeout on unmount
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   const onClose = () => {
     dispatch(setAlert(null));
   };
-
-  // Automatically close success alerts after 5 seconds
-  setTimeout(() => {
-    if (props.alert.severity === "success" || props.alert.severity === "info") {
-      onClose();
-    }
-  }, 5000);
 
   return (
     <Alert

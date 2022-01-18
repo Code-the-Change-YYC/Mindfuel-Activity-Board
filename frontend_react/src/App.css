@@ -3,3 +3,8 @@
   width: 100%;
   overflow: auto;
 }
+
+/* Hide map's fullscreen button - doing it through map options caused flickering issues */
+button.gm-fullscreen-control {
+  display: none !important;
+}
