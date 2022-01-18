@@ -1,6 +1,10 @@
-import { ApiServiceInterface, UsersApiResponse } from "../utils/ApiServiceInterface";
+import {
+  ApiServiceInterface,
+  UsersApiResponse,
+} from "../utils/ApiServiceInterface";
 import { Stats } from "../utils/Stats";
 import axios from "axios";
+import { MapBounds } from "../utils/MapBounds";
 
 const http = axios.create({
   baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
@@ -9,9 +13,9 @@ const http = axios.create({
   },
 });
 
-const getHistoricalUsers = (fromDate: string) => {
+const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
   return http.get<UsersApiResponse>("/user", {
-    params: { fromDate: fromDate },
+    params: { fromDate: fromDate, mapBounds: mapBounds },
   });
 };
 

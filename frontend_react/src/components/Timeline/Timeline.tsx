@@ -4,6 +4,12 @@ import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../redux/actions";
 import { useAppDispatch } from "../../redux/hooks";
+import { MapBounds } from "../../utils/MapBounds";
+
+type TimelineProps = {
+  onDateChange: (fromDate: Date) => void;
+  mapBounds?: MapBounds;
+};
 
 const ThumbComponent = (props: any) => {
   return (
@@ -37,7 +43,7 @@ const marks = [
   },
 ];
 
-const Timeline = () => {
+const Timeline = (props: TimelineProps) => {
   const dispatch = useAppDispatch();
   const classes = {
     root: styles.timelineRoot,
@@ -70,7 +76,8 @@ const Timeline = () => {
         return;
     }
 
-    dispatch(fetchHistoricalUsers(fromDate.toISOString()));
+    props.onDateChange(fromDate);
+    dispatch(fetchHistoricalUsers(fromDate.toISOString(), props.mapBounds));
   };
 
   return (

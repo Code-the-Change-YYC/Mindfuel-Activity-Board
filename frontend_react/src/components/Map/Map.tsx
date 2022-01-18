@@ -9,11 +9,16 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { Theme, useMediaQuery } from "@material-ui/core";
 import { useAppDispatch } from "../../redux/hooks";
-import { setMapBounds } from "../../redux/actions";
+import Timeline from "../Timeline/Timeline";
+import { MapBounds } from "../../utils/MapBounds";
+
+type MapProps = {
+  onMapBoundsChange: (mapBounds?: MapBounds) => void;
+}
 
 const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
-const Map = () => {
+const Map = (props: MapProps) => {
   const dispatch = useAppDispatch();
   const [center, setCenter] = useState(defaultCenter);
   const [zoom, setZoom] = useState(4);
@@ -126,7 +131,7 @@ const Map = () => {
 
   const getMapBounds = (bounds: google.maps.LatLngBounds | undefined) => {
     if (_.isNil(bounds)) {
-      return null;
+      return bounds;
     }
 
     const sw = bounds.getSouthWest();
@@ -146,15 +151,13 @@ const Map = () => {
 
   const handleGoogleApiLoad = (maps: { map: google.maps.Map }) => {
     setMapsApi(maps.map);
-    const bounds = getMapBounds(maps.map.getBounds());
-    dispatch(setMapBounds(bounds));
+    props.onMapBoundsChange(getMapBounds(maps.map.getBounds()));
   };
 
   const handleMapChange = (value: ChangeEventValue) => {
     // Capture change in center position and bounds when the map is moved
     setCenter(value.center);
-    const bounds = getMapBounds(mapsApi?.getBounds());
-    dispatch(setMapBounds(bounds));
+    props.onMapBoundsChange(getMapBounds(mapsApi?.getBounds()));
   };
 
   const handleMarkerClick = (userLocation: Location) => {

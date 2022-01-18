@@ -18,7 +18,6 @@ const sampleUsers: User[] = sampleData.users;
 const initialState: AppState = {
   liveUsers: [],
   historicalUsers: null,
-  mapBounds: null,
   newUser: null,
   loading: false,
   alert: null,
@@ -63,11 +62,6 @@ const rootReducer = (
         ...state,
         newUser: null,
         historicalUsers: action.historicalUsers,
-      };
-    case "UPDATE_MAP_BOUNDS":
-      return {
-        ...state,
-        mapBounds: action.mapBounds,
       };
     case "LOADING":
       return {

@@ -50,6 +50,11 @@
   color: #52247f !important;
 }
 
+.searchAreaButton {
+  position: fixed;
+  top: 2.5%;
+}
+
 /* Account for permanent sidebar at above mobile widths */
 @media screen and (min-width: 600px) {
   .map {

@@ -5,6 +5,7 @@ import { addLiveUser, loading, setAlert } from "../redux/actions";
 import store from "../redux/store";
 
 let retries = 0;
+const timeout = 60000;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
@@ -32,7 +33,7 @@ const connect = (websocketAddress: string) => {
       store.dispatch(loading(false));
       store.dispatch(
         setAlert(
-          "Connection was closed. Reconnect will be attempted in 60 seconds.",
+          `Connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
           "error"
         )
       );
@@ -42,7 +43,7 @@ const connect = (websocketAddress: string) => {
           retries++;
           SocketService.webSocket = undefined;
           SocketService.connect(websocketAddress);
-        }, 60000);
+        }, timeout);
       } else {
         store.dispatch(
           setAlert(

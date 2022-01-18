@@ -8,15 +8,16 @@ import { AlertModel } from "../utils/Alert.model";
 import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
+import { MapBounds } from "../utils/MapBounds";
 
-export const fetchHistoricalUsers = (fromDate: string) => {
+export const fetchHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
   return (
     dispatch: Dispatch,
     getState: () => AppState,
     ApiService: ApiServiceInterface
   ) => {
     dispatch(loading(true));
-    return ApiService.getHistoricalUsers(fromDate).then(
+    return ApiService.getHistoricalUsers(fromDate, mapBounds).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));
@@ -38,13 +39,6 @@ export const fetchHistoricalUsers = (fromDate: string) => {
         );
       }
     );
-  };
-};
-
-export const setMapBounds = (bounds: AppState["mapBounds"]) => {
-  return {
-    type: "UPDATE_MAP_BOUNDS",
-    mapBounds: bounds,
   };
 };
 
