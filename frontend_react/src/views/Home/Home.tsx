@@ -48,7 +48,7 @@ const Home = () => {
 
   const handleMapBoundsChange = (mapBounds?: MapBounds) => {
     setMapBounds(mapBounds);
-    if (!_.isNil(historicalUsers) && historicalUsers.length > 0) {
+    if (!_.isNil(historicalUsers)) {
       setShowAreaButton(true);
     }
   };

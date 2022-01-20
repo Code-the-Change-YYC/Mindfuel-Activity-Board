@@ -4,6 +4,7 @@ import { User } from "./User";
 export type AppState = {
   liveUsers: User[];
   historicalUsers: User[] | null;
+  historicalCounts: { [cat: string]: number };
   newUser: User | null;
   loading: boolean;
   alert: AlertModel | null;
@@ -12,4 +13,4 @@ export type AppState = {
 type Bound = {
   lower: number;
   upper: number;
-}
+};

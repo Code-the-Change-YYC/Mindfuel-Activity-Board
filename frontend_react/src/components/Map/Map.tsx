@@ -122,7 +122,6 @@ const Map = (props: MapProps) => {
     } else {
       markers = updateMarkers(historicalUsers, null);
     }
-    let maps: Maps;
 
     setMarkers(markers);
   }, [liveUsers, historicalUsers]);

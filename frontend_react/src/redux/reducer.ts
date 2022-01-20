@@ -18,6 +18,7 @@ const sampleUsers: User[] = sampleData.users;
 const initialState: AppState = {
   liveUsers: [],
   historicalUsers: null,
+  historicalCounts: {},
   newUser: null,
   loading: false,
   alert: null,
@@ -62,6 +63,7 @@ const rootReducer = (
         ...state,
         newUser: null,
         historicalUsers: action.historicalUsers,
+        historicalCounts: action.historicalCounts
       };
     case "LOADING":
       return {

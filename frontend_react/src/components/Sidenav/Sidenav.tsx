@@ -16,19 +16,19 @@ import { AppState } from "../../utils/AppState";
 const logo = require("../../res/assets/mindfuel-logo.png");
 
 const initialData: { [id: string]: AnalyticsData } = {
-  totalSessions: {
-    numberValue: 0,
-    textValue: "Total Sessions",
+  sessions: {
+    number: 0,
+    text: "Total Sessions",
     icon: require("../../res/assets/users.svg"),
   },
-  totalCountries: {
-    numberValue: 0,
-    textValue: "Countries",
+  countries: {
+    number: 0,
+    text: "Countries",
     icon: require("../../res/assets/flag.svg"),
   },
-  totalCities: {
-    numberValue: 0,
-    textValue: "Cities",
+  cities: {
+    number: 0,
+    text: "Cities",
     icon: require("../../res/assets/location.svg"),
   },
 };
@@ -42,6 +42,9 @@ const Sidenav = () => {
   const historicalUsers: User[] | null = useSelector(
     (state: AppState) => state.historicalUsers
   );
+  const historicalCounts: { [cat: string]: number } = useSelector(
+    (state: AppState) => state.historicalCounts
+  );
 
   const buttonClasses = {
     root: styles.dashboardButton,
@@ -54,41 +57,54 @@ const Sidenav = () => {
   };
 
   useEffect(() => {
-    const updateData = (users: User[]): { [id: string]: AnalyticsData } => {
+    const updateData = (
+      sessions: number,
+      countries: number,
+      cities: number
+    ): { [id: string]: AnalyticsData } => {
       const updatedData = { ...data };
-      updatedData.totalSessions.numberValue = users.length;
-      updatedData.totalCountries.numberValue = new Set(
-        users.map((user) => user.payload.location.country_name)
-      ).size;
-      updatedData.totalCities.numberValue = new Set(
-        users
-          .filter((user) => (user.payload.location.city === "" ? false : true))
-          .map((user) => user.payload.location.city)
-      ).size;
+      updatedData.sessions.number = sessions;
+      updatedData.countries.number = countries;
+      updatedData.cities.number = cities;
       return updatedData;
     };
 
-    const updateAnalyticsBoxes = (data: {
+    const getAnalyticsBoxes = (data: {
       [id: string]: AnalyticsData;
     }): ReactElement[] => {
       return Object.keys(data).map((key) => {
         return (
           <AnalyticsBox
-            numberValue={data[key].numberValue}
-            textValue={data[key].textValue}
+            numberValue={data[key].number}
+            textValue={data[key].text}
             icon={data[key].icon}
-            key={data[key].textValue}
+            key={data[key].text}
           ></AnalyticsBox>
         );
       });
     };
 
-    setData(
-      updateData(
-        _.isNil(historicalUsers) ? liveUsers : historicalUsers
-      )
-    );
-    setAnalyticsBoxes(updateAnalyticsBoxes(data));
+    let updatedData: { [id: string]: AnalyticsData };
+    if (_.isNil(historicalUsers)) {
+      const sessions = liveUsers.length;
+      const countries = new Set(
+        liveUsers.map((user) => user.payload.location.country_name)
+      ).size;
+      const cities = new Set(
+        liveUsers
+          .filter((user) => (user.payload.location.city === "" ? false : true))
+          .map((user) => user.payload.location.city)
+      ).size;
+      updatedData = updateData(sessions, countries, cities);
+    } else {
+      updatedData = updateData(
+        historicalCounts.sessions,
+        historicalCounts.countries,
+        historicalCounts.cities
+      );
+    }
+    setData(updatedData);
+    setAnalyticsBoxes(getAnalyticsBoxes(updatedData));
   }, [liveUsers, historicalUsers]);
 
   const handleDrawerToggle = () => {

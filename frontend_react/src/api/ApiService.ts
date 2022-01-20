@@ -2,8 +2,9 @@ import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
-import { Stats } from "../utils/Stats";
 import axios from "axios";
+import Qs from 'qs';
+import { Stats } from "../utils/Stats";
 import { MapBounds } from "../utils/MapBounds";
 
 const http = axios.create({
@@ -11,6 +12,18 @@ const http = axios.create({
   headers: {
     "Content-type": "application/json",
   },
+});
+
+// Format nested params correctly
+http.interceptors.request.use((config) => {
+  config.paramsSerializer = (params) => {
+    return Qs.stringify(params, {
+      arrayFormat: "brackets",
+      encode: false,
+    });
+  };
+
+  return config;
 });
 
 const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {

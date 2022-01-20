@@ -16,7 +16,7 @@ const AppAlert = (props: AlertProps) => {
   };
 
   useEffect(() => {
-    // Automatically close success alerts after 5 seconds
+    // Automatically close success alerts after 3 seconds
     const timer = setTimeout(() => {
       if (
         props.alert.severity === "success" ||
@@ -24,13 +24,13 @@ const AppAlert = (props: AlertProps) => {
       ) {
         onClose();
       }
-    }, 5000);
+    }, 3000);
 
     // Clear timeout on unmount
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [props.alert]);
 
   const onClose = () => {
     dispatch(setAlert(null));

@@ -10,7 +10,10 @@ import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
 import { MapBounds } from "../utils/MapBounds";
 
-export const fetchHistoricalUsers = (fromDate: string, mapBounds: MapBounds) => {
+export const fetchHistoricalUsers = (
+  fromDate: string,
+  mapBounds: MapBounds
+) => {
   return (
     dispatch: Dispatch,
     getState: () => AppState,
@@ -22,11 +25,12 @@ export const fetchHistoricalUsers = (fromDate: string, mapBounds: MapBounds) => 
         dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));
 
-        const totalSessions: number = response.data.counts.totalSessions;
-        if (response.data.users.length == 150 && totalSessions > 150) {
+        const usersLength: number = response.data.users.length;
+        const sessions: number = response.data.counts.sessions;
+        if (usersLength < sessions) {
           dispatch(
             setAlert(
-              `There were lots of users! Only showing 150 of ${totalSessions} total user sessions on the map.`,
+              `There were lots of users! Only showing ${usersLength} of ${sessions} total user sessions on the map.`,
               "info"
             )
           );
@@ -74,6 +78,6 @@ export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   return {
     type: "UPDATE_HISTORICAL_USERS",
     historicalUsers: response?.users,
-    counts: response?.counts,
+    historicalCounts: response?.counts,
   };
 };
