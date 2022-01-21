@@ -9,6 +9,7 @@ import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import { Color } from "@material-ui/lab/Alert";
 import { MapBounds } from "../utils/MapBounds";
+import { toDateTime } from "../utils/helpers";
 
 export const fetchHistoricalUsers = (
   fromDate: string,
@@ -75,6 +76,10 @@ export const loading = (loading: boolean) => {
 };
 
 export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
+  response?.users.forEach((user: User) => {
+    user.date = toDateTime(user.date.seconds);
+  });
+
   return {
     type: "UPDATE_HISTORICAL_USERS",
     historicalUsers: response?.users,

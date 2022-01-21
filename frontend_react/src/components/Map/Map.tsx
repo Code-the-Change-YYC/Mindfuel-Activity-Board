@@ -8,7 +8,6 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import { Theme, useMediaQuery } from "@material-ui/core";
-import { useAppDispatch } from "../../redux/hooks";
 import { MapBounds } from "../../utils/MapBounds";
 
 type MapProps = {
@@ -18,9 +17,9 @@ type MapProps = {
 const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
 const Map = (props: MapProps) => {
-  const dispatch = useAppDispatch();
   const [center, setCenter] = useState(defaultCenter);
   const [zoom, setZoom] = useState(4);
+  const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
 
@@ -43,7 +42,7 @@ const Map = (props: MapProps) => {
         latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
       },
       mapTypeControl: showMapControl,
-      mapTypeId: maps.MapTypeId.ROADMAP,
+      mapTypeId: mapTypeId,
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.LEFT_TOP,
@@ -157,6 +156,10 @@ const Map = (props: MapProps) => {
     props.onMapBoundsChange(getMapBounds(mapsApi?.getBounds()));
   };
 
+  const handleMapTypeIdChange = (mapTypeId: string) => {
+    setMapTypeId(mapTypeId);
+  };
+
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
   };
@@ -169,6 +172,7 @@ const Map = (props: MapProps) => {
         }}
         onGoogleApiLoaded={handleGoogleApiLoad}
         onChange={handleMapChange}
+        onMapTypeIdChange={handleMapTypeIdChange}
         defaultZoom={zoom}
         center={center}
         options={defaultMapOptions}

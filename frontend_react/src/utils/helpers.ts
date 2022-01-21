@@ -1,5 +1,11 @@
 import { Location } from "./Location";
 
+export const toDateTime = (secs: number): Date => {
+  var t = new Date(1970, 0, 1); // Epoch
+  t.setSeconds(secs);
+  return t;
+}
+
 export const sameDay = (d1?: Date | string, d2?: Date | string) => {
   if (d1 === undefined || d2 === undefined) {
     return false;

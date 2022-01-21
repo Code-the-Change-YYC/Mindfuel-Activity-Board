@@ -4,7 +4,7 @@ import { Location } from "./Location";
 
 export type User = {
   type: AssetType | string;
-  date?: Date | string;
+  date: any;
   payload: {
     location: Location;
     ip?: string;

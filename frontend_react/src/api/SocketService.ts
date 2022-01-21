@@ -1,6 +1,5 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
-import { Location } from "../utils/Location";
 import { addLiveUser, loading, setAlert } from "../redux/actions";
 import store from "../redux/store";
 
@@ -22,7 +21,6 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onmessage = (event) => {
-      console.log("New message: " + JSON.parse(event.data));
       const user = SocketService.parseSocketData(event.data);
       if (user != null) {
         store.dispatch(addLiveUser(user));

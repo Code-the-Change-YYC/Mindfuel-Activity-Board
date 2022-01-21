@@ -1,7 +1,7 @@
 import { AppState } from "../utils/AppState";
 import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
-import _, { update } from "lodash";
+import _ from "lodash";
 import { AssetType } from "../utils/AssetType.enum";
 import { sameDay, sameLocation } from "../utils/helpers";
 
@@ -13,7 +13,7 @@ sampleData.users.map((user) => {
   return newUser;
 });
 
-const sampleUsers: User[] = sampleData.users;
+// const sampleUsers: User[] = sampleData.users;
 
 const initialState: AppState = {
   liveUsers: [],
