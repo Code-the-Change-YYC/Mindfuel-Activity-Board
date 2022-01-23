@@ -11,7 +11,7 @@ import { User } from "../../utils/User";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import _ from "lodash";
 import { useSelector } from "react-redux";
-import { AppState } from "../../utils/AppState";
+import { AppState, LiveCounts } from "../../utils/AppState";
 
 const logo = require("../../res/assets/mindfuel-logo.png");
 
@@ -44,6 +44,9 @@ const Sidenav = () => {
   );
   const historicalCounts: { [cat: string]: number } = useSelector(
     (state: AppState) => state.historicalCounts
+  );
+  const liveCounts: LiveCounts = useSelector(
+    (state: AppState) => state.liveCounts
   );
 
   const buttonClasses = {
@@ -86,16 +89,11 @@ const Sidenav = () => {
 
     let updatedData: { [id: string]: AnalyticsData };
     if (_.isNil(historicalUsers)) {
-      const sessions = liveUsers.length;
-      const countries = new Set(
-        liveUsers.map((user) => user.payload.location.country_name)
-      ).size;
-      const cities = new Set(
-        liveUsers
-          .filter((user) => (user.payload.location.city === "" ? false : true))
-          .map((user) => user.payload.location.city)
-      ).size;
-      updatedData = updateData(sessions, countries, cities);
+      updatedData = updateData(
+        liveCounts.sessions,
+        liveCounts.countries.size,
+        liveCounts.cities.size
+      );
     } else {
       updatedData = updateData(
         historicalCounts.sessions,

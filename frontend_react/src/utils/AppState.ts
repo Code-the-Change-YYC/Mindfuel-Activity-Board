@@ -4,13 +4,15 @@ import { User } from "./User";
 export type AppState = {
   liveUsers: User[];
   historicalUsers: User[] | null;
-  historicalCounts: { [cat: string]: number };
+  historicalCounts: { [id: string]: number };
+  liveCounts: LiveCounts;
   newUser: User | null;
   loading: boolean;
   alert: AlertModel | null;
 };
 
-type Bound = {
-  lower: number;
-  upper: number;
-};
+export type LiveCounts = {
+  sessions: number;
+  countries: Set<string>;
+  cities: Set<string>;
+}
