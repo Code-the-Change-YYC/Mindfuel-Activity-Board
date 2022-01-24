@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./AppAlert.module.css";
-import { setAlert } from "../../redux/actions";
-import { useAppDispatch } from "../../redux/hooks";
+import { setAlert } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
 import Alert from "@material-ui/lab/Alert";
 import { AlertModel } from "../../utils/Alert.model";
 

@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./Timeline.module.css";
 import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
-import { fetchHistoricalUsers, updateHistoricalUsers } from "../../redux/actions";
-import { useAppDispatch } from "../../redux/hooks";
+import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
 import { MapBounds } from "../../utils/MapBounds";
 import _ from "lodash";
 
@@ -61,7 +61,6 @@ const Timeline = (props: TimelineProps) => {
     switch (newValue) {
       case 0:
         fromDate.setDate(fromDate.getDate() - 3 * 30.4167);
-        console.log(fromDate)
         break;
       case 25:
         fromDate.setDate(fromDate.getDate() - 30.4167);

@@ -4,7 +4,7 @@ import { User } from "./User";
 export type AppState = {
   liveUsers: User[];
   historicalUsers: User[] | null;
-  historicalCounts: { [id: string]: number };
+  historicalCounts: { [id: string]: number } | null;
   liveCounts: LiveCounts;
   newUser: User | null;
   loading: boolean;

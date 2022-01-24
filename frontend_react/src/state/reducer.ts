@@ -24,7 +24,7 @@ const initialUserCount: LiveCounts = {
 const initialState: AppState = {
   liveUsers: [],
   historicalUsers: null,
-  historicalCounts: {},
+  historicalCounts: null,
   liveCounts: initialUserCount,
   newUser: null,
   loading: false,

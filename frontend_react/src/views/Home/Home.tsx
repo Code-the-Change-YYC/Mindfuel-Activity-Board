@@ -15,8 +15,8 @@ import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
 import _ from "lodash";
-import { useAppDispatch } from "../../redux/hooks";
-import { fetchHistoricalUsers } from "../../redux/actions";
+import { useAppDispatch } from "../../state/hooks";
+import { fetchHistoricalUsers } from "../../state/actions";
 
 const Home = () => {
   const dispatch = useAppDispatch();

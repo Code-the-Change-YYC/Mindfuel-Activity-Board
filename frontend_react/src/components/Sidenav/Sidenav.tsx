@@ -7,47 +7,24 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import { User } from "../../utils/User";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 import { AppState, LiveCounts } from "../../utils/AppState";
+import useAnalyticsData from "../../hooks/useAnalyticsData";
 
 const logo = require("../../res/assets/mindfuel-logo.png");
-
-const initialData: { [id: string]: AnalyticsData } = {
-  sessions: {
-    number: 0,
-    text: "Total Sessions",
-    icon: require("../../res/assets/users.svg"),
-  },
-  countries: {
-    number: 0,
-    text: "Countries",
-    icon: require("../../res/assets/flag.svg"),
-  },
-  cities: {
-    number: 0,
-    text: "Cities",
-    icon: require("../../res/assets/location.svg"),
-  },
-};
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
-  const [data, setData] =
-    useState<{ [id: string]: AnalyticsData }>(initialData);
-  const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
-  const historicalUsers: User[] | null = useSelector(
-    (state: AppState) => state.historicalUsers
-  );
-  const historicalCounts: { [cat: string]: number } = useSelector(
+  const historicalCounts: { [cat: string]: number } | null = useSelector(
     (state: AppState) => state.historicalCounts
   );
   const liveCounts: LiveCounts = useSelector(
     (state: AppState) => state.liveCounts
   );
+  const analyticsData = useAnalyticsData(liveCounts, historicalCounts);
 
   const buttonClasses = {
     root: styles.dashboardButton,
@@ -60,18 +37,6 @@ const Sidenav = () => {
   };
 
   useEffect(() => {
-    const updateData = (
-      sessions: number,
-      countries: number,
-      cities: number
-    ): { [id: string]: AnalyticsData } => {
-      const updatedData = { ...data };
-      updatedData.sessions.number = sessions;
-      updatedData.countries.number = countries;
-      updatedData.cities.number = cities;
-      return updatedData;
-    };
-
     const getAnalyticsBoxes = (data: {
       [id: string]: AnalyticsData;
     }): ReactElement[] => {
@@ -87,23 +52,8 @@ const Sidenav = () => {
       });
     };
 
-    let updatedData: { [id: string]: AnalyticsData };
-    if (_.isNil(historicalUsers)) {
-      updatedData = updateData(
-        liveCounts.sessions,
-        liveCounts.countries.size,
-        liveCounts.cities.size
-      );
-    } else {
-      updatedData = updateData(
-        historicalCounts.sessions,
-        historicalCounts.countries,
-        historicalCounts.cities
-      );
-    }
-    setData(updatedData);
-    setAnalyticsBoxes(getAnalyticsBoxes(updatedData));
-  }, [liveUsers, historicalUsers]);
+    setAnalyticsBoxes(getAnalyticsBoxes(analyticsData));
+  }, [analyticsData]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
