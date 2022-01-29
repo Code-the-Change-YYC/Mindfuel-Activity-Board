@@ -96,12 +96,12 @@ const Map = (props: MapProps) => {
 
     return {
       latBounds: {
-        lower: Math.min(sw.lat(), ne.lat()),
-        upper: Math.max(sw.lat(), ne.lat()),
+        lower: sw.lat(),
+        upper: ne.lat(),
       },
       lngBounds: {
-        lower: Math.min(sw.lng(), ne.lng()),
-        upper: Math.max(sw.lng(), ne.lng()),
+        lower: sw.lng(),
+        upper: ne.lng(),
       },
     };
   };
