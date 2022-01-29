@@ -1,14 +1,15 @@
 .homeInfo {
-    text-align: left;
-    padding: 20px;
-    font-size: 20px;
+  text-align: left;
+  padding: 20px;
+  font-size: 20px;
 }
 
 .map {
+  position: relative;
   height: 100vh;
 }
 
-.timelineContainer {
+.centeredContainer {
   display: flex;
   position: fixed;
   left: 0;
@@ -40,6 +41,20 @@
   margin-bottom: 10px;
 }
 
+.loadingIndicatorRoot {
+  position: fixed;
+  top: 45%;
+}
+
+.loadingIndicatorColor {
+  color: #52247f !important;
+}
+
+.searchAreaButton {
+  position: fixed;
+  top: 2.5%;
+}
+
 /* Account for permanent sidebar at above mobile widths */
 @media screen and (min-width: 600px) {
   .map {
@@ -47,7 +62,7 @@
     margin-left: 240px;
   }
 
-  .timelineContainer {
+  .centeredContainer {
     margin-left: 235px;
     width: calc(100% - 235px);
   }

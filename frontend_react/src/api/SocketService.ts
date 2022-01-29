@@ -1,50 +1,65 @@
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
-import { Location } from "../utils/Location";
-import { addUser } from "../redux/actions";
-import store from "../redux/store";
+import { addLiveUser, loading, setAlert } from "../state/actions";
+import store from "../state/store";
 
-const SocketService: SocketServiceInterface = {
-  webSocket: undefined,
-  connect: (websocketAddress: string) => {},
-  disconnect: () => {},
-  parseSocketData: (socketData: string) => null,
-};
+let retries = 0;
+const timeout = 60000;
 
-SocketService.connect = (websocketAddress) => {
+const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
+    store.dispatch(loading(true));
     SocketService.webSocket = new WebSocket(websocketAddress);
 
     SocketService.webSocket.onopen = () => {
+      store.dispatch(loading(false));
+      if (retries > 0) {
+        retries = 0; // Reset retries count
+        store.dispatch(setAlert("Successfully connected!"));
+      }
       console.log("New client connected!");
     };
 
     SocketService.webSocket.onmessage = (event) => {
-      console.log("New message: " + JSON.parse(event.data));
       const user = SocketService.parseSocketData(event.data);
       if (user != null) {
-        store.dispatch(addUser(user));
+        store.dispatch(addLiveUser(user));
       }
     };
 
-    SocketService.webSocket.onclose = function (event: CloseEvent) {
-      console.log(
-        "Socket was closed. Reconnect will be attempted in 10 seconds.",
-        event.reason
+    SocketService.webSocket.onclose = (event: CloseEvent) => {
+      store.dispatch(loading(false));
+      store.dispatch(
+        setAlert(
+          `Connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
+          "error"
+        )
       );
-      setTimeout(() => {
-        SocketService.connect(websocketAddress);
-      }, 10000);
+
+      if (retries < 10) {
+        setTimeout(() => {
+          retries++;
+          SocketService.webSocket = undefined;
+          SocketService.connect(websocketAddress);
+        }, timeout);
+      } else {
+        store.dispatch(
+          setAlert(
+            "Max socket connection retries reached. Please refresh the page to try connecting again.",
+            "error"
+          )
+        );
+      }
     };
 
-    SocketService.webSocket.onerror = function (err) {
+    SocketService.webSocket.onerror = (err) => {
       console.error("Socket encountered error, closing socket.");
       SocketService.webSocket?.close();
     };
   }
 };
 
-SocketService.disconnect = () => {
+const disconnect = () => {
   console.log("Disconnecting socket.");
   if (SocketService.webSocket) {
     SocketService.webSocket.close();
@@ -52,28 +67,22 @@ SocketService.disconnect = () => {
   }
 };
 
-SocketService.parseSocketData = (socketData: string) => {
+const parseSocketData = (socketData: string) => {
   try {
-    const jsonData = JSON.parse(socketData);
-    const userLocation: Location = jsonData.payload.location;
-    const user: User = {
-      type: jsonData.type,
-      location: userLocation,
-    };
-    if (user.type === "wondervilleAsset") {
-      user.ip = jsonData.payload.ip;
-      user.asset = JSON.parse(jsonData.payload.asset);
-    } else {
-      user.asset = {
-        name: "Wonderville Session",
-        type: "Session"
-      };
-    }
+    const user: User = JSON.parse(socketData);
+    user.date = new Date();
     return user;
   } catch (SyntaxError) {
-    console.log("Error: String was not a valid JSON!");
+    console.log("Error: String was not a valid JSON! Socket Data:", socketData);
     return null;
   }
+};
+
+const SocketService: SocketServiceInterface = {
+  webSocket: undefined,
+  connect: connect,
+  disconnect: disconnect,
+  parseSocketData: parseSocketData,
 };
 
 export default SocketService;

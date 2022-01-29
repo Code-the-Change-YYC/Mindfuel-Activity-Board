@@ -1,5 +1,5 @@
 export type AnalyticsData = {
-  numberValue: number;
-  textValue: string;
+  number: number;
+  text: string;
   icon: any;
 };

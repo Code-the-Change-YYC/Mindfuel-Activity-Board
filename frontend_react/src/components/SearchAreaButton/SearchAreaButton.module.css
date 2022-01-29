@@ -1,0 +1,9 @@
+.dashboardButton {
+  color: #52247f;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.dashboardButton:hover {
+  background-color: #f5f5f5;
+}

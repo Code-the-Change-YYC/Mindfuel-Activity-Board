@@ -7,38 +7,24 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import { User } from "../../utils/User";
 import { AnalyticsData } from "../../utils/AnalyticsData";
+import _ from "lodash";
+import { useSelector } from "react-redux";
+import { AppState, LiveCounts } from "../../utils/AppState";
+import useAnalyticsData from "../../hooks/useAnalyticsData";
 
-type SidenavProps = {
-  users: User[];
-};
+const logo = require("../../res/assets/mindfuel-logo.png");
 
-const logo = require("../../assets/mindfuel-logo.png");
-
-const initialData: { [id: string]: AnalyticsData } = {
-  totalSessions: {
-    numberValue: 0,
-    textValue: "Total Sessions",
-    icon: require("../../assets/users.svg"),
-  },
-  totalCountries: {
-    numberValue: 0,
-    textValue: "Countries",
-    icon: require("../../assets/flag.svg"),
-  },
-  totalCities: {
-    numberValue: 0,
-    textValue: "Cities",
-    icon: require("../../assets/location.svg"),
-  },
-};
-
-const Sidenav = (props: SidenavProps) => {
+const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
-  const [data, setData] =
-    useState<{ [id: string]: AnalyticsData }>(initialData);
+  const historicalCounts: { [cat: string]: number } | null = useSelector(
+    (state: AppState) => state.historicalCounts
+  );
+  const liveCounts: LiveCounts = useSelector(
+    (state: AppState) => state.liveCounts
+  );
+  const analyticsData = useAnalyticsData(liveCounts, historicalCounts);
 
   const buttonClasses = {
     root: styles.dashboardButton,
@@ -51,38 +37,23 @@ const Sidenav = (props: SidenavProps) => {
   };
 
   useEffect(() => {
-    const updateData = (users: User[]): { [id: string]: AnalyticsData } => {
-      const updatedData = { ...data };
-      updatedData.totalSessions.numberValue = users.length;
-      updatedData.totalCountries.numberValue = new Set(
-        users.map((user) => user.location.country_name)
-      ).size;
-      updatedData.totalCities.numberValue = new Set(
-        users
-          .filter((user) => (user.location.city === "" ? false : true))
-          .map((user) => user.location.city)
-      ).size;
-      return updatedData;
-    };
-
-    const updateAnalyticsBoxes = (data: {
+    const getAnalyticsBoxes = (data: {
       [id: string]: AnalyticsData;
     }): ReactElement[] => {
       return Object.keys(data).map((key) => {
         return (
           <AnalyticsBox
-            numberValue={data[key].numberValue}
-            textValue={data[key].textValue}
+            numberValue={data[key].number}
+            textValue={data[key].text}
             icon={data[key].icon}
-            key={data[key].textValue}
+            key={data[key].text}
           ></AnalyticsBox>
         );
       });
     };
 
-    setData(updateData(props.users));
-    setAnalyticsBoxes(updateAnalyticsBoxes(data));
-  }, [props.users]);
+    setAnalyticsBoxes(getAnalyticsBoxes(analyticsData));
+  }, [analyticsData]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

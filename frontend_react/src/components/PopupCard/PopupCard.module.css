@@ -35,3 +35,16 @@
   border-radius: 5px 5px 0 0;
   margin-bottom: 5px;
 }
+
+.dateContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  right: 5px;
+  top: 5px;
+  height: 10px;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: lightgray;
+}

@@ -5,23 +5,28 @@ import Popper from "@material-ui/core/Popper";
 import { StylesProvider } from "@material-ui/core/styles";
 import { Image } from "react-bootstrap";
 import PopupCard from "../PopupCard/PopupCard";
+import { User } from "../../utils/User";
+import { AssetType } from "../../utils/AssetType.enum";
 
 const MapMarker = (props: any) => {
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
-  const user = props.user;
-  const icon = require(`../../assets/map-marker-${user.asset.type.toLowerCase()}.svg`);
+  const user: User = props.user;
+  const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
+  const icon = require(`../../res/assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {
     if (props.open) {
       setAnchorEl(markerEl.current);
+    } else {
+      setAnchorEl(null);
     }
   }, [props.open]);
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
-    props.onMarkerClick(user.location); // Center map by calling parent function
+    props.onMarkerClick(user.payload.location); // Center map by calling parent function
   };
 
   const handleClickAway = () => {
