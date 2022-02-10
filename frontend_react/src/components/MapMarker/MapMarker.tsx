@@ -22,7 +22,7 @@ const MapMarker = (props: any) => {
     } else {
       setAnchorEl(null);
     }
-  }, [props.open]);
+  }, [props.open, props.newUser]);
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
