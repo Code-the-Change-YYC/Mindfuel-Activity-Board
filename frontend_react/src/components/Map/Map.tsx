@@ -39,8 +39,9 @@ const Map = (props: MapProps) => {
         const open = newUser && _.isEqual(user, newUser) ? true : false;
         return (
           <MapMarker
-            key={index}
+            key={`${index} + ${open}`}
             user={user}
+            newUser={_.isNil(historicalUsers) ? newUser : null}
             open={open}
             lat={user.payload.location.latitude}
             lng={user.payload.location.longitude}
