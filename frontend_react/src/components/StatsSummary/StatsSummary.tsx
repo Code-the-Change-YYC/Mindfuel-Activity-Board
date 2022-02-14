@@ -31,7 +31,7 @@ const rows = [
 ];
 
 
-var icons: any = {
+const icons: any = {
   'Game' : gameIcon,
   'Video' : videoIcon,
   'Activity' : activityIcon,
