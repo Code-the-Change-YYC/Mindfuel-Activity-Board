@@ -39,31 +39,18 @@ services:
       mindfuel_activity:
         ipv4_address: 10.10.10.2
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.7.1
-    container_name: kib01
-    ports:
-      - 5601:5601
-    env_file: .env
-    restart: always
-    networks:
-      mindfuel_activity:
-        ipv4_address: 10.10.20.2
-
-
-  mongodb_contaier:
+  mongodb_container:
     image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PWD}
     ports:
       - 27017:27017
     volumes:
-      - mongodb_data_container:/data/db
+      - mongodb_data:/data/db
 
 volumes:
-  mongodb_data_container:
-  elastic_data:
+  mongodb_data:
     driver: local
 
 networks:
