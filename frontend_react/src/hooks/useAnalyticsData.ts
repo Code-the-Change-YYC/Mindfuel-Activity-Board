@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { AnalyticsData } from "../utils/AnalyticsData";
 import { LiveCounts } from "../utils/AppState";
+import { useEffect, useState } from "react";
 import _ from "lodash";
 
 const initialData: { [id: string]: AnalyticsData } = {

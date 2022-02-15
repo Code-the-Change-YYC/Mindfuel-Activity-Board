@@ -1,7 +1,7 @@
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import React from 'react';
 import './App.css';
+import { ThemeProvider, createMuiTheme } from '@material-ui/core';
 import Home from './views/Home/Home';
+import React from 'react';
 
 const baseTheme = createMuiTheme();
 

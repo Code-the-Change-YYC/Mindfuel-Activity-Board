@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Popover from "@material-ui/core/Popover";
-import styles from "./SocialsComponent.module.css";
+import { StylesProvider } from "@material-ui/core/styles";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { StylesProvider } from "@material-ui/core/styles";
+import Popover from "@material-ui/core/Popover";
+import React, { useState } from "react";
 import TwitterIcon from "@material-ui/icons/Twitter";
-import { TwitterTimelineEmbed } from "react-twitter-embed";
+import styles from "./SocialsComponent.module.css";
 
 const twitterLink =
   "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";

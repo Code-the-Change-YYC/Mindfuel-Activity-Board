@@ -2,10 +2,10 @@ import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
-import axios from "axios";
-import Qs from 'qs';
-import { Stats } from "../utils/Stats";
 import { MapBounds } from "../utils/MapBounds";
+import { Stats } from "../utils/Stats";
+import Qs from 'qs';
+import axios from "axios";
 
 const http = axios.create({
   baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,

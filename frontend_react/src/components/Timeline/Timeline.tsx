@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./Timeline.module.css";
-import Slider from "@material-ui/core/Slider";
+import { MapBounds } from "../../utils/MapBounds";
 import { StylesProvider } from "@material-ui/core/styles";
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
-import { MapBounds } from "../../utils/MapBounds";
+import React from "react";
+import Slider from "@material-ui/core/Slider";
 import _ from "lodash";
+import styles from "./Timeline.module.css";
 
 type TimelineProps = {
   onDateChange: (fromDate: Date | null) => void;

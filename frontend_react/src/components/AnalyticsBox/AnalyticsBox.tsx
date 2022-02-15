@@ -1,6 +1,6 @@
+import { Card, Image } from "react-bootstrap";
 import React from "react";
 import styles from "./AnalyticsBox.module.css";
-import { Card, Image } from "react-bootstrap";
 
 type AnalyticsBox = {
   numberValue: number;
