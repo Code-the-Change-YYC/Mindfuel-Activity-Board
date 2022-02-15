@@ -14,6 +14,7 @@ const MapMarker = (props: any) => {
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user: User = props.user;
   const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
+  /* eslint-disable  @typescript-eslint/no-var-requires */
   const icon = require(`../../res/assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {

@@ -4,7 +4,6 @@ import { IconButton } from "@material-ui/core";
 import { Image } from "react-bootstrap";
 import { Stats } from "../../utils/Stats";
 import { StylesProvider } from "@material-ui/core/styles";
-import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -38,10 +37,6 @@ const icons: any = {
   'Story' : storyIcon
 }
 
-const styleModal = {
-  root: styles.styleModal
-};
-
 const styleTableHeader = {
   root: styles.styleTableHeader
 }
@@ -70,55 +65,53 @@ const StatsSummary = (props: StatsProps) => {
 
   return (
     <StylesProvider injectFirst>
-    <div> 
-    <IconButton
-      aria-label="open drawer"
-      color="inherit"
-      onClick={handleOpen}
-      classes={iconClasses}
-    >
-      <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
-    </IconButton>
-
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-
-    <div className={styles.styleModal}>  
-    <TableContainer component={Paper}>
-      <Table 
-      size="small" 
-      classes = {styleTableHeader}
-      aria-label="simple table">
-        <TableHead>
-          <TableRow >
-            <TableCell>Icon</TableCell>
-            <TableCell>Daily</TableCell>
-            <TableCell>Sessions</TableCell>
-            <TableCell>Top</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.daily}
-              classes = {styleRow}
-            >
-              <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} className={styles.icon} /></TableCell>
-              <TableCell>{row.daily}</TableCell>
-              <TableCell>{row.session}</TableCell>
-              <TableCell>{row.top}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>   
-    </div>
-    </Modal>
-    </div>
+      <div> 
+        <IconButton
+          aria-label="open drawer"
+          color="inherit"
+          onClick={handleOpen}
+          classes={iconClasses}
+        >
+          <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
+        </IconButton>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className={styles.styleModal}>  
+            <TableContainer component={Paper}>
+              <Table 
+              size="small" 
+              classes = {styleTableHeader}
+              aria-label="simple table">
+                <TableHead>
+                  <TableRow >
+                    <TableCell>Icon</TableCell>
+                    <TableCell>Daily</TableCell>
+                    <TableCell>Sessions</TableCell>
+                    <TableCell>Top</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow
+                      key={row.daily}
+                      classes = {styleRow}
+                    >
+                      <TableCell component = 'th' scope="row"><Image src= {icons[row.daily]} className={styles.icon} /></TableCell>
+                      <TableCell>{row.daily}</TableCell>
+                      <TableCell>{row.session}</TableCell>
+                      <TableCell>{row.top}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>   
+          </div>
+        </Modal>
+      </div>
     </StylesProvider>
     
   );

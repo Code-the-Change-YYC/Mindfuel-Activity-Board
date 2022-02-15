@@ -9,11 +9,9 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { ReactElement, useEffect, useState } from "react";
-import _ from "lodash";
+import logo from "../../res/assets/mindfuel-logo.png";
 import styles from "./Sidenav.module.css";
 import useAnalyticsData from "../../hooks/useAnalyticsData";
-
-const logo = require("../../res/assets/mindfuel-logo.png");
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

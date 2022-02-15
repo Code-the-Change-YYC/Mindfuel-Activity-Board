@@ -19,10 +19,10 @@ const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState(defaultCenter);
-  const [zoom, setZoom] = useState(4);
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+  const defaultZoom = 4;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
@@ -135,9 +135,10 @@ const Map = (props: MapProps) => {
         onGoogleApiLoaded={handleGoogleApiLoad}
         onChange={handleMapChange}
         onMapTypeIdChange={handleMapTypeIdChange}
-        defaultZoom={zoom}
+        defaultZoom={defaultZoom}
         center={center}
         options={defaultMapOptions}
+        yesIWantToUseGoogleMapApiInternals={true}
       >
         {markers}
       </GoogleMapReact>

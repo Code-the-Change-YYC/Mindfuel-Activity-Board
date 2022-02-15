@@ -23,8 +23,9 @@ const PopupCard = (props: PopupCardProps) => {
       ? "Wonderville Session"
       : user.payload.asset?.name;
 
+  let locString;
   if (loc.city && loc.region_name) {
-    var locString = `${loc.city}, ${loc.region_name}`;
+    locString = `${loc.city}, ${loc.region_name}`;
   } else {
     locString = loc.country_name;
   }
