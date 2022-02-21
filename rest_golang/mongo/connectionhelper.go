@@ -6,7 +6,6 @@ import (
 	"os"
 	"sync"
 
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -15,25 +14,23 @@ import (
 Initialized and exposed through  GetMongoClient().*/
 var clientInstance *mongo.Client
 
-//Used during creation of singleton client object in GetMongoClient().
+// Used during creation of singleton client object in GetMongoClient().
 var clientInstanceError error
 
-//Used to execute client creation procedure only once.
+// Used to execute client creation procedure only once.
 var mongoOnce sync.Once
+
+// MongoDB connection string
+var connectionString = os.Getenv("MONGO_DB_URL")
 
 //GetMongoClient - Return mongodb connection to work with
 func GetMongoClient() (*mongo.Client, error) {
-	envVar := godotenv.Load("../.env")
-
-	if envVar != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	CONNECTIONSTRING := os.Getenv("MONGO_DB_URL")
+	
+	log.Println("Connecting to MongoDB instance: ", connectionString)
 	//Perform connection creation operation only once.
 	mongoOnce.Do(func() {
 		// Set client options
-		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
+		clientOptions := options.Client().ApplyURI(connectionString)
 		// Connect to MongoDB
 		client, err := mongo.Connect(context.TODO(), clientOptions)
 		if err != nil {

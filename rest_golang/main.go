@@ -15,16 +15,17 @@ import (
 
 // var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-var addr = flag.String("addr", "localhost:3210", "http service address")
+var addr = flag.String("addr", "172.25.224.21:3210", "http service address")
 var done = make(chan struct{})
 var mock_server_url = "ws://localhost:3210"
 
 func messageHandler(message []byte) {
 	mongoClient, err := mongo.GetMongoClient()
 	if err != nil {
-		log.Println("Error creating a mongodb client")
+		log.Fatal("Error creating a mongodb client.")
 		return
 	}
+	log.Println("Successfully connected to MongoDB.")
 
 	var msg interface{}
 	err = json.Unmarshal([]byte(message), &msg)

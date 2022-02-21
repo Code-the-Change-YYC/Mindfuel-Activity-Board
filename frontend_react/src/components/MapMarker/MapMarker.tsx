@@ -53,7 +53,6 @@ const MapMarker = (props: any) => {
         id={id}
         anchorEl={anchorEl}
         disablePortal={true}
-        transition={true}
         modifiers={{
           flip: {
             enabled: false,

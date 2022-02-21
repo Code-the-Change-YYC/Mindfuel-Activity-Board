@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   docker-docsify:
+    container_name: docsify
     image: littlstar/docker-docsify
     ports:
       - '3000:3000'
@@ -9,6 +10,7 @@ services:
         - './docs:/usr/local/docsify'
 
   frontend_react:
+    container_name: frontend_react
     image: node:13.12.0-alpine
     working_dir: /app
     volumes:
@@ -16,30 +18,30 @@ services:
       - /app/node_modules
     ports:
       - '8081:3000'
+    depends_on:
+      - rest-api
     command: "npm start"
     restart: always
     env_file: .env
     # Needed for compose 
     stdin_open: true
-    networks:
-      mindfuel_activity:
-        ipv4_address: 10.10.10.1
 
   rest-api:
+    container_name: rest-api
     image: golang:1.14
     working_dir: /go/src/app
     ports:
       - 8082:8080
+    depends_on:
+      - 'mongo'
     volumes:
       - ./rest_golang:/go/src/app
     command: go run main.go
     restart: always
     env_file: .env
-    networks:
-      mindfuel_activity:
-        ipv4_address: 10.10.10.2
 
-  mongodb_container:
+  mongo:
+    container_name: mongo
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
@@ -53,9 +55,3 @@ volumes:
   mongodb_data:
     driver: local
 
-networks:
-    mindfuel_activity:
-        driver: bridge
-        ipam:
-            config:
-                - subnet: 10.10.0.0/16

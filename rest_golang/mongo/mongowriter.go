@@ -11,7 +11,7 @@ import (
 //CreateIssue - Insert a new document in the collection.
 func InsertAssets(client *mongo.Client, asset model.AssetMessage) error {
 	//Create a handle to the respective collection in the database.
-	collection := client.Database("wonderville_test").Collection("wondervilleAll")
+	collection := client.Database("wondervilleDev").Collection("users")
 	//Perform InsertOne operation & validate against the error.
 	_, err := collection.InsertOne(context.TODO(), asset)
 	if err != nil {
@@ -26,7 +26,7 @@ func InsertAssets(client *mongo.Client, asset model.AssetMessage) error {
 
 func InsertSessions(client *mongo.Client, session model.SessionMessage) error {
 	//Create a handle to the respective collection in the database.
-	collection := client.Database("wonderville_test").Collection("wondervilleAll")
+	collection := client.Database("wondervilleDev").Collection("users")
 	//Perform InsertOne operation & validate against the error.
 	_, err := collection.InsertOne(context.TODO(), session)
 	if err != nil {
