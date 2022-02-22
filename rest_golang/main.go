@@ -9,26 +9,23 @@ import (
 	"time"
 
 	"github.com/recws-org/recws"
+	"go.mongodb.org/mongo-driver/mongo"
 	"mindfuel.ca/activity_rest/model"
-	"mindfuel.ca/activity_rest/mongo"
+	"mindfuel.ca/activity_rest/db"
 )
 
 // var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-var addr = flag.String("addr", "172.25.224.21:3210", "http service address")
-var done = make(chan struct{})
-var mock_server_url = "ws://localhost:3210"
+var addr = flag.String("addr", "192.168.0.149:3210", "socket service address")
 
-func messageHandler(message []byte) {
-	mongoClient, err := mongo.GetMongoClient()
-	if err != nil {
-		log.Fatal("Error creating a mongodb client.")
-		return
-	}
-	log.Println("Successfully connected to MongoDB.")
+const (
+	wondervilleAsset = "wondervilleAsset"
+	wondervilleSession  = "wondervilleSession"
+)
 
+func messageHandler(mongoClient *mongo.Client, message []byte) {
 	var msg interface{}
-	err = json.Unmarshal([]byte(message), &msg)
+	err := json.Unmarshal([]byte(message), &msg)
 	if err != nil {
 		log.Println("Error in unmarshalling json: ", err)
 		return
@@ -44,37 +41,48 @@ func messageHandler(message []byte) {
 	session.Date = dateTime
 
 	switch msgMap["type"] {
-	case "wondervilleAsset":
+	case wondervilleAsset:
 		err = json.Unmarshal([]byte(message), &asset)
 		if err != nil {
 			log.Println("Error in unmarshalling json: ", err)
 			return
 		}
-		log.Println("Wonderville Asset: ", asset)
-		mongo.InsertAssets(mongoClient, asset)
-	case "wondervilleSession":
+		db.InsertAssets(mongoClient, asset)
+	case wondervilleSession:
 		err = json.Unmarshal([]byte(message), &session)
 		if err != nil {
 			log.Println("Error in unmarshalling json: ", err)
 			return
 		}
-		log.Println("Wonderville Session: ", session)
-		mongo.InsertSessions(mongoClient, session)
-
-		log.Println("Wonderville Session: ", session)
+		db.InsertSessions(mongoClient, session)
 	default:
 		log.Println("Unrecognized message: ", msg)
 	}
 }
 
 func main() {
+	ctx := context.Background()
+
+	// Connect to MongoDB
+	mongoClient, err := db.GetMongoClient()
+	if err != nil {
+		log.Fatal("Error creating a MongoDB client: ", err)
+	}
+	log.Println("Successfully connected to MongoDB.")
+
+	// Defer disconnection
+	defer func() {
+		if err := mongoClient.Disconnect(ctx); err != nil {
+			panic(err)
+		}
+	}()
+
 	// if testing locally, comment the below line and
 	// uncomment the one below it
 	// u := url.URL{Scheme: "wss", Host: *addr}
 	u := url.URL{Scheme: "ws", Host: *addr}
 
 	// from https://github.com/recws-org/recws
-	ctx := context.Background()
 	ws := recws.RecConn{
 		KeepAliveTimeout: 0,
 		RecIntvlMin:      10 * time.Second,
@@ -107,7 +115,7 @@ func main() {
 				log.Printf("Error: ReadMessage %s", ws.GetURL())
 				continue
 			}
-			go messageHandler(message)
+			go messageHandler(mongoClient, message)
 		}
 	}
 }

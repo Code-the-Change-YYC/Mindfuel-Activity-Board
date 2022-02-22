@@ -1,4 +1,4 @@
-package mongo
+package db
 
 import (
 	"context"
@@ -18,8 +18,7 @@ func InsertAssets(client *mongo.Client, asset model.AssetMessage) error {
 		log.Println("Error inserting into the DB: ", err)
 		return err
 	}
-	log.Println(asset)
-	log.Println("Inserted Asset")
+	log.Println("Inserted Asset:", asset.Payload.Ip)
 	//Return success without any error.
 	return nil
 }
@@ -33,8 +32,7 @@ func InsertSessions(client *mongo.Client, session model.SessionMessage) error {
 		log.Println("Error inserting into the DB: ", err)
 		return err
 	}
-	log.Println(session)
-	log.Println("Inserted Session")
+	log.Println("Inserted Session", session.Payload.Location)
 	//Return success without any error.
 	return nil
 }

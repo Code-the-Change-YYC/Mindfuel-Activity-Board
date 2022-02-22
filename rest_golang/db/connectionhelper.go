@@ -1,10 +1,11 @@
-package mongo
+package db
 
 import (
 	"context"
 	"log"
 	"os"
 	"sync"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -20,28 +21,34 @@ var clientInstanceError error
 // Used to execute client creation procedure only once.
 var mongoOnce sync.Once
 
-// MongoDB connection string
-var connectionString = os.Getenv("MONGO_DB_URL")
-
-//GetMongoClient - Return mongodb connection to work with
+// GetMongoClient - Return mongodb connection to work with
 func GetMongoClient() (*mongo.Client, error) {
-	
-	log.Println("Connecting to MongoDB instance: ", connectionString)
-	//Perform connection creation operation only once.
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+ 	defer cancel()
+
+	CONNECTIONSTRING := os.Getenv("MONGODB_URI")
+	if CONNECTIONSTRING == "" {
+		log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
+	}
+
+	log.Println("Connecting to MongoDB instance: ", CONNECTIONSTRING)
+	// Perform connection creation operation only once.
 	mongoOnce.Do(func() {
 		// Set client options
-		clientOptions := options.Client().ApplyURI(connectionString)
+		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
 		// Connect to MongoDB
-		client, err := mongo.Connect(context.TODO(), clientOptions)
+		client, err := mongo.Connect(ctx, clientOptions)
 		if err != nil {
 			clientInstanceError = err
 		}
+
 		// Check the connection
-		err = client.Ping(context.TODO(), nil)
+		err = client.Ping(ctx, nil)
 		if err != nil {
 			clientInstanceError = err
 		}
 		clientInstance = client
 	})
+
 	return clientInstance, clientInstanceError
 }
