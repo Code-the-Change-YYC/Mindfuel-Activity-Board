@@ -2,6 +2,11 @@ package model
 
 import "time"
 
+const (
+	WondervilleAsset = "wondervilleAsset"
+	WondervilleSession  = "wondervilleSession"
+)
+
 type AssetMessage struct {
 	Type    string       `bson:"type"`
 	Payload AssetPayload `bson:"payload"`

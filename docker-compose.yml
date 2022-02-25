@@ -28,7 +28,7 @@ services:
 
   rest-api:
     container_name: rest-api
-    image: golang:1.14
+    image: golang:1.17
     working_dir: /go/src/app
     ports:
       - 8082:8080

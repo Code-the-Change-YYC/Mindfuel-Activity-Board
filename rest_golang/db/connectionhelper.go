@@ -23,31 +23,32 @@ var mongoOnce sync.Once
 
 // GetMongoClient - Return mongodb connection to work with
 func GetMongoClient() (*mongo.Client, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
- 	defer cancel()
-
-	CONNECTIONSTRING := os.Getenv("MONGODB_URI")
-	if CONNECTIONSTRING == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
-	}
-
-	log.Println("Connecting to MongoDB instance: ", CONNECTIONSTRING)
 	// Perform connection creation operation only once.
 	mongoOnce.Do(func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+ 
+		CONNECTIONSTRING := os.Getenv("MONGODB_URI")
+
+		if CONNECTIONSTRING == "" {
+			log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
+		}
+		log.Println("Connecting to MongoDB instance...")
+	
 		// Set client options
 		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
 		// Connect to MongoDB
 		client, err := mongo.Connect(ctx, clientOptions)
 		if err != nil {
 			clientInstanceError = err
+		} else {
+			// Check the connection
+			err = client.Ping(ctx, nil)
+			if err != nil {
+				clientInstanceError = err
+			}
+			clientInstance = client
 		}
-
-		// Check the connection
-		err = client.Ping(ctx, nil)
-		if err != nil {
-			clientInstanceError = err
-		}
-		clientInstance = client
 	})
 
 	return clientInstance, clientInstanceError
