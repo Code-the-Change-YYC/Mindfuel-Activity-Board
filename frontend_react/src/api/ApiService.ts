@@ -8,7 +8,7 @@ import Qs from 'qs';
 import axios from "axios";
 
 const http = axios.create({
-  baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
+  // baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
   headers: {
     "Content-type": "application/json",
   },
@@ -27,6 +27,7 @@ http.interceptors.request.use((config) => {
 });
 
 const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
+  http.get("http://rest-api:8080/users")
   return http.get<UsersApiResponse>("/user", {
     params: { fromDate: fromDate, mapBounds: mapBounds },
   });

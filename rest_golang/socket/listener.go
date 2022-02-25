@@ -61,7 +61,7 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 	// from https://github.com/recws-org/recws
 	ws := recws.RecConn{
 		KeepAliveTimeout: 0,
-		RecIntvlMin:      10 * time.Second,
+		RecIntvlMin:      60 * time.Second,
 		RecIntvlFactor:   1,
 	}
 	ws.Dial(u.String(), nil)

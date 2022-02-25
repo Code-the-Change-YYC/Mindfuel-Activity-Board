@@ -4,9 +4,13 @@ import (
 	"context"
 	"flag"
 	"log"
+	"net/http"
 	"sync"
 
+	"github.com/go-chi/chi/v5"
+	"go.mongodb.org/mongo-driver/mongo"
 	"mindfuel.ca/activity_rest/db"
+	"mindfuel.ca/activity_rest/handler"
 	"mindfuel.ca/activity_rest/socket"
 )
 
@@ -15,6 +19,17 @@ import (
 var addr = flag.String("addr", "192.168.0.149:3210", "socket service address")
 // Create wait group so that main thread finishes for goroutine to finish before terminating
 var wg = sync.WaitGroup{}
+
+func setupServer(mongoClient *mongo.Client) {
+	log.Println("Setting up server...")
+	r := chi.NewRouter()
+
+	// Register routes
+	handler := &handler.Handler{Db: mongoClient}
+	r.Get("/users", handler.GetUsers)
+
+	log.Fatal(http.ListenAndServe(":8080", r))
+}
 
 func main() {
 	ctx := context.Background()
@@ -39,6 +54,9 @@ func main() {
 		socket.Listen(ctx, addr, mongoClient)
 		wg.Done()
 	}()
+	
+	// Setup REST API server
+	setupServer(mongoClient)
 
 	// Ensure main thread doesn't finish prior to go routines
 	wg.Wait()
