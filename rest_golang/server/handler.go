@@ -1,8 +1,8 @@
-package handler
+package server
 
 import (
 	"net/http"
-
+	
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

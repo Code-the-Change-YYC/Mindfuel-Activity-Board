@@ -27,8 +27,8 @@ http.interceptors.request.use((config) => {
 });
 
 const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
-  http.get("http://rest-api:8080/users")
-  return http.get<UsersApiResponse>("/user", {
+  http.get("http://localhost:8080/v1/api/users")
+  return http.get<UsersApiResponse>(`${[process.env.REACT_APP_FIREBASE_API]}/user`, {
     params: { fromDate: fromDate, mapBounds: mapBounds },
   });
 };
