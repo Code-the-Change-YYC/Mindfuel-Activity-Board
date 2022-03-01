@@ -1,9 +1,9 @@
-import { AppState, LiveCounts } from "../utils/AppState";
-import { User } from "../utils/User";
 import * as sampleData from "../api/SampleUserData.json";
-import _ from "lodash";
+import { AppState, LiveCounts } from "../utils/AppState";
 import { AssetType } from "../utils/AssetType.enum";
+import { User } from "../utils/User";
 import { sameDay, sameLocation } from "../utils/helpers";
+import _ from "lodash";
 
 sampleData.users.map((user) => {
   const newUser: User = {

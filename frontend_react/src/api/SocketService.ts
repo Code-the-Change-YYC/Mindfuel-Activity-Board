@@ -27,7 +27,7 @@ const connect = (websocketAddress: string) => {
       }
     };
 
-    SocketService.webSocket.onclose = (event: CloseEvent) => {
+    SocketService.webSocket.onclose = () => {
       store.dispatch(loading(false));
       store.dispatch(
         setAlert(
@@ -53,7 +53,7 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onerror = (err) => {
-      console.error("Socket encountered error, closing socket.");
+      console.error(`Socket encountered the following error, closing socket: ${err}`);
       SocketService.webSocket?.close();
     };
   }

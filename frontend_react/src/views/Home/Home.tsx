@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import Map from "../../components/Map/Map";
-import Timeline from "../../components/Timeline/Timeline";
-import Sidenav from "../../components/Sidenav/Sidenav";
-import styles from "./Home.module.css";
-import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
-import StatsSummary from "../../components/StatsSummary/StatsSummary";
-import SocketService from "../../api/SocketService";
-import { useSelector } from "react-redux";
+import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
 import { CircularProgress } from "@material-ui/core";
-import AppAlert from "../../components/AppAlert/AppAlert";
-import { AlertModel } from "../../utils/Alert.model";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
-import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
-import _ from "lodash";
-import { useAppDispatch } from "../../state/hooks";
 import { fetchHistoricalUsers } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
+import { useSelector } from "react-redux";
+import AppAlert from "../../components/AppAlert/AppAlert";
+import Map from "../../components/Map/Map";
+import React, { useEffect, useState } from "react";
+import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
+import Sidenav from "../../components/Sidenav/Sidenav";
+import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
+import SocketService from "../../api/SocketService";
+import StatsSummary from "../../components/StatsSummary/StatsSummary";
+import Timeline from "../../components/Timeline/Timeline";
+import _ from "lodash";
+import styles from "./Home.module.css";
 
 const Home = () => {
   const dispatch = useAppDispatch();

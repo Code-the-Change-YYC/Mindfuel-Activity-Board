@@ -1,19 +1,17 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import { AnalyticsData } from "../../utils/AnalyticsData";
+import { AppState, LiveCounts } from "../../utils/AppState";
+import { StylesProvider } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import AnalyticsBox from "../AnalyticsBox";
-import styles from "./Sidenav.module.css";
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import { AnalyticsData } from "../../utils/AnalyticsData";
-import _ from "lodash";
-import { useSelector } from "react-redux";
-import { AppState, LiveCounts } from "../../utils/AppState";
+import React, { ReactElement, useEffect, useState } from "react";
+import logo from "../../res/assets/mindfuel-logo.png";
+import styles from "./Sidenav.module.css";
 import useAnalyticsData from "../../hooks/useAnalyticsData";
-
-const logo = require("../../res/assets/mindfuel-logo.png");
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

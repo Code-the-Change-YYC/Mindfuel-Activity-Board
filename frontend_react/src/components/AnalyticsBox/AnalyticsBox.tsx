@@ -1,6 +1,6 @@
+import { Card, Image } from "react-bootstrap";
 import React from "react";
 import styles from "./AnalyticsBox.module.css";
-import { Card, Image } from "react-bootstrap";
 
 type AnalyticsBox = {
   numberValue: number;
@@ -17,7 +17,7 @@ const AnalyticsBox = (props: AnalyticsBox) => {
     ];
 
     const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    let item = lookup
+    const item = lookup
       .slice()
       .reverse()
       .find(function (item) {

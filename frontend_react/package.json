@@ -1,5 +1,6 @@
 {
   "name": "frontend_react",
+  "type": "module",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -36,7 +37,9 @@
     "start": "npm install && react-scripts start",
     "build": "npm install && react-scripts build",
     "test": "npm install && react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint-fix": "eslint . --ext .ts,.tsx --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,5 +55,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint": "^8.9.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0"
   }
 }

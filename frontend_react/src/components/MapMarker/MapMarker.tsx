@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import styles from "./MapMarker.module.css";
+import { AssetType } from "../../utils/AssetType.enum";
+import { Image } from "react-bootstrap";
+import { StylesProvider } from "@material-ui/core/styles";
+import { User } from "../../utils/User";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Popper from "@material-ui/core/Popper";
-import { StylesProvider } from "@material-ui/core/styles";
-import { Image } from "react-bootstrap";
 import PopupCard from "../PopupCard/PopupCard";
-import { User } from "../../utils/User";
-import { AssetType } from "../../utils/AssetType.enum";
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./MapMarker.module.css";
 
 const MapMarker = (props: any) => {
   const markerEl = useRef(null);
@@ -14,6 +14,7 @@ const MapMarker = (props: any) => {
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user: User = props.user;
   const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
+  /* eslint-disable  @typescript-eslint/no-var-requires */
   const icon = require(`../../res/assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {

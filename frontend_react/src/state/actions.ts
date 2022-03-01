@@ -1,14 +1,14 @@
-import { AxiosResponse } from "axios";
-import { Dispatch } from "redux";
+import { AlertModel } from "../utils/Alert.model";
 import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
-import { AlertModel } from "../utils/Alert.model";
 import { AppState } from "../utils/AppState";
-import { User } from "../utils/User";
+import { AxiosResponse } from "axios";
 import { Color } from "@material-ui/lab/Alert";
+import { Dispatch } from "redux";
 import { MapBounds } from "../utils/MapBounds";
+import { User } from "../utils/User";
 import { toDateTime } from "../utils/helpers";
 
 export const fetchHistoricalUsers = (

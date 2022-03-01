@@ -1,14 +1,14 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { User } from "../../utils/User";
-import { Location } from "../../utils/Location";
-import MapMarker from "../MapMarker/MapMarker";
-import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
-import styles from "./Map.module.css";
-import _ from "lodash";
-import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
-import { Theme, useMediaQuery } from "@material-ui/core";
+import { Location } from "../../utils/Location";
 import { MapBounds } from "../../utils/MapBounds";
+import { Theme, useMediaQuery } from "@material-ui/core";
+import { User } from "../../utils/User";
+import { useSelector } from "react-redux";
+import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
+import MapMarker from "../MapMarker/MapMarker";
+import React, { ReactElement, useEffect, useState } from "react";
+import _ from "lodash";
+import styles from "./Map.module.css";
 import useProcessedUsers from "../../hooks/useMapMarkers";
 
 type MapProps = {
@@ -19,10 +19,10 @@ const defaultCenter = { lat: 48.354594, lng: -99.99805 };
 
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState(defaultCenter);
-  const [zoom, setZoom] = useState(4);
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+  const defaultZoom = 4;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
@@ -135,9 +135,10 @@ const Map = (props: MapProps) => {
         onGoogleApiLoaded={handleGoogleApiLoad}
         onChange={handleMapChange}
         onMapTypeIdChange={handleMapTypeIdChange}
-        defaultZoom={zoom}
+        defaultZoom={defaultZoom}
         center={center}
         options={defaultMapOptions}
+        yesIWantToUseGoogleMapApiInternals={true}
       >
         {markers}
       </GoogleMapReact>

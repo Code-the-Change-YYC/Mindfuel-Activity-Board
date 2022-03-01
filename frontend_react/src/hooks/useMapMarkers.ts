@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { User } from "../utils/User";
+import { useEffect, useState } from "react";
 import _ from "lodash";
 
 const useProcessedUsers = (

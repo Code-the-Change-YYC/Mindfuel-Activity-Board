@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import styles from "./AppAlert.module.css";
+import { AlertModel } from "../../utils/Alert.model";
 import { setAlert } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import Alert from "@material-ui/lab/Alert";
-import { AlertModel } from "../../utils/Alert.model";
+import React, { useEffect } from "react";
+import styles from "./AppAlert.module.css";
 
 type AlertProps = {
   alert: AlertModel;
