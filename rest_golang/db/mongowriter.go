@@ -9,30 +9,21 @@ import (
 )
 
 //CreateIssue - Insert a new document in the collection.
-func InsertAssets(client *mongo.Client, asset model.AssetMessage) error {
+func InsertUser(client *mongo.Client, asset model.User) error {
 	//Create a handle to the respective collection in the database.
 	collection := client.Database("wondervilleDev").Collection("users")
 	//Perform InsertOne operation & validate against the error.
 	_, err := collection.InsertOne(context.TODO(), asset)
 	if err != nil {
-		log.Println("Error inserting into the DB: ", err)
+		log.Println("Error inserting into the DB:", err)
 		return err
 	}
-	log.Println("Inserted Asset:", asset.Payload.Ip)
-	//Return success without any error.
-	return nil
-}
+	if asset.Type == model.WondervilleAsset {
+		log.Println("Inserted Wonderville Asset User:", *asset.Payload.Ip)
+	} else {
+		log.Println("Inserted Wonderville Session User:", asset.Payload.Location.Region)
+	}
 
-func InsertSessions(client *mongo.Client, session model.SessionMessage) error {
-	//Create a handle to the respective collection in the database.
-	collection := client.Database("wondervilleDev").Collection("users")
-	//Perform InsertOne operation & validate against the error.
-	_, err := collection.InsertOne(context.TODO(), session)
-	if err != nil {
-		log.Println("Error inserting into the DB: ", err)
-		return err
-	}
-	log.Println("Inserted Session", session.Payload.Location)
 	//Return success without any error.
 	return nil
 }

@@ -17,42 +17,32 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	var msg interface{}
 	err := json.Unmarshal([]byte(message), &msg)
 	if err != nil {
-		log.Println("Error in unmarshalling json: ", err)
+		log.Println("Error in unmarshalling json:", err)
 		return
 	}
-	// cast the message into a map to see what kind of message it is
+	// Cast the message into a map to see what kind of message it is
 	msgMap := (msg).(map[string]interface{})
 
-	var asset model.AssetMessage
-	var session model.SessionMessage
-
+	var user model.User
 	dateTime := time.Now().UTC()
-	asset.Date = dateTime
-	session.Date = dateTime
-
-	switch msgMap["type"] {
-	case model.WondervilleAsset:
-		err = json.Unmarshal([]byte(message), &asset)
+	user.Date = dateTime
+	
+	// Check if 'type' key exists in message and if it is a valid Wonderville type
+	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset || val == model.WondervilleSession {
+		err = json.Unmarshal([]byte(message), &user)
 		if err != nil {
-			log.Println("Error in unmarshalling json: ", err)
+			log.Printf("Error in unmarshalling json: %s\n%s", err, message)
 			return
 		}
-		db.InsertAssets(mongoClient, asset)
-	case model.WondervilleSession:
-		err = json.Unmarshal([]byte(message), &session)
-		if err != nil {
-			log.Println("Error in unmarshalling json: ", err)
-			return
-		}
-		db.InsertSessions(mongoClient, session)
-	default:
-		log.Println("Unrecognized message: ", msg)
+		db.InsertUser(mongoClient, user)
+	} else {
+		log.Println("Unrecognized message:", msg)
 	}
 }
 
 func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 	log.Println("Starting socket listener.")
- 
+
 	// if testing locally, comment the below line and
 	// uncomment the one below it
 	// u := url.URL{Scheme: "wss", Host: *addr}

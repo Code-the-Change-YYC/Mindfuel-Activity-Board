@@ -23,7 +23,7 @@ func Start(mongoClient *mongo.Client) {
     MaxAge:           300, // Maximum value not ignored by any of major browsers
   }))
 
-	handler := &Handler{Db: mongoClient}
+	handler := &Handler{Client: mongoClient}
 
 	// Register routes
 	r.Route("/v1/api", func(r chi.Router) {
@@ -31,7 +31,7 @@ func Start(mongoClient *mongo.Client) {
 	})
 
 	log.Println("Listening on port 8080")
-	http.ListenAndServe(":8080", r)
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
 func usersRouter(handler *Handler) http.Handler {

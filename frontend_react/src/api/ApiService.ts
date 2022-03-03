@@ -9,6 +9,7 @@ import axios from "axios";
 
 const http = axios.create({
   // baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
+  // baseUrl: "http://localhost:8080/v1/api
   headers: {
     "Content-type": "application/json",
   },
