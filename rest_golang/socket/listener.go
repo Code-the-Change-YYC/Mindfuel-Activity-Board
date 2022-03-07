@@ -76,6 +76,7 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 				log.Printf("Error: ReadMessage %s", ws.GetURL())
 				continue
 			}
+
 			go messageHandler(mongoClient, message)
 		}
 	}

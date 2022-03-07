@@ -9,7 +9,7 @@ import axios from "axios";
 
 const http = axios.create({
   // baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
-  // baseUrl: "http://localhost:8080/v1/api
+  baseURL: "http://localhost:8080/v1/api",
   headers: {
     "Content-type": "application/json",
   },
@@ -28,9 +28,9 @@ http.interceptors.request.use((config) => {
 });
 
 const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
-  http.get("http://localhost:8080/v1/api/users")
-  return http.get<UsersApiResponse>(`${[process.env.REACT_APP_FIREBASE_API]}/user`, {
-    params: { fromDate: fromDate, mapBounds: mapBounds },
+  // http.get("http://localhost:8080/v1/api/users")
+  return http.get<UsersApiResponse>(`/users`, {
+    params: { mapBounds: mapBounds },
   });
 };
 
