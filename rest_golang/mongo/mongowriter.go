@@ -38,3 +38,18 @@ func InsertSessions(client *mongo.Client, session model.SessionMessage) error {
 	//Return success without any error.
 	return nil
 }
+
+func InsertStats(client *mongo.Client, stats model.StatsMessage) error {
+	//Create a handle to the respective collection in the database.
+	collection := client.Database("wonderville_test").Collection("stats")
+	//Perform InsertOne operation & validate against the error.
+	_, err := collection.InsertOne(context.TODO(), stats)
+	if err != nil {
+		log.Println("Error inserting into the DB: ", err)
+		return err
+	}
+	log.Println(stats)
+	log.Println("Inserted Session")
+	//Return success without any error.
+	return nil
+}
