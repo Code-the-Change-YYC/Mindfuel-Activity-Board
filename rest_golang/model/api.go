@@ -3,7 +3,7 @@ package model
 import "time"
 
 type UserFilter struct {
-	fromDateTimestamp string    `schema:"fromDate,required"`
+	FromDateTimestamp string    `schema:"fromDate,required"`
 	LngLower          float64   `schema:"mapBounds[lngBounds][lower],required"`
 	LngUpper          float64   `schema:"mapBounds[lngBounds][upper],required"`
 	LatLower          float64   `schema:"mapBounds[latBounds][lower],required"`
@@ -12,6 +12,6 @@ type UserFilter struct {
 }
 
 type UsersResponse struct {
-	users User
-	counts map[string]int
+	Users []User
+	Counts map[string]int
 }

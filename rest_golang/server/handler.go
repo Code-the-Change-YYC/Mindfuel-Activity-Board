@@ -26,9 +26,11 @@ const (
 	errorQueryParams = "Error decoding query parameters."
 )
 
+// Maximum number of users to return in a single API call
+const maxUsers = 125
+
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
-	var filter model.UserFilter
-	err := getQueryParams(filter, r.URL.Query())
+	filter, err := getQueryParams(r.URL.Query())
 	if err != nil {
 		log.Println("Error decoding query parameters:", err)
 		http.Error(w, errorQueryParams, http.StatusInternalServerError)
@@ -36,25 +38,27 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	collection := h.Client.Database("wondervilleDev").Collection("users")
-	query := []bson.M{
-		{"date": bson.M{"$gt": filter.FromDate}},
-		{"payload.location.latitude": bson.M{"$gte": filter.LatLower, "$lte": filter.LatUpper}},
+	matchQuery := bson.M{
+		"date": bson.M{"$gt": filter.FromDate},
+		"payload.location.latitude": bson.M{"$gte": filter.LatLower, "$lte": filter.LatUpper},
 	}
 
 	if filter.LngLower <= filter.LngUpper {
-		query = append(query, bson.M{"payload.location.longitude": bson.M{"$gte": filter.LngLower, "$lte": filter.LngUpper}})
+		matchQuery["payload.location.longitude"] = bson.M{"$gte": filter.LngLower, "$lte": filter.LngUpper}
 	} else {
-		latQuery := []bson.M{
+		lngQuery := []bson.M{
 			{"payload.location.longitude": bson.M{"$gte": filter.LngLower, "$lte": 180}},
 			{"payload.location.longitude": bson.M{"$gte": -180, "$lte": filter.LngUpper}},
 		}
-		query = append(query, bson.M{"$or": latQuery})
+		matchQuery["$or"] = lngQuery
 	}
 
-	cursor, err := collection.Find(context.TODO(), query)
-
+	// Randomly sample users from collection
+	matchStage := bson.D{{Key: "$match", Value: matchQuery}}
+	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: maxUsers}}}}
+	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
+	log.Println(matchQuery)
 	if err != nil {
-		log.Println("Error processing GetUsers:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
 	}
@@ -68,24 +72,23 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := &model.UsersResponse {
-
-	}
-	log.Println(resp)
-
+	// resp := &model.UsersResponse {
+	// 	Users: users,
+	// }
 	json.NewEncoder(w).Encode(users)
 }
 
-func getQueryParams(filter model.UserFilter, params url.Values) error {
+func getQueryParams(params url.Values) (model.UserFilter, error) {
+	var filter model.UserFilter
 	if err := decoder.Decode(&filter, params); err != nil {
-		return err
+		return filter, err
 	}
 
 	fromDate, err := time.Parse(time.RFC3339, params.Get("fromDate"))
 	if err != nil {
-		return err
+		return filter, err
 	}
 	filter.FromDate = fromDate
 
-	return nil
+	return filter, nil
 }

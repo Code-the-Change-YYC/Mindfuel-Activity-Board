@@ -27,10 +27,10 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
-const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
+const getHistoricalUsers = (fromDate: string, mapBounds: MapBounds) => {
   // http.get("http://localhost:8080/v1/api/users")
   return http.get<UsersApiResponse>(`/users`, {
-    params: { mapBounds: mapBounds },
+    params: { fromDate: fromDate, mapBounds: mapBounds },
   });
 };
 
