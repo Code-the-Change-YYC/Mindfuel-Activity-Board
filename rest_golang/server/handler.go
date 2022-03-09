@@ -46,6 +46,7 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	if filter.LngLower <= filter.LngUpper {
 		matchQuery["payload.location.longitude"] = bson.M{"$gte": filter.LngLower, "$lte": filter.LngUpper}
 	} else {
+		// In the event the start/end longitude boundary is crossed, 
 		lngQuery := []bson.M{
 			{"payload.location.longitude": bson.M{"$gte": filter.LngLower, "$lte": 180}},
 			{"payload.location.longitude": bson.M{"$gte": -180, "$lte": filter.LngUpper}},
@@ -53,11 +54,10 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		matchQuery["$or"] = lngQuery
 	}
 
-	// Randomly sample users from collection
+	// Randomly sample a set number of users from collection
 	matchStage := bson.D{{Key: "$match", Value: matchQuery}}
 	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: maxUsers}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
-	log.Println(matchQuery)
 	if err != nil {
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
@@ -72,8 +72,32 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	usersQuery := bson.A{bson.D{{Key: "$count", Value: "count"}}}
+	distinctCountriesQuery := bson.A{
+		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: "countries", Value: bson.D{{Key: "$addToSet", Value: "$payload.location.country_name"}}}}}},
+		bson.D{{Key: "$unwind", Value: "$countries"}},
+		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: "countries", Value: bson.D{{Key: "$sum", Value: 1}}}}}},
+	}
+	distinctCitiesQuery := bson.A{
+		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: "cities", Value: bson.D{{Key: "$addToSet", Value: "$payload.location.city"}}}}}},
+		bson.D{{Key: "$unwind", Value: "$cities"}},
+		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: "cities", Value: bson.D{{Key: "$sum", Value: 1}}}}}},
+	}
+
+	facetStage := bson.D{{Key: "$facet", Value: bson.D{{Key: "users", Value: usersQuery}, {Key: "countries", Value: distinctCountriesQuery}, {Key: "cities", Value: distinctCitiesQuery}}}}
+	cursor, err = collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, facetStage})
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	var info []bson.M
+	if err = cursor.All(context.TODO(), &info); err != nil {
+			log.Println(err)
+	}
+	log.Println("The counts:", info)
 	// resp := &model.UsersResponse {
 	// 	Users: users,
+	// 	Counts: ,
 	// }
 	json.NewEncoder(w).Encode(users)
 }
