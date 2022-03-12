@@ -3,7 +3,7 @@ import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
-import { AppState } from "../utils/AppState";
+import { AppState, MAX_USERS } from "../utils/AppState";
 import { AxiosResponse } from "axios";
 import { Color } from "@material-ui/lab/Alert";
 import { Dispatch } from "redux";
@@ -20,7 +20,7 @@ export const fetchHistoricalUsers = (
     ApiService: ApiServiceInterface
   ) => {
     dispatch(loading(true));
-    return ApiService.getHistoricalUsers(fromDate, mapBounds).then(
+    return ApiService.getHistoricalUsers(fromDate, mapBounds, MAX_USERS).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));

@@ -1,5 +1,5 @@
 import * as sampleData from "../api/SampleUserData.json";
-import { AppState, LiveCounts } from "../utils/AppState";
+import { AppState, LiveCounts, MAX_USERS } from "../utils/AppState";
 import { AssetType } from "../utils/AssetType.enum";
 import { User } from "../utils/User";
 import { sameDay, sameLocation } from "../utils/helpers";
@@ -59,8 +59,8 @@ const rootReducer = (
       }
 
       const liveUsers: User[] = [...state.liveUsers, user];
-      // Maximum 100 users on screen to maintain performance
-      if (liveUsers.length > 125) {
+      // Maximum 125 users on screen to maintain performance
+      if (liveUsers.length > MAX_USERS) {
         liveUsers.shift();
       }
 

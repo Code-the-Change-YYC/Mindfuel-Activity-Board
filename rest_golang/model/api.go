@@ -4,6 +4,7 @@ import "time"
 
 type UserFilter struct {
 	FromDateTimestamp string    `schema:"fromDate,required"`
+	MaxUsers					int				`schema:"maxUsers,required"`
 	LngLower          float64   `schema:"mapBounds[lngBounds][lower],required"`
 	LngUpper          float64   `schema:"mapBounds[lngBounds][upper],required"`
 	LatLower          float64   `schema:"mapBounds[latBounds][lower],required"`
@@ -13,10 +14,10 @@ type UserFilter struct {
 
 type UsersResponse struct {
 	Users  []User `json:"users"`
-	Counts Count  `json:"counts"`
+	Counts Counts  `json:"counts"`
 }
 
-type Count struct {
+type Counts struct {
 	Sessions  int `json:"sessions"`
 	Cities    int `json:"cities"`
 	Countries int `json:"countries"`
