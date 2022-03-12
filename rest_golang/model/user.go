@@ -35,11 +35,8 @@ type topStats struct {
 }
 
 type statType struct {
-	Type   string `json:"type" bson:"type"`
 	Hits   int    `json:"hits" bson:"hits"`
-	Top    string `json:"top" bson:"top"`
-	TopUrl string `json:"topUrl" bson:"topUrl"`
-	Rank   int    `json:"rank" bson:"rank"`
+	Url string `json:"topUrl" bson:"topUrl"`
 }
 
 type location struct {

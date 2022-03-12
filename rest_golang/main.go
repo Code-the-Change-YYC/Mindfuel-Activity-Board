@@ -8,7 +8,7 @@ import (
 
 	"mindfuel.ca/activity_rest/db"
 	"mindfuel.ca/activity_rest/server"
-	// "mindfuel.ca/activity_rest/socket"
+	"mindfuel.ca/activity_rest/socket"
 )
 
 // var addr = flag.String("addr", "wonderville.org:5556", "http service address")
@@ -34,12 +34,12 @@ func main() {
 		}
 	}()
 	
-	// Start socket listener
-	// wg.Add(1)
-	// go func() {
-	// 	socket.Listen(ctx, addr, mongoClient)
-	// 	wg.Done()
-	// }()
+	// Start socket listener as a separate GO routine
+	wg.Add(1)
+	go func() {
+		socket.Listen(ctx, addr, mongoClient)
+		wg.Done()
+	}()
 	
 	// Setup and start REST API server
 	server.Start(mongoClient)

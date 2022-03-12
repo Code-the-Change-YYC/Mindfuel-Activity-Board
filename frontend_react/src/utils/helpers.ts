@@ -6,7 +6,7 @@ export const toDateTime = (secs: number): Date => {
   return t;
 }
 
-export const sameDay = (d1?: Date | string, d2?: Date | string) => {
+export const sameDay = (d1?: Date | string, d2?: Date | string): boolean => {
   if (d1 === undefined || d2 === undefined) {
     return false;
   }
@@ -21,7 +21,7 @@ export const sameDay = (d1?: Date | string, d2?: Date | string) => {
   );
 };
 
-export const sameLocation = (l1: Location, l2: Location) => {
+export const sameLocation = (l1: Location, l2: Location): boolean => {
   if (l1.latitude === l2.latitude && l1.longitude === l2.longitude) {
     return true;
   }
