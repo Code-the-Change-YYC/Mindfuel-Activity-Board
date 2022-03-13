@@ -16,3 +16,5 @@ export type LiveCounts = {
   countries: Set<string>;
   cities: Set<string>;
 }
+
+export const MAX_USERS = 125;

@@ -55,7 +55,7 @@ const Timeline = (props: TimelineProps) => {
     markLabel: styles.timelineMarkLabels,
   };
 
-  const handleChange = (event: any, newValue: number | number[]) => {
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
     let fromDate: Date | null = new Date();
 
     switch (newValue) {

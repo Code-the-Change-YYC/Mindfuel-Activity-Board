@@ -3,13 +3,12 @@ import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
-import { AppState } from "../utils/AppState";
+import { AppState, MAX_USERS } from "../utils/AppState";
 import { AxiosResponse } from "axios";
 import { Color } from "@material-ui/lab/Alert";
 import { Dispatch } from "redux";
 import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
-import { toDateTime } from "../utils/helpers";
 
 export const fetchHistoricalUsers = (
   fromDate: string,
@@ -21,7 +20,7 @@ export const fetchHistoricalUsers = (
     ApiService: ApiServiceInterface
   ) => {
     dispatch(loading(true));
-    return ApiService.getHistoricalUsers(fromDate, mapBounds).then(
+    return ApiService.getHistoricalUsers(fromDate, mapBounds, MAX_USERS).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(loading(false));
@@ -77,7 +76,8 @@ export const loading = (loading: boolean) => {
 
 export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   response?.users.forEach((user: User) => {
-    user.date = toDateTime(user.date.seconds);
+    // Convert from ISO timestamp
+    user.date = new Date(user.date);
   });
 
   return {

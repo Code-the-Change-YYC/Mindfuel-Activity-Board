@@ -53,6 +53,12 @@ const Home = () => {
     }
   };
 
+  const getHistoricalUsers = () => {
+    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
+    }
+  };
+
   const handleSearchAreaClick = () => {
     getHistoricalUsers();
     setShowAreaButton(false);
@@ -61,12 +67,6 @@ const Home = () => {
   const handleDateChange = (fromDate: Date | null) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
-  };
-
-  const getHistoricalUsers = () => {
-    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
-    }
   };
 
   return (
