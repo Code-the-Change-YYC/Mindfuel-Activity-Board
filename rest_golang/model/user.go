@@ -19,7 +19,7 @@ type payload struct {
 	Location location `json:"location" bson:"location"`
 	Asset    *asset   `json:"asset,omitempty" bson:"asset,omitempty"`
 	Rank     *int     `json:"rank,omitempty" bson:"rank,omitempty"`
-	// Stats    *Stats   `json:"stats,omitempty" bson:"stats,omitempty"` // Omit stats for now
+	// Stats    *Stats   `json:"stats,omitempty" bson:"stats,omitempty"` // Omit stats
 }
 
 type stats struct {
@@ -35,16 +35,16 @@ type topStats struct {
 }
 
 type statType struct {
-	Hits   int    `json:"hits" bson:"hits"`
-	Url string `json:"topUrl" bson:"topUrl"`
+	Hits int    `json:"hits" bson:"hits"`
+	Url  string `json:"topUrl" bson:"topUrl"`
 }
 
 type location struct {
 	Country   string  `json:"country_name" bson:"country_name"`
 	Region    string  `json:"region_name" bson:"region_name"`
 	City      string  `json:"city" bson:"city"`
-	Longitude float32 `json:"longitude" bson:"longitude"`
-	Latitude  float32 `json:"latitude" bson:"latitude"`
+	Longitude float64 `json:"longitude" bson:"longitude"`
+	Latitude  float64 `json:"latitude" bson:"latitude"`
 }
 
 type asset struct {
