@@ -3,8 +3,9 @@ import { Image } from "react-bootstrap";
 import { StylesProvider } from "@material-ui/core/styles";
 import { User } from "../../utils/User";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
-import PopupCard from "../PopupCard/PopupCard";
+import PopupCard from "./PopupCard/PopupCard";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 
@@ -13,7 +14,10 @@ const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const user: User = props.user;
-  const assetType = user.type === AssetType.WondervilleSession ? "session" : user.payload.asset?.type.toLowerCase();
+  const assetType =
+    user.type === AssetType.WondervilleSession
+      ? "session"
+      : user.payload.asset?.type.toLowerCase();
   /* eslint-disable  @typescript-eslint/no-var-requires */
   const icon = require(`../../res/assets/map-marker-${assetType}.svg`);
 
@@ -70,9 +74,20 @@ const MapMarker = (props: any) => {
             offset: "0, 10",
           },
         }}
+        transition
       >
-        <PopupCard user={user}></PopupCard>
-        <div ref={setArrowRef} className={styles.arrow} id="arrow" />
+        {({ TransitionProps }) => (
+          <Grow
+            in={open}
+            style={{ transformOrigin: "bottom" }}
+            {...TransitionProps}
+          >
+            <div>
+              <PopupCard user={user}></PopupCard>
+              <div ref={setArrowRef} className={styles.arrow} id="arrow" />
+            </div>
+          </Grow>
+        )}
       </Popper>
     </StylesProvider>
   );

@@ -1,10 +1,10 @@
-import { AssetType } from "../../utils/AssetType.enum";
+import { AssetType } from "../../../utils/AssetType.enum";
 import { Card, Image } from "react-bootstrap";
-import { User } from "../../utils/User";
+import { User } from "../../../utils/User";
 import React from "react";
 import _ from "lodash";
 import styles from "./PopupCard.module.css";
-import wondervilleLogo from "../../res/assets/wonderville-logo.png";
+import wondervilleLogo from "../../../res/assets/wonderville-logo.png";
 
 type PopupCardProps = {
   user: User;
