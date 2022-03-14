@@ -24,8 +24,6 @@ function createData(category: string, sessions: number, top: string) {
   return { category, formattedSessions, top };
 }
 
-
-
 const CustomTableCell = withStyles({
   root: {
     borderBottom: "none"
