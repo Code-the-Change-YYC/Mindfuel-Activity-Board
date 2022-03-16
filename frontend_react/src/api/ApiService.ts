@@ -8,8 +8,7 @@ import Qs from "qs";
 import axios, { AxiosResponse } from "axios";
 
 const http = axios.create({
-  // baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
-  baseURL: "http://localhost:8080/v1/api",
+  baseURL: `${[process.env.REACT_APP_GOLANG_API]}`,
   headers: {
     "Content-type": "application/json",
   },
@@ -32,7 +31,6 @@ const getHistoricalUsers = (
   mapBounds: MapBounds,
   maxUsers: number
 ): Promise<AxiosResponse<UsersApiResponse>> => {
-  // http.get("http://localhost:8080/v1/api/users")
   return http.get<UsersApiResponse>(`/users`, {
     params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers },
   });
