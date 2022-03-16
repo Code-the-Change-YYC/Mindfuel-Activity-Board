@@ -1,2 +1,0 @@
-# Frontend Data Model
-
