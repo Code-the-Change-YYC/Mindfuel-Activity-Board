@@ -1,6 +1,8 @@
 # Wonderville Activity Map Documentation using mdBook
 
-To learn more about mdBook, visit [here](https://rust-lang.github.io/mdBook/).
+> To learn more about mdBook, visit [here](https://rust-lang.github.io/mdBook/).
+
+> Click [here](#publishing-a-book) for how to publish documentation updates.
 
 There are several ways to render a book, but one of the easiest methods is to use the serve command, which will build your book and start a local webserver:
 
@@ -63,10 +65,16 @@ All other files in the src directory will be included in the output. So if you h
 
 ## Publishing a book
 
-Once you've written your book, you may want to host it somewhere for others to view. The first step is to build the output of the book. This can be done with the mbdook build command in the same directory where the book.toml file is located:
+1. Run the build command in `/mdbook` to create the documentation website
 
-`mdbook build`
+- This will create the HTML, CSS, and JS files in the `/book` directory
 
-This will generate a directory named book which contains the HTML content of your book. You can then place this directory on any web server to host it.
+```
+mdbook build
+```
 
-For more information about publishing and deploying, check out the [Continuous Integration](https://rust-lang.github.io/mdBook/continuous-integration.html) chapter for more.
+2. Move the files from `/book` to `/docs`
+
+3. When `/docs` is updated for the `master` branch, the GitHub Pages documentation will update.
+
+[Access Documentation Here](https://code-the-change-yyc.github.io/Mindfuel-Activity-Board/)
