@@ -13,15 +13,12 @@ type PopupCardProps = {
 const PopupCard = (props: PopupCardProps) => {
   const user = props.user;
   const loc = user.payload.location;
+  const isSession = user.type === AssetType.WondervilleSession;
   const imageUrl =
-    user.type === AssetType.WondervilleSession ||
-    _.isNil(user.payload.asset?.imageUrl)
+    isSession || _.isNil(user.payload.asset?.imageUrl)
       ? wondervilleLogo
       : user.payload.asset?.imageUrl;
-  const name =
-    user.type === AssetType.WondervilleSession
-      ? "Wonderville Session"
-      : user.payload.asset?.name;
+  const name = isSession ? "Wonderville Session" : user.payload.asset?.name;
 
   let locString;
   if (loc.city && loc.region_name) {
@@ -32,7 +29,9 @@ const PopupCard = (props: PopupCardProps) => {
 
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
-      <Image className={styles.assetImage} src={imageUrl} />
+      <div className={styles.assetImageContainer}>
+        <Image className={styles.assetImage} src={imageUrl} />
+      </div>
       <div className={styles.dateContainer}>
         <span className={styles.dateText}>
           {user.date.toLocaleDateString("en-CA")}
