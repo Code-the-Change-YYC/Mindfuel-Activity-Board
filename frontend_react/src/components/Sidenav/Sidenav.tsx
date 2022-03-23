@@ -9,7 +9,7 @@ import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import React, { ReactElement, useEffect, useState } from "react";
-import logo from "../../res/assets/mindfuel-logo.png";
+import logo from "../../res/assets/wonderville-logo.png";
 import styles from "./Sidenav.module.css";
 import useAnalyticsData from "../../hooks/useAnalyticsData";
 
@@ -60,7 +60,7 @@ const Sidenav = () => {
   const drawer = (
     <div className={styles.sidenav}>
       <div className={styles.logoContainer}>
-        <img className={styles.logo} src={logo} alt="mindfuel-logo" />
+        <img className={styles.logo} src={logo} alt="wonderville-logo" />
       </div>
       <div className={styles.sidenavContent}>
         <div className={styles.analyticsBoxes}>{analyticsBoxes}</div>
