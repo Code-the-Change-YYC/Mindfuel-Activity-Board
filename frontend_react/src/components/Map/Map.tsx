@@ -5,7 +5,7 @@ import { Theme, useMediaQuery } from "@material-ui/core";
 import { User } from "../../utils/User";
 import { useSelector } from "react-redux";
 import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
-import MapMarker from "../MapMarker/MapMarker";
+import MapMarker from "./MapMarker/MapMarker";
 import React, { ReactElement, useEffect, useState } from "react";
 import _ from "lodash";
 import styles from "./Map.module.css";
@@ -33,6 +33,32 @@ const Map = (props: MapProps) => {
   // Set historical markers when historical users prop changes
   const processedUsers = useProcessedUsers(liveUsers, historicalUsers);
 
+  // Hide map control for mobile screens
+  const showMapControl = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("sm")
+  );
+  const defaultMapOptions = (maps: Maps) => {
+    return {
+      zoomControl: false,
+      disableDoubleClickZoom: true,
+      minZoom: 3,
+      restriction: {
+        latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
+      },
+      mapTypeControl: showMapControl,
+      mapTypeId: mapTypeId,
+      mapTypeControlOptions: {
+        style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: maps.ControlPosition.LEFT_TOP,
+        mapTypeIds: [
+          maps.MapTypeId.ROADMAP,
+          maps.MapTypeId.SATELLITE,
+          maps.MapTypeId.HYBRID,
+        ],
+      },
+    };
+  };
+
   useEffect(() => {
     if (!_.isNil(processedUsers)) {
       const markers = processedUsers?.map((user, index) => {
@@ -59,31 +85,6 @@ const Map = (props: MapProps) => {
       }
     }
   }, [processedUsers]);
-
-  // Hide map control for mobile screens
-  const showMapControl = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up("sm")
-  );
-  const defaultMapOptions = (maps: Maps) => {
-    return {
-      zoomControl: false,
-      minZoom: 3,
-      restriction: {
-        latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
-      },
-      mapTypeControl: showMapControl,
-      mapTypeId: mapTypeId,
-      mapTypeControlOptions: {
-        style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: maps.ControlPosition.LEFT_TOP,
-        mapTypeIds: [
-          maps.MapTypeId.ROADMAP,
-          maps.MapTypeId.SATELLITE,
-          maps.MapTypeId.HYBRID,
-        ],
-      },
-    };
-  };
 
   const getMapBounds = (
     bounds: google.maps.LatLngBounds | undefined
