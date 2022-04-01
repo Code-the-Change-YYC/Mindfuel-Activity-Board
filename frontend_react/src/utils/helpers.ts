@@ -1,4 +1,6 @@
+import { AssetType } from "./AssetType.enum";
 import { Location } from "./Location";
+import { User } from "./User";
 
 export const numberFormatter = (num: number, digits: number): string => {
   const lookup = [
@@ -46,3 +48,11 @@ export const sameLocation = (l1: Location, l2: Location): boolean => {
   }
   return false;
 };
+
+export const getMapMarkerIconForUser = (user: User): string => {
+  const assetType =
+    user.type === AssetType.WondervilleSession
+      ? "session"
+      : user.payload.asset?.type.toLowerCase();
+  return require(`../res/assets/map-marker-${assetType}.svg`);
+}

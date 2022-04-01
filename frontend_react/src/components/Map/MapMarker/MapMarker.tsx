@@ -3,6 +3,7 @@ import { AssetType } from "../../../utils/AssetType.enum";
 import { Image } from "react-bootstrap";
 import { StylesProvider } from "@material-ui/core/styles";
 import { User } from "../../../utils/User";
+import { getMapMarkerIconForUser } from "../../../utils/helpers";
 import Badge from "@material-ui/core/Badge";
 import Carousel from "react-material-ui-carousel";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
@@ -13,22 +14,34 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 
 const MapMarker = (props: any) => {
+  const testUsers = sampleData.users
+    .map((user) => {
+      const newUser: User = {
+        ...user,
+        date: new Date(),
+      };
+      return newUser;
+    })
+    .slice(0, 10);
+  const user: User = props.user;
   const showBadge = props.number > 1;
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const [isBadgeInvisible, setIsBadgeInvisible] = useState(!showBadge);
-  const user: User = props.user;
-  const assetType =
-    user.type === AssetType.WondervilleSession
-      ? "session"
-      : user.payload.asset?.type.toLowerCase();
+  const [mapMarkerIcon, setMapMarkerIcon] = useState<string>(getMapMarkerIconForUser(testUsers[0]));
+  const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const badgeClasses = {
     root: styles.numberBadgeRoot,
     badge: styles.numberBadge,
   };
+  // const assetType =
+  //   user.type === AssetType.WondervilleSession
+  //     ? "session"
+  //     : user.payload.asset?.type.toLowerCase();
+
   /* eslint-disable  @typescript-eslint/no-var-requires */
-  const icon = require(`../../../res/assets/map-marker-${assetType}.svg`);
+  // const icon = require(`../../../res/assets/map-marker-${assetType}.svg`);
 
   useEffect(() => {
     if (props.open) {
@@ -37,6 +50,8 @@ const MapMarker = (props: any) => {
       setAnchorEl(null);
     }
   }, [props.open, props.newUser]);
+
+
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
@@ -51,18 +66,13 @@ const MapMarker = (props: any) => {
     }
   };
 
+  const handleCarouselClick = (now: number) => {
+    setCarouselIndex(now);
+    setMapMarkerIcon(getMapMarkerIconForUser(testUsers[now]));
+  }
+
   const open = Boolean(anchorEl);
   const id = open ? styles.popper : undefined;
-
-  const testUsers = sampleData.users
-    .map((user) => {
-      const newUser: User = {
-        ...user,
-        date: new Date(),
-      };
-      return newUser;
-    })
-    .slice(0, 10);
 
   return (
     <StylesProvider injectFirst>
@@ -77,7 +87,7 @@ const MapMarker = (props: any) => {
           <Image
             ref={markerEl}
             className={styles.icon}
-            src={icon}
+            src={mapMarkerIcon}
             onClick={handleClick}
           />
           <Popper
@@ -122,10 +132,12 @@ const MapMarker = (props: any) => {
                         margin: 5,
                       },
                     }}
+                    index={carouselIndex}
                     indicators={false}
                     timeout={0}
                     autoPlay={false}
                     navButtonsAlwaysVisible={true}
+                    onChange={handleCarouselClick}
                   >
                     {testUsers.map((user: User, index: number) => (
                       <PopupCard key={index} user={user}></PopupCard>
