@@ -22,6 +22,7 @@ const Map = (props: MapProps) => {
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+  const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState<boolean>(false);
   const defaultZoom = 4;
 
   // App state variables
@@ -40,7 +41,7 @@ const Map = (props: MapProps) => {
   const defaultMapOptions = (maps: Maps) => {
     return {
       zoomControl: false,
-      disableDoubleClickZoom: true,
+      disableDoubleClickZoom: disableDoubleClickZoom,
       minZoom: 3,
       restriction: {
         latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
@@ -72,6 +73,8 @@ const Map = (props: MapProps) => {
             lat={user.payload.location.latitude}
             lng={user.payload.location.longitude}
             onMarkerClick={handleMarkerClick}
+            onMarkerEnter={handleMarkerEnter}
+            onMarkerLeave={handleMarkerLeave}
           ></MapMarker>
         );
       });
@@ -126,6 +129,14 @@ const Map = (props: MapProps) => {
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
   };
+
+  const handleMarkerEnter = () => {
+    setDisableDoubleClickZoom(true);
+  }
+
+  const handleMarkerLeave = () => {
+    setDisableDoubleClickZoom(false);
+  }
 
   return (
     <div className={styles.map}>

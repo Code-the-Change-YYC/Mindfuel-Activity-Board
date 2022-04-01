@@ -1,17 +1,15 @@
+import * as sampleData from "../../../api/SampleUserData.json";
 import { AssetType } from "../../../utils/AssetType.enum";
 import { Image } from "react-bootstrap";
 import { StylesProvider } from "@material-ui/core/styles";
 import { User } from "../../../utils/User";
+import Carousel from "react-material-ui-carousel";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import PopupCard from "./PopupCard/PopupCard";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
-import Carousel from "react-material-ui-carousel";
-import * as sampleData from "../../../api/SampleUserData.json";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const MapMarker = (props: any) => {
   const markerEl = useRef(null);
@@ -88,6 +86,8 @@ const MapMarker = (props: any) => {
                 offset: "0, 10",
               },
             }}
+            onMouseEnter={props.onMarkerEnter}
+            onMouseLeave={props.onMarkerLeave}
             transition
           >
             {({ TransitionProps }) => (
@@ -97,7 +97,19 @@ const MapMarker = (props: any) => {
                 {...TransitionProps}
               >
                 <div>
-                  <Carousel indicators={false} timeout={0} autoPlay={false} navButtonsAlwaysVisible={true} IndicatorIcon={<FiberManualRecordIcon  style={{ fontSize: 1 }} />}>
+                  <Carousel
+                    navButtonsProps={{
+                      style: {
+                        height: 20,
+                        width: 20,
+                        margin: 5,
+                      },
+                    }}
+                    indicators={false}
+                    timeout={0}
+                    autoPlay={false}
+                    navButtonsAlwaysVisible={true}
+                  >
                     {testUsers.map((user: User, index: number) => (
                       <PopupCard key={index} user={user}></PopupCard>
                     ))}
