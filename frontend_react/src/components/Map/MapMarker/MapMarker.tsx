@@ -3,6 +3,7 @@ import { AssetType } from "../../../utils/AssetType.enum";
 import { Image } from "react-bootstrap";
 import { StylesProvider } from "@material-ui/core/styles";
 import { User } from "../../../utils/User";
+import Badge from "@material-ui/core/Badge";
 import Carousel from "react-material-ui-carousel";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -12,14 +13,20 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 
 const MapMarker = (props: any) => {
+  const showBadge = props.number > 1;
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
+  const [isBadgeInvisible, setIsBadgeInvisible] = useState(!showBadge);
   const user: User = props.user;
   const assetType =
     user.type === AssetType.WondervilleSession
       ? "session"
       : user.payload.asset?.type.toLowerCase();
+  const badgeClasses = {
+    root: styles.numberBadgeRoot,
+    badge: styles.numberBadge,
+  };
   /* eslint-disable  @typescript-eslint/no-var-requires */
   const icon = require(`../../../res/assets/map-marker-${assetType}.svg`);
 
@@ -33,11 +40,15 @@ const MapMarker = (props: any) => {
 
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
+    setIsBadgeInvisible(true);
     props.onMarkerClick(user.payload.location); // Center map by calling parent function
   };
 
   const handleClickAway = () => {
     setAnchorEl(null);
+    if (showBadge) {
+      setIsBadgeInvisible(false);
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -57,6 +68,12 @@ const MapMarker = (props: any) => {
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
+          <Badge
+            badgeContent={props.number}
+            max={10}
+            classes={badgeClasses}
+            invisible={isBadgeInvisible}
+          />
           <Image
             ref={markerEl}
             className={styles.icon}

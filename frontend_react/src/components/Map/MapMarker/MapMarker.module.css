@@ -32,3 +32,14 @@
   background-color: white;
   box-shadow: 3px 0px 0px rgba(0, 0, 0, 0.1);
 }
+
+.numberBadgeRoot {
+  position: absolute;
+  top: -25px;
+  left: 17.5px;
+}
+
+.numberBadge {
+  background-color: #52247f;
+  color: white;
+}

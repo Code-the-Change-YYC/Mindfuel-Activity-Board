@@ -22,7 +22,7 @@ const Map = (props: MapProps) => {
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
-  const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState<boolean>(false);
+  const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
   const defaultZoom = 4;
 
   // App state variables
@@ -70,6 +70,7 @@ const Map = (props: MapProps) => {
             user={user}
             newUser={_.isNil(historicalUsers) ? newUser : null}
             open={open}
+            number={_.random(1, 20)}
             lat={user.payload.location.latitude}
             lng={user.payload.location.longitude}
             onMarkerClick={handleMarkerClick}
