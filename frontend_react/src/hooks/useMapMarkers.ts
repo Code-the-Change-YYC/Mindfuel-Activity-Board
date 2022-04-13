@@ -2,57 +2,51 @@ import { User } from "../utils/User";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 
-const useProcessedUsers = (
+const useGroupedUsers = (
   liveUsers: User[],
   historicalUsers: User[] | null
-) => {
-  const [processedUsers, setProcessedUsers] = useState<User[] | null>(null);
+): Record<string, User[]> | null => {
+  const [groupedUsers, setGroupedUsers] = useState<Record<string, User[]> | null>(null);
 
   useEffect(() => {
     // Group a user list by location
-    const groupByLocation = (users: any[]): { [location: string]: any } => {
-      return users.reduce((storage, user) => {
+    const groupByLocation = (users: User[]): Record<string, User[]> => {
+      return users.reduce((map: Record<string, User[]>, user) => {
         // Create a string key based on combination of lat/long
-        const group = `${user.payload.location.latitude}_${user.payload.location.longitude}`;
-        storage[group] = storage[group] || [];
-        storage[group].push(user);
-        return storage;
+        const group = `${user.payload.location.latitude}, ${user.payload.location.longitude}`;
+        map[group] = map[group] || [];
+        map[group].push(user);
+        return map;
       }, {});
     };
 
-    const getProcessedUsers = (users: User[]) => {
-      const processedUsers: User[] = [];
-
+    const getGroupedUsers = (users: User[]) => {
       // Group users by location
       const groupedUsers = groupByLocation(users);
-
-      // For each location keep the latest user by date
-      for (const key in groupedUsers) {
-        const users: User[] = groupedUsers[key];
-        let latestUser: User = users[0];
-
-        users.forEach((user) => {
-          if (!_.isNil(user.date) && !_.isNil(latestUser.date)) {
-            latestUser = user.date > latestUser.date ? user : latestUser;
-          }
-        });
-
-        processedUsers.push(latestUser);
+      
+      // Sort users in descending order by date at each location
+      for (const locKey in groupedUsers) {
+        groupedUsers[locKey].sort((a: User, b: User) => b.date - a.date);
       }
 
-      // Sort in descending order by latitude to avoid overlapping on map
-      processedUsers.sort(
-        (a: User, b: User) =>
-          b.payload.location.latitude - a.payload.location.latitude
-      );
-
-      setProcessedUsers(processedUsers);
+      setGroupedUsers(groupedUsers);
     };
 
-    getProcessedUsers(_.isNil(historicalUsers) ? liveUsers : historicalUsers);
+    const users = _.isNil(historicalUsers) ? liveUsers : historicalUsers;
+
+    // Sort users in descending order by latitude to avoid overlapping on the map
+    users.sort((a: User, b: User) => {
+      // Sort by longitude if latitudes are the same
+      if (a.payload.location.latitude === b.payload.location.latitude) {
+        return a.payload.location.longitude - b.payload.location.longitude;
+      }
+      return b.payload.location.latitude - a.payload.location.latitude;
+    });
+
+    getGroupedUsers(users);
   }, [liveUsers, historicalUsers]);
 
-  return processedUsers;
+  return groupedUsers;
 };
 
-export default useProcessedUsers;
+export default useGroupedUsers;
