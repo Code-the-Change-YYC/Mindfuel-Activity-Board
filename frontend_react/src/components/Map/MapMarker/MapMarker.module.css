@@ -36,10 +36,11 @@
 .numberBadgeRoot {
   position: absolute;
   top: -25px;
-  left: 15px;
+  left: 12px;
 }
 
 .numberBadge {
   background-color: #52247f;
   color: white;
+  z-index: 0;
 }

@@ -1,6 +1,21 @@
+import {
+  ActivityMapMarker,
+  GameMapMarker,
+  SessionMapMarker,
+  StoryMapMarker,
+  VideoMapMarker,
+} from "../res/assets";
 import { AssetType } from "./AssetType.enum";
 import { Location } from "./Location";
 import { User } from "./User";
+
+const iconsMap: Record<string, string> = {
+  activity: ActivityMapMarker,
+  game: GameMapMarker,
+  video: VideoMapMarker,
+  story: StoryMapMarker,
+  session: SessionMapMarker,
+};
 
 export const numberFormatter = (num: number, digits: number): string => {
   const lookup = [
@@ -25,7 +40,7 @@ export const toDateTime = (secs: number): Date => {
   const t = new Date(1970, 0, 1); // Epoch
   t.setSeconds(secs);
   return t;
-}
+};
 
 export const sameDay = (d1?: Date | string, d2?: Date | string): boolean => {
   if (d1 === undefined || d2 === undefined) {
@@ -53,6 +68,7 @@ export const getMapMarkerIconForUser = (user: User): string => {
   const assetType =
     user.type === AssetType.WondervilleSession
       ? "session"
-      : user.payload.asset?.type.toLowerCase();
-  return require(`../res/assets/map-marker-${assetType}.svg`);
-}
+      : user.payload.asset!.type.toLowerCase();
+
+  return iconsMap[assetType];
+};

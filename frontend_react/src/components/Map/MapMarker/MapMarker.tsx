@@ -11,17 +11,18 @@ import PopupCard from "./PopupCard/PopupCard";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 
+
 const MapMarker = (props: any) => {
   const users: User[] = props.users;
-  const showBadge = users.length > 1;
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
-  const [isBadgeInvisible, setIsBadgeInvisible] = useState(!showBadge);
+  const [isBadgeInvisible, setIsBadgeInvisible] = useState<boolean>(props.open);
+  const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [mapMarkerIcon, setMapMarkerIcon] = useState<string>(
     getMapMarkerIconForUser(users[0])
   );
-  const [carouselIndex, setCarouselIndex] = useState<number>(0);
+  console.log(users[0].type, mapMarkerIcon);
   const badgeClasses = {
     root: styles.numberBadgeRoot,
     badge: styles.numberBadge,
@@ -43,9 +44,7 @@ const MapMarker = (props: any) => {
 
   const handleClickAway = () => {
     setAnchorEl(null);
-    if (showBadge) {
-      setIsBadgeInvisible(false);
-    }
+    setIsBadgeInvisible(false);
   };
 
   const handleCarouselClick = (now: number) => {
@@ -60,18 +59,20 @@ const MapMarker = (props: any) => {
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
-          <Badge
-            badgeContent={users.length}
-            max={9}
-            classes={badgeClasses}
-            invisible={isBadgeInvisible}
-          />
           <Image
             ref={markerEl}
             className={styles.icon}
             src={mapMarkerIcon}
             onClick={handleClick}
           />
+          {users.length > 1 && (
+            <Badge
+              badgeContent={users.length}
+              max={9}
+              classes={badgeClasses}
+              invisible={isBadgeInvisible}
+            />
+          )}
           <Popper
             placement="top"
             open={open}
@@ -118,7 +119,7 @@ const MapMarker = (props: any) => {
                     indicators={false}
                     timeout={0}
                     autoPlay={false}
-                    navButtonsAlwaysInvisible={!showBadge}
+                    navButtonsAlwaysInvisible={users.length === 1}
                     navButtonsAlwaysVisible={true}
                     onChange={handleCarouselClick}
                   >

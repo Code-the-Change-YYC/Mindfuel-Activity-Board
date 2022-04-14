@@ -9,7 +9,7 @@ import MapMarker from "./MapMarker/MapMarker";
 import React, { ReactElement, useEffect, useState } from "react";
 import _ from "lodash";
 import styles from "./Map.module.css";
-import useGroupedUsers from "../../hooks/useMapMarkers";
+import useGroupedUsers from "../../hooks/useGroupedUsers";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
@@ -65,7 +65,7 @@ const Map = (props: MapProps) => {
       const markers: ReactElement[] = [];
       Object.entries(groupedUsers).forEach(([, users], index) => {
         // Set the marker as open if the new user is contained in the list of users
-        const open = newUser && _.some(users, newUser);
+        const open: boolean = !_.isNil(newUser) && _.some(users, newUser);
         markers.push(
           <MapMarker
             key={`${index} + ${open}`}

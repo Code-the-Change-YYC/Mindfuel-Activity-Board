@@ -37,8 +37,8 @@ const Home = () => {
 
   useEffect(() => {
     // Connect to socket on mount
-    const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
-    // const websocketAddress = `${[process.env.REACT_APP_LOCAL_WEBSOCKET]}`;
+    // const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
+    const websocketAddress = `${[process.env.REACT_APP_LOCAL_WEBSOCKET]}`;
 
     SocketService.connect(websocketAddress);
 
