@@ -46,7 +46,7 @@ const SocialsComponent = () => {
         clearTimeout(timer);
       };
     }
-  }, [anchorEl]);
+  }, [anchorEl, failedPlaceholder, loadingPlaceholder]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

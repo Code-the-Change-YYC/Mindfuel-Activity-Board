@@ -90,7 +90,7 @@ const Map = (props: MapProps) => {
         });
       }
     }
-  }, [groupedUsers]);
+  }, [groupedUsers, newUser, historicalUsers]);
 
   const getMapBounds = (
     bounds: google.maps.LatLngBounds | undefined

@@ -11,18 +11,15 @@ import PopupCard from "./PopupCard/PopupCard";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MapMarker.module.css";
 
-
 const MapMarker = (props: any) => {
   const users: User[] = props.users;
   const markerEl = useRef(null);
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const [isBadgeInvisible, setIsBadgeInvisible] = useState<boolean>(props.open);
-  const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [mapMarkerIcon, setMapMarkerIcon] = useState<string>(
     getMapMarkerIconForUser(users[0])
   );
-  console.log(users[0].type, mapMarkerIcon);
   const badgeClasses = {
     root: styles.numberBadgeRoot,
     badge: styles.numberBadge,
@@ -36,6 +33,11 @@ const MapMarker = (props: any) => {
     }
   }, [props.open, props.newUser]);
 
+  useEffect(() => {
+    // Reset map marker icon to the first user after a change in users from props
+    setMapMarkerIcon(getMapMarkerIconForUser(users[0]));
+  }, [props.open, props.newUser, users]);
+
   const handleClick = (event: React.MouseEvent<HTMLImageElement>) => {
     setAnchorEl(event.currentTarget); // Anchor popover
     setIsBadgeInvisible(true);
@@ -43,12 +45,12 @@ const MapMarker = (props: any) => {
   };
 
   const handleClickAway = () => {
+    setMapMarkerIcon(getMapMarkerIconForUser(users[0]));
     setAnchorEl(null);
     setIsBadgeInvisible(false);
   };
 
   const handleCarouselClick = (now: number) => {
-    setCarouselIndex(now);
     setMapMarkerIcon(getMapMarkerIconForUser(users[now]));
   };
 
@@ -115,7 +117,6 @@ const MapMarker = (props: any) => {
                         margin: 5,
                       },
                     }}
-                    index={carouselIndex}
                     indicators={false}
                     timeout={0}
                     autoPlay={false}
@@ -124,7 +125,12 @@ const MapMarker = (props: any) => {
                     onChange={handleCarouselClick}
                   >
                     {users.map((user: User, index: number) => (
-                      <PopupCard key={index} user={user}></PopupCard>
+                      <PopupCard
+                        key={index}
+                        index={index}
+                        total={users.length}
+                        user={user}
+                      ></PopupCard>
                     ))}
                   </Carousel>
                   <div ref={setArrowRef} className={styles.arrow} id="arrow" />
@@ -138,4 +144,4 @@ const MapMarker = (props: any) => {
   );
 };
 
-export default MapMarker;
+export default React.memo(MapMarker);

@@ -8,6 +8,8 @@ import wondervilleLogo from "../../../../res/assets/wonderville-logo.png";
 
 type PopupCardProps = {
   user: User;
+  index: number;
+  total: number;
 };
 
 const PopupCard = (props: PopupCardProps) => {
@@ -33,10 +35,14 @@ const PopupCard = (props: PopupCardProps) => {
         <Image className={styles.assetImage} src={imageUrl} />
       </div>
       <div className={styles.dateContainer}>
-        <span className={styles.dateText}>
-          {user.date.toLocaleDateString("en-CA")}
-        </span>
+        <span>{user.date.toLocaleDateString("en-CA")}</span>
       </div>
+      {props.total > 1 && (
+        <div className={styles.indexContainer}>
+          {props.index + 1}/{props.total}
+        </div>
+      )}
+
       <div className={styles.wrapper + " " + styles.assetText}>{name}</div>
       <div className={styles.wrapper + " " + styles.locationText}>
         {locString}

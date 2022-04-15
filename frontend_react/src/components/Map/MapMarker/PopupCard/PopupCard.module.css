@@ -56,3 +56,10 @@
   padding: 5px;
   background-color: lightgray;
 }
+
+.indexContainer {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  bottom: 5px;
+}
