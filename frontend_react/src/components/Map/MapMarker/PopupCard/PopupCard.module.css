@@ -30,11 +30,18 @@
   font-size: 12px;
 }
 
+.assetImageContainer {
+  display: flex;
+  align-items: center;
+  width: 200px;
+  height: 94px;
+  margin-bottom: 5px;
+}
+
 .assetImage {
   min-width: 100%;
   width: 100%;
   border-radius: 5px 5px 0 0;
-  margin-bottom: 5px;
 }
 
 .dateContainer {
@@ -48,4 +55,11 @@
   border-radius: 10px;
   padding: 5px;
   background-color: lightgray;
+}
+
+.indexContainer {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  bottom: 5px;
 }

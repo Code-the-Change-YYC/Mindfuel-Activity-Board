@@ -1,10 +1,10 @@
 import { StylesProvider } from "@material-ui/core/styles";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
+import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
 import React, { useEffect, useState } from "react";
-import Alert from "@material-ui/lab/Alert";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import styles from "./SocialsComponent.module.css";
 
@@ -40,13 +40,13 @@ const SocialsComponent = () => {
       setPlaceholder(loadingPlaceholder);
 
       // Timeout timer for loading of Tweets, loading may fail if tracking prevention is turned on
-      let timer = setTimeout(() => setPlaceholder(failedPlaceholder), 5000);
+      const timer = setTimeout(() => setPlaceholder(failedPlaceholder), 5000);
 
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [anchorEl]);
+  }, [anchorEl, failedPlaceholder, loadingPlaceholder]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

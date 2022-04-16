@@ -3,7 +3,7 @@ import { LiveCounts } from "../utils/AppState";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 
-const initialData: { [id: string]: AnalyticsData } = {
+const initialData: Record<string, AnalyticsData> = {
   sessions: {
     number: 0,
     text: "Total Sessions",
@@ -26,14 +26,14 @@ const useAnalyticsData = (
   historicalCounts: { [cat: string]: number } | null
 ) => {
   const [analyticsData, setAnalyticsData] =
-    useState<{ [id: string]: AnalyticsData }>(initialData);
+    useState<Record<string, AnalyticsData>>(initialData);
 
   useEffect(() => {
     const updateData = (
       sessions: number,
       countries: number,
       cities: number
-    ): { [id: string]: AnalyticsData } => {
+    ): Record<string, AnalyticsData> => {
       const updatedData = { ...analyticsData };
       updatedData.sessions.number = sessions;
       updatedData.countries.number = countries;
@@ -41,7 +41,7 @@ const useAnalyticsData = (
       return updatedData;
     };
 
-    let updatedData: { [id: string]: AnalyticsData };
+    let updatedData: Record<string, AnalyticsData>;
     if (_.isNil(historicalCounts)) {
       updatedData = updateData(
         liveCounts.sessions,
