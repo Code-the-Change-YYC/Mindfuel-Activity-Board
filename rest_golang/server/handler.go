@@ -69,3 +69,7 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(resp)
 }
+
+func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "Not implemented yet!", http.StatusInternalServerError)
+}
