@@ -27,7 +27,7 @@ const generateUsers = () => {
     let loc = _.sample(locations); // Get random element from list of sample locations
     let user = {
       type: weighted_random(["wondervilleAsset", "wondervilleSession"], [0.8, 0.2]),
-      date: faker.date.between("2022-01-01", "2022-03-31"),
+      date: faker.date.between("2022-01-01", "2022-05-31"),
       ...loc
     }
 

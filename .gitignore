@@ -31,5 +31,6 @@ yarn-error.log*
 /mock_server/node_modules
 /mock_data/node_modules
 /mock_data/sample_data.json
+/mock_data/sample_stats.json
 
 
