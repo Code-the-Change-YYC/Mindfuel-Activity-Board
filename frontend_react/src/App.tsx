@@ -1,7 +1,9 @@
 import './App.css';
-import { ThemeProvider, createTheme } from '@material-ui/core';
-import Home from './views/Home/Home';
 import React from 'react';
+
+import { ThemeProvider, createTheme } from '@material-ui/core';
+
+import Home from './views/Home/Home';
 
 const baseTheme = createTheme();
 

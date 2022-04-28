@@ -1,11 +1,12 @@
+import axios, { AxiosResponse } from "axios";
+import Qs from "qs";
+
 import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { MapBounds } from "../utils/MapBounds";
 import { Stats } from "../utils/Stats";
-import Qs from "qs";
-import axios, { AxiosResponse } from "axios";
 
 const http = axios.create({
   baseURL: `${[process.env.REACT_APP_GOLANG_API]}`,

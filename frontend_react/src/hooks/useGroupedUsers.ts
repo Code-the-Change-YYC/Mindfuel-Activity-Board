@@ -1,6 +1,8 @@
-import { User } from "../utils/User";
 import { useEffect, useState } from "react";
+
 import _ from "lodash";
+
+import { User } from "../utils/User";
 
 const useGroupedUsers = (
   liveUsers: User[],

@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
+
+import _ from "lodash";
+
 import { AnalyticsData } from "../utils/AnalyticsData";
 import { LiveCounts } from "../utils/AppState";
-import { useEffect, useState } from "react";
-import _ from "lodash";
 
 const initialData: Record<string, AnalyticsData> = {
   sessions: {

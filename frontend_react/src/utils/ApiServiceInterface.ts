@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+
 import { MapBounds } from "./MapBounds";
 import { Stats } from "./Stats";
 import { User } from "./User";

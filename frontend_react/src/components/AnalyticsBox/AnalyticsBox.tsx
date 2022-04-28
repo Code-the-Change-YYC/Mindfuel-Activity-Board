@@ -1,6 +1,8 @@
-import { Card, Image } from "react-bootstrap";
-import { numberFormatter } from "../../utils/helpers";
 import React from "react";
+
+import { Card, Image } from "react-bootstrap";
+
+import { numberFormatter } from "../../utils/helpers";
 import styles from "./AnalyticsBox.module.css";
 
 type AnalyticsBox = {

@@ -1,15 +1,18 @@
-import { Image } from "react-bootstrap";
-import { StylesProvider } from "@material-ui/core/styles";
-import { User } from "../../../utils/User";
-import { getMapMarkerIconForUser } from "../../../utils/helpers";
+import React, { useEffect, useRef, useState } from "react";
+
 import Badge from "@material-ui/core/Badge";
-import Carousel from "react-material-ui-carousel";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
-import PopupCard from "./PopupCard/PopupCard";
-import React, { useEffect, useRef, useState } from "react";
+import { StylesProvider } from "@material-ui/core/styles";
+import { Image } from "react-bootstrap";
+import Carousel from "react-material-ui-carousel";
+
+import { getMapMarkerIconForUser } from "../../../utils/helpers";
+import { User } from "../../../utils/User";
 import styles from "./MapMarker.module.css";
+import PopupCard from "./PopupCard/PopupCard";
+
 
 const MapMarker = (props: any) => {
   const users: User[] = props.users;
