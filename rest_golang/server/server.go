@@ -28,7 +28,7 @@ func Start(mongoClient *mongo.Client) {
 	// Register routes
 	r.Route("/v1/api", func(r chi.Router) {
 		r.Mount("/users", usersRouter(handler))
-		r.Mount("/activity_stats", activityStatsRouter(handler))
+		r.Mount("/activity-stats", activityStatsRouter(handler))
 	})
 
 	log.Println("Listening on port 8080")

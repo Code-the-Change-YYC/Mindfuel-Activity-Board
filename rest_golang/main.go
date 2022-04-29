@@ -11,9 +11,9 @@ import (
 	"mindfuel.ca/activity_rest/socket"
 )
 
-// var addr = flag.String("addr", "wonderville.org:5556", "http service address")
+var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-var addr = flag.String("addr", "172.17.207.158:3210", "socket service address")
+// var addr = flag.String("addr", "172.17.207.158:3210", "socket service address")
 // Create wait group so that main thread finishes for goroutine to finish before terminating
 var wg = sync.WaitGroup{}
 

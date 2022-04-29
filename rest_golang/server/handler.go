@@ -37,7 +37,7 @@ const (
 const maxUsers = 125
 
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
-	filter, err := GetQueryParams(r.URL.Query())
+	filter, err := GetUserQueryParams(r.URL.Query())
 	if err != nil {
 		log.Println("Error decoding query parameters:", err)
 		http.Error(w, errorQueryParams, http.StatusInternalServerError)
@@ -71,5 +71,23 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
-	http.Error(w, "Not implemented yet!", http.StatusInternalServerError)
+	filter, err := GetStatsQueryParams(r.URL.Query())
+	if err != nil {
+		log.Println("Error decoding query parameters:", err)
+		http.Error(w, errorQueryParams, http.StatusInternalServerError)
+		return
+	}
+
+	activityStats, err := db.GetActivityStats(h.Client, filter)
+	if err != nil {
+		log.Println("Error processing GetActivityStats:", err)
+		http.Error(w, errorGeneric, http.StatusInternalServerError)
+		return
+	}
+
+	resp := model.ActivityStatsResponse{
+		Stats: activityStats,
+	}
+
+	json.NewEncoder(w).Encode(resp)
 }
