@@ -16,4 +16,5 @@ type ActivityStats struct {
 	Type     string `bson:"type"`
 	Url      string `bson:"url"`
 	ImageUrl string `bson:"imageUrl"`
+	Rank     int
 }

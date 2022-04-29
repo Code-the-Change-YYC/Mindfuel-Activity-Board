@@ -34,6 +34,34 @@ func GetDistinctCountQuery(field string, key string) bson.A {
 		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: key, Value: bson.D{{Key: "$addToSet", Value: "$" + field}}}}}},
 		bson.D{{Key: "$unwind", Value: "$" + key}},
 		bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: nil}, {Key: "count", Value: bson.D{{Key: "$sum", Value: 1}}}}}},
-		bson.D{{Key: "$project", Value: bson.D{{Key: "_id", Value: 0}, {Key: "count", Value: 1}}}},
 	}
 }
+
+// Groups by asset name and counts the number of instances of each asset.
+// Returns in sorted order and respects the limit provided by the filter.
+func GetActivityStatsQuery(filter model.StatsFilter) []bson.D {
+	
+	query := []bson.D{
+		{{Key: "$match", Value: bson.M{"$and": []bson.M{{"type": bson.M{"$eq": model.WondervilleAsset}}, {"date": bson.M{"$gt": filter.FromDate}}}}}},
+		{{Key: "$group", Value: bson.D{
+			{Key: "_id", Value: "$payload.asset.name"}, 
+			{Key: "imageUrl", Value: bson.M{"$first": "$payload.asset.imageUrl"}}, 
+			{Key: "url", Value: bson.M{"$first": "$url"}}, 
+			{Key: "type", Value: bson.M{"$first": "$payload.asset.type"}}, 
+			{Key: "hits", Value: bson.M{"$sum": 1}}}}},
+		{{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0}, 
+			{Key: "name", Value: "$_id"}, 
+			{Key: "hits", Value: 1}, 
+			{Key: "imageUrl", Value:1}, 
+			{Key: "type", Value:1}, 
+			{Key: "url", Value:1}}}},
+		{{Key: "$sort", Value: bson.D{{Key: "hits", Value: -1}}}},
+	}
+
+	if *filter.Top > 0 {
+		query = append(query, bson.D{{Key: "$limit", Value: filter.Top}})
+	}
+
+	return query
+} 
