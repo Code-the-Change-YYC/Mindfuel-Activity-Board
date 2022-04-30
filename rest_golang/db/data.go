@@ -6,6 +6,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"mindfuel.ca/activity_rest/model"
 )
 
@@ -82,3 +83,35 @@ func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, 
 	return counts, nil
 }
 
+// Gets activity stats ranked in descending order by number of hits
+func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.ActivityStats, error) {
+	var activityStats []model.ActivityStats
+	var cursor *mongo.Cursor
+	var err error
+
+	// Query activityStats table if all time stats are requested, otherwise query users table using fromDate
+	if filter.AllTime {
+		collection := client.Database("wondervilleDev").Collection("activityStats")
+		opts := options.Find().SetSort(bson.D{{Key: "hits", Value: -1}}).SetLimit(int64(*filter.Top))
+		cursor, err = collection.Find(context.TODO(), bson.M{}, opts)
+	} else {
+		collection := client.Database("wondervilleDev").Collection("users")
+		pipelineQuery := GetActivityStatsQuery(filter)
+		cursor, err = collection.Aggregate(context.TODO(), pipelineQuery)
+	}
+
+	if err != nil {
+		return activityStats, err
+	}
+
+	if err = cursor.All(context.TODO(), &activityStats); err != nil {
+		return activityStats, err
+	}
+
+	// Set rank field from the index
+	for i := range activityStats {
+		activityStats[i].Rank = i + 1
+	}
+
+	return activityStats, nil
+}

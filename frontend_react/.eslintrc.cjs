@@ -24,15 +24,26 @@ module.exports = {
       modules: true,
     },
   },
-  plugins: ["react", "@typescript-eslint", "sort-imports-es6-autofix"],
+  plugins: ["react", "@typescript-eslint", "eslint-plugin-import"],
   rules: {
-    "sort-imports-es6-autofix/sort-imports-es6": [
-      2,
+    "import/order": [
+      "error",
       {
-        ignoreCase: false,
-        ignoreMemberSort: false,
-        memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
-      },
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
     ],
     "no-undef": "warn",
     "no-case-declarations": "off",

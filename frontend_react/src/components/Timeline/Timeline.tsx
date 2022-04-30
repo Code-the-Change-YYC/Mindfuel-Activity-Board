@@ -1,10 +1,12 @@
-import { MapBounds } from "../../utils/MapBounds";
+import React from "react";
+
+import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
+import _ from "lodash";
+
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
-import React from "react";
-import Slider from "@material-ui/core/Slider";
-import _ from "lodash";
+import { MapBounds } from "../../utils/MapBounds";
 import styles from "./Timeline.module.css";
 
 type TimelineProps = {

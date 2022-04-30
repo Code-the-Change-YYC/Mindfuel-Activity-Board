@@ -1,12 +1,13 @@
+import { Color } from "@material-ui/lab/Alert";
+import { AxiosResponse } from "axios";
+import { Dispatch } from "redux";
+
 import { AlertModel } from "../utils/Alert.model";
 import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { AppState, MAX_USERS } from "../utils/AppState";
-import { AxiosResponse } from "axios";
-import { Color } from "@material-ui/lab/Alert";
-import { Dispatch } from "redux";
 import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
 

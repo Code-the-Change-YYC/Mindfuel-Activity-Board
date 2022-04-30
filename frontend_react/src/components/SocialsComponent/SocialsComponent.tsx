@@ -1,11 +1,13 @@
-import { StylesProvider } from "@material-ui/core/styles";
-import { TwitterTimelineEmbed } from "react-twitter-embed";
-import Alert from "@material-ui/lab/Alert";
+import React, { useEffect, useState } from "react";
+
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
-import React, { useEffect, useState } from "react";
+import { StylesProvider } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
+import Alert from "@material-ui/lab/Alert";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
+
 import styles from "./SocialsComponent.module.css";
 
 const twitterLink =
@@ -46,7 +48,7 @@ const SocialsComponent = () => {
         clearTimeout(timer);
       };
     }
-  }, [anchorEl, failedPlaceholder, loadingPlaceholder]);
+  }, [anchorEl]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

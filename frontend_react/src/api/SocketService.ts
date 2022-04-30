@@ -1,7 +1,7 @@
-import { SocketServiceInterface } from "../utils/SocketServiceInterface";
-import { User } from "../utils/User";
 import { addLiveUser, loading, setAlert } from "../state/actions";
 import store from "../state/store";
+import { SocketServiceInterface } from "../utils/SocketServiceInterface";
+import { User } from "../utils/User";
 
 let retries = 0;
 const timeout = 60000;

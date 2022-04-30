@@ -1,15 +1,19 @@
+import React, { ReactElement, useEffect, useState } from "react";
+
+import { Theme, useMediaQuery } from "@material-ui/core";
+import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
+import _ from "lodash";
+import { useSelector } from "react-redux";
+
+import useGroupedUsers from "../../hooks/useGroupedUsers";
 import { AppState } from "../../utils/AppState";
 import { Location } from "../../utils/Location";
 import { MapBounds } from "../../utils/MapBounds";
-import { Theme, useMediaQuery } from "@material-ui/core";
 import { User } from "../../utils/User";
-import { useSelector } from "react-redux";
-import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
-import MapMarker from "./MapMarker/MapMarker";
-import React, { ReactElement, useEffect, useState } from "react";
-import _ from "lodash";
 import styles from "./Map.module.css";
-import useGroupedUsers from "../../hooks/useGroupedUsers";
+import MapMarker from "./MapMarker/MapMarker";
+
+
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;

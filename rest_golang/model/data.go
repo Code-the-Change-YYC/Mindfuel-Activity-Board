@@ -9,3 +9,12 @@ type RawCounts struct {
 type CountsValue struct {
 	Val int `bson:"count"`
 }
+
+type ActivityStats struct {
+	Hits     int    `bson:"hits"`
+	Name     string `bson:"name"`
+	Type     string `bson:"type"`
+	Url      string `bson:"url"`
+	ImageUrl string `bson:"imageUrl"`
+	Rank     int
+}

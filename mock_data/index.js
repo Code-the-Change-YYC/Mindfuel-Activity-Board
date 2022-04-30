@@ -5,6 +5,7 @@ const config = {
   database: process.env.MONGODB_LOCAL_URI + "/wondervilleDev?authSource=admin",
   dropDatabase: true, // Drop database before import
 };
+
 const seeder = new Seeder(config);
 const collections = seeder.readCollectionsFromPath(
   path.resolve("./data"),

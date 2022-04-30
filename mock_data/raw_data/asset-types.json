@@ -28,15 +28,6 @@
             "active": true
         },
         {
-            "name": "Pirates of the Lodestone",
-            "url": "DSAMagnetism",
-            "id": 179,
-            "uuid": null,
-            "type": "Activity",
-            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
-            "active": true
-        },
-        {
             "name": "Fossil Fabricator",
             "url": "fossil-fabricator",
             "id": 15,
