@@ -8,6 +8,7 @@ import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions
 import { useAppDispatch } from "../../state/hooks";
 import { MapBounds } from "../../utils/MapBounds";
 import styles from "./Timeline.module.css";
+import { getTimelineDate } from "../../utils/helpers";
 
 type TimelineProps = {
   onDateChange: (fromDate: Date | null) => void;
@@ -58,26 +59,8 @@ const Timeline = (props: TimelineProps) => {
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
-    let fromDate: Date | null = new Date();
-
-    switch (newValue) {
-      case 0:
-        fromDate.setDate(fromDate.getDate() - 3 * 30.4167);
-        break;
-      case 25:
-        fromDate.setDate(fromDate.getDate() - 30.4167);
-        break;
-      case 50:
-        fromDate.setDate(fromDate.getDate() - 7);
-        break;
-      case 75:
-        fromDate.setDate(fromDate.getDate() - 1);
-        break;
-      case 100:
-        fromDate = null;
-        break;
-    }
-
+    const fromDate = getTimelineDate(newValue);
+  
     props.onDateChange(fromDate);
     if (!_.isNil(fromDate) && !_.isNil(props.mapBounds)) {
       dispatch(fetchHistoricalUsers(fromDate.toISOString(), props.mapBounds));

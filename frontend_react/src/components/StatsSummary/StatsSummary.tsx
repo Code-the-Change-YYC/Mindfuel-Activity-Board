@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { useState } from "react";
 
-import { Fade, IconButton } from "@material-ui/core";
+import { Fade, FormControl, IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { StylesProvider, withStyles } from "@material-ui/core/styles";
@@ -17,7 +17,7 @@ import activityIcon from "../../res/assets/map-marker-activity.svg";
 import gameIcon from "../../res/assets/map-marker-game.svg";
 import storyIcon from "../../res/assets/map-marker-story.svg";
 import videoIcon from "../../res/assets/map-marker-video.svg";
-import { numberFormatter } from "../../utils/helpers";
+import { getTimelineDate, numberFormatter } from "../../utils/helpers";
 import { Stats } from "../../utils/Stats";
 import styles from "./StatsSummary.module.css";
 
@@ -28,8 +28,8 @@ function createData(category: string, sessions: number, top: string) {
 
 const CustomTableCell = withStyles({
   root: {
-    borderBottom: "none"
-  }
+    borderBottom: "none",
+  },
 })(TableCell);
 
 const rows = [
@@ -50,9 +50,45 @@ type StatsProps = {
   stats?: { [category: string]: Stats };
 };
 
-const StatsSummary = (props: StatsProps) => {
-  const [open, setOpen] = React.useState(false);
+const items = [
+  {
+    value: 100,
+    label: "All time",
+  },
+  {
+    value: 75,
+    label: "1 day",
+  },
+  {
+    value: 50,
+    label: "1 week",
+  },
+  {
+    value: 25,
+    label: "1 month",
+  },
+  {
+    value: 0,
+    label: "3 months",
+  },
+];
 
+const StatsSummary = (props: StatsProps) => {
+  const [open, setOpen] = useState(false);
+  const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
+
+  const formClasses = {
+    root: styles.form,
+  };
+  const inputLabelClasses = {
+    root: styles.colorWhite,
+    focused: styles.colorWhite,
+  };
+  const selectClasses = {
+    root: styles.colorWhite,
+    select: styles.colorWhite,
+    icon: styles.colorWhite,
+  };
   const iconClasses = {
     root: styles.statsButton,
   };
@@ -68,6 +104,10 @@ const StatsSummary = (props: StatsProps) => {
   };
 
   const handleClose = () => setOpen(false);
+
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTrendingVal(event.target.value as number);
+  };
 
   return (
     <StylesProvider injectFirst>
@@ -89,12 +129,25 @@ const StatsSummary = (props: StatsProps) => {
         >
           <Fade in={open}>
             <div className={styles.modal}>
-              <TableContainer component={Paper}>
-                <Table
-                  size="small"
-                  classes={tableHeaderClasses}
-                  aria-label="simple table"
+              <FormControl classes={formClasses}>
+                <InputLabel id="demo-simple-select-label" classes={inputLabelClasses}>
+                  Trending
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  autoWidth={true}
+                  value={trendingVal}
+                  onChange={handleChange}
+                  classes={selectClasses}
                 >
+                  {items.map((item) => (
+                    <MenuItem value={item.value}>{item.label}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TableContainer component={Paper}>
+                <Table size="small" classes={tableHeaderClasses} aria-label="simple table">
                   <TableHead>
                     <TableRow>
                       <CustomTableCell>Icon</CustomTableCell>
@@ -113,9 +166,7 @@ const StatsSummary = (props: StatsProps) => {
                         </CustomTableCell>
                         <CustomTableCell>{row.category}</CustomTableCell>
                         <CustomTableCell>{row.top}</CustomTableCell>
-                        <CustomTableCell align="right">
-                          {row.formattedSessions}
-                        </CustomTableCell>
+                        <CustomTableCell align="right">{row.formattedSessions}</CustomTableCell>
                       </TableRow>
                     ))}
                   </TableBody>

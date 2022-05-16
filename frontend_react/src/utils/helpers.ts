@@ -6,7 +6,6 @@ import {
   VideoMapMarker,
 } from "../res/assets";
 import { AssetType } from "./AssetType.enum";
-import { Location } from "./Location";
 import { User } from "./User";
 
 const iconsMap: Record<string, string> = {
@@ -42,28 +41,6 @@ export const toDateTime = (secs: number): Date => {
   return t;
 };
 
-export const sameDay = (d1?: Date | string, d2?: Date | string): boolean => {
-  if (d1 === undefined || d2 === undefined) {
-    return false;
-  }
-
-  d1 = typeof d1 === "string" ? new Date(d1) : d1;
-  d2 = typeof d2 === "string" ? new Date(d2) : d2;
-
-  return (
-    d1.getDate() === d2.getDate() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getFullYear() === d2.getFullYear()
-  );
-};
-
-export const sameLocation = (l1: Location, l2: Location): boolean => {
-  if (l1.latitude === l2.latitude && l1.longitude === l2.longitude) {
-    return true;
-  }
-  return false;
-};
-
 export const getMapMarkerIconForUser = (user: User): string => {
   const assetType =
     user.type === AssetType.WondervilleSession
@@ -72,3 +49,27 @@ export const getMapMarkerIconForUser = (user: User): string => {
 
   return iconsMap[assetType];
 };
+
+export const getTimelineDate = (val: number | number[]): Date | null => {
+  let date: Date | null = new Date();
+
+  switch (val) {
+    case 0:
+      date.setDate(date.getDate() - 3 * 30.4167);
+      break;
+    case 25:
+      date.setDate(date.getDate() - 30.4167);
+      break;
+    case 50:
+      date.setDate(date.getDate() - 7);
+      break;
+    case 75:
+      date.setDate(date.getDate() - 1);
+      break;
+    case 100:
+      date = null;
+      break;
+  }
+
+  return date;
+}
