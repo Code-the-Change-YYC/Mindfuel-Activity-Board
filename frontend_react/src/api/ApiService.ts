@@ -2,11 +2,11 @@ import axios, { AxiosResponse } from "axios";
 import Qs from "qs";
 
 import {
+  ActivityStatsApiResponse,
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { MapBounds } from "../utils/MapBounds";
-import { Stats } from "../utils/Stats";
 
 const http = axios.create({
   baseURL: `${[process.env.REACT_APP_GOLANG_API]}`,
@@ -37,13 +37,15 @@ const getHistoricalUsers = (
   });
 };
 
-const getStatsSummary = (): Promise<AxiosResponse<Stats[]>> => {
-  return http.get<Stats[]>("/statsSummary");
+const getActivityStats = (allTime: boolean, fromDate?: string, top?: number): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
+  return http.get<ActivityStatsApiResponse>("/activity-stats", {
+    params: { allTime: allTime, fromDate: fromDate, top: top }
+  });
 };
 
 const ApiService: ApiServiceInterface = {
   getHistoricalUsers: getHistoricalUsers,
-  getStatsSummary: getStatsSummary,
+  getActivityStats: getActivityStats,
 };
 
 export default ApiService;

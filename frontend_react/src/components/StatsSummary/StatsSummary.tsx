@@ -99,9 +99,7 @@ const StatsSummary = (props: StatsProps) => {
     root: styles.row,
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
@@ -153,9 +151,7 @@ const StatsSummary = (props: StatsProps) => {
                       <CustomTableCell>Icon</CustomTableCell>
                       <CustomTableCell>Category</CustomTableCell>
                       <CustomTableCell>Top</CustomTableCell>
-                      <CustomTableCell align="right">
-                        Sessions
-                      </CustomTableCell>
+                      <CustomTableCell align="right">Sessions</CustomTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
