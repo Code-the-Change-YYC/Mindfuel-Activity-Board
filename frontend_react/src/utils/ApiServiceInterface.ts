@@ -6,7 +6,7 @@ import { User } from "./User";
 
 export type ApiServiceInterface = {
   getHistoricalUsers: (fromDate: string, mapBounds: MapBounds, maxUsers: number) => Promise<AxiosResponse<UsersApiResponse>>;
-  getActivityStats: (allTime: boolean, fromDate?: string, top?: number) => Promise<AxiosResponse<ActivityStatsApiResponse>>;
+  getActivityStats: (fromDate?: string, top?: number) => Promise<AxiosResponse<ActivityStatsApiResponse>>;
 };
 
 export type UsersApiResponse = {
@@ -16,5 +16,4 @@ export type UsersApiResponse = {
 
 export type ActivityStatsApiResponse = {
   stats: Stats[];
-  counts: { [category: string]: number };
 }

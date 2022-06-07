@@ -50,8 +50,8 @@ export const getMapMarkerIconForUser = (user: User): string => {
   return iconsMap[assetType];
 };
 
-export const getTimelineDate = (val: number | number[]): Date | null => {
-  let date: Date | null = new Date();
+export const getTimelineDate = (val: number | number[]): Date | undefined => {
+  let date: Date | undefined = new Date();
 
   switch (val) {
     case 0:
@@ -67,7 +67,7 @@ export const getTimelineDate = (val: number | number[]): Date | null => {
       date.setDate(date.getDate() - 1);
       break;
     case 100:
-      date = null;
+      date = undefined;
       break;
   }
 

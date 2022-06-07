@@ -11,12 +11,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { EqualizerOutlined } from "@material-ui/icons";
+import { AxiosResponse } from "axios";
 import { Image } from "react-bootstrap";
 
+import ApiService from "../../api/ApiService";
 import activityIcon from "../../res/assets/map-marker-activity.svg";
 import gameIcon from "../../res/assets/map-marker-game.svg";
 import storyIcon from "../../res/assets/map-marker-story.svg";
 import videoIcon from "../../res/assets/map-marker-video.svg";
+import { ActivityStatsApiResponse } from "../../utils/ApiServiceInterface";
 import { getTimelineDate, numberFormatter } from "../../utils/helpers";
 import { Stats } from "../../utils/Stats";
 import styles from "./StatsSummary.module.css";
@@ -82,7 +85,6 @@ const StatsSummary = (props: StatsProps) => {
   };
   const inputLabelClasses = {
     root: styles.colorWhite,
-    focused: styles.colorWhite,
   };
   const selectClasses = {
     root: styles.colorWhite,
@@ -104,12 +106,18 @@ const StatsSummary = (props: StatsProps) => {
   const handleClose = () => setOpen(false);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTrendingVal(event.target.value as number);
+    const val = event.target.value as number;
+    setTrendingVal(val);
+  
+    const fromDate = getTimelineDate(val);
+    ApiService.getActivityStats(fromDate?.toISOString()).then((response: AxiosResponse<ActivityStatsApiResponse>) => {
+       console.log(response.data.stats); 
+    });
+  
   };
 
   return (
     <StylesProvider injectFirst>
-      <div>
         <IconButton
           aria-label="open drawer"
           color="inherit"
@@ -128,19 +136,17 @@ const StatsSummary = (props: StatsProps) => {
           <Fade in={open}>
             <div className={styles.modal}>
               <FormControl classes={formClasses}>
-                <InputLabel id="demo-simple-select-label" classes={inputLabelClasses}>
+                <InputLabel classes={inputLabelClasses} style={{color: "white"}}>
                   Trending
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   autoWidth={true}
                   value={trendingVal}
                   onChange={handleChange}
                   classes={selectClasses}
                 >
                   {items.map((item) => (
-                    <MenuItem value={item.value}>{item.label}</MenuItem>
+                    <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
                   ))}
                 </Select>
               </FormControl>
@@ -171,7 +177,6 @@ const StatsSummary = (props: StatsProps) => {
             </div>
           </Fade>
         </Modal>
-      </div>
     </StylesProvider>
   );
 };

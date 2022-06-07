@@ -6,12 +6,12 @@ import _ from "lodash";
 
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
+import { getTimelineDate } from "../../utils/helpers";
 import { MapBounds } from "../../utils/MapBounds";
 import styles from "./Timeline.module.css";
-import { getTimelineDate } from "../../utils/helpers";
 
 type TimelineProps = {
-  onDateChange: (fromDate: Date | null) => void;
+  onDateChange: (fromDate?: Date) => void;
   mapBounds?: MapBounds;
 };
 

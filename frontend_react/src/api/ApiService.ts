@@ -37,9 +37,9 @@ const getHistoricalUsers = (
   });
 };
 
-const getActivityStats = (allTime: boolean, fromDate?: string, top?: number): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
+const getActivityStats = (fromDate?: string, top?: number): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
   return http.get<ActivityStatsApiResponse>("/activity-stats", {
-    params: { allTime: allTime, fromDate: fromDate, top: top }
+    params: { fromDate: fromDate, top: top }
   });
 };
 

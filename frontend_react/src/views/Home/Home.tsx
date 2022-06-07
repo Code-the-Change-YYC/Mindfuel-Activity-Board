@@ -68,7 +68,7 @@ const Home = () => {
     setShowAreaButton(false);
   };
 
-  const handleDateChange = (fromDate: Date | null) => {
+  const handleDateChange = (fromDate?: Date) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
   };
