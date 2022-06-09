@@ -13,9 +13,8 @@ type UserFilter struct {
 }
 
 type StatsFilter struct {
-	AllTime           bool      `schema:"allTime"` // Whether to return all time stats, if false or not provided need to provide fromDate
 	Top               *int      `schema:"top"` // Limit return to the top number of activities
-	FromDateTimestamp string    `schema:"fromDate"`
+	FromDateTimestamp *string    `schema:"fromDate,omitempty"`
 	FromDate          time.Time `schema:"-"` // Used to store converted fromDate, not included in raw query parameters
 }
 

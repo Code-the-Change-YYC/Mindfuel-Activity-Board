@@ -32,7 +32,7 @@ const getHistoricalUsers = (
   mapBounds: MapBounds,
   maxUsers: number
 ): Promise<AxiosResponse<UsersApiResponse>> => {
-  return http.get<UsersApiResponse>(`/users`, {
+  return http.get<UsersApiResponse>("/users", {
     params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers },
   });
 };

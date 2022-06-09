@@ -10,7 +10,6 @@
   background-color: #e7c800;
 }
 
-
 .modal {
   position: absolute;
   top: 50%;
@@ -19,13 +18,21 @@
   background-color: #52247f;
   padding: 10px;
   border-radius: 5px;
+  width: 500px;
+  max-width: 90vw;
+}
+
+.tableContainer {
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
 }
 
 .tableHeader {
   background-color: #e7c800;
 }
 
-.row {
+.tableRow {
   border-bottom: 1px solid rgb(82, 36, 127, 0.5);
   background-color:white;
 }
@@ -43,6 +50,11 @@
 
 .colorWhite {
   color: white;
+}
+
+.loadingContainer {
+  height: 100px;
+  text-align: center;
 }
 
 /* Account for permanent sidebar at above mobile widths */

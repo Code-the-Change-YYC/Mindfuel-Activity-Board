@@ -89,8 +89,8 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	var cursor *mongo.Cursor
 	var err error
 
-	// Query activityStats table if all time stats are requested, otherwise query users table using fromDate
-	if filter.AllTime {
+	// Query activityStats table if no fromDate is provided (returns all time stats), otherwise query users table using fromDate
+	if filter.FromDateTimestamp == nil {
 		collection := client.Database("wondervilleDev").Collection("activityStats")
 		opts := options.Find().SetSort(bson.D{{Key: "hits", Value: -1}}).SetLimit(int64(*filter.Top))
 		cursor, err = collection.Find(context.TODO(), bson.M{}, opts)

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Fade, FormControl, IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { CircularProgress, Fade, FormControl, IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
 import { StylesProvider, withStyles } from "@material-ui/core/styles";
@@ -23,11 +23,8 @@ import { ActivityStatsApiResponse } from "../../utils/ApiServiceInterface";
 import { getTimelineDate, numberFormatter } from "../../utils/helpers";
 import { Stats } from "../../utils/Stats";
 import styles from "./StatsSummary.module.css";
-
-function createData(category: string, sessions: number, top: string) {
-  const formattedSessions = numberFormatter(sessions, 2);
-  return { category, formattedSessions, top };
-}
+import { useAppDispatch } from "../../state/hooks";
+import { setAlert } from "../../state/actions";
 
 const CustomTableCell = withStyles({
   root: {
@@ -35,22 +32,11 @@ const CustomTableCell = withStyles({
   },
 })(TableCell);
 
-const rows = [
-  createData("Game", 37895, "Save The World"),
-  createData("Video", 3437, "Waste No More"),
-  createData("Story", 400, "A Cup full of Nano"),
-  createData("Activity", 2593, "Pirates of the Lodestone"),
-];
-
 const icons: any = {
   Game: gameIcon,
   Video: videoIcon,
   Activity: activityIcon,
   Story: storyIcon,
-};
-
-type StatsProps = {
-  stats?: { [category: string]: Stats };
 };
 
 const items = [
@@ -76,8 +62,11 @@ const items = [
   },
 ];
 
-const StatsSummary = (props: StatsProps) => {
+const StatsSummary = () => {
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [stats, setStats] = useState<Stats[]>([]);
   const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
 
   const formClasses = {
@@ -94,11 +83,32 @@ const StatsSummary = (props: StatsProps) => {
   const iconClasses = {
     root: styles.statsButton,
   };
+  const tableContainerClasses = {
+    root: styles.tableContainer,
+  };
   const tableHeaderClasses = {
     root: styles.tableHeader,
   };
-  const rowClasses = {
-    root: styles.row,
+  const tableRowClasses = {
+    root: styles.tableRow,
+  };
+
+  useEffect(() => {
+    // Get initial data on instantiation
+    setLoading(true);
+    const fromDate = getTimelineDate(trendingVal);
+    ApiService.getActivityStats(fromDate?.toISOString())
+      .then(
+        (response: AxiosResponse<ActivityStatsApiResponse>) => {
+          setStats(response.data.stats.sort((a, b) => a.rank - b.rank));
+        },
+        () => handleApiError()
+      )
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleApiError = () => {
+    dispatch(setAlert("Unable to complete request, please try again!", "error"));
   };
 
   const handleOpen = () => setOpen(true);
@@ -106,77 +116,104 @@ const StatsSummary = (props: StatsProps) => {
   const handleClose = () => setOpen(false);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setLoading(true);
     const val = event.target.value as number;
     setTrendingVal(val);
-  
+
     const fromDate = getTimelineDate(val);
-    ApiService.getActivityStats(fromDate?.toISOString()).then((response: AxiosResponse<ActivityStatsApiResponse>) => {
-       console.log(response.data.stats); 
-    });
-  
+    ApiService.getActivityStats(fromDate?.toISOString())
+      .then(
+        (response: AxiosResponse<ActivityStatsApiResponse>) => {
+          setStats(response.data.stats);
+        },
+        () => handleApiError()
+      )
+      .finally(() => setLoading(false));
+  };
+
+  const getRows = () => {
+    if (loading) {
+      return (
+        <TableRow classes={tableRowClasses}>
+          <CustomTableCell className={styles.loadingContainer} colSpan={4}>
+            <CircularProgress style={{color: "#52247f"}} />
+          </CustomTableCell>
+      </TableRow>
+      )
+    } else if (stats.length > 0) {
+      return stats.map((row: Stats) => (
+        <TableRow key={row.name} classes={tableRowClasses}>
+          <CustomTableCell component="th" scope="row">
+            <Image src={icons[row.type]} className={styles.icon} />
+          </CustomTableCell>
+          <CustomTableCell>{row.type}</CustomTableCell>
+          <CustomTableCell>{row.name}</CustomTableCell>
+          <CustomTableCell align="right">{numberFormatter(row.hits, 1)}</CustomTableCell>
+        </TableRow>
+      ));
+    } else {
+      return (
+        <TableRow classes={tableRowClasses}>
+          <CustomTableCell style={{ textAlign: "center" }} colSpan={4}>
+            No data
+          </CustomTableCell>
+        </TableRow>
+      );
+    }
   };
 
   return (
     <StylesProvider injectFirst>
-        <IconButton
-          aria-label="open drawer"
-          color="inherit"
-          onClick={handleOpen}
-          classes={iconClasses}
-        >
-          <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
-        </IconButton>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          className={styles.modalContainer}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Fade in={open}>
-            <div className={styles.modal}>
-              <FormControl classes={formClasses}>
-                <InputLabel classes={inputLabelClasses} style={{color: "white"}}>
-                  Trending
-                </InputLabel>
-                <Select
-                  autoWidth={true}
-                  value={trendingVal}
-                  onChange={handleChange}
-                  classes={selectClasses}
-                >
-                  {items.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <TableContainer component={Paper}>
-                <Table size="small" classes={tableHeaderClasses} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <CustomTableCell>Icon</CustomTableCell>
-                      <CustomTableCell>Category</CustomTableCell>
-                      <CustomTableCell>Top</CustomTableCell>
-                      <CustomTableCell align="right">Sessions</CustomTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <TableRow key={row.category} classes={rowClasses}>
-                        <CustomTableCell component="th" scope="row">
-                          <Image src={icons[row.category]} className={styles.icon} />
-                        </CustomTableCell>
-                        <CustomTableCell>{row.category}</CustomTableCell>
-                        <CustomTableCell>{row.top}</CustomTableCell>
-                        <CustomTableCell align="right">{row.formattedSessions}</CustomTableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          </Fade>
-        </Modal>
+      <IconButton
+        aria-label="open drawer"
+        color="inherit"
+        onClick={handleOpen}
+        classes={iconClasses}
+      >
+        <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
+      </IconButton>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        className={styles.modalContainer}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Fade in={open}>
+          <div className={styles.modal}>
+            <FormControl classes={formClasses}>
+              <InputLabel classes={inputLabelClasses} style={{ color: "white" }}>
+                Trending
+              </InputLabel>
+              <Select
+                autoWidth={true}
+                value={trendingVal}
+                onChange={handleChange}
+                classes={selectClasses}
+              >
+                {items.map((item) => (
+                  <MenuItem key={item.value} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <TableContainer classes={tableContainerClasses} component={Paper}>
+              <Table classes={tableHeaderClasses} size="small" aria-label="stats table">
+                <TableHead>
+                  <TableRow>
+                    <CustomTableCell>Icon</CustomTableCell>
+                    <CustomTableCell>Category</CustomTableCell>
+                    <CustomTableCell>Top</CustomTableCell>
+                    <CustomTableCell align="right">Sessions</CustomTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{getRows()}</TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </Fade>
+      </Modal>
     </StylesProvider>
   );
 };

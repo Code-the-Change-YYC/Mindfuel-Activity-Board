@@ -28,8 +28,7 @@ func GetStatsQueryParams(params url.Values) (model.StatsFilter, error) {
 		return filter, err
 	}
 
-	// Only parse fromDate if all time stats are not requested
-	if !filter.AllTime {
+	if filter.FromDateTimestamp != nil {
 		fromDate, err := time.Parse(time.RFC3339, params.Get("fromDate"))
 		if err != nil {
 			return filter, err
