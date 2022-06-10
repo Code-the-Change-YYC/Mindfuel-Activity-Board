@@ -1,7 +1,7 @@
-import { SocketServiceInterface } from "../utils/SocketServiceInterface";
-import { User } from "../utils/User";
 import { addLiveUser, loading, setAlert } from "../state/actions";
 import store from "../state/store";
+import { SocketServiceInterface } from "../utils/SocketServiceInterface";
+import { User } from "../utils/User";
 
 let retries = 0;
 const timeout = 60000;
@@ -15,9 +15,8 @@ const connect = (websocketAddress: string) => {
       store.dispatch(loading(false));
       if (retries > 0) {
         retries = 0; // Reset retries count
-        store.dispatch(setAlert("Successfully connected!"));
+        store.dispatch(setAlert("Live connection successfully established!"));
       }
-      console.log("New client connected!");
     };
 
     SocketService.webSocket.onmessage = (event) => {
@@ -31,7 +30,7 @@ const connect = (websocketAddress: string) => {
       store.dispatch(loading(false));
       store.dispatch(
         setAlert(
-          `Connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
+          `Live connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
           "error"
         )
       );
@@ -45,7 +44,7 @@ const connect = (websocketAddress: string) => {
       } else {
         store.dispatch(
           setAlert(
-            "Max socket connection retries reached. Please refresh the page to try connecting again.",
+            "Max live connection retries reached. Please refresh the page to try connecting again.",
             "error"
           )
         );
@@ -53,7 +52,7 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onerror = (err) => {
-      console.error(`Socket encountered the following error, closing socket: ${err}`);
+      console.error("Socket encountered the following error, closing socket: ", err);
       SocketService.webSocket?.close();
     };
   }

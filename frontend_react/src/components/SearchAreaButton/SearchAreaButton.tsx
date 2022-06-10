@@ -1,5 +1,7 @@
-import Button from "@material-ui/core/Button";
 import React from "react";
+
+import Button from "@material-ui/core/Button";
+
 import styles from "./SearchAreaButton.module.css";
 
 type SearchAreaButtonProps = {

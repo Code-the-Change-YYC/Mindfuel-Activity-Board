@@ -1,0 +1,103 @@
+{
+    "assetTypes": [
+        {
+            "name": "Solar Energy Defenders",
+            "url": "solarenergydefenders",
+            "id": 150,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Solar-Energy-Defenders-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Save The World",
+            "url": "save-the-world",
+            "id": 29,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Mega Machines",
+            "url": "megamachines",
+            "id": 167,
+            "uuid": null,
+            "type": "Activity",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Mega-Machines-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Fossil Fabricator",
+            "url": "fossil-fabricator",
+            "id": 15,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Fossil-Fabricator-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Home Sweet Home",
+            "url": "home-sweet-home",
+            "id": 81,
+            "uuid": null,
+            "type": "Activity",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Home-Sweet-Home-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Crash Test: Power Shootout",
+            "url": "crash-test-power-shootout",
+            "id": 7,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Crash-Test-Power-Shootout-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Robot Factory",
+            "url": "robot-factory",
+            "id": 28,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Robot-Factory-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Airborne Experiment",
+            "url": "airborne-experiment",
+            "id": 4,
+            "uuid": null,
+            "type": "Game",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Airborne-Experiment-Thumb.png",
+            "active": true
+        },
+        {
+            "name": "Pirates of the Lodestone",
+            "type": "Activity",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+            "active": true,
+            "url": "piratesofthelodestone",
+            "id": 0,
+            "uuid": null
+        },
+        {
+            "name": "Diet Data",
+            "type": "Story",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Diet-Data-Thumb.png",
+            "active": true,
+            "url": "dietdata",
+            "id": 0,
+            "uuid": null
+        },
+        {
+            "name": "Waste No More",
+            "type": "Video",
+            "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+            "active": true,
+            "url": "wastenomore",
+            "id": 0,
+            "uuid": null
+        }
+    ]
+}

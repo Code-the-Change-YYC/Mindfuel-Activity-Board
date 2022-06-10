@@ -1,29 +1,54 @@
-import { StylesProvider } from "@material-ui/core/styles";
-import { TwitterTimelineEmbed } from "react-twitter-embed";
+import React, { useEffect, useState } from "react";
+
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
-import React, { useState } from "react";
+import { StylesProvider } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
+import Alert from "@material-ui/lab/Alert";
+import { TwitterTimelineEmbed } from "react-twitter-embed";
+
 import styles from "./SocialsComponent.module.css";
 
 const twitterLink =
   "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";
 
+const loadingClasses = {
+  colorPrimary: styles.loadingIndicator,
+  bar: styles.loadingBar,
+};
+
 const SocialsComponent = () => {
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(
-    null
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [placeholder, setPlaceholder] = useState<JSX.Element | null>(null);
+  const loadingPlaceholder = <LinearProgress classes={loadingClasses} />;
+  const failedPlaceholder = (
+    <div className={styles.loadMessage}>
+      <Alert severity="error">
+        Failed to load Tweets! Is tracking prevention turned on in your browser?
+      </Alert>
+    </div>
   );
+
   const iconClasses = {
     root: styles.socialsIconButton,
   };
   const popoverClasses = {
     paper: styles.popoverPaper,
   };
-  const loadingClasses = {
-    colorPrimary: styles.loadingIndicator,
-    bar: styles.loadingBar,
-  };
+
+  useEffect(() => {
+    if (anchorEl != null) {
+      setPlaceholder(loadingPlaceholder);
+
+      // Timeout timer for loading of Tweets, loading may fail if tracking prevention is turned on
+      const timer = setTimeout(() => setPlaceholder(failedPlaceholder), 5000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [anchorEl]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -73,7 +98,7 @@ const SocialsComponent = () => {
           options={{ height: 400, width: 275 }}
           noFooter={true}
           noHeader={true}
-          placeholder={<LinearProgress classes={loadingClasses} />}
+          placeholder={placeholder}
         />
       </Popover>
     </StylesProvider>

@@ -1,9 +1,11 @@
 import './App.css';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
-import Home from './views/Home/Home';
 import React from 'react';
 
-const baseTheme = createMuiTheme();
+import { ThemeProvider, createTheme } from '@material-ui/core';
+
+import Home from './views/Home/Home';
+
+const baseTheme = createTheme();
 
 const App = () => {
   return (

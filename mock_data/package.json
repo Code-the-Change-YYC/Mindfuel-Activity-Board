@@ -1,0 +1,16 @@
+{
+  "name": "mock_data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "mongo-seeding": "^3.7.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^6.0.0-beta.0"
+  }
+}

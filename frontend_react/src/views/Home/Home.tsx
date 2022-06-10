@@ -1,21 +1,23 @@
-import { AlertModel } from "../../utils/Alert.model";
-import { AppState } from "../../utils/AppState";
+import React, { useEffect, useState } from "react";
+
 import { CircularProgress } from "@material-ui/core";
-import { MapBounds } from "../../utils/MapBounds";
-import { User } from "../../utils/User";
-import { fetchHistoricalUsers } from "../../state/actions";
-import { useAppDispatch } from "../../state/hooks";
+import _ from "lodash";
 import { useSelector } from "react-redux";
+
+import SocketService from "../../api/SocketService";
 import AppAlert from "../../components/AppAlert/AppAlert";
 import Map from "../../components/Map/Map";
-import React, { useEffect, useState } from "react";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
 import Sidenav from "../../components/Sidenav/Sidenav";
 import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
-import SocketService from "../../api/SocketService";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import _ from "lodash";
+import { fetchHistoricalUsers } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
+import { AlertModel } from "../../utils/Alert.model";
+import { AppState } from "../../utils/AppState";
+import { MapBounds } from "../../utils/MapBounds";
+import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 
 const Home = () => {
@@ -38,6 +40,8 @@ const Home = () => {
   useEffect(() => {
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
+    // const websocketAddress = `${[process.env.REACT_APP_LOCAL_WEBSOCKET]}`;
+
     SocketService.connect(websocketAddress);
 
     // Call disconnect() on unmount
@@ -53,6 +57,12 @@ const Home = () => {
     }
   };
 
+  const getHistoricalUsers = () => {
+    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
+    }
+  };
+
   const handleSearchAreaClick = () => {
     getHistoricalUsers();
     setShowAreaButton(false);
@@ -61,12 +71,6 @@ const Home = () => {
   const handleDateChange = (fromDate: Date | null) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
-  };
-
-  const getHistoricalUsers = () => {
-    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
-    }
   };
 
   return (

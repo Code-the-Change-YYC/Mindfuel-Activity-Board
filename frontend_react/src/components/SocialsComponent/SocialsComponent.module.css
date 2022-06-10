@@ -33,3 +33,8 @@
 .loadingBar {
   background-color: #52247f;
 }
+
+.loadMessage {
+  width: 265px;
+  padding: 5px
+}

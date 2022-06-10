@@ -1,12 +1,48 @@
+import {
+  ActivityMapMarker,
+  GameMapMarker,
+  SessionMapMarker,
+  StoryMapMarker,
+  VideoMapMarker,
+} from "../res/assets";
+import { AssetType } from "./AssetType.enum";
 import { Location } from "./Location";
+import { User } from "./User";
+
+const iconsMap: Record<string, string> = {
+  activity: ActivityMapMarker,
+  game: GameMapMarker,
+  video: VideoMapMarker,
+  story: StoryMapMarker,
+  session: SessionMapMarker,
+};
+
+export const numberFormatter = (num: number, digits: number): string => {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "k" },
+    { value: 1e6, symbol: "M" },
+  ];
+
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  const item = lookup
+    .slice()
+    .reverse()
+    .find(function (item) {
+      return num >= item.value;
+    });
+  return item
+    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
+    : "0";
+};
 
 export const toDateTime = (secs: number): Date => {
   const t = new Date(1970, 0, 1); // Epoch
   t.setSeconds(secs);
   return t;
-}
+};
 
-export const sameDay = (d1?: Date | string, d2?: Date | string) => {
+export const sameDay = (d1?: Date | string, d2?: Date | string): boolean => {
   if (d1 === undefined || d2 === undefined) {
     return false;
   }
@@ -21,9 +57,18 @@ export const sameDay = (d1?: Date | string, d2?: Date | string) => {
   );
 };
 
-export const sameLocation = (l1: Location, l2: Location) => {
+export const sameLocation = (l1: Location, l2: Location): boolean => {
   if (l1.latitude === l2.latitude && l1.longitude === l2.longitude) {
     return true;
   }
   return false;
+};
+
+export const getMapMarkerIconForUser = (user: User): string => {
+  const assetType =
+    user.type === AssetType.WondervilleSession
+      ? "session"
+      : user.payload.asset!.type.toLowerCase();
+
+  return iconsMap[assetType];
 };

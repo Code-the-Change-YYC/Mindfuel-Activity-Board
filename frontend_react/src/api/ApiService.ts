@@ -1,14 +1,15 @@
+import axios, { AxiosResponse } from "axios";
+import Qs from "qs";
+
 import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { MapBounds } from "../utils/MapBounds";
 import { Stats } from "../utils/Stats";
-import Qs from 'qs';
-import axios from "axios";
 
 const http = axios.create({
-  baseURL: `${[process.env.REACT_APP_FIREBASE_API]}`,
+  baseURL: `${[process.env.REACT_APP_GOLANG_API]}`,
   headers: {
     "Content-type": "application/json",
   },
@@ -26,13 +27,17 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
-const getHistoricalUsers = (fromDate: string, mapBounds?: MapBounds) => {
-  return http.get<UsersApiResponse>("/user", {
-    params: { fromDate: fromDate, mapBounds: mapBounds },
+const getHistoricalUsers = (
+  fromDate: string,
+  mapBounds: MapBounds,
+  maxUsers: number
+): Promise<AxiosResponse<UsersApiResponse>> => {
+  return http.get<UsersApiResponse>(`/users`, {
+    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers },
   });
 };
 
-const getStatsSummary = () => {
+const getStatsSummary = (): Promise<AxiosResponse<Stats[]>> => {
   return http.get<Stats[]>("/statsSummary");
 };
 

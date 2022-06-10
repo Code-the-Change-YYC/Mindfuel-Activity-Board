@@ -1,15 +1,19 @@
+import React, { ReactElement, useEffect, useState } from "react";
+
+import { Theme, useMediaQuery } from "@material-ui/core";
+import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
+import _ from "lodash";
+import { useSelector } from "react-redux";
+
+import useGroupedUsers from "../../hooks/useGroupedUsers";
 import { AppState } from "../../utils/AppState";
 import { Location } from "../../utils/Location";
 import { MapBounds } from "../../utils/MapBounds";
-import { Theme, useMediaQuery } from "@material-ui/core";
 import { User } from "../../utils/User";
-import { useSelector } from "react-redux";
-import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
-import MapMarker from "../MapMarker/MapMarker";
-import React, { ReactElement, useEffect, useState } from "react";
-import _ from "lodash";
 import styles from "./Map.module.css";
-import useProcessedUsers from "../../hooks/useMapMarkers";
+import MapMarker from "./MapMarker/MapMarker";
+
+
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
@@ -22,6 +26,7 @@ const Map = (props: MapProps) => {
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+  const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
   const defaultZoom = 4;
 
   // App state variables
@@ -31,34 +36,7 @@ const Map = (props: MapProps) => {
   );
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
   // Set historical markers when historical users prop changes
-  const processedUsers = useProcessedUsers(liveUsers, historicalUsers);
-
-  useEffect(() => {
-    if (!_.isNil(processedUsers)) {
-      const markers = processedUsers?.map((user, index) => {
-        const open = newUser && _.isEqual(user, newUser) ? true : false;
-        return (
-          <MapMarker
-            key={`${index} + ${open}`}
-            user={user}
-            newUser={_.isNil(historicalUsers) ? newUser : null}
-            open={open}
-            lat={user.payload.location.latitude}
-            lng={user.payload.location.longitude}
-            onMarkerClick={handleMarkerClick}
-          ></MapMarker>
-        );
-      });
-      setMarkers(markers);
-
-      if (_.isNil(historicalUsers) && !_.isNil(newUser)) {
-        setCenter({
-          lat: newUser.payload.location.latitude,
-          lng: newUser.payload.location.longitude,
-        });
-      }
-    }
-  }, [processedUsers]);
+  const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
 
   // Hide map control for mobile screens
   const showMapControl = useMediaQuery((theme: Theme) =>
@@ -67,6 +45,7 @@ const Map = (props: MapProps) => {
   const defaultMapOptions = (maps: Maps) => {
     return {
       zoomControl: false,
+      disableDoubleClickZoom: disableDoubleClickZoom,
       minZoom: 3,
       restriction: {
         latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
@@ -84,6 +63,38 @@ const Map = (props: MapProps) => {
       },
     };
   };
+
+  useEffect(() => {
+    if (!_.isNil(groupedUsers)) {
+      const markers: ReactElement[] = [];
+      Object.entries(groupedUsers).forEach(([, users], index) => {
+        // Set the marker as open if the new user is contained in the list of users
+        const open: boolean = !_.isNil(newUser) && _.some(users, newUser);
+        markers.push(
+          <MapMarker
+            key={`${index} + ${open}`}
+            users={users}
+            newUser={_.isNil(historicalUsers) ? newUser : null}
+            open={open}
+            lat={users[0].payload.location.latitude} // Take the first user's location since they are all the same
+            lng={users[0].payload.location.longitude}
+            onMarkerClick={handleMarkerClick}
+            onMarkerEnter={handleMarkerEnter}
+            onMarkerLeave={handleMarkerLeave}
+          ></MapMarker>
+        );
+      });
+
+      setMarkers(markers);
+
+      if (_.isNil(historicalUsers) && !_.isNil(newUser)) {
+        setCenter({
+          lat: newUser.payload.location.latitude,
+          lng: newUser.payload.location.longitude,
+        });
+      }
+    }
+  }, [groupedUsers, newUser, historicalUsers]);
 
   const getMapBounds = (
     bounds: google.maps.LatLngBounds | undefined
@@ -124,6 +135,14 @@ const Map = (props: MapProps) => {
 
   const handleMarkerClick = (userLocation: Location) => {
     setCenter({ lat: +userLocation.latitude, lng: +userLocation.longitude });
+  };
+
+  const handleMarkerEnter = () => {
+    setDisableDoubleClickZoom(true);
+  };
+
+  const handleMarkerLeave = () => {
+    setDisableDoubleClickZoom(false);
   };
 
   return (
