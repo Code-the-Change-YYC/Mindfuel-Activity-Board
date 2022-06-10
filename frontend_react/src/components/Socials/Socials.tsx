@@ -8,7 +8,7 @@ import TwitterIcon from "@material-ui/icons/Twitter";
 import Alert from "@material-ui/lab/Alert";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 
-import styles from "./SocialsComponent.module.css";
+import styles from "./Socials.module.css";
 
 const twitterLink =
   "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";
@@ -18,7 +18,7 @@ const loadingClasses = {
   bar: styles.loadingBar,
 };
 
-const SocialsComponent = () => {
+const Socials = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [placeholder, setPlaceholder] = useState<JSX.Element | null>(null);
   const loadingPlaceholder = <LinearProgress classes={loadingClasses} />;
@@ -105,4 +105,4 @@ const SocialsComponent = () => {
   );
 };
 
-export default SocialsComponent;
+export default Socials;

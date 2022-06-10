@@ -11,10 +11,10 @@ type CountsValue struct {
 }
 
 type ActivityStats struct {
-	Hits     int    `bson:"hits"`
-	Name     string `bson:"name"`
-	Type     string `bson:"type"`
-	Url      string `bson:"url"`
-	ImageUrl string `bson:"imageUrl"`
-	Rank     int
+	Hits     int    `json:"hits" bson:"hits"`
+	Name     string `json:"name" bson:"name"`
+	Type     string `json:"type" bson:"type"`
+	Url      string `json:"url" bson:"url"`
+	ImageUrl string `json:"imageUrl" bson:"imageUrl"`
+	Rank     int    `json:"rank"`
 }

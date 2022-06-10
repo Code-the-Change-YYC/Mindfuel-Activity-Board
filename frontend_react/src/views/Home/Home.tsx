@@ -9,7 +9,7 @@ import AppAlert from "../../components/AppAlert/AppAlert";
 import Map from "../../components/Map/Map";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
 import Sidenav from "../../components/Sidenav/Sidenav";
-import SocialsComponent from "../../components/SocialsComponent/SocialsComponent";
+import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
 import { fetchHistoricalUsers } from "../../state/actions";
@@ -68,7 +68,7 @@ const Home = () => {
     setShowAreaButton(false);
   };
 
-  const handleDateChange = (fromDate: Date | null) => {
+  const handleDateChange = (fromDate?: Date) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
   };
@@ -78,7 +78,7 @@ const Home = () => {
       <Sidenav></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
-        <SocialsComponent></SocialsComponent>
+        <Socials></Socials>
       </div>
       <div className={styles.map}>
         {alert && <AppAlert alert={alert}></AppAlert>}

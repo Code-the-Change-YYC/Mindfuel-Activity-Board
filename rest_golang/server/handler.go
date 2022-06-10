@@ -49,6 +49,8 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error processing GetUsers:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
+	} else if len(users) == 0 {
+		users = []model.User{}
 	}
 
 	rawCounts, err := db.GetCounts(h.Client, filter)
@@ -83,11 +85,15 @@ func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 		log.Println("Error processing GetActivityStats:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
+	} else if len(activityStats) == 0 {
+		activityStats = []model.ActivityStats{}
 	}
 
 	resp := model.ActivityStatsResponse{
 		Stats: activityStats,
 	}
+
+	log.Println(resp)
 
 	json.NewEncoder(w).Encode(resp)
 }
