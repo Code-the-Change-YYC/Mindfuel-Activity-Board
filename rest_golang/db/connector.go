@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"log"
-	"os"
 	"sync"
 	"time"
 
@@ -27,16 +26,16 @@ func GetMongoClient() (*mongo.Client, error) {
 	mongoOnce.Do(func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
- 
-		CONNECTIONSTRING := os.Getenv("MONGODB_URI")
+
+		CONNECTIONSTRING := "mongodb://root:rootpassword@mongo:27017"
 
 		if CONNECTIONSTRING == "" {
 			log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
 		}
 		log.Println("Connecting to MongoDB instance...")
-	
+
 		// Set client options
-		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
+		clientOptions := options.Client().ApplyURI("mongodb://root:rootpassword@localhost:27017/?authSource=admin")
 		// Connect to MongoDB
 		client, err := mongo.Connect(ctx, clientOptions)
 		if err != nil {

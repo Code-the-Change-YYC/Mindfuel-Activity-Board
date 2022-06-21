@@ -24,9 +24,10 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	msgMap := (msg).(map[string]interface{})
 
 	var user model.User
+	// var stats model.ActivityStats
 	dateTime := time.Now().UTC()
 	user.Date = dateTime
-	
+
 	// Check if 'type' key exists in message and if it is a valid Wonderville type
 	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset || val == model.WondervilleSession {
 		err = json.Unmarshal([]byte(message), &user)
@@ -35,6 +36,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 			return
 		}
 		db.InsertUser(mongoClient, user)
+		db.InsertActivityStats(mongoClient, user)
 	} else {
 		log.Println("Unrecognized message:", msg)
 	}
@@ -45,8 +47,8 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 
 	// if testing locally, comment the below line and
 	// uncomment the one below it
-	u := url.URL{Scheme: "wss", Host: *addr}
-	// u := url.URL{Scheme: "ws", Host: *addr}
+	// u := url.URL{Scheme: "wss", Host: *addr}
+	u := url.URL{Scheme: "ws", Host: *addr}
 
 	// from https://github.com/recws-org/recws
 	ws := recws.RecConn{

@@ -11,9 +11,10 @@ import (
 	"mindfuel.ca/activity_rest/socket"
 )
 
-var addr = flag.String("addr", "wonderville.org:5556", "http service address")
+// var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-// var addr = flag.String("addr", "172.17.207.158:3210", "socket service address")
+var addr = flag.String("addr", "localhost:3210", "socket service address")
+
 // Create wait group so that main thread finishes for goroutine to finish before terminating
 var wg = sync.WaitGroup{}
 
@@ -33,14 +34,14 @@ func main() {
 			panic(err)
 		}
 	}()
-	
+
 	// Start socket listener as a separate GO routine
 	wg.Add(1)
 	go func() {
 		socket.Listen(ctx, addr, mongoClient)
 		wg.Done()
 	}()
-	
+
 	// Setup and start REST API server
 	server.Start(mongoClient)
 
