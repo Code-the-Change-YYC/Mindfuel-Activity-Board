@@ -2,7 +2,6 @@ import _ from "lodash";
 
 import * as sampleData from "../api/SampleUserData.json";
 import { AppState, LiveCounts, MAX_USERS } from "../utils/AppState";
-import { AssetType } from "../utils/AssetType.enum";
 import { User } from "../utils/User";
 
 sampleData.users.map((user) => {

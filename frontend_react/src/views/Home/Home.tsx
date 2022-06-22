@@ -22,13 +22,9 @@ import styles from "./Home.module.css";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const alert: AlertModel | null = useSelector(
-    (state: AppState) => state.alert
-  );
+  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
-  const historicalUsers: User[] | null = useSelector(
-    (state: AppState) => state.historicalUsers
-  );
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [fromDate, setFromDate] = useState<Date | null>();
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
@@ -87,16 +83,12 @@ const Home = () => {
           {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.searchAreaButton}>
             {showSearchAreaButton && (
-              <SearchAreaButton
-                handleClick={handleSearchAreaClick}
-              ></SearchAreaButton>
+              <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
             )}
           </div>
           <div className={styles.timeline}>
-            <Timeline
-              onDateChange={handleDateChange}
-              mapBounds={mapBounds}
-            ></Timeline>
+            {/* Ensure initial map bounds are captured before rendering timeline */}
+            {mapBounds && <Timeline onDateChange={handleDateChange} mapBounds={mapBounds}></Timeline>}
           </div>
         </div>
       </div>

@@ -19,12 +19,12 @@ import activityIcon from "../../res/assets/map-marker-activity.svg";
 import gameIcon from "../../res/assets/map-marker-game.svg";
 import storyIcon from "../../res/assets/map-marker-story.svg";
 import videoIcon from "../../res/assets/map-marker-video.svg";
+import { setAlert } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
 import { ActivityStatsApiResponse } from "../../utils/ApiServiceInterface";
 import { getTimelineDate, numberFormatter } from "../../utils/helpers";
 import { Stats } from "../../utils/Stats";
 import styles from "./StatsSummary.module.css";
-import { useAppDispatch } from "../../state/hooks";
-import { setAlert } from "../../state/actions";
 
 const CustomTableCell = withStyles({
   root: {
