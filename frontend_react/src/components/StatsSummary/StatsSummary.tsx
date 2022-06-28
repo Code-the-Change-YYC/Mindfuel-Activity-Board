@@ -141,7 +141,7 @@ const StatsSummary = () => {
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);
-          updateChart()
+          updateChart(response.data.stats)
         },
         () => handleApiError()
       )
@@ -151,24 +151,24 @@ const StatsSummary = () => {
   const handleChartVisibility = () => {
     if (chartVisibility) setChartVisibility(false)
     else {
-      updateChart()
+      updateChart(stats)
       setChartVisibility(true)
     }
   }
 
-  const updateChart = () => {
+  const updateChart = (newStats: Stats[]) => {
     let newChart: ChartStat[] = []
     loop1:
-    for (let i = 0; i < stats.length; i++) {
+    for (let i = 0; i < newStats.length; i++) {
       let newStat: ChartStat = {value: 0, name: ""}
       for (let j = 0; j < newChart.length; j++) {
-        if (newChart[j].name === stats[i].type) {
-          newChart[j].value += stats[i].hits
+        if (newChart[j].name === newStats[i].type) {
+          newChart[j].value += newStats[i].hits
           continue loop1;
         }
       }
-      newStat.value = stats[i].hits;
-      newStat.name = stats[i].type;
+      newStat.value = newStats[i].hits;
+      newStat.name = newStats[i].type;
       newChart.push(newStat)
     }
     setChartValues(newChart)
