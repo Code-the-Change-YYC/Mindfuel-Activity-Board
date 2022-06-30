@@ -130,7 +130,6 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 	incomingActivityName := user.Payload.Asset.Name
 
 	filter := bson.M{"name": incomingActivityName}
-	// filter := bson.M{"name": "Test"}
 
 	cursor, err := collection.Find(context.TODO(), filter)
 
@@ -144,11 +143,10 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 		panic(err)
 	}
 
-	fmt.Println("Found the bitch: ", res)
-
 	if len(res) > 0 {
-		fmt.Println("Starting to find hit for the bitch activity")
-		_, err := collection.UpdateOne(context.TODO(), bson.D{{"name", "Solar Energy Defenders"}}, bson.D{{"$inc", bson.D{{"hits", 1}}}}, options.Update().SetUpsert(true))
+		fmt.Println("Finding hit for exisiting activity")
+		_, err := collection.UpdateOne(context.TODO(), bson.D{{"name", incomingActivityName}},
+			bson.D{{"$inc", bson.D{{"hits", 1}}}}, options.Update().SetUpsert(true))
 
 		if err != nil {
 			log.Fatal(err)

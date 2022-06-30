@@ -36,6 +36,16 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 			return
 		}
 		db.InsertUser(mongoClient, user)
+	} else {
+		log.Println("Unrecognized message:", msg)
+	}
+
+	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset {
+		err = json.Unmarshal([]byte(message), &user)
+		if err != nil {
+			log.Printf("Error in unmarshalling json: %s\n%s", err, message)
+			return
+		}
 		db.InsertActivityStats(mongoClient, user)
 	} else {
 		log.Println("Unrecognized message:", msg)
@@ -47,8 +57,8 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 
 	// if testing locally, comment the below line and
 	// uncomment the one below it
-	// u := url.URL{Scheme: "wss", Host: *addr}
-	u := url.URL{Scheme: "ws", Host: *addr}
+	u := url.URL{Scheme: "wss", Host: *addr}
+	// u := url.URL{Scheme: "ws", Host: *addr}
 
 	// from https://github.com/recws-org/recws
 	ws := recws.RecConn{
