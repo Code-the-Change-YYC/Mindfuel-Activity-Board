@@ -24,7 +24,6 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	msgMap := (msg).(map[string]interface{})
 
 	var user model.User
-	// var stats model.ActivityStats
 	dateTime := time.Now().UTC()
 	user.Date = dateTime
 

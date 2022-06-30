@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -144,7 +143,6 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 	}
 
 	if len(res) > 0 {
-		fmt.Println("Finding hit for exisiting activity")
 		_, err := collection.UpdateOne(context.TODO(), bson.D{{"name", incomingActivityName}},
 			bson.D{{"$inc", bson.D{{"hits", 1}}}}, options.Update().SetUpsert(true))
 
@@ -152,12 +150,7 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 			log.Fatal(err)
 			return err
 		}
-
-		log.Println("Activity hit updated")
-
 	} else {
-		log.Println("No existing activity, creating a new entry")
-
 		assetName := user.Payload.Asset.Name
 		assetURL := user.Payload.Asset.Url
 		assetType := user.Payload.Asset.Type
@@ -177,11 +170,7 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 			log.Fatal(err)
 			return err
 		}
-
-		log.Println("New Activity Inserted")
 	}
-
-	log.Println("Inserted Session")
 	//Return success without any error.
 	return nil
 }
