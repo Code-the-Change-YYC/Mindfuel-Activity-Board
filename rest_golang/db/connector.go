@@ -27,14 +27,14 @@ func GetMongoClient() (*mongo.Client, error) {
 	mongoOnce.Do(func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
- 
+
 		CONNECTIONSTRING := os.Getenv("MONGODB_URI")
 
 		if CONNECTIONSTRING == "" {
 			log.Fatal("You must set your 'MONGODB_URI' environmental variable.")
 		}
 		log.Println("Connecting to MongoDB instance...")
-	
+
 		// Set client options
 		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
 		// Connect to MongoDB

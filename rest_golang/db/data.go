@@ -10,6 +10,10 @@ import (
 	"mindfuel.ca/activity_rest/model"
 )
 
+type activityStatsFields struct {
+	count int64 `bson:"count"`
+}
+
 // CreateIssue - Insert a new document in the collection.
 func InsertUser(client *mongo.Client, asset model.User) error {
 	// Create a handle to the respective collection in the database.
@@ -114,4 +118,59 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	}
 
 	return activityStats, nil
+}
+
+func InsertActivityStats(client *mongo.Client, user model.User) error {
+	var err error
+	//Create a handle to the respective collection in the database.
+	collection := client.Database("wondervilleDev").Collection("activityStats")
+	//Check to see if activity is in the DB, if so update hit counter else
+	//Perform InsertOne operation & validate against the error.
+	incomingActivityName := user.Payload.Asset.Name
+
+	filter := bson.M{"name": incomingActivityName}
+
+	cursor, err := collection.Find(context.TODO(), filter)
+
+	if err != nil {
+		panic(err)
+	}
+
+	var res []bson.M
+
+	if err = cursor.All(context.TODO(), &res); err != nil {
+		panic(err)
+	}
+
+	if len(res) > 0 {
+		_, err := collection.UpdateOne(context.TODO(), bson.D{{"name", incomingActivityName}},
+			bson.D{{"$inc", bson.D{{"hits", 1}}}}, options.Update().SetUpsert(true))
+
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
+	} else {
+		assetName := user.Payload.Asset.Name
+		assetURL := user.Payload.Asset.Url
+		assetType := user.Payload.Asset.Type
+		assetImageURL := user.Payload.Asset.ImageUrl
+
+		activityToInsert := bson.D{
+			{Key: "name", Value: assetName},
+			{Key: "url", Value: assetURL},
+			{Key: "type", Value: assetType},
+			{Key: "imageUrl", Value: assetImageURL},
+			{Key: "hits", Value: 1},
+		}
+
+		_, err := collection.InsertOne(context.TODO(), activityToInsert)
+
+		if err != nil {
+			log.Fatal(err)
+			return err
+		}
+	}
+	//Return success without any error.
+	return nil
 }

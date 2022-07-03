@@ -26,7 +26,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	var user model.User
 	dateTime := time.Now().UTC()
 	user.Date = dateTime
-	
+
 	// Check if 'type' key exists in message and if it is a valid Wonderville type
 	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset || val == model.WondervilleSession {
 		err = json.Unmarshal([]byte(message), &user)
@@ -35,6 +35,17 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 			return
 		}
 		db.InsertUser(mongoClient, user)
+	} else {
+		log.Println("Unrecognized message:", msg)
+	}
+
+	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset {
+		err = json.Unmarshal([]byte(message), &user)
+		if err != nil {
+			log.Printf("Error in unmarshalling json: %s\n%s", err, message)
+			return
+		}
+		db.InsertActivityStats(mongoClient, user)
 	} else {
 		log.Println("Unrecognized message:", msg)
 	}
