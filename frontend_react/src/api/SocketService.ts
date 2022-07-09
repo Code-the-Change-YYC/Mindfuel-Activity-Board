@@ -1,4 +1,4 @@
-import { addLiveUser, loading, setAlert } from "../state/actions";
+import { addLiveUser, setLoading, setAlert } from "../state/actions";
 import store from "../state/store";
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
@@ -8,11 +8,11 @@ const timeout = 60000;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
-    store.dispatch(loading(true));
+    store.dispatch(setLoading(true));
     SocketService.webSocket = new WebSocket(websocketAddress);
 
     SocketService.webSocket.onopen = () => {
-      store.dispatch(loading(false));
+      store.dispatch(setLoading(false));
       if (retries > 0) {
         retries = 0; // Reset retries count
         store.dispatch(setAlert("Live connection successfully established!"));
@@ -27,7 +27,7 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onclose = () => {
-      store.dispatch(loading(false));
+      store.dispatch(setLoading(false));
       store.dispatch(
         setAlert(
           `Live connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,

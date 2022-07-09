@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 import { CircularProgress } from "@material-ui/core";
 import _ from "lodash";
@@ -19,12 +19,14 @@ import { AppState } from "../../utils/AppState";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
+import { AppUserLocation } from "../../utils/AppUserLocation.model";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [fromDate, setFromDate] = useState<Date | null>();
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
@@ -34,6 +36,14 @@ const Home = () => {
   };
 
   useEffect(() => {
+    // Get user location on app load
+    navigator.geolocation.getCurrentPosition((position) => {
+      setAppUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
     // const websocketAddress = `${[process.env.REACT_APP_LOCAL_WEBSOCKET]}`;
@@ -76,22 +86,34 @@ const Home = () => {
         <StatsSummary></StatsSummary>
         <Socials></Socials>
       </div>
-      <div className={styles.map}>
-        {alert && <AppAlert alert={alert}></AppAlert>}
-        <Map onMapBoundsChange={handleMapBoundsChange}></Map>
-        <div className={styles.centeredContainer}>
-          {loading && <CircularProgress classes={loadingClasses} />}
-          <div className={styles.searchAreaButton}>
-            {showSearchAreaButton && (
-              <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
-            )}
-          </div>
-          <div className={styles.timeline}>
-            {/* Ensure initial map bounds are captured before rendering timeline */}
-            {mapBounds && <Timeline onDateChange={handleDateChange} mapBounds={mapBounds}></Timeline>}
+      {appUserLocation && (
+        <div className={styles.map}>
+          {alert && <AppAlert alert={alert}></AppAlert>}
+          <Map
+            onMapBoundsChange={handleMapBoundsChange}
+            center={{ lat: appUserLocation.latitude, lng: appUserLocation.longitude }}
+          ></Map>
+          <div className={styles.centeredContainer}>
+            {loading && <CircularProgress classes={loadingClasses} />}
+            <div className={styles.searchAreaButton}>
+              {showSearchAreaButton && (
+                <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
+              )}
+            </div>
+            <div className={styles.timeline}>
+              {/* Ensure initial map bounds are captured before rendering timeline */}
+              {mapBounds && (
+                <Timeline onDateChange={handleDateChange} mapBounds={mapBounds}></Timeline>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {!appUserLocation && (
+        <div>
+          <CircularProgress classes={loadingClasses} />
+        </div>
+      )}
     </React.Fragment>
   );
 };
