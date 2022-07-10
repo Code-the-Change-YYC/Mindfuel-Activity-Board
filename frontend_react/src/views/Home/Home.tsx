@@ -12,7 +12,7 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import { fetchHistoricalUsers } from "../../state/actions";
+import { fetchHistoricalUsers, setLoading } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
@@ -20,6 +20,11 @@ import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 import { AppUserLocation } from "../../utils/AppUserLocation.model";
+
+const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
+  latitude: 48.354594,
+  longitude: -99.99805,
+};
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -29,20 +34,46 @@ const Home = () => {
   const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [fromDate, setFromDate] = useState<Date | null>();
+  const [initializationText, setInitializationText] = useState<string>("Loading application...");
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
   };
+  const appLoadingClasses = {
+    colorPrimary: styles.loadingIndicatorColor,
+  };
 
   useEffect(() => {
-    // Get user location on app load
-    navigator.geolocation.getCurrentPosition((position) => {
-      setAppUserLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-    });
+    // If no geolocaiton response is received within a timeout interval, set to default location
+    const appUserLocationTimeout = setTimeout(() => {
+      setInitializationText("Setting default location...");
+      setTimeout(() => setAppUserLocation(DEFAULT_APP_USER_LOCATION), 1000);
+    }, 2500);
+
+    // Get user location on app initialization
+    if (!navigator.geolocation) {
+      setAppUserLocation(DEFAULT_APP_USER_LOCATION);
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          dispatch(setLoading(true));
+          setAppUserLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          dispatch(setLoading(false));
+          clearTimeout(appUserLocationTimeout);
+        },
+        // Set to default location if user blocks geolocation or on timeout
+        () => {
+          setAppUserLocation(DEFAULT_APP_USER_LOCATION);
+          clearTimeout(appUserLocationTimeout);
+        },
+        { timeout: 3000 } // The amount of time the device can take to return a position
+      );
+    }
+   
 
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
@@ -110,8 +141,11 @@ const Home = () => {
         </div>
       )}
       {!appUserLocation && (
-        <div>
-          <CircularProgress classes={loadingClasses} />
+        <div className={styles.initializationContainer}>
+          {initializationText}
+          <div className={styles.appLoadingContainer}>
+            <CircularProgress classes={appLoadingClasses} />
+          </div>
         </div>
       )}
     </React.Fragment>

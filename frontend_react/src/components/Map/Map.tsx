@@ -24,7 +24,7 @@ const Map = (props: MapProps) => {
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
-  const defaultZoom = 4;
+  const defaultZoom = 3.25;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
@@ -51,6 +51,11 @@ const Map = (props: MapProps) => {
       },
     };
   };
+
+  // Update map center on props change, e.g. when user gives location permission after timeout
+  useEffect(() => {
+    setCenter(props.center);
+  }, [props.center]);
 
   // Update the markers on the map when historical or live users are added
   useEffect(() => {
