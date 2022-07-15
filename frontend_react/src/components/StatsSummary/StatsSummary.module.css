@@ -28,6 +28,20 @@
   width: 100%;
 }
 
+.tableContainer::-webkit-scrollbar {
+  width: 7.5px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background-color: whitesmoke;
+  border-radius: 5px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: slategray;
+}
+
 .tableHeader {
   background-color: #e7c800;
 }

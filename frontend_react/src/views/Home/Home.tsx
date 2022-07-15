@@ -73,7 +73,6 @@ const Home = () => {
         { timeout: 3000 } // The amount of time the device can take to return a position
       );
     }
-   
 
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
@@ -120,10 +119,7 @@ const Home = () => {
       {appUserLocation && (
         <div className={styles.map}>
           {alert && <AppAlert alert={alert}></AppAlert>}
-          <Map
-            onMapBoundsChange={handleMapBoundsChange}
-            center={{ lat: appUserLocation.latitude, lng: appUserLocation.longitude }}
-          ></Map>
+          <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation}></Map>
           <div className={styles.centeredContainer}>
             {loading && <CircularProgress classes={loadingClasses} />}
             <div className={styles.searchAreaButton}>

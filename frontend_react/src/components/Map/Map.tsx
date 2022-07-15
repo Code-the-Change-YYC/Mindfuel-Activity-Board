@@ -12,14 +12,15 @@ import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Map.module.css";
 import MapMarker from "./MapMarker/MapMarker";
+import { AppUserLocation } from "../../utils/AppUserLocation.model";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
-  center: Coords;
+  center: AppUserLocation;
 };
 
 const Map = (props: MapProps) => {
-  const [center, setCenter] = useState<Coords>(props.center);
+  const [center, setCenter] = useState<Coords>({ lat: props.center.latitude, lng: props.center.longitude });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
@@ -54,7 +55,7 @@ const Map = (props: MapProps) => {
 
   // Update map center on props change, e.g. when user gives location permission after timeout
   useEffect(() => {
-    setCenter(props.center);
+    setCenter({ lat: props.center.latitude, lng: props.center.longitude });
   }, [props.center]);
 
   // Update the markers on the map when historical or live users are added
