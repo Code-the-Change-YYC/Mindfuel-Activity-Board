@@ -1,8 +1,8 @@
 import { Color } from "@material-ui/lab/Alert";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
-import { Action } from "../utils/Action.enum";
 
+import { Action } from "../utils/Action.enum";
 import { AlertModel } from "../utils/Alert.model";
 import {
   ApiServiceInterface,

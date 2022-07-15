@@ -7,12 +7,12 @@ import { useSelector } from "react-redux";
 
 import useGroupedUsers from "../../hooks/useGroupedUsers";
 import { AppState } from "../../utils/AppState";
+import { AppUserLocation } from "../../utils/AppUserLocation.model";
 import { Location } from "../../utils/Location";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Map.module.css";
 import MapMarker from "./MapMarker/MapMarker";
-import { AppUserLocation } from "../../utils/AppUserLocation.model";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
@@ -25,7 +25,7 @@ const Map = (props: MapProps) => {
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
-  const defaultZoom = 3.25;
+  const defaultZoom = 3;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);

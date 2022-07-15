@@ -16,14 +16,14 @@ import { fetchHistoricalUsers, setLoading } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
+import { AppUserLocation } from "../../utils/AppUserLocation.model";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
-import { AppUserLocation } from "../../utils/AppUserLocation.model";
 
 const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
-  latitude: 48.354594,
-  longitude: -99.99805,
+  latitude: 0.354594,
+  longitude: 0.99805,
 };
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
     // If no geolocaiton response is received within a timeout interval, set to default location
     const appUserLocationTimeout = setTimeout(() => {
       setInitializationText("Setting default location...");
-      setTimeout(() => setAppUserLocation(DEFAULT_APP_USER_LOCATION), 1000);
+      setTimeout(() => setAppUserLocation(DEFAULT_APP_USER_LOCATION), 500);
     }, 2500);
 
     // Get user location on app initialization
