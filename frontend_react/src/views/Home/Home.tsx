@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 import SocketService from "../../api/SocketService";
 import AppAlert from "../../components/AppAlert/AppAlert";
+import Filter from "../../components/Filter/Filter";
 import Map from "../../components/Map/Map";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
 import Sidenav from "../../components/Sidenav/Sidenav";
@@ -114,6 +115,7 @@ const Home = () => {
       <Sidenav></Sidenav>
       <div className={styles.buttonGroup}>
         <StatsSummary></StatsSummary>
+        <Filter></Filter>
         <Socials></Socials>
       </div>
       {appUserLocation && (

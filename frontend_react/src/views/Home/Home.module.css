@@ -37,7 +37,7 @@
   margin: 10px;
 }
 
-.buttonGroup > :first-child {
+.buttonGroup > * {
   margin-bottom: 10px;
 }
 

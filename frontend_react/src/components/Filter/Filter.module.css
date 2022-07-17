@@ -1,0 +1,21 @@
+.filterIconButton {
+  background-color: #ffdd00;
+  color: #1da1f2;
+  height: 50px;
+  width: 50px;
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+.filterIconButton:hover {
+  background-color: #e7c800;
+}
+
+.popoverPaper {
+  filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
+  box-shadow: None;
+}
+
+.filterIcon {
+  height: 20px;
+  width: 20px;
+}

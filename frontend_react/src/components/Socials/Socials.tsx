@@ -21,6 +21,9 @@ const loadingClasses = {
 const Socials = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [placeholder, setPlaceholder] = useState<JSX.Element | null>(null);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   const loadingPlaceholder = <LinearProgress classes={loadingClasses} />;
   const failedPlaceholder = (
     <div className={styles.loadMessage}>
@@ -57,9 +60,6 @@ const Socials = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   return (
     <StylesProvider injectFirst>
