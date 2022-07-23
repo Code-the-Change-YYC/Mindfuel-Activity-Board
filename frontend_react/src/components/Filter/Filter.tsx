@@ -8,8 +8,17 @@ import IconButton from "@material-ui/core/IconButton";
 import Popover from "@material-ui/core/Popover";
 
 import filterIcon from "../../res/assets/filter-icon.png";
+import { MapBounds } from "../../utils/MapBounds";
+import { Stats } from "../../utils/Stats";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
-const Filter = () => {
+type FilterProps = {
+  mapBounds: MapBounds;
+  activityOptions: Stats[];
+};
+
+const Filter = (props: FilterProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -54,7 +63,18 @@ const Filter = () => {
           horizontal: "center",
         }}
       >
-        Test
+        <div className={styles.filterContainer}>
+          <Autocomplete
+            id="grouped-demo"
+            options={props.activityOptions.sort((a, b) => -b.name.localeCompare(a.name))}
+            groupBy={(option) => option.type}
+            getOptionLabel={(option) => option.name}
+            style={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField {...params} label="With categories" variant="outlined" />
+            )}
+          />
+        </div>
       </Popover>
     </StylesProvider>
   );

@@ -23,9 +23,20 @@ import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 
 const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
-  latitude: 0.354594,
-  longitude: 0.99805,
+  latitude: 48.354594,
+  longitude: -99.99805,
 };
+
+const options = [
+  {
+    hits: 25254,
+    imageUrl: "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
+    name: "Pirates of the Lodestone",
+    rank: 1,
+    type: "Game",
+    url: "DSAMagnetism",
+  },
+];
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -113,15 +124,17 @@ const Home = () => {
   return (
     <React.Fragment>
       <Sidenav></Sidenav>
-      <div className={styles.buttonGroup}>
-        <StatsSummary></StatsSummary>
-        <Filter></Filter>
-        <Socials></Socials>
-      </div>
       {appUserLocation && (
         <div className={styles.map}>
           {alert && <AppAlert alert={alert}></AppAlert>}
-          <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation}></Map>
+          {mapBounds && (
+            <div className={styles.buttonGroup}>
+              <StatsSummary></StatsSummary>
+              <Filter mapBounds={mapBounds!} activityOptions={options}></Filter>
+              <Socials></Socials>
+            </div>
+          )}
+          <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>
             {loading && <CircularProgress classes={loadingClasses} />}
             <div className={styles.searchAreaButton}>
