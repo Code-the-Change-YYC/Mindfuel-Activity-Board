@@ -158,9 +158,14 @@ const StatsSummary = () => {
 
   const updateChart = (newStats: Stats[]) => {
     let newChart: ChartStat[] = []
+    let totalHits = 0
+    for (let i = 0; i < newStats.length; i++) {
+      totalHits += newStats[i].hits
+    }
+
     loop1:
     for (let i = 0; i < newStats.length; i++) {
-      let newStat: ChartStat = {value: 0, name: ""}
+      let newStat: ChartStat = {value: 0, name: "", color: "", percentage: 0.0}
       for (let j = 0; j < newChart.length; j++) {
         if (newChart[j].name === newStats[i].type) {
           newChart[j].value += newStats[i].hits
@@ -169,10 +174,64 @@ const StatsSummary = () => {
       }
       newStat.value = newStats[i].hits;
       newStat.name = newStats[i].type;
+      newStat.percentage = newStats[i].hits/totalHits * 100
+      switch (newStats[i].type) {
+        case "Activity":
+          newStat.color = "#1F64AF"
+          break;
+        case "Game":
+          newStat.color = "#F7901E"
+          break;
+        case "Video":
+          newStat.color = "#00613e"
+          break;
+        case "Story":
+          newStat.color = "#787400"
+          break;
+        default:
+          newStat.color = colors[i]
+          break;
+      }
       newChart.push(newStat)
     }
     setChartValues(newChart)
   }
+
+  const CustomTooltip = ({ active, payload, label }:any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{backgroundColor: "#ffdd00",
+        padding: "5px",
+        display: "flex", 
+        flexDirection: "column"}}>
+          <table>
+            <tr>
+              <th align="left">
+                <text style={{color: "#52247f"}}>{payload[0].payload.name}</text>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <text style={{color: "#52247f"}}>Hits</text>
+              </td>
+              <td style={{paddingLeft: "10px"}}>
+                <text style={{color: "#52247f"}}>{numberFormatter(payload[0].payload.value, 1)}</text>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <text style={{color: "#52247f"}}>Percentage</text>
+              </td>
+              <td style={{paddingLeft: "10px"}}>
+                <text style={{color: "#52247f"}}>{payload[0].payload.percentage.toFixed(1)}%</text>
+              </td>
+            </tr>
+          </table>
+        </div>
+      );
+    }
+    return null;
+  };
 
   const getRows = () => {
     if (loading) {
@@ -203,6 +262,19 @@ const StatsSummary = () => {
         </TableRow>
       );
     }
+  };
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }:any) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+  
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
   };
 
   return (
@@ -249,28 +321,36 @@ const StatsSummary = () => {
                 } label="Chart" />
               </FormGroup>
             </FormControl>
-            {chartVisibility && 
-              <PieChart width={450} height={400}>
+            {chartVisibility && chartValues.length>0 && 
+              <PieChart width={450} height={400} style={{backgroundColor: "white", borderRadius: "5px", margin: "25px auto"}}>
                 <Pie
                   dataKey="value"
-                  isAnimationActive={true}
+                  isAnimationActive={false}
                   data={chartValues}
                   cx={"50%"}
                   cy={"50%"}
                   outerRadius={"80%"}
+                  innerRadius={"60%"}
+                  paddingAngle={5}
                   fill="#ffdd00"
                   stroke='#52247f'
                   label
+                  labelLine={false}
                 >
                   {
                     chartValues.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={colors[index]}/>
+                      <Cell key={`cell-${index}`} fill={entry.color}/>
                     ))
                   }
                 </Pie>
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />}/>
                 <Legend verticalAlign="bottom" height={36}/>
               </PieChart>
+            }
+            {chartVisibility && chartValues.length<=0 && 
+              <div style={{backgroundColor: "white", textAlign: "center", borderRadius: "5px", height: "50px", display:"table", width: "100%"}}>
+                <h3 style={{verticalAlign: "middle", display: "table-cell"}}>No data</h3>
+              </div>
             }
             {!chartVisibility &&
               <TableContainer classes={tableContainerClasses} component={Paper}>
