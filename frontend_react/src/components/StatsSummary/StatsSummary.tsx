@@ -185,7 +185,7 @@ const StatsSummary = () => {
   }, []);
 
   const handleApiError = () => {
-    dispatch(setAlert("Unable to complete request, please try again!", "error"));
+    dispatch(setAlert("Unable to fetch historical stats, please try again!", "error"));
   };
 
   const handleOpen = () => setOpen(true);

@@ -29,8 +29,8 @@
 }
 
 .tableContainer::-webkit-scrollbar {
-  height: 7.5px;
-  width: 7.5px;
+  height: 5px;
+  width: 5px;
 }
 
 .tableContainer::-webkit-scrollbar-track {
@@ -40,7 +40,7 @@
 
 .tableContainer::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: slategray;
+  background-color: lightslategray;
 }
 
 .tableHeader {

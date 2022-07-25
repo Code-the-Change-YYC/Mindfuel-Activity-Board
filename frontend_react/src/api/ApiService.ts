@@ -4,6 +4,7 @@ import Qs from "qs";
 import {
   ActivityStatsApiResponse,
   ApiServiceInterface,
+  FilterOptionsApiResponse,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { MapBounds } from "../utils/MapBounds";
@@ -37,15 +38,23 @@ const getHistoricalUsers = (
   });
 };
 
-const getActivityStats = (fromDate?: string, top?: number): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
+const getActivityStats = (
+  fromDate?: string,
+  top?: number
+): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
   return http.get<ActivityStatsApiResponse>("/activity-stats", {
-    params: { fromDate: fromDate, top: top }
+    params: { fromDate: fromDate, top: top },
   });
+};
+
+const getActivityFilterOptions = (): Promise<AxiosResponse<FilterOptionsApiResponse>> => {
+  return http.get<FilterOptionsApiResponse>("/activity-filter-options")
 };
 
 const ApiService: ApiServiceInterface = {
   getHistoricalUsers: getHistoricalUsers,
   getActivityStats: getActivityStats,
+  getActivityFilterOptions: getActivityFilterOptions,
 };
 
 export default ApiService;

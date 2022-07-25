@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { CircularProgress } from "@material-ui/core";
 import _ from "lodash";
@@ -27,17 +27,6 @@ const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
   longitude: -99.99805,
 };
 
-const options = [
-  {
-    hits: 25254,
-    imageUrl: "https://wonderville.org/wvAssets/Uploads/Pirates-of-the-Lodestone-Thumb.png",
-    name: "Pirates of the Lodestone",
-    rank: 1,
-    type: "Game",
-    url: "DSAMagnetism",
-  },
-];
-
 const Home = () => {
   const dispatch = useAppDispatch();
   const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
@@ -57,7 +46,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    // If no geolocaiton response is received within a timeout interval, set to default location
+    // If no geolocation response is received within a timeout interval, set to default location
     const appUserLocationTimeout = setTimeout(() => {
       setInitializationText("Setting default location...");
       setTimeout(() => setAppUserLocation(DEFAULT_APP_USER_LOCATION), 500);
@@ -127,13 +116,11 @@ const Home = () => {
       {appUserLocation && (
         <div className={styles.map}>
           {alert && <AppAlert alert={alert}></AppAlert>}
-          {mapBounds && (
-            <div className={styles.buttonGroup}>
-              <StatsSummary></StatsSummary>
-              <Filter mapBounds={mapBounds!} activityOptions={options}></Filter>
-              <Socials></Socials>
-            </div>
-          )}
+          <div className={styles.buttonGroup}>
+            <Socials></Socials>
+            <StatsSummary></StatsSummary>
+            {fromDate && mapBounds && <Filter mapBounds={mapBounds} fromDate={fromDate}></Filter>}
+          </div>
           <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>
             {loading && <CircularProgress classes={loadingClasses} />}

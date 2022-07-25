@@ -21,5 +21,13 @@
 }
 
 .filterContainer {
-  padding: 6px;
+  padding: 5px;
+}
+
+.loadingIndicator {
+  background-color: #51247f3f;
+}
+
+.loadingBar {
+  background-color: #52247f;
 }
