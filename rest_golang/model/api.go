@@ -14,7 +14,7 @@ type UserFilter struct {
 
 type StatsFilter struct {
 	Top               *int      `schema:"top"` // Limit return to the top number of activities
-	FromDateTimestamp *string    `schema:"fromDate,omitempty"`
+	FromDateTimestamp *string   `schema:"fromDate,omitempty"`
 	FromDate          time.Time `schema:"-"` // Used to store converted fromDate, not included in raw query parameters
 }
 
@@ -31,4 +31,8 @@ type Counts struct {
 
 type ActivityStatsResponse struct {
 	Stats []ActivityStats `json:"stats"`
+}
+
+type FilterOptionsResponse struct {
+	Options []FilterOption `json:"options"`
 }

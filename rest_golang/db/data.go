@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"sort"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -123,6 +124,65 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	return activityStats, nil
 }
 
+// Gets a list of all activities and their categories to be used as filter options
+func GetFilterOptions(client *mongo.Client) ([]model.FilterOption, error) {
+	var filterOptions []model.FilterOption
+
+	collection := client.Database("wondervilleDev").Collection("activityStats")
+	fields := bson.D{{Key: "type", Value: 1}, {Key: "name", Value: 1}}
+	opts := options.Find().SetProjection(fields).SetSort(fields)
+	cursor, err := collection.Find(context.TODO(), bson.M{}, opts)
+
+	if err != nil {
+		return filterOptions, err
+	}
+
+	if err = cursor.All(context.TODO(), &filterOptions); err != nil {
+		return filterOptions, err
+	}
+
+	// Get a list of unique activity categories from the list of activities
+	uniqueCats := make(map[string]bool)
+	categories := make([]model.FilterOption, 0)
+	for _, v := range filterOptions {
+		if !uniqueCats[v.Type] {
+			uniqueCats[v.Type] = true
+			catOption := model.FilterOption{
+				Name: v.Type,
+				Type: "Category",
+			}
+			categories = append(categories, catOption)
+		}
+	}
+	sort.Slice(categories, func(i, j int) bool {
+		return categories[i].Type < categories[j].Type
+	})
+
+	// Return categories and activity filter options combined together
+	return append(categories, filterOptions...), nil
+}
+
+// CreateIssue - Insert a new document into the Users collection.
+func InsertUser(client *mongo.Client, asset model.User) error {
+	// Create a handle to the respective collection in the database.
+	collection := client.Database("wondervilleDev").Collection("users")
+	// Perform InsertOne operation & validate against the error.
+	_, err := collection.InsertOne(context.TODO(), asset)
+	if err != nil {
+		log.Println("Error inserting into the DB:", err)
+		return err
+	}
+	if asset.Type == model.WondervilleAsset {
+		log.Println("Inserted Wonderville Asset User:", *asset.Payload.Ip)
+	} else {
+		log.Println("Inserted Wonderville Session User:", asset.Payload.Location.Region)
+	}
+
+	// Return success without any error.
+	return nil
+}
+
+// Inserts a new activity or updates the hits field of an existing activity in the activityStats collection
 func InsertActivityStats(client *mongo.Client, user model.User) error {
 	var err error
 	//Create a handle to the respective collection in the database.
@@ -146,8 +206,8 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 	}
 
 	if len(res) > 0 {
-		_, err := collection.UpdateOne(context.TODO(), bson.D{{"name", incomingActivityName}},
-			bson.D{{"$inc", bson.D{{"hits", 1}}}}, options.Update().SetUpsert(true))
+		_, err := collection.UpdateOne(context.TODO(), bson.D{{Key: "name", Value: incomingActivityName}},
+			bson.D{{Key: "$inc", Value: bson.D{{Key: "hits", Value: 1}}}}, options.Update().SetUpsert(true))
 
 		if err != nil {
 			log.Fatal(err)

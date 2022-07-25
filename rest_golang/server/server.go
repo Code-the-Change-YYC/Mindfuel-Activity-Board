@@ -29,6 +29,7 @@ func Start(mongoClient *mongo.Client) {
 	r.Route("/v1/api", func(r chi.Router) {
 		r.Mount("/users", usersRouter(handler))
 		r.Mount("/activity-stats", activityStatsRouter(handler))
+		r.Mount("/activity-filter-options", activityFilterOptionsRouter(handler))
 	})
 
 	log.Println(log.Ldate, " Listening on port 8080")
@@ -45,6 +46,13 @@ func usersRouter(handler *Handler) http.Handler {
 func activityStatsRouter(handler *Handler) http.Handler {
 	r := chi.NewRouter()
 	r.Get("/", handler.GetActivityStats)
+
+	return r
+}
+
+func activityFilterOptionsRouter(handler *Handler) http.Handler {
+	r := chi.NewRouter()
+	r.Get("/", handler.GetUserFilterOptions)
 
 	return r
 }
