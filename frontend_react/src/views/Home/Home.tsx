@@ -13,11 +13,12 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import { fetchHistoricalUsers, setLoading } from "../../state/actions";
+import { fetchHistoricalUsers, setLoading, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
 import { AppUserLocation } from "../../utils/AppUserLocation.model";
+import { ActivityFilter } from "../../utils/FilterOption.model";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
@@ -32,6 +33,7 @@ const Home = () => {
   const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
   const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [fromDate, setFromDate] = useState<Date | null>();
@@ -94,20 +96,31 @@ const Home = () => {
     }
   };
 
-  const getHistoricalUsers = () => {
-    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds));
-    }
-  };
-
+  // Make a request on 'Search Area' click 
   const handleSearchAreaClick = () => {
     getHistoricalUsers();
     setShowAreaButton(false);
   };
 
+  // Make a request on timeline date selection
   const handleDateChange = (fromDate?: Date) => {
     setFromDate(fromDate);
     setShowAreaButton(false);
+    if (!_.isNil(fromDate)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds!, activityFilter));
+    } else {
+      dispatch(updateHistoricalUsers(null));
+    }
+  };
+
+  const handleFilterChange = (activityFilter?: ActivityFilter) => {
+    setActivityFilter(activityFilter);
+  }
+
+  const getHistoricalUsers = () => {
+    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
+      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds, activityFilter));
+    }
   };
 
   return (
@@ -119,7 +132,7 @@ const Home = () => {
           <div className={styles.buttonGroup}>
             <Socials></Socials>
             <StatsSummary></StatsSummary>
-            {fromDate && mapBounds && <Filter mapBounds={mapBounds} fromDate={fromDate}></Filter>}
+            {fromDate && mapBounds && <Filter mapBounds={mapBounds} fromDate={fromDate} onFilterChange={handleFilterChange}></Filter>}
           </div>
           <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>
@@ -132,7 +145,7 @@ const Home = () => {
             <div className={styles.timeline}>
               {/* Ensure initial map bounds are captured before rendering timeline */}
               {mapBounds && (
-                <Timeline onDateChange={handleDateChange} mapBounds={mapBounds}></Timeline>
+                <Timeline onDateChange={handleDateChange}></Timeline>
               )}
             </div>
           </div>

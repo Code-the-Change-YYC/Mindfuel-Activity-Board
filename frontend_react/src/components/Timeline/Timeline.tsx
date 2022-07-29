@@ -2,17 +2,12 @@ import React, { useEffect } from "react";
 
 import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
-import _ from "lodash";
 
-import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
-import { useAppDispatch } from "../../state/hooks";
 import { getTimelineDate } from "../../utils/helpers";
-import { MapBounds } from "../../utils/MapBounds";
 import styles from "./Timeline.module.css";
 
 type TimelineProps = {
   onDateChange: (fromDate?: Date) => void;
-  mapBounds: MapBounds;
 };
 
 const ThumbComponent = (props: any) => {
@@ -48,7 +43,6 @@ const marks = [
 ];
 
 const Timeline = (props: TimelineProps) => {
-  const dispatch = useAppDispatch();
   const defaultTimelineValue = 50;
   const classes = {
     root: styles.timelineRoot,
@@ -61,21 +55,11 @@ const Timeline = (props: TimelineProps) => {
 
   useEffect(() => {
     // Load initial data for default selection of 1 week
-    const fromDate = getTimelineDate(defaultTimelineValue);
-    props.onDateChange(fromDate);
-    dispatch(fetchHistoricalUsers(fromDate!.toISOString(), props.mapBounds));
+    props.onDateChange(getTimelineDate(defaultTimelineValue));
   }, [])
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
-    const fromDate = getTimelineDate(newValue);
-  
-    props.onDateChange(fromDate);
-    if (!_.isNil(fromDate)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), props.mapBounds));
-    } else {
-      dispatch(updateHistoricalUsers(null));
-    }
-    
+    props.onDateChange(getTimelineDate(newValue));
   };
 
   return (

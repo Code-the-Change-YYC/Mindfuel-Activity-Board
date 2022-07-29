@@ -7,6 +7,7 @@ import {
   FilterOptionsApiResponse,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
+import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
 
 const http = axios.create({
@@ -31,10 +32,11 @@ http.interceptors.request.use((config) => {
 const getHistoricalUsers = (
   fromDate: string,
   mapBounds: MapBounds,
-  maxUsers: number
+  maxUsers: number,
+  activityFilter?: ActivityFilter
 ): Promise<AxiosResponse<UsersApiResponse>> => {
   return http.get<UsersApiResponse>("/users", {
-    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers },
+    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers, filter: activityFilter },
   });
 };
 

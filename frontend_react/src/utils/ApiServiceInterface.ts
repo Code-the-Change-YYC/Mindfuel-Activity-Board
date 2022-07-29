@@ -1,12 +1,12 @@
 import { AxiosResponse } from "axios";
-import { FilterOption } from "./FilterOption";
 
+import { ActivityFilter, FilterOption } from "./FilterOption.model";
 import { MapBounds } from "./MapBounds";
 import { Stats } from "./Stats";
 import { User } from "./User";
 
 export type ApiServiceInterface = {
-  getHistoricalUsers: (fromDate: string, mapBounds: MapBounds, maxUsers: number) => Promise<AxiosResponse<UsersApiResponse>>;
+  getHistoricalUsers: (fromDate: string, mapBounds: MapBounds, maxUsers: number, activityFilter?: ActivityFilter) => Promise<AxiosResponse<UsersApiResponse>>;
   getActivityStats: (fromDate?: string, top?: number) => Promise<AxiosResponse<ActivityStatsApiResponse>>;
   getActivityFilterOptions: () => Promise<AxiosResponse<FilterOptionsApiResponse>>;
 };
