@@ -1,5 +1,5 @@
 .statsButton {
-  background-color: #ffdd00;
+  background-color: var(--wv-yellow);
   color: #1da1f2;
   height: 50px;
   width: 50px;
@@ -15,7 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #52247f;
+  background-color: var(--wv-purple);
   padding: 10px;
   border-radius: 5px;
   width: 500px;

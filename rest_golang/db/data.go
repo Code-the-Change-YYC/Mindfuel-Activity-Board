@@ -40,8 +40,8 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 	var users []model.User
 	collection := client.Database("wondervilleDev").Collection("users")
 
-	// Randomly sample the max number of users from collection.
 	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
+	// Randomly sample the max number of users from collection.
 	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: filter.MaxUsers}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
 	if err != nil {

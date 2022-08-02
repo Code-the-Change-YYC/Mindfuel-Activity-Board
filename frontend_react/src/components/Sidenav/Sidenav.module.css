@@ -2,7 +2,7 @@
   height: 100%;
   width: 240px;
   position: fixed;
-  background-color: #52247f;
+  background-color: var(--wv-purple);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -21,8 +21,8 @@
 .menuIconButton {
   z-index: 2;
   position: fixed;
-  color: #ffdd00;
-  background-color: #52247f;
+  color: var(--wv-yellow);
+  background-color: var(--wv-purple);
   height: 50px;
   width: 50px;
   margin: 10px;
@@ -54,7 +54,7 @@
 }
 
 .dashboardButton {
-  background-color: #ffdd00;
+  background-color: var(--wv-yellow);
   margin-bottom: 20px;
 }
 

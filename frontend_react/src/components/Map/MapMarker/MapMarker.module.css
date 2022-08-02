@@ -40,7 +40,7 @@
 }
 
 .numberBadge {
-  background-color: #52247f;
+  background-color: var(--wv-purple);
   color: white;
   z-index: 0;
 }

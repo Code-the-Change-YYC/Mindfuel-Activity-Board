@@ -115,6 +115,8 @@ const Home = () => {
 
   const handleFilterChange = (activityFilter?: ActivityFilter) => {
     setActivityFilter(activityFilter);
+    // Filter option is only visible when fromDate and mapBounds are not null
+    dispatch(fetchHistoricalUsers(fromDate!.toISOString(), mapBounds!, activityFilter));
   }
 
   const getHistoricalUsers = () => {
@@ -132,7 +134,7 @@ const Home = () => {
           <div className={styles.buttonGroup}>
             <Socials></Socials>
             <StatsSummary></StatsSummary>
-            {fromDate && mapBounds && <Filter mapBounds={mapBounds} fromDate={fromDate} onFilterChange={handleFilterChange}></Filter>}
+            {fromDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
           </div>
           <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>

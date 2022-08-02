@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-
+import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
@@ -13,17 +13,15 @@ import { Image } from "react-bootstrap";
 
 import ApiService from "../../api/ApiService";
 import filterIcon from "../../res/assets/filter-icon.png";
-import { fetchHistoricalUsers, setAlert } from "../../state/actions";
+import { setAlert } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { ActivityFilterField } from "../../utils/ActivityFIlterField.enum";
+import { ActivityTypeEnum } from "../../utils/ActivityType.enum";
 import { FilterOptionsApiResponse } from "../../utils/ApiServiceInterface";
-import { ActivityFilter, FilterOption } from "../../utils/FilterOption.model";
-import { MapBounds } from "../../utils/MapBounds";
+import { ActivityColourMap, ActivityFilter, FilterOption } from "../../utils/FilterOption.model";
 import styles from "./Filter.module.css";
 
 type FilterProps = {
-  mapBounds: MapBounds;
-  fromDate: Date;
   onFilterChange: (activityFilter?: ActivityFilter) => void;
 };
 
@@ -46,13 +44,27 @@ const Filter = (props: FilterProps) => {
   const popoverClasses = {
     paper: styles.popoverPaper,
   };
+  const badgeClasses = {
+    root: styles.filterBadgeRoot,
+    badge: styles.filterBadge,
+  };
 
   useEffect(() => {
+    const processFilterOptions = (filterOptions: FilterOption[]): FilterOption[] => {
+      filterOptions.forEach((filterOption: FilterOption) => {
+        filterOption.colour =
+          ActivityColourMap[filterOption.type as ActivityTypeEnum] ||
+          ActivityColourMap[filterOption.name as ActivityTypeEnum];
+      });
+
+      return filterOptions;
+    };
+
     setLoading(true);
     ApiService.getActivityFilterOptions()
       .then(
         (response: AxiosResponse<FilterOptionsApiResponse>) => {
-          setFilterOptions(response.data.options);
+          setFilterOptions(processFilterOptions(response.data.options));
         },
         () => handleApiError()
       )
@@ -73,7 +85,7 @@ const Filter = (props: FilterProps) => {
 
   const handleFilterChange = (event: React.ChangeEvent<{}>, newInputValue: FilterOption | null) => {
     setSelectedValue(newInputValue);
-    // Make request using fromDate and mapbounds
+
     if (!_.isNil(newInputValue)) {
       const filter: ActivityFilter = {
         field:
@@ -82,11 +94,9 @@ const Filter = (props: FilterProps) => {
             : ActivityFilterField.ActivityType,
         value: newInputValue.name,
       };
-      dispatch(fetchHistoricalUsers(props.fromDate.toISOString(), props.mapBounds, filter));
       props.onFilterChange(filter);
     } else {
       // User cleared search, send request without a filter
-      dispatch(fetchHistoricalUsers(props.fromDate.toISOString(), props.mapBounds));
       props.onFilterChange();
     }
   };
@@ -99,6 +109,12 @@ const Filter = (props: FilterProps) => {
         onClick={handleClick}
         classes={iconClasses}
       >
+        <Badge
+          classes={badgeClasses}
+          invisible={_.isNil(selectedValue)}
+          style={{ backgroundColor: selectedValue?.colour }}
+          variant="dot"
+        />
         <Image className={styles.filterIcon} src={filterIcon} />
       </IconButton>
       <Popover

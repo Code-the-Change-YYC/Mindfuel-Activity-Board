@@ -47,7 +47,7 @@
 }
 
 .loadingIndicatorColor {
-  color: #52247f !important;
+  color: var(--wv-purple) !important;
 }
 
 .searchAreaButton {
@@ -56,8 +56,8 @@
 }
 
 .initializationContainer {
-  background-color: #ffdd00;
-  color: #52247f;
+  background-color: var(--wv-yellow);
+  color: var(--wv-purple);
   text-align: center;
   padding: 10px;
   position: fixed;
