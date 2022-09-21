@@ -10,7 +10,7 @@ import (
 )
 
 func Start(mongoClient *mongo.Client) {
-	log.Println("Starting HTTP server...")
+	log.Println(log.Ldate, " Starting HTTP server...")
 
 	r := chi.NewRouter()
 	r.Use(cors.Handler(cors.Options{
@@ -31,7 +31,7 @@ func Start(mongoClient *mongo.Client) {
 		r.Mount("/activity-stats", activityStatsRouter(handler))
 	})
 
-	log.Println("Listening on port 8080")
+	log.Println(log.Ldate, " Listening on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
