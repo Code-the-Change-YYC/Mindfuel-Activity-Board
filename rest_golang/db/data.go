@@ -44,7 +44,7 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: filter.MaxUsers}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
 	if err != nil {
-		log.Println(log.Ldate, " No user found")
+		log.Println(log.Ldate, " No user found - ", users, err)
 		return users, err
 	}
 	defer cursor.Close(context.TODO())
@@ -74,6 +74,7 @@ func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, 
 	facetStage := bson.D{{Key: "$facet", Value: bson.D{{Key: "sessions", Value: usersQuery}, {Key: "countries", Value: countriesQuery}, {Key: "cities", Value: citiesQuery}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, facetStage})
 	if err != nil {
+		log.Println(log.Ldate, " Not able to provide count - ", counts, err)
 		return counts, err
 	}
 	defer cursor.Close(context.TODO())
@@ -106,6 +107,7 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	}
 
 	if err != nil {
+		log.Println(log.Ldate, " No activity stat found - ", activityStats, err)
 		return activityStats, err
 	}
 
