@@ -17,7 +17,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	var msg interface{}
 	err := json.Unmarshal([]byte(message), &msg)
 	if err != nil {
-		log.Println("Error in unmarshalling json:", err)
+		log.Println(log.Ldate, " Error in unmarshalling json:", err)
 		return
 	}
 	// Cast the message into a map to see what kind of message it is
@@ -36,7 +36,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 		}
 		db.InsertUser(mongoClient, user)
 	} else {
-		log.Println("Unrecognized message:", msg)
+		log.Println(log.Ldate, " Unrecognized message:", msg)
 	}
 
 	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset {
@@ -47,7 +47,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 		}
 		db.InsertActivityStats(mongoClient, user)
 	} else {
-		log.Println("Unrecognized message:", msg)
+		log.Println(log.Ldate, " Unrecognized message:", msg)
 	}
 }
 

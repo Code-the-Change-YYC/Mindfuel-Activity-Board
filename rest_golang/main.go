@@ -25,9 +25,9 @@ func main() {
 	// Connect to MongoDB
 	mongoClient, err := db.GetMongoClient()
 	if err != nil {
-		log.Fatal("Error creating a MongoDB client: ", err)
+		log.Fatal(log.Ldate, " Error creating a MongoDB client: ", err)
 	}
-	log.Println("Successfully connected to MongoDB.")
+	log.Println(log.Ldate, " Successfully connected to MongoDB.")
 
 	// Defer disconnection
 	defer func() {
