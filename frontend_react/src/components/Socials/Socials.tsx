@@ -11,16 +11,18 @@ import { TwitterTimelineEmbed } from "react-twitter-embed";
 import styles from "./Socials.module.css";
 
 const twitterLink =
-  "https://twitter.com/MindFuelca?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor";
-
-const loadingClasses = {
-  colorPrimary: styles.loadingIndicator,
-  bar: styles.loadingBar,
-};
+  "https://twitter.com/MindFuelca";
 
 const Socials = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [placeholder, setPlaceholder] = useState<JSX.Element | null>(null);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+  const loadingClasses = {
+    colorPrimary: styles.loadingIndicator,
+    bar: styles.loadingBar,
+  };
+
   const loadingPlaceholder = <LinearProgress classes={loadingClasses} />;
   const failedPlaceholder = (
     <div className={styles.loadMessage}>
@@ -57,9 +59,6 @@ const Socials = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   return (
     <StylesProvider injectFirst>

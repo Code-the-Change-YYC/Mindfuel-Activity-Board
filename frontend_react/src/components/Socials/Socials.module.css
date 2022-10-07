@@ -1,5 +1,5 @@
 .socialsIconButton {
-  background-color: #ffdd00;
+  background-color: var(--wv-yellow);
   color: #1da1f2;
   height: 50px;
   width: 50px;
@@ -31,7 +31,7 @@
 }
 
 .loadingBar {
-  background-color: #52247f;
+  background-color: var(--wv-purple);
 }
 
 .loadMessage {

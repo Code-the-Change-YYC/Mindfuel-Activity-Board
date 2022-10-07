@@ -1,5 +1,5 @@
 .dashboardButton {
-  color: #52247f;
+  color: var(--wv-purple);
   background-color: white;
   border-radius: 20px;
 }

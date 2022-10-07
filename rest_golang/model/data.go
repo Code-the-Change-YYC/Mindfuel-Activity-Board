@@ -18,3 +18,8 @@ type ActivityStats struct {
 	ImageUrl string `json:"imageUrl" bson:"imageUrl"`
 	Rank     int    `json:"rank"`
 }
+
+type FilterOption struct {
+	Name string `json:"name" json:"type"`
+	Type string `json:"type" bson:"type"`
+}

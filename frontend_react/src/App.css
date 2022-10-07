@@ -2,9 +2,19 @@
   text-align: start;
   width: 100%;
   overflow: auto;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-style: normal;
+  font-weight: normal;
 }
 
 /* Hide map's fullscreen button - doing it through map options caused flickering issues */
 button.gm-fullscreen-control {
   display: none !important;
+}
+
+html {
+  /* Wonderville coloru scheme */
+  --wv-purple: #52247f;
+  --wv-yellow: #ffdd00;
+  --wv-orange: #f7901e;
 }

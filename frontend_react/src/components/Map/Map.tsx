@@ -1,47 +1,40 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { Theme, useMediaQuery } from "@material-ui/core";
-import GoogleMapReact, { ChangeEventValue, Maps } from "google-map-react";
+import GoogleMapReact, { ChangeEventValue, Coords, Maps } from "google-map-react";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 
 import useGroupedUsers from "../../hooks/useGroupedUsers";
 import { AppState } from "../../utils/AppState";
+import { AppUserLocation } from "../../utils/AppUserLocation.model";
 import { Location } from "../../utils/Location";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Map.module.css";
 import MapMarker from "./MapMarker/MapMarker";
 
-
-
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
+  center: AppUserLocation;
 };
 
-const defaultCenter = { lat: 48.354594, lng: -99.99805 };
-
 const Map = (props: MapProps) => {
-  const [center, setCenter] = useState(defaultCenter);
+  const [center, setCenter] = useState<Coords>({ lat: props.center.latitude, lng: props.center.longitude });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
-  const defaultZoom = 4;
+  const defaultZoom = 3;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
-  const historicalUsers: User[] | null = useSelector(
-    (state: AppState) => state.historicalUsers
-  );
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
-  // Set historical markers when historical users prop changes
   const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
 
   // Hide map control for mobile screens
-  const showMapControl = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up("sm")
-  );
+  const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const defaultMapOptions = (maps: Maps) => {
     return {
       zoomControl: false,
@@ -55,15 +48,17 @@ const Map = (props: MapProps) => {
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.LEFT_TOP,
-        mapTypeIds: [
-          maps.MapTypeId.ROADMAP,
-          maps.MapTypeId.SATELLITE,
-          maps.MapTypeId.HYBRID,
-        ],
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
     };
   };
 
+  // Update map center on props change, e.g. when user gives location permission after timeout
+  useEffect(() => {
+    setCenter({ lat: props.center.latitude, lng: props.center.longitude });
+  }, [props.center]);
+
+  // Update the markers on the map when historical or live users are added
   useEffect(() => {
     if (!_.isNil(groupedUsers)) {
       const markers: ReactElement[] = [];
@@ -96,9 +91,7 @@ const Map = (props: MapProps) => {
     }
   }, [groupedUsers, newUser, historicalUsers]);
 
-  const getMapBounds = (
-    bounds: google.maps.LatLngBounds | undefined
-  ): MapBounds | undefined => {
+  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
     if (_.isNil(bounds)) {
       return undefined;
     }

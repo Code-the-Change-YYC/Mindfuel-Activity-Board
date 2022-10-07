@@ -2,29 +2,32 @@ import { Color } from "@material-ui/lab/Alert";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 
+import { Action } from "../utils/Action.enum";
 import { AlertModel } from "../utils/Alert.model";
 import {
   ApiServiceInterface,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
 import { AppState, MAX_USERS } from "../utils/AppState";
+import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
 
 export const fetchHistoricalUsers = (
   fromDate: string,
-  mapBounds: MapBounds
+  mapBounds: MapBounds,
+  activityFilter?: ActivityFilter
 ) => {
   return (
     dispatch: Dispatch,
     getState: () => AppState,
     ApiService: ApiServiceInterface
   ) => {
-    dispatch(loading(true));
-    return ApiService.getHistoricalUsers(fromDate, mapBounds, MAX_USERS).then(
+    dispatch(setLoading(true));
+    return ApiService.getHistoricalUsers(fromDate, mapBounds, MAX_USERS, activityFilter).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
-        dispatch(loading(false));
+        dispatch(setLoading(false));
 
         const usersLength: number = response.data.users.length;
         const sessions: number = response.data.counts.sessions;
@@ -35,10 +38,17 @@ export const fetchHistoricalUsers = (
               "info"
             )
           );
+        } else if (usersLength === 0) {
+          dispatch(
+            setAlert(
+              'No users found for your selection. Please try again with a different time, filter or location!',
+              "info"
+            )
+          );
         }
       },
       () => {
-        dispatch(loading(false));
+        dispatch(setLoading(false));
         dispatch(
           setAlert("Unable to complete request, please try again!", "error")
         );
@@ -56,21 +66,21 @@ export const setAlert = (
     : null;
 
   return {
-    type: "ALERT",
+    type: Action.SET_ALERT,
     alert: alert,
   };
 };
 
 export const addLiveUser = (user: User) => {
   return {
-    type: "ADD_USER",
+    type: Action.ADD_LIVE_USER,
     user: user,
   };
 };
 
-export const loading = (loading: boolean) => {
+export const setLoading = (loading: boolean) => {
   return {
-    type: "LOADING",
+    type: Action.SET_LOADING,
     loading: loading,
   };
 };
@@ -82,7 +92,7 @@ export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   });
 
   return {
-    type: "UPDATE_HISTORICAL_USERS",
+    type: Action.UPDATE_HISTORICAL_USERS,
     historicalUsers: response?.users,
     historicalCounts: response?.counts,
   };

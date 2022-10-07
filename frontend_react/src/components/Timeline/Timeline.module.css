@@ -1,5 +1,5 @@
 .timelineRoot {
-  color: #FFDD00;
+  color: var(--wv-yellow);
   height: 3px;
   padding: 12px 0;
 }
@@ -8,7 +8,7 @@
   height: 27px;
   width: 27px;
   background: #fff;
-  border: 2px solid #52247F;
+  border: 2px solid var(--wv-purple);
   margin-top: -12px;
   margin-left: -13px;
   box-shadow: #ccc 0 2px 2px;
@@ -19,7 +19,7 @@
 }
 
 .timelineRail {
-  color:#52247F;
+  color:var(--wv-purple);
   height: 3px;
   opacity: 1;
   pointer-events: None;
@@ -31,7 +31,7 @@
 }
 
 .timelineMarks {
-  background-color: #52247F
+  background-color: var(--wv-purple)
 }
 
 .timelineMarkLabels {
@@ -41,7 +41,7 @@
 .bar {
   height: 9px;
   width: 1px;
-  background-color: #52247F;
+  background-color: var(--wv-purple);
   margin-left: 1px;
 }
 

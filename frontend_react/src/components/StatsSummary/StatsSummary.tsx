@@ -1,46 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Fade, FormControl, 
-  FormControlLabel, FormGroup, IconButton, 
-  InputLabel, MenuItem, Select, Switch } from "@material-ui/core";
+
+import {
+  Fade,
+  FormControl,
+  FormGroup,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  StylesProvider,
+  Switch,
+} from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import Paper from "@material-ui/core/Paper";
-import { StylesProvider, withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import { EqualizerOutlined } from "@material-ui/icons";
 import { AxiosResponse } from "axios";
-import { Image } from "react-bootstrap";
-import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
 
 import ApiService from "../../api/ApiService";
-import activityIcon from "../../res/assets/map-marker-activity.svg";
-import gameIcon from "../../res/assets/map-marker-game.svg";
-import storyIcon from "../../res/assets/map-marker-story.svg";
-import videoIcon from "../../res/assets/map-marker-video.svg";
 import { setAlert } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { ActivityStatsApiResponse } from "../../utils/ApiServiceInterface";
-import { getTimelineDate, numberFormatter } from "../../utils/helpers";
+import { getTimelineDate } from "../../utils/helpers";
 import { Stats } from "../../utils/Stats";
-import { ChartStat } from "../../utils/ChartStat";
+import StatsPieChart from "./StatsPieChart/StatsPieChart";
 import styles from "./StatsSummary.module.css";
-
-const CustomTableCell = withStyles({
-  root: {
-    borderBottom: "none",
-  },
-})(TableCell);
-
-const icons: any = {
-  Game: gameIcon,
-  Video: videoIcon,
-  Activity: activityIcon,
-  Story: storyIcon,
-};
+import StatsTable from "./StatsTable/StatsTable";
 
 const items = [
   {
@@ -67,10 +50,9 @@ const items = [
 
 const StatsSummary = () => {
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [stats, setStats] = useState<Stats[]>([]);
-  const [chartValues, setChartValues] = useState<ChartStat[]>([]);
   const [chartVisibility, setChartVisibility] = useState<boolean>(false);
   const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
 
@@ -88,26 +70,6 @@ const StatsSummary = () => {
   const iconClasses = {
     root: styles.statsButton,
   };
-  const tableContainerClasses = {
-    root: styles.tableContainer,
-  };
-  const tableHeaderClasses = {
-    root: styles.tableHeader,
-  };
-  const tableRowClasses = {
-    root: styles.tableRow,
-  };
-
-  const colors = ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
-  '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-  '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
-  '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-  '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
-  '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-  '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
-  '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-  '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
-  '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
 
   useEffect(() => {
     // Get initial data on instantiation
@@ -124,14 +86,14 @@ const StatsSummary = () => {
   }, []);
 
   const handleApiError = () => {
-    dispatch(setAlert("Unable to complete request, please try again!", "error"));
+    dispatch(setAlert("Unable to fetch historical stats, please try again!", "error"));
   };
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleTimeValueChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setLoading(true);
     const val = event.target.value as number;
     setTrendingVal(val);
@@ -141,7 +103,6 @@ const StatsSummary = () => {
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);
-          updateChart(response.data.stats)
         },
         () => handleApiError()
       )
@@ -149,120 +110,11 @@ const StatsSummary = () => {
   };
 
   const handleChartVisibility = () => {
-    if (chartVisibility) setChartVisibility(false)
+    if (chartVisibility) setChartVisibility(false);
     else {
-      updateChart(stats)
-      setChartVisibility(true)
+      setChartVisibility(true);
     }
-  }
-
-  const updateChart = (newStats: Stats[]) => {
-    let newChart: ChartStat[] = []
-    let totalHits = 0
-    for (let i = 0; i < newStats.length; i++) {
-      totalHits += newStats[i].hits
-    }
-
-    loop1:
-    for (let i = 0; i < newStats.length; i++) {
-      let newStat: ChartStat = {value: 0, name: "", color: "", percentage: 0.0}
-      for (let j = 0; j < newChart.length; j++) {
-        if (newChart[j].name === newStats[i].type) {
-          newChart[j].value += newStats[i].hits
-          continue loop1;
-        }
-      }
-      newStat.value = newStats[i].hits;
-      newStat.name = newStats[i].type;
-      newStat.percentage = newStats[i].hits/totalHits * 100
-      switch (newStats[i].type) {
-        case "Activity":
-          newStat.color = "#1F64AF"
-          break;
-        case "Game":
-          newStat.color = "#F7901E"
-          break;
-        case "Video":
-          newStat.color = "#00613e"
-          break;
-        case "Story":
-          newStat.color = "#787400"
-          break;
-        default:
-          newStat.color = colors[i]
-          break;
-      }
-      newChart.push(newStat)
-    }
-    setChartValues(newChart)
-  }
-
-  const CustomTooltip = ({ active, payload, label }:any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div style={{backgroundColor: "#ffdd00",
-        padding: "5px",
-        display: "flex", 
-        flexDirection: "column"}}>
-          <table>
-            <tr>
-              <th align="left">
-                <text style={{color: "#52247f"}}>{payload[0].payload.name}</text>
-              </th>
-            </tr>
-            <tr>
-              <td>
-                <text style={{color: "#52247f"}}>Hits</text>
-              </td>
-              <td style={{paddingLeft: "10px"}}>
-                <text style={{color: "#52247f"}}>{numberFormatter(payload[0].payload.value, 1)}</text>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <text style={{color: "#52247f"}}>Percentage</text>
-              </td>
-              <td style={{paddingLeft: "10px"}}>
-                <text style={{color: "#52247f"}}>{payload[0].payload.percentage.toFixed(1)}%</text>
-              </td>
-            </tr>
-          </table>
-        </div>
-      );
-    }
-    return null;
   };
-
-  const getRows = () => {
-    if (loading) {
-      return (
-        <TableRow classes={tableRowClasses}>
-          <CustomTableCell className={styles.loadingContainer} colSpan={4}>
-            <CircularProgress style={{color: "#52247f"}} />
-          </CustomTableCell>
-      </TableRow>
-      )
-    } else if (stats.length > 0) {
-      return stats.map((row: Stats) => (
-        <TableRow key={row.name} classes={tableRowClasses}>
-          <CustomTableCell component="th" scope="row">
-            <Image src={icons[row.type]} className={styles.icon} />
-          </CustomTableCell>
-          <CustomTableCell>{row.type}</CustomTableCell>
-          <CustomTableCell>{row.name}</CustomTableCell>
-          <CustomTableCell align="right">{numberFormatter(row.hits, 1)}</CustomTableCell>
-        </TableRow>
-      ));
-    } else {
-      return (
-        <TableRow classes={tableRowClasses}>
-          <CustomTableCell style={{ textAlign: "center" }} colSpan={4}>
-            No data
-          </CustomTableCell>
-        </TableRow>
-      );
-    }
-  }
 
   return (
     <StylesProvider injectFirst>
@@ -283,9 +135,9 @@ const StatsSummary = () => {
       >
         <Fade in={open}>
           <div className={styles.modal}>
-            <FormControl 
-              classes={formClasses} 
-              style={{display:"flex", flexDirection:"row", alignContent:"space-between"}}
+            <FormControl
+              classes={formClasses}
+              style={{ display: "flex", flexDirection: "row", alignContent: "space-between" }}
             >
               <InputLabel classes={inputLabelClasses} style={{ color: "white" }}>
                 Trending
@@ -293,7 +145,7 @@ const StatsSummary = () => {
               <Select
                 autoWidth={true}
                 value={trendingVal}
-                onChange={handleChange}
+                onChange={handleTimeValueChange}
                 classes={selectClasses}
               >
                 {items.map((item) => (
@@ -302,59 +154,34 @@ const StatsSummary = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <FormGroup style={{marginLeft: "auto"}}>
-                <InputLabel classes={inputLabelClasses} style={{ color: "white", position: "relative", textAlign: "center" }}>
+              <FormGroup style={{ marginLeft: "auto" }}>
+                <InputLabel
+                  classes={inputLabelClasses}
+                  style={{ color: "white", position: "relative", textAlign: "center" }}
+                >
                   Chart
                 </InputLabel>
-                <Switch onClick={handleChartVisibility}/>
+                <Switch checked={chartVisibility} onClick={handleChartVisibility} />
               </FormGroup>
             </FormControl>
-            {chartVisibility && chartValues.length>0 && 
-              <PieChart width={450} height={400} style={{backgroundColor: "white", borderRadius: "5px", margin: "25px auto"}}>
-                <Pie
-                  dataKey="value"
-                  isAnimationActive={false}
-                  data={chartValues}
-                  cx={"50%"}
-                  cy={"50%"}
-                  outerRadius={"80%"}
-                  innerRadius={"60%"}
-                  paddingAngle={5}
-                  fill="#ffdd00"
-                  stroke='#52247f'
-                  label
-                  labelLine={false}
-                >
-                  {
-                    chartValues.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color}/>
-                    ))
-                  }
-                </Pie>
-                <Tooltip content={<CustomTooltip />}/>
-                <Legend verticalAlign="bottom" height={36}/>
-              </PieChart>
-            }
-            {chartVisibility && chartValues.length<=0 && 
-              <div style={{backgroundColor: "white", textAlign: "center", borderRadius: "5px", height: "50px", display:"table", width: "100%"}}>
-                <h3 style={{verticalAlign: "middle", display: "table-cell"}}>No data</h3>
+            {chartVisibility && StatsPieChart.length > 0 && (
+              <StatsPieChart stats={stats}></StatsPieChart>
+            )}
+            {chartVisibility && stats.length <= 0 && (
+              <div
+                style={{
+                  backgroundColor: "white",
+                  textAlign: "center",
+                  borderRadius: "5px",
+                  height: "50px",
+                  display: "table",
+                  width: "100%",
+                }}
+              >
+                <h3 style={{ verticalAlign: "middle", display: "table-cell" }}>No data</h3>
               </div>
-            }
-            {!chartVisibility &&
-              <TableContainer classes={tableContainerClasses} component={Paper}>
-                <Table classes={tableHeaderClasses} size="small" aria-label="stats table">
-                  <TableHead>
-                    <TableRow>
-                      <CustomTableCell>Icon</CustomTableCell>
-                      <CustomTableCell>Category</CustomTableCell>
-                      <CustomTableCell>Top</CustomTableCell>
-                      <CustomTableCell align="right">Sessions</CustomTableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>{getRows()}</TableBody>
-                </Table>
-              </TableContainer>
-            }
+            )}
+            {!chartVisibility && <StatsTable stats={stats} loading={loading}></StatsTable>}
           </div>
         </Fade>
       </Modal>

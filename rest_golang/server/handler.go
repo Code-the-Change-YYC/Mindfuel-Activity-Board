@@ -93,7 +93,20 @@ func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 		Stats: activityStats,
 	}
 
-	log.Println(resp)
+	json.NewEncoder(w).Encode(resp)
+}
+
+func (h *Handler) GetUserFilterOptions(w http.ResponseWriter, r *http.Request) {
+	filterOptions, err := db.GetFilterOptions(h.Client)
+	if err != nil {
+		log.Println("Error processing GetUserFilterOptions:", err)
+		http.Error(w, errorGeneric, http.StatusInternalServerError)
+		return
+	}
+
+	resp := model.FilterOptionsResponse{
+		Options: filterOptions,
+	}
 
 	json.NewEncoder(w).Encode(resp)
 }

@@ -12,6 +12,16 @@ func GetUserQuery(filter model.UserFilter) bson.M {
 		"payload.location.latitude": bson.M{"$gte": filter.LatLower, "$lte": filter.LatUpper},
 	}
 
+	if filter.FilterValue != nil {
+		// Extra insurance, ensure user is wondervilleAsset type
+		matchQuery["type"] = bson.M{"$eq": model.WondervilleAsset}
+		if *filter.FilterField == model.CategoryFilter {
+			matchQuery["payload.asset.type"] = bson.M{"$eq": filter.FilterValue}
+		} else if *filter.FilterField == model.ActivityTypeFilter {
+			matchQuery["payload.asset.name"] = bson.M{"$eq": filter.FilterValue}
+		}
+	}
+
 	if filter.LngLower <= filter.LngUpper {
 		matchQuery["payload.location.longitude"] = bson.M{"$gte": filter.LngLower, "$lte": filter.LngUpper}
 	} else {

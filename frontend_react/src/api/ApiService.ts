@@ -4,8 +4,10 @@ import Qs from "qs";
 import {
   ActivityStatsApiResponse,
   ApiServiceInterface,
+  FilterOptionsApiResponse,
   UsersApiResponse,
 } from "../utils/ApiServiceInterface";
+import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
 
 const http = axios.create({
@@ -30,22 +32,31 @@ http.interceptors.request.use((config) => {
 const getHistoricalUsers = (
   fromDate: string,
   mapBounds: MapBounds,
-  maxUsers: number
+  maxUsers: number,
+  activityFilter?: ActivityFilter
 ): Promise<AxiosResponse<UsersApiResponse>> => {
   return http.get<UsersApiResponse>("/users", {
-    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers },
+    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers, filter: activityFilter },
   });
 };
 
-const getActivityStats = (fromDate?: string, top?: number): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
+const getActivityStats = (
+  fromDate?: string,
+  top?: number
+): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
   return http.get<ActivityStatsApiResponse>("/activity-stats", {
-    params: { fromDate: fromDate, top: top }
+    params: { fromDate: fromDate, top: top },
   });
+};
+
+const getActivityFilterOptions = (): Promise<AxiosResponse<FilterOptionsApiResponse>> => {
+  return http.get<FilterOptionsApiResponse>("/activity-filter-options")
 };
 
 const ApiService: ApiServiceInterface = {
   getHistoricalUsers: getHistoricalUsers,
   getActivityStats: getActivityStats,
+  getActivityFilterOptions: getActivityFilterOptions,
 };
 
 export default ApiService;

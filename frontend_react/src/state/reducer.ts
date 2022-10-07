@@ -1,6 +1,7 @@
 import _ from "lodash";
 
 import * as sampleData from "../api/SampleUserData.json";
+import { Action } from "../utils/Action.enum";
 import { AppState, LiveCounts, MAX_USERS } from "../utils/AppState";
 import { User } from "../utils/User";
 
@@ -35,7 +36,7 @@ const rootReducer = (
   action: any
 ) => {
   switch (action.type) {
-    case "ADD_USER":
+    case Action.ADD_LIVE_USER:
       const user: User = action.user;
       user.payload = _.omit(user.payload, ["stats", "rank"]);
 
@@ -53,19 +54,19 @@ const rootReducer = (
         liveUsers: liveUsers,
         liveCounts: liveCounts,
       };
-    case "UPDATE_HISTORICAL_USERS":
+    case Action.UPDATE_HISTORICAL_USERS:
       return {
         ...state,
         newUser: null,
         historicalUsers: action.historicalUsers,
         historicalCounts: action.historicalCounts,
       };
-    case "LOADING":
+    case Action.SET_LOADING:
       return {
         ...state,
         loading: action.loading,
       };
-    case "ALERT":
+    case Action.SET_ALERT:
       return {
         ...state,
         alert: action.alert,
