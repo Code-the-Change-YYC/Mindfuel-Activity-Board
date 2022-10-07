@@ -28,7 +28,7 @@
     "react-dom": "^16.13.1",
     "react-material-ui-carousel": "^2.3.11",
     "react-redux": "^7.2.5",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^5.0.1",
     "react-twitter-embed": "^3.0.3",
     "recharts": "^2.1.11",
     "redux": "^4.1.1",
