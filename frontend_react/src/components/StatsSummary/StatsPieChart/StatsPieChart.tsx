@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { PieChart, Pie, Legend, Tooltip, Cell } from 'recharts';
+
 import { ChartStat } from "../../../utils/ChartStat";
 import { numberFormatter } from "../../../utils/helpers";
 import { Stats } from "../../../utils/Stats";
