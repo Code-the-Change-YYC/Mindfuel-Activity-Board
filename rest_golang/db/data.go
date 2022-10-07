@@ -40,8 +40,8 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 	var users []model.User
 	collection := client.Database("wondervilleDev").Collection("users")
 
-	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
 	// Randomly sample the max number of users from collection.
+	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
 	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: filter.MaxUsers}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
 	if err != nil {
@@ -160,26 +160,6 @@ func GetFilterOptions(client *mongo.Client) ([]model.FilterOption, error) {
 
 	// Return categories and activity filter options combined together
 	return append(categories, filterOptions...), nil
-}
-
-// CreateIssue - Insert a new document into the Users collection.
-func InsertUser(client *mongo.Client, asset model.User) error {
-	// Create a handle to the respective collection in the database.
-	collection := client.Database("wondervilleDev").Collection("users")
-	// Perform InsertOne operation & validate against the error.
-	_, err := collection.InsertOne(context.TODO(), asset)
-	if err != nil {
-		log.Println("Error inserting into the DB:", err)
-		return err
-	}
-	if asset.Type == model.WondervilleAsset {
-		log.Println("Inserted Wonderville Asset User:", *asset.Payload.Ip)
-	} else {
-		log.Println("Inserted Wonderville Session User:", asset.Payload.Location.Region)
-	}
-
-	// Return success without any error.
-	return nil
 }
 
 // Inserts a new activity or updates the hits field of an existing activity in the activityStats collection

@@ -93,8 +93,6 @@ func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 		Stats: activityStats,
 	}
 
-	log.Println(resp)
-
 	json.NewEncoder(w).Encode(resp)
 }
 
@@ -109,8 +107,6 @@ func (h *Handler) GetUserFilterOptions(w http.ResponseWriter, r *http.Request) {
 	resp := model.FilterOptionsResponse{
 		Options: filterOptions,
 	}
-
-	log.Println(resp)
 
 	json.NewEncoder(w).Encode(resp)
 }
