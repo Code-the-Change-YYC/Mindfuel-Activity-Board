@@ -80,7 +80,7 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
                 </td>
                 <td style={{ paddingLeft: "10px" }}>
                   <text style={{ color: "#52247f" }}>
-                    {numberFormatter(payload[0].payload.value, 1)}
+                    {payload[0].payload.value}
                   </text>
                 </td>
               </tr>
@@ -118,7 +118,7 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
           paddingAngle={5}
           fill="#ffdd00"
           stroke="#52247f"
-          label
+          label={(data: ChartStat) => `${data.percentage.toFixed(1)}%`}
           labelLine={false}
         >
           {chartValues.map((entry, index) => (
