@@ -164,7 +164,7 @@ const StatsSummary = () => {
                 <Switch checked={chartVisibility} onClick={handleChartVisibility} />
               </FormGroup>
             </FormControl>
-            {chartVisibility && StatsPieChart.length > 0 && (
+            {chartVisibility && stats.length > 0 && (
               <StatsPieChart stats={stats}></StatsPieChart>
             )}
             {chartVisibility && stats.length <= 0 && (
