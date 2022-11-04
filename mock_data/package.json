@@ -7,6 +7,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dayjs": "^1.11.6",
     "lodash": "^4.17.21",
     "mongo-seeding": "^3.7.1"
   },

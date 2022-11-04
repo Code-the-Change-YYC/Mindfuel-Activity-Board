@@ -1,3 +1,4 @@
+const dayjs = require("dayjs")
 const { faker } = require("@faker-js/faker");
 const fs = require("fs");
 const { _ } = require("lodash");
@@ -27,7 +28,7 @@ const generateUsers = () => {
     let loc = _.sample(locations); // Get random element from list of sample locations
     let user = {
       type: weighted_random(["wondervilleAsset", "wondervilleSession"], [0.8, 0.2]),
-      date: faker.date.between("2022-01-01", "2022-05-31"),
+      date: faker.date.between(dayjs().subtract(3, "month").format(), dayjs().add(1, "month").format()),
       ...loc
     }
 
