@@ -36,7 +36,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 		}
 		db.InsertUser(mongoClient, user)
 	} else {
-		log.Println(log.Ldate, " Unrecognized message - User insertion:", msg)
+		log.Println(log.Ldate, " Unrecognized message - User Insertion:", msg)
 		return
 	}
 
@@ -48,7 +48,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 		}
 		db.InsertActivityStats(mongoClient, user)
 	} else {
-		log.Println(log.Ldate, " Unrecognized message - ActivityStats insertion:", msg)
+		log.Println(log.Ldate, " Unrecognized message - ActivityStats Insertion:", msg)
 		return
 	}
 }
