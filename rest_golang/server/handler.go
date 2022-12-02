@@ -33,9 +33,6 @@ const (
 	errorQueryParams = "Error decoding query parameters."
 )
 
-// Maximum number of users to return in a single API call
-const maxUsers = 125
-
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	filter, err := GetUserQueryParams(r.URL.Query())
 	if err != nil {
