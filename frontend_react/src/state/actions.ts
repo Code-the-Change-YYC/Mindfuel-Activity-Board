@@ -85,6 +85,13 @@ export const setLoading = (loading: boolean) => {
   };
 };
 
+export const toggleHeatmap = (heatmapEnabled: boolean) => {
+  return {
+    type: Action.TOGGLE_HEATMAP,
+    heatmapEnabled: heatmapEnabled,
+  }
+}
+
 export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   response?.users.forEach((user: User) => {
     // Convert from ISO timestamp

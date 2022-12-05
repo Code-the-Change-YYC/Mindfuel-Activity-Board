@@ -1,3 +1,4 @@
+/* global google */
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { Theme, useMediaQuery } from "@material-ui/core";
@@ -19,11 +20,26 @@ type MapProps = {
   center: AppUserLocation;
 };
 
+type Position = {
+  lat: number,
+  lng: number,
+  weight?: number
+}
+
+type Heatmap = {
+  positions: Position[],
+  options: {   
+      radius?: number,   
+      opacity?: number,
+  }
+}
+
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState<Coords>({ lat: props.center.latitude, lng: props.center.longitude });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
+  const [heatmapData, setHeatmapData] = useState<Heatmap>({positions: [], options: {}});
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
   const defaultZoom = 3;
 
@@ -31,6 +47,7 @@ const Map = (props: MapProps) => {
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
+  const heatmapEnabled: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
 
   // Hide map control for mobile screens
@@ -61,10 +78,14 @@ const Map = (props: MapProps) => {
   // Update the markers on the map when historical or live users are added
   useEffect(() => {
     if (!_.isNil(groupedUsers)) {
+      let locationList: any = [];
       const markers: ReactElement[] = [];
       Object.entries(groupedUsers).forEach(([, users], index) => {
         // Set the marker as open if the new user is contained in the list of users
         const open: boolean = !_.isNil(newUser) && _.some(users, newUser);
+        locationList.push(
+          {lat: users[0].payload.location.latitude, lng: users[0].payload.location.longitude}
+        )
         markers.push(
           <MapMarker
             key={`${index} + ${open}`}
@@ -79,7 +100,14 @@ const Map = (props: MapProps) => {
           ></MapMarker>
         );
       });
-
+      const heatmapEntries = {
+        positions: locationList,
+        options: {
+          radius: 20
+        }
+      }
+      console.log(heatmapEntries)
+      setHeatmapData(heatmapEntries)
       setMarkers(markers);
 
       if (_.isNil(historicalUsers) && !_.isNil(newUser)) {
@@ -89,7 +117,7 @@ const Map = (props: MapProps) => {
         });
       }
     }
-  }, [groupedUsers, newUser, historicalUsers]);
+  }, [groupedUsers, newUser, historicalUsers, heatmapEnabled]);
 
   const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
     if (_.isNil(bounds)) {
@@ -138,22 +166,53 @@ const Map = (props: MapProps) => {
     setDisableDoubleClickZoom(false);
   };
 
+//   const heatmapData = {    
+//     positions: [
+//       {lat: 55.5, lng: 34.56},
+//       {lat: 34.7, lng: 28.4},
+//     ],
+//     options: {   
+//       radius: 20,   
+//       opacity: 0.6,
+//     }
+// }
+
   return (
     <div className={styles.map}>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
-        }}
-        onGoogleApiLoaded={handleGoogleApiLoad}
-        onChange={handleMapChange}
-        onMapTypeIdChange={handleMapTypeIdChange}
-        defaultZoom={defaultZoom}
-        center={center}
-        options={defaultMapOptions}
-        yesIWantToUseGoogleMapApiInternals={true}
-      >
-        {markers}
-      </GoogleMapReact>
+      {!heatmapEnabled && 
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
+          }}
+          onGoogleApiLoaded={handleGoogleApiLoad}
+          onChange={handleMapChange}
+          onMapTypeIdChange={handleMapTypeIdChange}
+          defaultZoom={defaultZoom}
+          center={center}
+          options={defaultMapOptions}
+          yesIWantToUseGoogleMapApiInternals={true}
+          heatmapLibrary={true}          
+          heatmap={undefined}
+        >
+          {markers}
+        </GoogleMapReact>
+      }
+      {heatmapEnabled &&
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
+          }}
+          onGoogleApiLoaded={handleGoogleApiLoad}
+          onChange={handleMapChange}
+          onMapTypeIdChange={handleMapTypeIdChange}
+          defaultZoom={defaultZoom}
+          center={center}
+          options={defaultMapOptions}
+          yesIWantToUseGoogleMapApiInternals={true}
+          heatmapLibrary={true}          
+          heatmap={heatmapData}
+        ></GoogleMapReact>
+      }
     </div>
   );
 };

@@ -29,6 +29,7 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  heatmapEnabled: false,
 };
 
 const rootReducer = (
@@ -66,6 +67,11 @@ const rootReducer = (
         ...state,
         loading: action.loading,
       };
+    case Action.TOGGLE_HEATMAP:
+      return {
+        ...state, 
+        heatmapEnabled: action.heatmapEnabled,
+      }
     case Action.SET_ALERT:
       return {
         ...state,
