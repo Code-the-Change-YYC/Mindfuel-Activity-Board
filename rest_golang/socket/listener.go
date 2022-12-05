@@ -85,7 +85,7 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 
 			_, message, err := ws.ReadMessage()
 			if err != nil {
-				log.Printf("Error: ReadMessage %s", ws.GetURL())
+				log.Printf("Error: ReadMessage %s", err)
 				continue
 			}
 

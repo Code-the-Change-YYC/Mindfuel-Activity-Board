@@ -38,8 +38,6 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
       hitsCounter.set(newStats[i].type, (hitsCounter.get(newStats[i].type) ?? 0) + newStats[i].hits);
     }
 
-    console.log(hitsCounter)
-
     // Create chart dataset for each category
     const newChart: ChartStat[] = [];
     hitsCounter.forEach((hits: number, category: string) => {

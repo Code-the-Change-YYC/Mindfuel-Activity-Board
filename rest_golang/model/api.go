@@ -11,10 +11,10 @@ const (
 type UserFilter struct {
 	FromDateTimestamp string    `schema:"fromDate,required"`
 	MaxUsers          int       `schema:"maxUsers,required"`
-	LngLower          float64   `schema:"mapBounds[lngBounds][lower],required"`
-	LngUpper          float64   `schema:"mapBounds[lngBounds][upper],required"`
-	LatLower          float64   `schema:"mapBounds[latBounds][lower],required"`
-	LatUpper          float64   `schema:"mapBounds[latBounds][upper],required"`
+	LngLower          float64   `schema:"mapBounds[lng][lower],required"`
+	LngUpper          float64   `schema:"mapBounds[lng][upper],required"`
+	LatLower          float64   `schema:"mapBounds[lat][lower],required"`
+	LatUpper          float64   `schema:"mapBounds[lat][upper],required"`
 	FilterValue       *string   `schema:"filter[value],omitempty"`
 	FilterField       *string   `schema:"filter[field],omitempty"`
 	FromDate          time.Time `schema:"-"` // Used to store converted fromDate, not included in raw query parameters

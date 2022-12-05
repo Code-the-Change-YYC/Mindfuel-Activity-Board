@@ -1,6 +1,6 @@
 export type MapBounds = {
-  latBounds: Bounds;
-  lngBounds: Bounds;
+  lat: Bounds;
+  lng: Bounds;
 };
 
 type Bounds = {
