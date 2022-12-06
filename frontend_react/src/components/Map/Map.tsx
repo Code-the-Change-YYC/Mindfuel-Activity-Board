@@ -103,10 +103,9 @@ const Map = (props: MapProps) => {
       const heatmapEntries = {
         positions: locationList,
         options: {
-          radius: 20
+          radius: 35
         }
       }
-      console.log(heatmapEntries)
       setHeatmapData(heatmapEntries)
       setMarkers(markers);
 
@@ -117,7 +116,7 @@ const Map = (props: MapProps) => {
         });
       }
     }
-  }, [groupedUsers, newUser, historicalUsers, heatmapEnabled]);
+  }, [groupedUsers, newUser, historicalUsers]);
 
   const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
     if (_.isNil(bounds)) {
@@ -165,17 +164,6 @@ const Map = (props: MapProps) => {
   const handleMarkerLeave = () => {
     setDisableDoubleClickZoom(false);
   };
-
-//   const heatmapData = {    
-//     positions: [
-//       {lat: 55.5, lng: 34.56},
-//       {lat: 34.7, lng: 28.4},
-//     ],
-//     options: {   
-//       radius: 20,   
-//       opacity: 0.6,
-//     }
-// }
 
   return (
     <div className={styles.map}>

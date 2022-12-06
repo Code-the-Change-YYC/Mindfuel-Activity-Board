@@ -43,7 +43,7 @@ const rootReducer = (
 
       const liveUsers: User[] = [...state.liveUsers, user];
       // Maximum 125 users on screen to preserve performance
-      if (liveUsers.length > MAX_USERS) {
+      if (liveUsers.length > MAX_USERS && !state.heatmapEnabled) {
         liveUsers.shift();
       }
 

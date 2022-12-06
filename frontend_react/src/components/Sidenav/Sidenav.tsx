@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import ToggleButton, { FormGroup, InputLabel, Switch } from '@material-ui/core/';
+import { FormControlLabel, FormGroup, Switch } from '@material-ui/core/';
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector } from "react-redux";
@@ -66,14 +66,6 @@ const Sidenav = () => {
   }, [analyticsData]);
 
   useEffect(() => {
-    if (selected === true) {
-      let locationList: Location[] = []
-      users.forEach(user => {
-        locationList.push(user.payload.location)
-      });
-      setLocations(locationList)
-      console.log(locationList)
-    }
     store.dispatch(toggleHeatmap(selected));
   }, [selected])
 
@@ -85,10 +77,6 @@ const Sidenav = () => {
     setSelected(!selected)
   }
 
-  const getLocations = () => {
-    return locations;
-  }
-
   const drawer = (
     <div className={styles.sidenav}>
       <div className={styles.logoContainer}>
@@ -96,16 +84,15 @@ const Sidenav = () => {
       </div>
       <div className={styles.sidenavContent}>
         <div className={styles.analyticsBoxes}>{analyticsBoxes}</div>
-        {/* <Button classes={buttonClasses} variant="contained">
-          Dashboardddd
-        </Button> */}
-        <FormGroup style={{ marginLeft: "auto" }}>
-                <InputLabel
-                  style={{ color: "white", position: "relative", textAlign: "center" }}
-                >
-                  Heatmap
-                </InputLabel>
-                <Switch checked={selected} onClick={handleHeatmap} />
+        <FormGroup>
+          <FormControlLabel 
+            style={{color: "#ffdd00"}}
+            control={
+              <Switch style={{color: '#ffdd00'}} checked={selected} onClick={handleHeatmap} size="medium"/>
+            } 
+            label="Heat Map" 
+            labelPlacement="end"
+          />
         </FormGroup>
       </div>
     </div>
