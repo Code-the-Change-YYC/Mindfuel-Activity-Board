@@ -1,6 +1,7 @@
 import React from "react";
 
 import Button from "@material-ui/core/Button";
+import { StylesProvider } from "@material-ui/core/styles";
 
 import styles from "./SearchAreaButton.module.css";
 
@@ -14,14 +15,16 @@ const SearchAreaButton = (props: SearchAreaButtonProps) => {
   };
 
   return (
-    <Button
-      size="small"
-      classes={buttonClasses}
-      variant="contained"
-      onClick={props.handleClick}
-    >
-      Search this area
-    </Button>
+    <StylesProvider injectFirst>
+      <Button
+        size="small"
+        classes={buttonClasses}
+        variant="contained"
+        onClick={props.handleClick}
+      >
+        Search this area
+      </Button>
+    </StylesProvider>
   );
 };
 

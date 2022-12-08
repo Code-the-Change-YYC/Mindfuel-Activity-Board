@@ -4,6 +4,7 @@ import {
   Fade,
   FormControl,
   FormGroup,
+  Icon,
   IconButton,
   InputLabel,
   MenuItem,
@@ -12,7 +13,7 @@ import {
   Switch,
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
-import { EqualizerOutlined } from "@material-ui/icons";
+import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
 import { AxiosResponse } from "axios";
 
 import ApiService from "../../api/ApiService";
@@ -139,7 +140,13 @@ const StatsSummary = () => {
               classes={formClasses}
               style={{ display: "flex", flexDirection: "row", alignContent: "space-between" }}
             >
-              <InputLabel classes={inputLabelClasses} style={{ color: "white" }}>
+              <InputLabel
+                classes={inputLabelClasses}
+                style={{ color: "white", display: "flex", alignItems: "center" }}
+              >
+                <Icon aria-label="open drawer" color="inherit">
+                  <Whatshot style={{ fontSize: 20, color: "red" }} />
+                </Icon>
                 Trending
               </InputLabel>
               <Select
@@ -157,16 +164,14 @@ const StatsSummary = () => {
               <FormGroup style={{ marginLeft: "auto" }}>
                 <InputLabel
                   classes={inputLabelClasses}
-                  style={{ color: "white", position: "relative", textAlign: "center" }}
+                  style={{ color: "white", position: "relative", textAlign: "right" }}
                 >
                   Chart
                 </InputLabel>
                 <Switch checked={chartVisibility} onClick={handleChartVisibility} />
               </FormGroup>
             </FormControl>
-            {chartVisibility && stats.length > 0 && (
-              <StatsPieChart stats={stats}></StatsPieChart>
-            )}
+            {chartVisibility && stats.length > 0 && <StatsPieChart stats={stats}></StatsPieChart>}
             {chartVisibility && stats.length <= 0 && (
               <div
                 style={{

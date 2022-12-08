@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from 'recharts';
-import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 
+import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 import { ChartStat } from "../../../utils/ChartStat";
 import { ActivityColourMap } from "../../../utils/FilterOption.model";
 import { numberFormatter } from "../../../utils/helpers";
