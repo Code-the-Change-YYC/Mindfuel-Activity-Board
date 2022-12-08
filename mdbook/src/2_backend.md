@@ -29,17 +29,17 @@ table {float:left}
 
 `v1/api/users`<br><br>
 **Methods**: `GET`<br>
-**Description**: Gets historical users from the `users` collection and total counts of users, cities and countries.<br>
+**Description**: Gets historical users and the total counts of users, uniques cities and unique countries.<br>
 **Parameters**:
 
 | Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
 |---|:---:|---|---|---|
-| `fromDate` | Y | String | The timestamp threshold for users in ISO string format. | 2022-10-04T14:48:00.000Z |
-| `maxUsers` | Y | Integer | The maximum number of users to return. | 100 |
+| `startDate` | Y | String | The start of the date range in ISO string format. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `maxUsers` | Y | Integer | The maximum number of users to return. | <pre>100</pre> |
 | `mapBounds` | Y | Object | The latitude and longitude boundaries used to search for users.  Latitude and longitude values are integers. | <pre>{<br> lat: {<br>  lower: -49.68,<br>  upper: 84.71<br>}, <br> lng: {<br>  lower: -175.25, <br>  upper: -52.74<br>}</pre> |
 | `filter` | N | Object | The activity filter value.<br><br> Valid filter categories are *Category* or *ActivityType*. If *Category* is chosen, you can specify *Game*, *Video*, *Activity* or *Story* as the filter type. | <pre>{<br> filterCategory: "Category", <br> filterType: "Game"<br>}</pre> |
 
-**Responses**<br><br>
+**Responses**<br>
 **Success**: `200 OK`<br>
 **Content**:
 ```
@@ -76,5 +76,73 @@ table {float:left}
     "cities": 1,
     "countries": 1
   }
+}
+```
+<br>
+
+`v1/api/activity-stats`<br><br>
+**Methods**: `GET`<br>
+**Description**: Gets activity hit counts in descending order by the number of hits.<br>
+**Parameters**:
+
+| Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
+|---|:---:|---|---|---|
+| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `top` | N | Integer | The top number activities to return. | <pre>10</pre> |
+
+**Responses**<br>
+**Success**: `200 OK`<br>
+**Content**:
+```
+{
+  "stats": [
+    {
+      "hits": 81,
+      "name": "Save The World",
+      "type": "Game",
+      "url": "",
+      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Save-the-World-Thumb.png",
+      "rank": 1
+    },
+    {
+      "hits": 24,
+      "name": "Tree Cookies",
+      "type": "Game",
+      "url": "",
+      "imageUrl": "https://wonderville.org/wvAssets/Uploads/Tree-Cookies-Thumb.png",
+      "rank": 2
+    }
+  ]
+}
+```
+<br>
+
+`v1/api/activity-filter-options`<br><br>
+**Methods**: `GET`<br>
+**Description**: Gets a unique list of all activity categories and activity names recorded over time.<br>
+**Parameters**: None<br>
+**Responses**<br>
+**Success**: `200 OK`<br>
+**Content**:
+```
+{
+  "options": [
+    {
+      "name": "Game",
+      "type": "Category"
+    },
+    {
+      "name": "Video",
+      "type": "Category"
+    },
+    {
+      "name": "Airborne Experiment",
+      "type": "Game"
+    },
+    {
+      "name": "Waste No More",
+      "type": "Video"
+    }
+  ]
 }
 ```
