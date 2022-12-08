@@ -14,7 +14,7 @@ import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
 
 export const fetchHistoricalUsers = (
-  fromDate: string,
+  startDate: string,
   mapBounds: MapBounds,
   activityFilter?: ActivityFilter
 ) => {
@@ -24,7 +24,7 @@ export const fetchHistoricalUsers = (
     ApiService: ApiServiceInterface
   ) => {
     dispatch(setLoading(true));
-    return ApiService.getHistoricalUsers(fromDate, mapBounds, MAX_USERS, activityFilter).then(
+    return ApiService.getHistoricalUsers(startDate, mapBounds, MAX_USERS, activityFilter).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));

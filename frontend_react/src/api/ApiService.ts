@@ -30,22 +30,22 @@ http.interceptors.request.use((config) => {
 });
 
 const getHistoricalUsers = (
-  fromDate: string,
+  startDate: string,
   mapBounds: MapBounds,
   maxUsers: number,
   activityFilter?: ActivityFilter
 ): Promise<AxiosResponse<UsersApiResponse>> => {
   return http.get<UsersApiResponse>("/users", {
-    params: { fromDate: fromDate, mapBounds: mapBounds, maxUsers: maxUsers, filter: activityFilter },
+    params: { startDate: startDate, mapBounds: mapBounds, maxUsers: maxUsers, filter: activityFilter },
   });
 };
 
 const getActivityStats = (
-  fromDate?: string,
+  startDate?: string,
   top?: number
 ): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
   return http.get<ActivityStatsApiResponse>("/activity-stats", {
-    params: { fromDate: fromDate, top: top },
+    params: { startDate: startDate, top: top },
   });
 };
 

@@ -75,8 +75,8 @@ const StatsSummary = () => {
   useEffect(() => {
     // Get initial data on instantiation
     setLoading(true);
-    const fromDate = getTimelineDate(trendingVal);
-    ApiService.getActivityStats(fromDate?.toISOString())
+    const startDate = getTimelineDate(trendingVal);
+    ApiService.getActivityStats(startDate?.toISOString())
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats.sort((a, b) => a.rank - b.rank));
@@ -99,8 +99,8 @@ const StatsSummary = () => {
     const val = event.target.value as number;
     setTrendingVal(val);
 
-    const fromDate = getTimelineDate(val);
-    ApiService.getActivityStats(fromDate?.toISOString())
+    const startDate = getTimelineDate(val);
+    ApiService.getActivityStats(startDate?.toISOString())
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);

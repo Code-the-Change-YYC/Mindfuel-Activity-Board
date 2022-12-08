@@ -13,11 +13,11 @@ func GetUserQueryParams(params url.Values) (model.UserFilter, error) {
 		return filter, err
 	}
 
-	fromDate, err := time.Parse(time.RFC3339, params.Get("fromDate"))
+	startDate, err := time.Parse(time.RFC3339, params.Get("startDate"))
 	if err != nil {
 		return filter, err
 	}
-	filter.FromDate = fromDate
+	filter.StartDate = startDate
 
 	return filter, nil
 }
@@ -28,17 +28,17 @@ func GetStatsQueryParams(params url.Values) (model.StatsFilter, error) {
 		return filter, err
 	}
 
-	if filter.FromDateTimestamp != nil {
-		fromDate, err := time.Parse(time.RFC3339, params.Get("fromDate"))
+	if filter.StartDateTimestamp != nil {
+		startDate, err := time.Parse(time.RFC3339, params.Get("startDate"))
 		if err != nil {
 			return filter, err
 		}
-		filter.FromDate = fromDate
+		filter.StartDate = startDate
 	}
 
 	if filter.Top == nil {
-		filter.Top = new(int)  // Set as zero value int as to not limit the Mongo query
-	} 
+		filter.Top = new(int) // Set as zero value int as to not limit the Mongo query
+	}
 
 	return filter, nil
 }

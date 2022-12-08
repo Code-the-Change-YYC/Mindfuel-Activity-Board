@@ -9,21 +9,21 @@ const (
 )
 
 type UserFilter struct {
-	FromDateTimestamp string    `schema:"fromDate,required"`
-	MaxUsers          int       `schema:"maxUsers,required"`
-	LngLower          float64   `schema:"mapBounds[lng][lower],required"`
-	LngUpper          float64   `schema:"mapBounds[lng][upper],required"`
-	LatLower          float64   `schema:"mapBounds[lat][lower],required"`
-	LatUpper          float64   `schema:"mapBounds[lat][upper],required"`
-	FilterValue       *string   `schema:"filter[value],omitempty"`
-	FilterField       *string   `schema:"filter[field],omitempty"`
-	FromDate          time.Time `schema:"-"` // Used to store converted fromDate, not included in raw query parameters
+	StartDateTimestamp string    `schema:"startDate,required"`
+	MaxUsers           int       `schema:"maxUsers,required"`
+	LngLower           float64   `schema:"mapBounds[lng][lower],required"`
+	LngUpper           float64   `schema:"mapBounds[lng][upper],required"`
+	LatLower           float64   `schema:"mapBounds[lat][lower],required"`
+	LatUpper           float64   `schema:"mapBounds[lat][upper],required"`
+	FilterValue        *string   `schema:"filter[value],omitempty"`
+	FilterField        *string   `schema:"filter[field],omitempty"`
+	StartDate          time.Time `schema:"-"` // Used to store converted startDate, not included in raw query parameters
 }
 
 type StatsFilter struct {
-	Top               *int      `schema:"top"` // Limit return to the top number of activities
-	FromDateTimestamp *string   `schema:"fromDate,omitempty"`
-	FromDate          time.Time `schema:"-"` // Used to store converted fromDate, not included in raw query parameters
+	Top                *int      `schema:"top"` // Limit return to the top number of activities
+	StartDateTimestamp *string   `schema:"startDate,omitempty"`
+	StartDate          time.Time `schema:"-"` // Used to store converted startDate, not included in raw query parameters
 }
 
 type UsersResponse struct {
