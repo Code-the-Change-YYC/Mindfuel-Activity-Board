@@ -13,7 +13,7 @@ import (
 
 var addr = flag.String("addr", "wonderville.org:5556", "http service address")
 
-// uncomment line below for local development using mocket server
+// uncomment line below for local development using mocked server
 // var addr = flag.String("addr", "localhost:3210", "socket service address")
 
 // Create wait group so that main thread finishes for goroutine to finish before terminating

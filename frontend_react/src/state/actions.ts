@@ -14,7 +14,7 @@ import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
 
 export const fetchHistoricalUsers = (
-  fromDate: string,
+  startDate: string,
   mapBounds: MapBounds,
   activityFilter?: ActivityFilter
 ) => {
@@ -25,7 +25,7 @@ export const fetchHistoricalUsers = (
   ) => {
     dispatch(setLoading(true));
     const heatmapEnabled = getState().heatmapEnabled;
-    return ApiService.getHistoricalUsers(fromDate, mapBounds, heatmapEnabled? 1000: MAX_USERS, activityFilter).then(
+    return ApiService.getHistoricalUsers(startDate, mapBounds, heatmapEnabled? 1000: MAX_USERS, activityFilter).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));

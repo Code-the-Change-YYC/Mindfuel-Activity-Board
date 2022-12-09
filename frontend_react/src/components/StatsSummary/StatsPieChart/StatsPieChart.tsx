@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from 'recharts';
-import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 
+import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 import { ChartStat } from "../../../utils/ChartStat";
 import { ActivityColourMap } from "../../../utils/FilterOption.model";
 import { numberFormatter } from "../../../utils/helpers";
@@ -37,8 +37,6 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
     for (let i = 0; i < newStats.length; i++) {
       hitsCounter.set(newStats[i].type, (hitsCounter.get(newStats[i].type) ?? 0) + newStats[i].hits);
     }
-
-    console.log(hitsCounter)
 
     // Create chart dataset for each category
     const newChart: ChartStat[] = [];

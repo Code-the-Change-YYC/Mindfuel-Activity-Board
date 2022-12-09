@@ -127,13 +127,13 @@ const Map = (props: MapProps) => {
     const ne = bounds.getNorthEast();
 
     return {
-      latBounds: {
-        lower: sw.lat(),
-        upper: ne.lat(),
+      lat: {
+        lower: _.round(sw.lat(), 3),
+        upper: _.round(ne.lat(), 3),
       },
-      lngBounds: {
-        lower: sw.lng(),
-        upper: ne.lng(),
+      lng: {
+        lower: _.round(sw.lng(), 3),
+        upper: _.round(ne.lng(), 3),
       },
     };
   };
