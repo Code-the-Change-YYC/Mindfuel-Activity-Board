@@ -9,6 +9,7 @@ export type AppState = {
   newUser: User | null;
   loading: boolean;
   alert: AlertModel | null;
+  heatmapEnabled: boolean;
 };
 
 export type LiveCounts = {

@@ -33,6 +33,7 @@ const Home = () => {
   const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
   const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
@@ -87,6 +88,10 @@ const Home = () => {
       SocketService.disconnect();
     };
   }, []); // Pass in an empty array to only run an effect once.
+
+  useEffect(() => {
+    getHistoricalUsers()
+  }, [heatmapToggle])
 
   const handleMapBoundsChange = (mapBounds?: MapBounds) => {
     setMapBounds(mapBounds);

@@ -24,7 +24,8 @@ export const fetchHistoricalUsers = (
     ApiService: ApiServiceInterface
   ) => {
     dispatch(setLoading(true));
-    return ApiService.getHistoricalUsers(startDate, mapBounds, MAX_USERS, activityFilter).then(
+    const heatmapEnabled = getState().heatmapEnabled;
+    return ApiService.getHistoricalUsers(startDate, mapBounds, heatmapEnabled? 1000: MAX_USERS, activityFilter).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));
@@ -84,6 +85,13 @@ export const setLoading = (loading: boolean) => {
     loading: loading,
   };
 };
+
+export const toggleHeatmap = (heatmapEnabled: boolean) => {
+  return {
+    type: Action.TOGGLE_HEATMAP,
+    heatmapEnabled: heatmapEnabled,
+  }
+}
 
 export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   response?.users.forEach((user: User) => {
