@@ -15,10 +15,17 @@ type activityStatsFields struct {
 	count int64 `bson:"count"`
 }
 
+const (
+	database = "wondervilleDev"
+	activityStatsCollection = "activityStats"
+	usersCollection = "users"
+)
+const collection = ""
+
 // CreateIssue - Insert a new document in the collection.
 func InsertUser(client *mongo.Client, asset model.User) error {
 	// Create a handle to the respective collection in the database.
-	collection := client.Database("wondervilleDev").Collection("users")
+	collection := client.Database(database).Collection(usersCollection)
 	// Perform InsertOne operation & validate against the error.
 	_, err := collection.InsertOne(context.TODO(), asset)
 	if err != nil {
@@ -38,7 +45,7 @@ func InsertUser(client *mongo.Client, asset model.User) error {
 // Get the users from the collection filtered by the fields in the UserFilter.
 func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, error) {
 	var users []model.User
-	collection := client.Database("wondervilleDev").Collection("users")
+	collection := client.Database(database).Collection(usersCollection)
 
 	// Randomly sample the max number of users from collection.
 	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
@@ -65,7 +72,7 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 // Get the user, country and city counts from the collection filtered by the fields in the UserFilter.
 func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, error) {
 	var counts model.RawCounts
-	collection := client.Database("wondervilleDev").Collection("users")
+	collection := client.Database(database).Collection(usersCollection)
 
 	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
 	usersQuery := bson.A{bson.D{{Key: "$count", Value: "count"}}}
@@ -96,13 +103,13 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	var cursor *mongo.Cursor
 	var err error
 
-	// Query activityStats table if no fromDate is provided (returns all time stats), otherwise query users table using fromDate
-	if filter.FromDateTimestamp == nil {
-		collection := client.Database("wondervilleDev").Collection("activityStats")
+	// Query activityStats table if no startDate is provided (returns all time stats), otherwise query users table using startDate
+	if filter.StartDateTimestamp == nil {
+		collection := client.Database(database).Collection(activityStatsCollection)
 		opts := options.Find().SetSort(bson.D{{Key: "hits", Value: -1}}).SetLimit(int64(*filter.Top))
 		cursor, err = collection.Find(context.TODO(), bson.M{}, opts)
 	} else {
-		collection := client.Database("wondervilleDev").Collection("users")
+		collection := client.Database(database).Collection(usersCollection)
 		pipelineQuery := GetActivityStatsQuery(filter)
 		cursor, err = collection.Aggregate(context.TODO(), pipelineQuery)
 	}
@@ -128,7 +135,7 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 func GetFilterOptions(client *mongo.Client) ([]model.FilterOption, error) {
 	var filterOptions []model.FilterOption
 
-	collection := client.Database("wondervilleDev").Collection("activityStats")
+	collection := client.Database(database).Collection(activityStatsCollection)
 	fields := bson.D{{Key: "type", Value: 1}, {Key: "name", Value: 1}}
 	opts := options.Find().SetProjection(fields).SetSort(fields)
 	cursor, err := collection.Find(context.TODO(), bson.M{}, opts)
@@ -166,7 +173,7 @@ func GetFilterOptions(client *mongo.Client) ([]model.FilterOption, error) {
 func InsertActivityStats(client *mongo.Client, user model.User) error {
 	var err error
 	//Create a handle to the respective collection in the database.
-	collection := client.Database("wondervilleDev").Collection("activityStats")
+	collection := client.Database(database).Collection(activityStatsCollection)
 	//Check to see if activity is in the DB, if so update hit counter else
 	//Perform InsertOne operation & validate against the error.
 	incomingActivityName := user.Payload.Asset.Name

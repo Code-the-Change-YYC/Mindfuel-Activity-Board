@@ -1,6 +1,6 @@
 [book]
-authors = ["Harsohail Brar"]
+authors = ["Harsohail Brar", "Arsalan Fardi", "Ramin Radmand", "Parsa Honarmand"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Wonderville Activity Map Documentation"
+title = "Wonderville Activity Activity Board Documentation"
