@@ -45,6 +45,11 @@ const Sidenav = () => {
   const drawerClasses = {
     paper: styles.drawerPaper,
   };
+  const switchClasses = {
+    switchBase: styles.switchBase,
+    checked: styles.checked,
+    track: styles.switchButton
+  };
 
   useEffect(() => {
     const getAnalyticsBoxes = (data: {
@@ -88,10 +93,20 @@ const Sidenav = () => {
           <FormControlLabel 
             style={{color: "#ffdd00"}}
             control={
-              <Switch style={{color: '#ffdd00'}} checked={selected} onClick={handleHeatmap} size="medium"/>
+              <Switch
+                checked={selected} 
+                onClick={handleHeatmap} 
+                color="default"
+                size="medium"
+                classes={{
+                  track: switchClasses.track,
+                  switchBase: switchClasses.switchBase,
+                  checked: switchClasses.checked
+                }}
+              />
             } 
             label="Heat Map" 
-            labelPlacement="end"
+            labelPlacement="start"
           />
         </FormGroup>
       </div>

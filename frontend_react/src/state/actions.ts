@@ -25,7 +25,7 @@ export const fetchHistoricalUsers = (
   ) => {
     dispatch(setLoading(true));
     const heatmapEnabled = getState().heatmapEnabled;
-    return ApiService.getHistoricalUsers(fromDate, mapBounds, heatmapEnabled? 100000: MAX_USERS, activityFilter).then(
+    return ApiService.getHistoricalUsers(fromDate, mapBounds, heatmapEnabled? 1000: MAX_USERS, activityFilter).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));
