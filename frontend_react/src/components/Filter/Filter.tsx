@@ -9,7 +9,6 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
-import { Image } from "react-bootstrap";
 
 import ApiService from "../../api/ApiService";
 import filterIcon from "../../res/assets/filter-icon.png";
@@ -115,7 +114,7 @@ const Filter = (props: FilterProps) => {
           style={{ backgroundColor: selectedValue?.colour }}
           variant="dot"
         />
-        <Image className={styles.filterIcon} src={filterIcon} />
+        <img className={styles.filterIcon} src={filterIcon} />
       </IconButton>
       <Popover
         classes={popoverClasses}

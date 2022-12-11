@@ -5,7 +5,6 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
 import { StylesProvider } from "@material-ui/core/styles";
-import { Image } from "react-bootstrap";
 import Carousel from "react-material-ui-carousel";
 
 import { getMapMarkerIconForUser } from "../../../utils/helpers";
@@ -64,7 +63,7 @@ const MapMarker = (props: any) => {
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
-          <Image
+          <img
             ref={markerEl}
             className={styles.icon}
             src={mapMarkerIcon}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Image } from "react-bootstrap";
+import { Card } from "@material-ui/core";
 
 import { numberFormatter } from "../../utils/helpers";
 import styles from "./AnalyticsBox.module.css";
@@ -21,7 +21,7 @@ const AnalyticsBox = (props: AnalyticsBox) => {
         <div className={styles.totalNumber}>{numberValue}</div>
         <div className={styles.totalText}>{props.textValue}</div>
       </div>
-      <Image className={styles.icon} src={props.icon} />
+      <img className={styles.icon} src={props.icon} />
     </Card>
   );
 };
