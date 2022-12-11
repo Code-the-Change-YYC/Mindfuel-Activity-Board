@@ -12,7 +12,6 @@ import {
   TableSortLabel,
   withStyles,
 } from "@material-ui/core";
-import { Image } from "react-bootstrap";
 
 
 import activityIcon from "../../../res/assets/map-marker-activity.svg";
@@ -117,7 +116,7 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
       return stats.map((row: Stats) => (
         <TableRow key={row.name} classes={tableRowClasses}>
           <CustomTableCell component="th" scope="row">
-            <Image src={icons[row.type]} className={styles.icon} />
+            <img src={icons[row.type]} className={styles.icon} />
           </CustomTableCell>
           <CustomTableCell>{row.type}</CustomTableCell>
           <CustomTableCell>{row.name}</CustomTableCell>
