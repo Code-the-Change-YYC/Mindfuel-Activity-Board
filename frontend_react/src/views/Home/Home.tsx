@@ -90,8 +90,8 @@ const Home = () => {
   }, []); // Pass in an empty array to only run an effect once.
 
   useEffect(() => {
-    getHistoricalUsers()
-  }, [heatmapToggle])
+    getHistoricalUsers();
+  }, [heatmapToggle]);
 
   const handleMapBoundsChange = (mapBounds?: MapBounds) => {
     setMapBounds(mapBounds);
@@ -100,7 +100,7 @@ const Home = () => {
     }
   };
 
-  // Make a request on 'Search Area' click 
+  // Make a request on 'Search Area' click
   const handleSearchAreaClick = () => {
     getHistoricalUsers();
     setShowAreaButton(false);
@@ -114,6 +114,8 @@ const Home = () => {
       dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
     } else {
       dispatch(updateHistoricalUsers(null));
+      // Reset filter
+      setActivityFilter(undefined);
     }
   };
 
@@ -121,7 +123,7 @@ const Home = () => {
     setActivityFilter(activityFilter);
     // Filter option is only visible when startDate and mapBounds are not null
     dispatch(fetchHistoricalUsers(startDate!.toISOString(), mapBounds!, activityFilter));
-  }
+  };
 
   const getHistoricalUsers = () => {
     if (!_.isNil(startDate) && !_.isNil(mapBounds)) {
@@ -150,9 +152,7 @@ const Home = () => {
             </div>
             <div className={styles.timeline}>
               {/* Ensure initial map bounds are captured before rendering timeline */}
-              {mapBounds && (
-                <Timeline onDateChange={handleDateChange}></Timeline>
-              )}
+              {mapBounds && <Timeline onDateChange={handleDateChange}></Timeline>}
             </div>
           </div>
         </div>
