@@ -16,11 +16,10 @@ type activityStatsFields struct {
 }
 
 const (
-	database = "wondervilleDev"
+	database = "wondervillActivityBoard"
 	activityStatsCollection = "activityStats"
 	usersCollection = "users"
 )
-const collection = ""
 
 // CreateIssue - Insert a new document in the collection.
 func InsertUser(client *mongo.Client, asset model.User) error {
@@ -74,6 +73,7 @@ func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, 
 	var counts model.RawCounts
 	collection := client.Database(database).Collection(usersCollection)
 
+
 	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
 	usersQuery := bson.A{bson.D{{Key: "$count", Value: "count"}}}
 	countriesQuery := GetDistinctCountQuery("payload.location.country_name", "countries")
@@ -110,6 +110,7 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 		cursor, err = collection.Find(context.TODO(), bson.M{}, opts)
 	} else {
 		collection := client.Database(database).Collection(usersCollection)
+
 		pipelineQuery := GetActivityStatsQuery(filter)
 		cursor, err = collection.Aggregate(context.TODO(), pipelineQuery)
 	}
