@@ -87,7 +87,7 @@ table {float:left}
 
 | Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
 |---|:---:|---|---|---|
-| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
 | `top` | N | Integer | The top number activities to return. | <pre>10</pre> |
 
 **Responses**<br>
