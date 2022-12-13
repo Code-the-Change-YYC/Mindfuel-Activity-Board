@@ -33,10 +33,11 @@ const Home = () => {
   const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
   const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
-  const [fromDate, setFromDate] = useState<Date | null>();
+  const [startDate, setStartDate] = useState<Date | null>();
   const [initializationText, setInitializationText] = useState<string>("Loading application...");
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
   const loadingClasses = {
@@ -79,7 +80,6 @@ const Home = () => {
 
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
-    // const websocketAddress = `${[process.env.REACT_APP_LOCAL_WEBSOCKET]}`;
 
     SocketService.connect(websocketAddress);
 
@@ -88,6 +88,10 @@ const Home = () => {
       SocketService.disconnect();
     };
   }, []); // Pass in an empty array to only run an effect once.
+
+  useEffect(() => {
+    getHistoricalUsers()
+  }, [heatmapToggle])
 
   const handleMapBoundsChange = (mapBounds?: MapBounds) => {
     setMapBounds(mapBounds);
@@ -103,11 +107,11 @@ const Home = () => {
   };
 
   // Make a request on timeline date selection
-  const handleDateChange = (fromDate?: Date) => {
-    setFromDate(fromDate);
+  const handleDateChange = (startDate?: Date) => {
+    setStartDate(startDate);
     setShowAreaButton(false);
-    if (!_.isNil(fromDate)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds!, activityFilter));
+    if (!_.isNil(startDate)) {
+      dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
     } else {
       dispatch(updateHistoricalUsers(null));
     }
@@ -115,13 +119,13 @@ const Home = () => {
 
   const handleFilterChange = (activityFilter?: ActivityFilter) => {
     setActivityFilter(activityFilter);
-    // Filter option is only visible when fromDate and mapBounds are not null
-    dispatch(fetchHistoricalUsers(fromDate!.toISOString(), mapBounds!, activityFilter));
+    // Filter option is only visible when startDate and mapBounds are not null
+    dispatch(fetchHistoricalUsers(startDate!.toISOString(), mapBounds!, activityFilter));
   }
 
   const getHistoricalUsers = () => {
-    if (!_.isNil(fromDate) && !_.isNil(mapBounds)) {
-      dispatch(fetchHistoricalUsers(fromDate.toISOString(), mapBounds, activityFilter));
+    if (!_.isNil(startDate) && !_.isNil(mapBounds)) {
+      dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds, activityFilter));
     }
   };
 
@@ -134,7 +138,7 @@ const Home = () => {
           <div className={styles.buttonGroup}>
             <Socials></Socials>
             <StatsSummary></StatsSummary>
-            {fromDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
+            {startDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
           </div>
           <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>

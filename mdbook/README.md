@@ -1,4 +1,4 @@
-# Wonderville Activity Map Documentation using mdBook
+# Wonderville Activity Board Documentation using mdBook
 
 > To learn more about mdBook, visit [here](https://rust-lang.github.io/mdBook/).
 

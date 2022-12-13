@@ -35,8 +35,9 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 			return
 		}
 		db.InsertUser(mongoClient, user)
+		return
 	} else {
-		log.Println(log.Ldate, " Unrecognized message:", msg)
+		log.Println(log.Ldate, " Unrecognized message - User Insertion:", msg)
 	}
 
 	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset {
@@ -47,7 +48,7 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 		}
 		db.InsertActivityStats(mongoClient, user)
 	} else {
-		log.Println(log.Ldate, " Unrecognized message:", msg)
+		log.Println(log.Ldate, " Unrecognized message - ActivityStats Insertion:", msg)
 	}
 }
 
@@ -84,7 +85,7 @@ func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
 
 			_, message, err := ws.ReadMessage()
 			if err != nil {
-				log.Printf("Error: ReadMessage %s", ws.GetURL())
+				log.Printf("Error: ReadMessage %s", err)
 				continue
 			}
 

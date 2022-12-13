@@ -1,12 +1,12 @@
 import React from "react";
 
 import _ from "lodash";
-import { Card, Image } from "react-bootstrap";
 
 import wondervilleLogo from "../../../../res/assets/wonderville-logo.png";
 import { AssetType } from "../../../../utils/AssetType.enum";
 import { User } from "../../../../utils/User";
 import styles from "./PopupCard.module.css";
+import { Card } from "@material-ui/core";
 
 type PopupCardProps = {
   user: User;
@@ -34,7 +34,7 @@ const PopupCard = (props: PopupCardProps) => {
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
       <div className={styles.assetImageContainer}>
-        <Image className={styles.assetImage} src={imageUrl} />
+        <img className={styles.assetImage} src={imageUrl} />
       </div>
       <div className={styles.dateContainer}>
         <span>{user.date.toLocaleDateString("en-CA")}</span>

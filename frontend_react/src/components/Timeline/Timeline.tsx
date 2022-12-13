@@ -7,7 +7,7 @@ import { getTimelineDate } from "../../utils/helpers";
 import styles from "./Timeline.module.css";
 
 type TimelineProps = {
-  onDateChange: (fromDate?: Date) => void;
+  onDateChange: (startDate?: Date) => void;
 };
 
 const ThumbComponent = (props: any) => {

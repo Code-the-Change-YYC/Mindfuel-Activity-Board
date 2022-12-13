@@ -29,6 +29,7 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  heatmapEnabled: false,
 };
 
 const rootReducer = (
@@ -42,7 +43,7 @@ const rootReducer = (
 
       const liveUsers: User[] = [...state.liveUsers, user];
       // Maximum 125 users on screen to preserve performance
-      if (liveUsers.length > MAX_USERS) {
+      if (liveUsers.length > MAX_USERS && !state.heatmapEnabled) {
         liveUsers.shift();
       }
 
@@ -66,6 +67,11 @@ const rootReducer = (
         ...state,
         loading: action.loading,
       };
+    case Action.TOGGLE_HEATMAP:
+      return {
+        ...state, 
+        heatmapEnabled: action.heatmapEnabled,
+      }
     case Action.SET_ALERT:
       return {
         ...state,
