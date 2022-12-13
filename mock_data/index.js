@@ -1,15 +1,16 @@
 const path = require("path");
-const { Seeder } = require("mongo-seeding");
+const {
+  Seeder
+} = require("mongo-seeding");
 
 const config = {
-  database: process.env.MONGODB_LOCAL_URI + "/wondervilleDev?authSource=admin",
+  database: process.env.MONGODB_LOCAL_URI + "/wondervillActivityBoard?authSource=admin",
   dropDatabase: true, // Drop database before import
 };
 
 const seeder = new Seeder(config);
 const collections = seeder.readCollectionsFromPath(
-  path.resolve("./data"),
-  {
+  path.resolve("./data"), {
     extensions: ["js"],
     transformers: [Seeder.Transformers.replaceDocumentIdWithUnderscoreId],
   },
