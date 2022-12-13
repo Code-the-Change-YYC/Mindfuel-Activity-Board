@@ -16,7 +16,7 @@ type activityStatsFields struct {
 }
 
 const (
-	database = "wondervilleDev"
+	database = "wondervillActivityBoard"
 	activityStatsCollection = "activityStats"
 	usersCollection = "users"
 )
