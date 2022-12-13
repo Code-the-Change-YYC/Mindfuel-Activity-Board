@@ -20,7 +20,6 @@ const (
 	activityStatsCollection = "activityStats"
 	usersCollection = "users"
 )
-const collection = ""
 
 // CreateIssue - Insert a new document in the collection.
 func InsertUser(client *mongo.Client, asset model.User) error {
