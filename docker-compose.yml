@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   frontend_react:
     container_name: frontend_react
@@ -14,7 +14,7 @@ services:
     command: "npm start"
     restart: always
     env_file: .env
-    # Needed for compose 
+    # Needed for compose
     stdin_open: true
 
   rest_api:
@@ -26,7 +26,7 @@ services:
     expose:
       - "8080"
     depends_on:
-      - 'mongo'
+      - "mongo"
     volumes:
       - ./rest_golang:/go/src/app
     command: go run main.go
@@ -39,13 +39,13 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PWD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DB_NAME}
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     restart: always
 
 volumes:
   mongodb_data:
     driver: local
-
