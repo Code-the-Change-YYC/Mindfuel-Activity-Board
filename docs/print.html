@@ -138,7 +138,7 @@
 <h2 id="about-the-project"><a class="header" href="#about-the-project">About the Project</a></h2>
 <p>The Wonderville Activity Board was built by a team from <a href="https://www.codethechangeyyc.ca/">Code the Change YYC</a> in collaboration with <a href="https://wonderville.org/">Wonderville</a>. Wonderville is is an education technology non-profit focusing on STEM learning products for children in K-12. The Activity Board was created as a tool for location-based viewing of both historical and realtime users of Wonderville's online products. The project is composed of a React frontend, Go REST backend and a MongoDB database; all of which are containerized with Docker. More information on each service can be found in the upcoming sections.</p>
 <p align="center">
-  <img src="../../assets/app-demo.gif" alt="app-demo.gif"/>
+  <img src="../../docs/assets/app-demo.gif" alt="app-demo.gif"/>
 </p>
 <h2 id="quick-start"><a class="header" href="#quick-start">Quick Start:</a></h2>
 <p>To quick start the application:</p>
@@ -230,7 +230,7 @@ table {float:left}
 <strong>Description</strong>: Gets activity hit counts in descending order by the number of hits.<br>
 <strong>Parameters</strong>:</p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th style="text-align: center">Required?</th><th>Type</th><th><div style="width:290px">Description</div></th><th>Example</th></tr></thead><tbody>
-<tr><td><code>startDate</code></td><td style="text-align: center">N</td><td>String</td><td>The start of the date range in ISO string format. If this is not included, all time hit counts will be returned.</td><td><pre>2022-10-04T14:48:00.000Z</pre></td></tr>
+<tr><td><code>startDate</code></td><td style="text-align: center">N</td><td>String</td><td>The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned.</td><td><pre>2022-10-04T14:48:00.000Z</pre></td></tr>
 <tr><td><code>top</code></td><td style="text-align: center">N</td><td>Integer</td><td>The top number activities to return.</td><td><pre>10</pre></td></tr>
 </tbody></table>
 </div>
@@ -287,7 +287,69 @@ table {float:left}
   ]
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="database"><a class="header" href="#database">Database</a></h1>
+<p>MongoDB is used as the document database for the project. The <code>wondervilleActivityBoard</code> database holds two collections, <code>users</code> and <code>activityStats</code>.</p>
+<h4 id="docker--mongodb"><a class="header" href="#docker--mongodb">Docker &amp; MongoDB</a></h4>
+<p>The MongoDB server for the project is containerized with Docker and listens on port <code>27017</code>. The <code>wondervilleActivityBoard</code> database and root user credentials are defined in <code>docker-compose.yml</code>. Docker volumes are used for persisting data from the database and linking the start-up script (<code>mongo-init.js</code>) to the container. The start-up script creates the necessary collections and indexes.</p>
+<h4 id="users-collection"><a class="header" href="#users-collection">Users Collection</a></h4>
+<p>The <code>users</code> collection is used to store messages (i.e. the users) as they are delivered from the Wonderville WebSocket. These messages can be of Wonderville Asset or Wonderville Session type. Wonderville Assets contain an <code>asset</code> key in the <code>payload</code> with details about the game, activity, story or video that the user accessed, whereas Wonderville Sessions only detail the location of the user. Examples of the stored documents for both message types are shown below.</p>
+<p>Wonderville Asset</p>
+<pre><code>{
+   &quot;type&quot;:&quot;wondervilleAsset&quot;
+   &quot;date&quot;:{
+      &quot;$date&quot;:&quot;2022-12-04T18:03:43.181Z&quot;  // The date this record was inputted
+   }
+   &quot;payload&quot;:{
+      &quot;ip&quot;: &quot;172.219.38.100&quot;,
+      &quot;url&quot;: &quot;tree-cookies&quot;,
+      &quot;location&quot;: {
+         &quot;country_name&quot;: &quot;Canada&quot;,
+         &quot;region_name&quot;: &quot;Alberta&quot;,
+         &quot;city&quot;: &quot;Leduc&quot;,
+         &quot;longitude&quot;: -113.5586,
+         &quot;latitude&quot;: 53.2658
+      },
+      &quot;asset&quot;: {
+         &quot;name&quot;: &quot;Tree Cookies&quot;,
+         &quot;url&quot;: &quot;tree-cookies&quot;,
+         &quot;id&quot;: 32,
+         &quot;uuid&quot;: &quot;&quot;,
+         &quot;type&quot;: &quot;Game&quot;,
+         &quot;imageUrl&quot;: &quot;https://wonderville.org/wvAssets/Uploads/Tree-Cookies-Thumb.png&quot;,
+         &quot;active&quot;: true
+      },
+      &quot;rank&quot;:1  // The rank as received by the Wonderville Websocket
+   }
+}
+</code></pre>
+<p><strong>Wonderville Session</strong></p>
+<pre><code>{
+   &quot;type&quot;: &quot;wondervilleSession&quot;,
+   &quot;date&quot;: {
+      &quot;$date&quot;: &quot;2022-02-04T09:15:54.386Z&quot;
+   },
+   &quot;payload&quot;:{
+      &quot;location&quot;:{
+         &quot;country_name&quot;: &quot;United States&quot;,
+         &quot;region_name&quot;: &quot;Michigan&quot;,
+         &quot;city&quot;: &quot;Monroe&quot;,
+         &quot;longitude&quot;: -83.476,
+         &quot;latitude&quot;: 41.9053
+      }
+   }
+}
+</code></pre>
+<h4 id="activitystats-collection"><a class="header" href="#activitystats-collection">activityStats Collection</a></h4>
+<p>The <code>activityStats</code> collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated.</p>
+<pre><code>{
+   &quot;name&quot;: &quot;Solar Energy Defenders&quot;,
+   &quot;url&quot;: &quot;solarenergydefenders&quot;,
+   &quot;type&quot;: &quot;Game&quot;,
+   &quot;imageUrl&quot;: &quot;https://wonderville.org/wvAssets/Uploads/Solar-Energy-Defenders-Thumb.png&quot;,
+   &quot;hits&quot;: 24749
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="introduction-1"><a class="header" href="#introduction-1">Introduction</a></h1>
 
                     </main>
 
