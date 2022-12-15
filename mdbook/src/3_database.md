@@ -2,11 +2,13 @@
 
 MongoDB is used as the document database for the project. The `wondervilleActivityBoard` database holds two collections, `users` and `activityStats`.
 
-#### Docker & MongoDB
+#### MongoDB & Docker
 The MongoDB server for the project is containerized with Docker and listens on port `27017`. The `wondervilleActivityBoard` database and root user credentials are defined in `docker-compose.yml`. Docker volumes are used for persisting data from the database and linking the start-up script (`mongo-init.js`) to the container. The start-up script creates the necessary collections and indexes.
 
-#### Users Collection
-The `users` collection is used to store messages (i.e. the users) as they are delivered from the Wonderville WebSocket. These messages can be of Wonderville Asset or Wonderville Session type. Wonderville Assets contain an `asset` key in the `payload` with details about the game, activity, story or video that the user accessed, whereas Wonderville Sessions only detail the location of the user. Examples of the stored documents for both message types are shown below.
+#### Collections
+
+#### users
+The `users` collection is used to store messages (i.e. the users) as they are delivered from the Wonderville WebSocket. These messages can be of **Wonderville Asset** or **Wonderville Session** type. Wonderville Assets contain an `asset` key in the `payload` with details about the game, activity, story or video that the user accessed, whereas Wonderville Sessions only detail the location of the user. Examples of the stored documents for both message types are shown below.
 
 Wonderville Asset:
 ```
@@ -58,7 +60,7 @@ Wonderville Session:
 }
 ```
 
-#### activityStats Collection
+#### activityStats
 The `activityStats` collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated.
 
 ```

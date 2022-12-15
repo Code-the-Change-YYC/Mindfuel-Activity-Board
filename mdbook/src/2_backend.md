@@ -11,14 +11,14 @@ Notable packages used in the backend are:
 - [recws](https://github.com/recws-org/recws) for WebSocket connections
 - [mongo-go-driver](https://github.com/mongodb/mongo-go-driver) for MongoDB connections
 
-#### Project structure:
+#### Project Structure
 ```
 ├── rest_golang
 │   ├── db        // (Package) Retrieving and updating data from MongoDB
 │   ├── model     // (Package) Type definitions for API and internal use
 │   ├── server    // (Package) REST API service (handler and router)
 │   ├── socket    // (Package) WebSocket listener
-│   ├── main.go   // Entry point to the application
+│   └── main.go   // Entry point to the application
 ```
 
 #### APIs
