@@ -48,7 +48,7 @@ const rootReducer = (
       }
 
       const liveCounts = updateLiveCounts(user, { ...state.liveCounts });
-    
+
       return {
         ...state,
         newUser: user,
@@ -69,9 +69,9 @@ const rootReducer = (
       };
     case Action.TOGGLE_HEATMAP:
       return {
-        ...state, 
+        ...state,
         heatmapEnabled: action.heatmapEnabled,
-      }
+      };
     case Action.SET_ALERT:
       return {
         ...state,

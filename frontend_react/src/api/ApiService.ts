@@ -36,7 +36,12 @@ const getHistoricalUsers = (
   activityFilter?: ActivityFilter
 ): Promise<AxiosResponse<UsersApiResponse>> => {
   return http.get<UsersApiResponse>("/users", {
-    params: { startDate: startDate, mapBounds: mapBounds, maxUsers: maxUsers, filter: activityFilter },
+    params: {
+      startDate: startDate,
+      mapBounds: mapBounds,
+      maxUsers: maxUsers,
+      filter: activityFilter,
+    },
   });
 };
 
@@ -49,8 +54,10 @@ const getActivityStats = (
   });
 };
 
-const getActivityFilterOptions = (): Promise<AxiosResponse<FilterOptionsApiResponse>> => {
-  return http.get<FilterOptionsApiResponse>("/activity-filter-options")
+const getActivityFilterOptions = (): Promise<
+  AxiosResponse<FilterOptionsApiResponse>
+> => {
+  return http.get<FilterOptionsApiResponse>("/activity-filter-options");
 };
 
 const ApiService: ApiServiceInterface = {

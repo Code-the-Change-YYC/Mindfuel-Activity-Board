@@ -25,7 +25,12 @@ export const fetchHistoricalUsers = (
   ) => {
     dispatch(setLoading(true));
     const heatmapEnabled = getState().heatmapEnabled;
-    return ApiService.getHistoricalUsers(startDate, mapBounds, heatmapEnabled? 1000: MAX_USERS, activityFilter).then(
+    return ApiService.getHistoricalUsers(
+      startDate,
+      mapBounds,
+      heatmapEnabled ? 1000 : MAX_USERS,
+      activityFilter
+    ).then(
       (response: AxiosResponse<UsersApiResponse>) => {
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));
@@ -42,7 +47,7 @@ export const fetchHistoricalUsers = (
         } else if (usersLength === 0) {
           dispatch(
             setAlert(
-              'No users found for your selection. Please try again with a different time, filter or location!',
+              "No users found for your selection. Please try again with a different time, filter or location!",
               "info"
             )
           );
@@ -90,8 +95,8 @@ export const toggleHeatmap = (heatmapEnabled: boolean) => {
   return {
     type: Action.TOGGLE_HEATMAP,
     heatmapEnabled: heatmapEnabled,
-  }
-}
+  };
+};
 
 export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
   response?.users.forEach((user: User) => {

@@ -6,4 +6,4 @@ export type MapBounds = {
 type Bounds = {
   lower: number;
   upper: number;
-}
+};

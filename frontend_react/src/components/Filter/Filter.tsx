@@ -17,7 +17,11 @@ import { useAppDispatch } from "../../state/hooks";
 import { ActivityFilterField } from "../../utils/ActivityFIlterField.enum";
 import { ActivityTypeEnum } from "../../utils/ActivityType.enum";
 import { FilterOptionsApiResponse } from "../../utils/ApiServiceInterface";
-import { ActivityColourMap, ActivityFilter, FilterOption } from "../../utils/FilterOption.model";
+import {
+  ActivityColourMap,
+  ActivityFilter,
+  FilterOption,
+} from "../../utils/FilterOption.model";
 import styles from "./Filter.module.css";
 
 type FilterProps = {
@@ -49,7 +53,9 @@ const Filter = (props: FilterProps) => {
   };
 
   useEffect(() => {
-    const processFilterOptions = (filterOptions: FilterOption[]): FilterOption[] => {
+    const processFilterOptions = (
+      filterOptions: FilterOption[]
+    ): FilterOption[] => {
       filterOptions.forEach((filterOption: FilterOption) => {
         filterOption.colour =
           ActivityColourMap[filterOption.type as ActivityTypeEnum] ||
@@ -82,7 +88,10 @@ const Filter = (props: FilterProps) => {
     setAnchorEl(null);
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<{}>, newInputValue: FilterOption | null) => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<{}>,
+    newInputValue: FilterOption | null
+  ) => {
     setSelectedValue(newInputValue);
 
     if (!_.isNil(newInputValue)) {

@@ -13,7 +13,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 
-
 import activityIcon from "../../../res/assets/map-marker-activity.svg";
 import gameIcon from "../../../res/assets/map-marker-game.svg";
 import storyIcon from "../../../res/assets/map-marker-story.svg";
@@ -45,16 +44,20 @@ const headCells: any[] = [
 type Order = "asc" | "desc";
 
 interface EnhancedTableHeadProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Stats) => void;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof Stats
+  ) => void;
   order: Order;
   orderBy: string;
 }
 
 const EnhancedTableHead = (props: EnhancedTableHeadProps) => {
   const { order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property: any) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property);
-  };
+  const createSortHandler =
+    (property: any) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
 
   return (
     <TableHead>
@@ -120,7 +123,9 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
           </CustomTableCell>
           <CustomTableCell>{row.type}</CustomTableCell>
           <CustomTableCell>{row.name}</CustomTableCell>
-          <CustomTableCell align="right">{numberFormatter(row.hits, 1)}</CustomTableCell>
+          <CustomTableCell align="right">
+            {numberFormatter(row.hits, 1)}
+          </CustomTableCell>
         </TableRow>
       ));
     } else {
@@ -132,9 +137,12 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
         </TableRow>
       );
     }
-  }
+  };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Stats) => {
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof Stats
+  ) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -142,7 +150,11 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
       stats.sort((a, b) => {
         const first = isAsc ? 1 : -1;
         const second = isAsc ? -1 : 1;
-        return a[property] < b[property] ? first : a[property] > b[property] ? second : 0;
+        return a[property] < b[property]
+          ? first
+          : a[property] > b[property]
+          ? second
+          : 0;
       })
     );
   };
@@ -150,7 +162,11 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
   return (
     <TableContainer classes={tableContainerClasses} component={Paper}>
       <Table classes={tableHeaderClasses} size="small" aria-label="stats table">
-        <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
+        <EnhancedTableHead
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={handleRequestSort}
+        />
         <TableBody>{getRows()}</TableBody>
       </Table>
     </TableContainer>

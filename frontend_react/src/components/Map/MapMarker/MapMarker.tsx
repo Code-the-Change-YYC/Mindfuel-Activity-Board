@@ -12,7 +12,6 @@ import { User } from "../../../utils/User";
 import styles from "./MapMarker.module.css";
 import PopupCard from "./PopupCard/PopupCard";
 
-
 const MapMarker = (props: any) => {
   const users: User[] = props.users;
   const markerEl = useRef(null);

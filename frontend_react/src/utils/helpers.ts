@@ -72,4 +72,4 @@ export const getTimelineDate = (val: number | number[]): Date | undefined => {
   }
 
   return date;
-}
+};

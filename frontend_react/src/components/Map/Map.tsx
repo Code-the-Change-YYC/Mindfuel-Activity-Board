@@ -2,7 +2,11 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { Theme, useMediaQuery } from "@material-ui/core";
-import GoogleMapReact, { ChangeEventValue, Coords, Maps } from "google-map-react";
+import GoogleMapReact, {
+  ChangeEventValue,
+  Coords,
+  Maps,
+} from "google-map-react";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 
@@ -21,37 +25,49 @@ type MapProps = {
 };
 
 type Position = {
-  lat: number,
-  lng: number,
-  weight?: number
-}
+  lat: number;
+  lng: number;
+  weight?: number;
+};
 
 type Heatmap = {
-  positions: Position[],
-  options: {   
-      radius?: number,   
-      opacity?: number,
-  }
-}
+  positions: Position[];
+  options: {
+    radius?: number;
+    opacity?: number;
+  };
+};
 
 const Map = (props: MapProps) => {
-  const [center, setCenter] = useState<Coords>({ lat: props.center.latitude, lng: props.center.longitude });
+  const [center, setCenter] = useState<Coords>({
+    lat: props.center.latitude,
+    lng: props.center.longitude,
+  });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
-  const [heatmapData, setHeatmapData] = useState<Heatmap>({positions: [], options: {}});
+  const [heatmapData, setHeatmapData] = useState<Heatmap>({
+    positions: [],
+    options: {},
+  });
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
   const defaultZoom = 3;
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
-  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const historicalUsers: User[] | null = useSelector(
+    (state: AppState) => state.historicalUsers
+  );
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
-  const heatmapEnabled: boolean = useSelector((state: AppState) => state.heatmapEnabled);
+  const heatmapEnabled: boolean = useSelector(
+    (state: AppState) => state.heatmapEnabled
+  );
   const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
 
   // Hide map control for mobile screens
-  const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
+  const showMapControl = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.up("sm")
+  );
   const defaultMapOptions = (maps: Maps) => {
     return {
       zoomControl: false,
@@ -65,7 +81,11 @@ const Map = (props: MapProps) => {
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.LEFT_TOP,
-        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
+        mapTypeIds: [
+          maps.MapTypeId.ROADMAP,
+          maps.MapTypeId.SATELLITE,
+          maps.MapTypeId.HYBRID,
+        ],
       },
     };
   };
@@ -83,9 +103,10 @@ const Map = (props: MapProps) => {
       Object.entries(groupedUsers).forEach(([, users], index) => {
         // Set the marker as open if the new user is contained in the list of users
         const open: boolean = !_.isNil(newUser) && _.some(users, newUser);
-        locationList.push(
-          {lat: users[0].payload.location.latitude, lng: users[0].payload.location.longitude}
-        )
+        locationList.push({
+          lat: users[0].payload.location.latitude,
+          lng: users[0].payload.location.longitude,
+        });
         markers.push(
           <MapMarker
             key={`${index} + ${open}`}
@@ -103,10 +124,10 @@ const Map = (props: MapProps) => {
       const heatmapEntries = {
         positions: locationList,
         options: {
-          radius: 35
-        }
-      }
-      setHeatmapData(heatmapEntries)
+          radius: 35,
+        },
+      };
+      setHeatmapData(heatmapEntries);
       setMarkers(markers);
 
       if (_.isNil(historicalUsers) && !_.isNil(newUser)) {
@@ -118,7 +139,9 @@ const Map = (props: MapProps) => {
     }
   }, [groupedUsers, newUser, historicalUsers]);
 
-  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
+  const getMapBounds = (
+    bounds: google.maps.LatLngBounds | undefined
+  ): MapBounds | undefined => {
     if (_.isNil(bounds)) {
       return undefined;
     }
@@ -167,7 +190,7 @@ const Map = (props: MapProps) => {
 
   return (
     <div className={styles.map}>
-      {!heatmapEnabled && 
+      {!heatmapEnabled && (
         <GoogleMapReact
           bootstrapURLKeys={{
             key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
@@ -179,13 +202,13 @@ const Map = (props: MapProps) => {
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}
-          heatmapLibrary={true}          
+          heatmapLibrary={true}
           heatmap={undefined}
         >
           {markers}
         </GoogleMapReact>
-      }
-      {heatmapEnabled &&
+      )}
+      {heatmapEnabled && (
         <GoogleMapReact
           bootstrapURLKeys={{
             key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
@@ -197,10 +220,10 @@ const Map = (props: MapProps) => {
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}
-          heatmapLibrary={true}          
+          heatmapLibrary={true}
           heatmap={heatmapData}
         ></GoogleMapReact>
-      }
+      )}
     </div>
   );
 };

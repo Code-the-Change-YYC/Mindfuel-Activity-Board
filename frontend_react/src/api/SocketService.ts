@@ -30,7 +30,9 @@ const connect = (websocketAddress: string) => {
       store.dispatch(setLoading(false));
       store.dispatch(
         setAlert(
-          `Live connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
+          `Live connection was closed. Reconnect will be attempted in ${
+            timeout / 1000
+          } seconds.`,
           "error"
         )
       );
@@ -52,7 +54,10 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onerror = (err) => {
-      console.error("Socket encountered the following error, closing socket: ", err);
+      console.error(
+        "Socket encountered the following error, closing socket: ",
+        err
+      );
       SocketService.webSocket?.close();
     };
   }
