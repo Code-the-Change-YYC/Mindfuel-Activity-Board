@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import styles from "./StatsTable.module.css";
 import {
   CircularProgress,
   Paper,
@@ -19,7 +19,6 @@ import storyIcon from "../../../res/assets/map-marker-story.svg";
 import videoIcon from "../../../res/assets/map-marker-video.svg";
 import { numberFormatter } from "../../../utils/helpers";
 import { Stats } from "../../../utils/Stats";
-import styles from "./StatsTable.module.css";
 
 const CustomTableCell = withStyles({
   root: {
