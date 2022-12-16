@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 cd frontend_react 
-npm run lint-fix && npx pretty-quick --staged
+npm run lint-fix 
