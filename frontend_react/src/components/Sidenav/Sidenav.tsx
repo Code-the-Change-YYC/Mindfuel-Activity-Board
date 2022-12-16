@@ -1,24 +1,24 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
+import { FormControlLabel, FormGroup, Switch } from "@material-ui/core/";
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import { FormControlLabel, FormGroup, Switch } from "@material-ui/core/";
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector } from "react-redux";
 
 import useAnalyticsData from "../../hooks/useAnalyticsData";
 import { Logo } from "../../res/assets";
-import { AnalyticsData } from "../../utils/AnalyticsData";
-import { AppState, LiveCounts } from "../../utils/AppState";
-import { User } from "../../utils/User";
-import { Location } from "../../utils/Location";
-import AnalyticsBox from "../AnalyticsBox";
-import styles from "./Sidenav.module.css";
 import { toggleHeatmap } from "../../state/actions";
 import store from "../../state/store";
+import { AnalyticsData } from "../../utils/AnalyticsData";
+import { AppState, LiveCounts } from "../../utils/AppState";
+import { Location } from "../../utils/Location";
+import { User } from "../../utils/User";
+import AnalyticsBox from "../AnalyticsBox";
+import styles from "./Sidenav.module.css";
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

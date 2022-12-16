@@ -98,7 +98,7 @@ const Map = (props: MapProps) => {
   // Update the markers on the map when historical or live users are added
   useEffect(() => {
     if (!_.isNil(groupedUsers)) {
-      let locationList: any = [];
+      const locationList: any = [];
       const markers: ReactElement[] = [];
       Object.entries(groupedUsers).forEach(([, users], index) => {
         // Set the marker as open if the new user is contained in the list of users
