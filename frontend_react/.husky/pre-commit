@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-Npm run lint-fix
+cd frontend_react npm run lint-fix
 npx pretty-quick --staged
