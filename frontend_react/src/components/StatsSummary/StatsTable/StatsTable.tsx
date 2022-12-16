@@ -34,9 +34,7 @@ const icons: any = {
   Story: storyIcon,
 };
 
-const headCells: any[] = [
-  { id: "icon", numeric: false, sortable: false, label: "Icon" },
-  { id: "type", numeric: false, sortable: true, label: "Category" },
+const headCells: any[] = [{ id: "icon", numeric: false, sortable: false, label: "Icon" },{ id: "type", numeric: false, sortable: true, label: "Category" },
   { id: "name", numeric: false, sortable: true, label: "Activity" },
   { id: "hits", numeric: true, sortable: true, label: "Sessions" },
 ];
