@@ -16,12 +16,7 @@ const SearchAreaButton = (props: SearchAreaButtonProps) => {
 
   return (
     <StylesProvider injectFirst>
-      <Button
-        size="small"
-        classes={buttonClasses}
-        variant="contained"
-        onClick={props.handleClick}
-      >
+      <Button size="small" classes={buttonClasses} variant="contained" onClick={props.handleClick}>
         Search this area
       </Button>
     </StylesProvider>

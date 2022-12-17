@@ -28,9 +28,7 @@ const Sidenav = () => {
   const historicalCounts: { [cat: string]: number } | null = useSelector(
     (state: AppState) => state.historicalCounts
   );
-  const liveCounts: LiveCounts = useSelector(
-    (state: AppState) => state.liveCounts
-  );
+  const liveCounts: LiveCounts = useSelector((state: AppState) => state.liveCounts);
   const users: User[] = useSelector((state: any) => state.historicalUsers);
   const analyticsData = useAnalyticsData(liveCounts, historicalCounts);
 
@@ -50,9 +48,7 @@ const Sidenav = () => {
   };
 
   useEffect(() => {
-    const getAnalyticsBoxes = (data: {
-      [id: string]: AnalyticsData;
-    }): ReactElement[] => {
+    const getAnalyticsBoxes = (data: { [id: string]: AnalyticsData }): ReactElement[] => {
       return Object.keys(data).map((key) => {
         return (
           <AnalyticsBox

@@ -46,9 +46,7 @@ const PopupCard = (props: PopupCardProps) => {
       )}
 
       <div className={styles.wrapper + " " + styles.assetText}>{name}</div>
-      <div className={styles.wrapper + " " + styles.locationText}>
-        {locString}
-      </div>
+      <div className={styles.wrapper + " " + styles.locationText}>{locString}</div>
     </Card>
   );
 };

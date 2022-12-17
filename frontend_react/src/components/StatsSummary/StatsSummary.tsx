@@ -87,18 +87,14 @@ const StatsSummary = () => {
   }, []);
 
   const handleApiError = () => {
-    dispatch(
-      setAlert("Unable to fetch historical stats, please try again!", "error")
-    );
+    dispatch(setAlert("Unable to fetch historical stats, please try again!", "error"));
   };
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => setOpen(false);
 
-  const handleTimeValueChange = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
+  const handleTimeValueChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setLoading(true);
     const val = event.target.value as number;
     setTrendingVal(val);
@@ -184,15 +180,10 @@ const StatsSummary = () => {
                 >
                   Chart
                 </InputLabel>
-                <Switch
-                  checked={chartVisibility}
-                  onClick={handleChartVisibility}
-                />
+                <Switch checked={chartVisibility} onClick={handleChartVisibility} />
               </FormGroup>
             </FormControl>
-            {chartVisibility && stats.length > 0 && (
-              <StatsPieChart stats={stats}></StatsPieChart>
-            )}
+            {chartVisibility && stats.length > 0 && <StatsPieChart stats={stats}></StatsPieChart>}
             {chartVisibility && stats.length <= 0 && (
               <div
                 style={{
@@ -204,14 +195,10 @@ const StatsSummary = () => {
                   width: "100%",
                 }}
               >
-                <h3 style={{ verticalAlign: "middle", display: "table-cell" }}>
-                  No data
-                </h3>
+                <h3 style={{ verticalAlign: "middle", display: "table-cell" }}>No data</h3>
               </div>
             )}
-            {!chartVisibility && (
-              <StatsTable stats={stats} loading={loading}></StatsTable>
-            )}
+            {!chartVisibility && <StatsTable stats={stats} loading={loading}></StatsTable>}
           </div>
         </Fade>
       </Modal>

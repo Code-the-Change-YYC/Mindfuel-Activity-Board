@@ -16,9 +16,7 @@ export type ApiServiceInterface = {
     startDate?: string,
     top?: number
   ) => Promise<AxiosResponse<ActivityStatsApiResponse>>;
-  getActivityFilterOptions: () => Promise<
-    AxiosResponse<FilterOptionsApiResponse>
-  >;
+  getActivityFilterOptions: () => Promise<AxiosResponse<FilterOptionsApiResponse>>;
 };
 
 export type UsersApiResponse = {

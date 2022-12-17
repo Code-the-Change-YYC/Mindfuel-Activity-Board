@@ -13,11 +13,7 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import {
-  fetchHistoricalUsers,
-  setLoading,
-  updateHistoricalUsers,
-} from "../../state/actions";
+import { fetchHistoricalUsers, setLoading, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
@@ -34,23 +30,15 @@ const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const alert: AlertModel | null = useSelector(
-    (state: AppState) => state.alert
-  );
+  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
   const loading = useSelector((state: AppState) => state.loading);
-  const historicalUsers: User[] | null = useSelector(
-    (state: AppState) => state.historicalUsers
-  );
-  const heatmapToggle: boolean = useSelector(
-    (state: AppState) => state.heatmapEnabled
-  );
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
   const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [startDate, setStartDate] = useState<Date | null>();
-  const [initializationText, setInitializationText] = useState<string>(
-    "Loading application..."
-  );
+  const [initializationText, setInitializationText] = useState<string>("Loading application...");
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
@@ -123,13 +111,7 @@ const Home = () => {
     setStartDate(startDate);
     setShowAreaButton(false);
     if (!_.isNil(startDate)) {
-      dispatch(
-        fetchHistoricalUsers(
-          startDate.toISOString(),
-          mapBounds!,
-          activityFilter
-        )
-      );
+      dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
     } else {
       dispatch(updateHistoricalUsers(null));
     }
@@ -138,16 +120,12 @@ const Home = () => {
   const handleFilterChange = (activityFilter?: ActivityFilter) => {
     setActivityFilter(activityFilter);
     // Filter option is only visible when startDate and mapBounds are not null
-    dispatch(
-      fetchHistoricalUsers(startDate!.toISOString(), mapBounds!, activityFilter)
-    );
+    dispatch(fetchHistoricalUsers(startDate!.toISOString(), mapBounds!, activityFilter));
   };
 
   const getHistoricalUsers = () => {
     if (!_.isNil(startDate) && !_.isNil(mapBounds)) {
-      dispatch(
-        fetchHistoricalUsers(startDate.toISOString(), mapBounds, activityFilter)
-      );
+      dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds, activityFilter));
     }
   };
 
@@ -160,28 +138,19 @@ const Home = () => {
           <div className={styles.buttonGroup}>
             <Socials></Socials>
             <StatsSummary></StatsSummary>
-            {startDate && mapBounds && (
-              <Filter onFilterChange={handleFilterChange}></Filter>
-            )}
+            {startDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
           </div>
-          <Map
-            onMapBoundsChange={handleMapBoundsChange}
-            center={appUserLocation!}
-          ></Map>
+          <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
           <div className={styles.centeredContainer}>
             {loading && <CircularProgress classes={loadingClasses} />}
             <div className={styles.searchAreaButton}>
               {showSearchAreaButton && (
-                <SearchAreaButton
-                  handleClick={handleSearchAreaClick}
-                ></SearchAreaButton>
+                <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
               )}
             </div>
             <div className={styles.timeline}>
               {/* Ensure initial map bounds are captured before rendering timeline */}
-              {mapBounds && (
-                <Timeline onDateChange={handleDateChange}></Timeline>
-              )}
+              {mapBounds && <Timeline onDateChange={handleDateChange}></Timeline>}
             </div>
           </div>
         </div>

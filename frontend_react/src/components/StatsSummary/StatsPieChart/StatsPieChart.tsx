@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  PieChart,
-  Pie,
-  Legend,
-  Tooltip,
-  Cell,
-  ResponsiveContainer,
-} from "recharts";
+import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
 import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 import { ChartStat } from "../../../utils/ChartStat";
@@ -121,9 +114,7 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
             <tbody>
               <tr>
                 <th align="left">
-                  <text style={{ color: "#52247f" }}>
-                    {payload[0].payload.name}
-                  </text>
+                  <text style={{ color: "#52247f" }}>{payload[0].payload.name}</text>
                 </th>
               </tr>
               <tr>
@@ -131,9 +122,7 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
                   <text style={{ color: "#52247f" }}>Hits</text>
                 </td>
                 <td style={{ paddingLeft: "10px" }}>
-                  <text style={{ color: "#52247f" }}>
-                    {payload[0].payload.value}
-                  </text>
+                  <text style={{ color: "#52247f" }}>{payload[0].payload.value}</text>
                 </td>
               </tr>
               <tr>

@@ -58,10 +58,7 @@ const Timeline = (props: TimelineProps) => {
     props.onDateChange(getTimelineDate(defaultTimelineValue));
   }, []);
 
-  const handleChange = (
-    event: React.ChangeEvent<{}>,
-    newValue: number | number[]
-  ) => {
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
     props.onDateChange(getTimelineDate(newValue));
   };
 

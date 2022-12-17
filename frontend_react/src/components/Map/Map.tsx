@@ -2,11 +2,7 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
 import { Theme, useMediaQuery } from "@material-ui/core";
-import GoogleMapReact, {
-  ChangeEventValue,
-  Coords,
-  Maps,
-} from "google-map-react";
+import GoogleMapReact, { ChangeEventValue, Coords, Maps } from "google-map-react";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 
@@ -55,19 +51,13 @@ const Map = (props: MapProps) => {
 
   // App state variables
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
-  const historicalUsers: User[] | null = useSelector(
-    (state: AppState) => state.historicalUsers
-  );
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
-  const heatmapEnabled: boolean = useSelector(
-    (state: AppState) => state.heatmapEnabled
-  );
+  const heatmapEnabled: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
 
   // Hide map control for mobile screens
-  const showMapControl = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up("sm")
-  );
+  const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
   const defaultMapOptions = (maps: Maps) => {
     return {
       zoomControl: false,
@@ -81,11 +71,7 @@ const Map = (props: MapProps) => {
       mapTypeControlOptions: {
         style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: maps.ControlPosition.LEFT_TOP,
-        mapTypeIds: [
-          maps.MapTypeId.ROADMAP,
-          maps.MapTypeId.SATELLITE,
-          maps.MapTypeId.HYBRID,
-        ],
+        mapTypeIds: [maps.MapTypeId.ROADMAP, maps.MapTypeId.SATELLITE, maps.MapTypeId.HYBRID],
       },
     };
   };
@@ -139,9 +125,7 @@ const Map = (props: MapProps) => {
     }
   }, [groupedUsers, newUser, historicalUsers]);
 
-  const getMapBounds = (
-    bounds: google.maps.LatLngBounds | undefined
-  ): MapBounds | undefined => {
+  const getMapBounds = (bounds: google.maps.LatLngBounds | undefined): MapBounds | undefined => {
     if (_.isNil(bounds)) {
       return undefined;
     }

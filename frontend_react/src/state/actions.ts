@@ -4,10 +4,7 @@ import { Dispatch } from "redux";
 
 import { Action } from "../utils/Action.enum";
 import { AlertModel } from "../utils/Alert.model";
-import {
-  ApiServiceInterface,
-  UsersApiResponse,
-} from "../utils/ApiServiceInterface";
+import { ApiServiceInterface, UsersApiResponse } from "../utils/ApiServiceInterface";
 import { AppState, MAX_USERS } from "../utils/AppState";
 import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
@@ -18,11 +15,7 @@ export const fetchHistoricalUsers = (
   mapBounds: MapBounds,
   activityFilter?: ActivityFilter
 ) => {
-  return (
-    dispatch: Dispatch,
-    getState: () => AppState,
-    ApiService: ApiServiceInterface
-  ) => {
+  return (dispatch: Dispatch, getState: () => AppState, ApiService: ApiServiceInterface) => {
     dispatch(setLoading(true));
     const heatmapEnabled = getState().heatmapEnabled;
     return ApiService.getHistoricalUsers(
@@ -55,21 +48,14 @@ export const fetchHistoricalUsers = (
       },
       () => {
         dispatch(setLoading(false));
-        dispatch(
-          setAlert("Unable to complete request, please try again!", "error")
-        );
+        dispatch(setAlert("Unable to complete request, please try again!", "error"));
       }
     );
   };
 };
 
-export const setAlert = (
-  message: string | null,
-  severity: Color = "success"
-) => {
-  const alert: AlertModel | null = message
-    ? new AlertModel(message, severity)
-    : null;
+export const setAlert = (message: string | null, severity: Color = "success") => {
+  const alert: AlertModel | null = message ? new AlertModel(message, severity) : null;
 
   return {
     type: Action.SET_ALERT,

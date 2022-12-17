@@ -18,9 +18,7 @@ const MapMarker = (props: any) => {
   const [anchorEl, setAnchorEl] = useState<HTMLImageElement | null>(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
   const [isBadgeInvisible, setIsBadgeInvisible] = useState<boolean>(props.open);
-  const [mapMarkerIcon, setMapMarkerIcon] = useState<string>(
-    getMapMarkerIconForUser(users[0])
-  );
+  const [mapMarkerIcon, setMapMarkerIcon] = useState<string>(getMapMarkerIconForUser(users[0]));
   const badgeClasses = {
     root: styles.numberBadgeRoot,
     badge: styles.numberBadge,
@@ -62,12 +60,7 @@ const MapMarker = (props: any) => {
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
-          <img
-            ref={markerEl}
-            className={styles.icon}
-            src={mapMarkerIcon}
-            onClick={handleClick}
-          />
+          <img ref={markerEl} className={styles.icon} src={mapMarkerIcon} onClick={handleClick} />
           {users.length > 1 && (
             <Badge
               badgeContent={users.length}
@@ -104,11 +97,7 @@ const MapMarker = (props: any) => {
             transition
           >
             {({ TransitionProps }) => (
-              <Grow
-                in={open}
-                style={{ transformOrigin: "bottom" }}
-                {...TransitionProps}
-              >
+              <Grow in={open} style={{ transformOrigin: "bottom" }} {...TransitionProps}>
                 <div>
                   <Carousel
                     navButtonsProps={{

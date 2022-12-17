@@ -8,10 +8,7 @@ const useGroupedUsers = (
   liveUsers: User[],
   historicalUsers: User[] | null
 ): Record<string, User[]> | null => {
-  const [groupedUsers, setGroupedUsers] = useState<Record<
-    string,
-    User[]
-  > | null>(null);
+  const [groupedUsers, setGroupedUsers] = useState<Record<string, User[]> | null>(null);
 
   useEffect(() => {
     // Group a user list by location

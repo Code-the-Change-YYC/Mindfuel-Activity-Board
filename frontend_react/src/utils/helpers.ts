@@ -30,9 +30,7 @@ export const numberFormatter = (num: number, digits: number): string => {
     .find(function (item) {
       return num >= item.value;
     });
-  return item
-    ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol
-    : "0";
+  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
 };
 
 export const toDateTime = (secs: number): Date => {
@@ -43,9 +41,7 @@ export const toDateTime = (secs: number): Date => {
 
 export const getMapMarkerIconForUser = (user: User): string => {
   const assetType =
-    user.type === AssetType.WondervilleSession
-      ? "session"
-      : user.payload.asset!.type.toLowerCase();
+    user.type === AssetType.WondervilleSession ? "session" : user.payload.asset!.type.toLowerCase();
 
   return iconsMap[assetType];
 };

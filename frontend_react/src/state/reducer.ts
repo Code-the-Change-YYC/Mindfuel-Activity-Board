@@ -32,10 +32,7 @@ const initialState: AppState = {
   heatmapEnabled: false,
 };
 
-const rootReducer = (
-  state: AppState | undefined = initialState,
-  action: any
-) => {
+const rootReducer = (state: AppState | undefined = initialState, action: any) => {
   switch (action.type) {
     case Action.ADD_LIVE_USER:
       const user: User = action.user;

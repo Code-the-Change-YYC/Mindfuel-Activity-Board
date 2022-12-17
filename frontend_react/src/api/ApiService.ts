@@ -54,9 +54,7 @@ const getActivityStats = (
   });
 };
 
-const getActivityFilterOptions = (): Promise<
-  AxiosResponse<FilterOptionsApiResponse>
-> => {
+const getActivityFilterOptions = (): Promise<AxiosResponse<FilterOptionsApiResponse>> => {
   return http.get<FilterOptionsApiResponse>("/activity-filter-options");
 };
 
