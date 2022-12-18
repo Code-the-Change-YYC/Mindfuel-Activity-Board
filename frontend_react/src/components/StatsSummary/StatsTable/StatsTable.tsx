@@ -13,7 +13,6 @@ import {
   withStyles,
 } from "@material-ui/core";
 
-
 import activityIcon from "../../../res/assets/map-marker-activity.svg";
 import gameIcon from "../../../res/assets/map-marker-game.svg";
 import storyIcon from "../../../res/assets/map-marker-story.svg";
@@ -132,7 +131,7 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
         </TableRow>
       );
     }
-  }
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Stats) => {
     const isAsc = orderBy === property && order === "asc";

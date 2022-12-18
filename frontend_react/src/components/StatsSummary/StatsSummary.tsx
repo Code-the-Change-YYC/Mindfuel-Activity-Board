@@ -138,11 +138,19 @@ const StatsSummary = () => {
           <div className={styles.modal}>
             <FormControl
               classes={formClasses}
-              style={{ display: "flex", flexDirection: "row", alignContent: "space-between" }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "space-between",
+              }}
             >
               <InputLabel
                 classes={inputLabelClasses}
-                style={{ color: "white", display: "flex", alignItems: "center" }}
+                style={{
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
                 <Icon aria-label="open drawer" color="inherit">
                   <Whatshot style={{ fontSize: 20, color: "red" }} />
@@ -164,7 +172,11 @@ const StatsSummary = () => {
               <FormGroup style={{ marginLeft: "auto" }}>
                 <InputLabel
                   classes={inputLabelClasses}
-                  style={{ color: "white", position: "relative", textAlign: "right" }}
+                  style={{
+                    color: "white",
+                    position: "relative",
+                    textAlign: "right",
+                  }}
                 >
                   Chart
                 </InputLabel>

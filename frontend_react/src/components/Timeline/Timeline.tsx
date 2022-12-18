@@ -56,7 +56,7 @@ const Timeline = (props: TimelineProps) => {
   useEffect(() => {
     // Load initial data for default selection of 1 week
     props.onDateChange(getTimelineDate(defaultTimelineValue));
-  }, [])
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
     props.onDateChange(getTimelineDate(newValue));
