@@ -1,5 +1,7 @@
 # Frontend
-The frontend was developed with React v16 and Redux with Typescript. Similar to the backend, it listens to the WebSocket server for live users to display on the map. Additionally, it will call the Go backend APIs to get historical users within a provided time range along with correponding statistics.
+The frontend was developed with React v16 and Redux with Typescript. Similar to the backend, it listens to the WebSocket server for live users to display on the map. Additionally, it will call the Go backend APIs to fetch historical users within a provided time range along with correponding statistics.<br>
+
+The project consists of only a single view (`Home.tsx`) which serves as a mediator for its multiple child components (e.g. `Timeline`, `SideNav`, `Socials`) by receiving and passing necessary data through props. Consequently, the `Home` component is also responsible for managing certain state that lives outside of the Redux store using State Hooks. Most of the API calls, performed via Redux actions, are also centralized here.<br>
 
 Notable packages used in the frontend are:
 - [react](https://www.npmjs.com/package/react) as the frontend framework
@@ -40,7 +42,7 @@ For details on versioning, view the `package.json` file in the frontend project.
 
 #### Redux Usage
 
-The project uses Redux as a state management architecture primarily for keeping track of live and historical users in addition to more trivial matters like application loading and alert states. For an in-depth overview of Redux, review the [documentation](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) on the Redux website. Introducing Redux as it relates to this project, the initial application state seen below is defined and managed in the reducer (`reducer.ts`). Actions (`actions.ts`) update this state through various workflows of the application. Note that we use `null` within the application state to indicate *intentional* absence of a value.
+The project uses Redux architecture primarily for managing the state of live and historical users in addition to more trivial matters like application loading and alert states. For an in-depth overview of Redux, review the [documentation](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) on the Redux website. Introducing Redux as it relates to this project, the initial application state seen below is defined and managed in the reducer (`reducer.ts`). Actions (`actions.ts`) update this state through various workflows of the application. Note that we use `null` within the application state to indicate *intentional* absence of a value.
 
 ```
 const initialUserCount: LiveCounts = {
