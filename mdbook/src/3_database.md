@@ -61,7 +61,7 @@ Wonderville Session:
 ```
 
 #### activityStats
-The `activityStats` collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated.
+The `activityStats` collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated. Note that Wonderville Session stats are not included in this collection since they do not have a corresponding asset.
 
 ```
 {

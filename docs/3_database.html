@@ -135,15 +135,16 @@
                     <main>
                         <h1 id="database"><a class="header" href="#database">Database</a></h1>
 <p>MongoDB is used as the document database for the project. The <code>wondervilleActivityBoard</code> database holds two collections, <code>users</code> and <code>activityStats</code>.</p>
-<h4 id="docker--mongodb"><a class="header" href="#docker--mongodb">Docker &amp; MongoDB</a></h4>
+<h4 id="mongodb--docker"><a class="header" href="#mongodb--docker">MongoDB &amp; Docker</a></h4>
 <p>The MongoDB server for the project is containerized with Docker and listens on port <code>27017</code>. The <code>wondervilleActivityBoard</code> database and root user credentials are defined in <code>docker-compose.yml</code>. Docker volumes are used for persisting data from the database and linking the start-up script (<code>mongo-init.js</code>) to the container. The start-up script creates the necessary collections and indexes.</p>
-<h4 id="users-collection"><a class="header" href="#users-collection">Users Collection</a></h4>
-<p>The <code>users</code> collection is used to store messages (i.e. the users) as they are delivered from the Wonderville WebSocket. These messages can be of Wonderville Asset or Wonderville Session type. Wonderville Assets contain an <code>asset</code> key in the <code>payload</code> with details about the game, activity, story or video that the user accessed, whereas Wonderville Sessions only detail the location of the user. Examples of the stored documents for both message types are shown below.</p>
-<p>Wonderville Asset</p>
+<h4 id="collections"><a class="header" href="#collections">Collections</a></h4>
+<h4 id="users"><a class="header" href="#users">users</a></h4>
+<p>The <code>users</code> collection is used to store messages (i.e. the users) as they are delivered from the Wonderville WebSocket. These messages can be of <strong>Wonderville Asset</strong> or <strong>Wonderville Session</strong> type. Wonderville Assets contain an <code>asset</code> key in the <code>payload</code> with details about the game, activity, story or video that the user accessed, whereas Wonderville Sessions only detail the location of the user. Examples of the stored documents for both message types are shown below.</p>
+<p>Wonderville Asset:</p>
 <pre><code>{
    &quot;type&quot;:&quot;wondervilleAsset&quot;
    &quot;date&quot;:{
-      &quot;$date&quot;:&quot;2022-12-04T18:03:43.181Z&quot;  // The date this record was inputted
+      &quot;$date&quot;:&quot;2022-12-04T18:03:43.181Z&quot;  // The date this entry was recorded
    }
    &quot;payload&quot;:{
       &quot;ip&quot;: &quot;172.219.38.100&quot;,
@@ -168,7 +169,7 @@
    }
 }
 </code></pre>
-<p><strong>Wonderville Session</strong></p>
+<p>Wonderville Session:</p>
 <pre><code>{
    &quot;type&quot;: &quot;wondervilleSession&quot;,
    &quot;date&quot;: {
@@ -185,8 +186,8 @@
    }
 }
 </code></pre>
-<h4 id="activitystats-collection"><a class="header" href="#activitystats-collection">activityStats Collection</a></h4>
-<p>The <code>activityStats</code> collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated.</p>
+<h4 id="activitystats"><a class="header" href="#activitystats">activityStats</a></h4>
+<p>The <code>activityStats</code> collections stores information of the all-time hit counts for each game, activity, story or video. Any time a new message is received from the WebSocket, a record is either created or updated. Note that Wonderville Session stats are not included in this collection since they do not have a corresponding asset.</p>
 <pre><code>{
    &quot;name&quot;: &quot;Solar Energy Defenders&quot;,
    &quot;url&quot;: &quot;solarenergydefenders&quot;,

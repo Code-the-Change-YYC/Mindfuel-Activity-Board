@@ -19,7 +19,7 @@ For details on versioning, view the `package.json` file in the frontend project.
 ```
 ├── frontend_react
 ├── src
-│   ├── api             // API service for calling Go backend
+│   ├── api             // API and Socket services for connecting to Go backend and WebSocket server
 │   ├── components      // Shared React components used on the page (TSX and CSS files)
 │   ├── hooks           // Shared custom React hooks
 │   ├── res
@@ -39,6 +39,8 @@ For details on versioning, view the `package.json` file in the frontend project.
 └── App.tsx             // Entry point to the application
 ```
 
+#### Creating a Production Build
+By default, Docker compose is configured to run the development server for the React application via `npm start`. To instead create the build files to serve for production, run `npm run build`. Reference the [Create React App documentation](https://create-react-app.dev/docs/production-build/) for more information on creating a production build.
 
 #### Redux Usage
 

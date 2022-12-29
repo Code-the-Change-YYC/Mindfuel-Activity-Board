@@ -133,7 +133,38 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+                        <h1 id="development"><a class="header" href="#development">Development</a></h1>
+<p>This section is geared towards developers who want to contribute or deploy this project.</p>
+<h4 id="docker"><a class="header" href="#docker">Docker</a></h4>
+<p>The project's three services are containerized with Docker compose. The configuration for the services is specified in <code>docker-compose.yml</code> which uses environment variables from the <code>.env</code> file to set certain parameters. To spin up all three services, run the following command from the root of the project:</p>
+<pre><code>$ docker compose --env-file .env up -d
+</code></pre>
+<h4 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h4>
+<p>It is necessary to set multiple environment variables so that the services can start successfully. This also includes creating and setting the <a href="https://developers.google.com/maps/documentation/javascript/get-api-key"><strong>Google Maps Javascript API key</strong></a> which is used by the frontend. An overview of the necessary environment variables is provided below. For convenience during development, these were set in a single <code>.env</code> file in the root of the project, but they can alternatively be split up between each service.</p>
+<pre><code>CHOKIDAR_USEPOLLING=true
+REACT_APP_GOOGLE_MAPS_API_KEY // The Google Maps Javascript API key
+REACT_APP_MINDFUEL_WEBSOCKET  // The WebSocket server address (can either production or mock development server)
+REACT_APP_GOLANG_API          // The backend API path
+
+MONGODB_DB_NAME               // The MongoDB database name
+MONGODB_USERNAME              // The username for the Mongo DB root user
+MONGODB_PWD                   // The password for the Mongo DB root user
+MONGODB_URI                   // The Mongo DB connection string
+</code></pre>
+<h4 id="mock-services"><a class="header" href="#mock-services">Mock Services</a></h4>
+<p>Two services were created to assist with the development process by providing a source of mock data and a development WebSocket server.</p>
+<h4 id="mock_data"><a class="header" href="#mock_data">mock_data</a></h4>
+<p>The <code>mock_data</code> service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the <code>raw_data</code> directory) and randomized stats using the <code>faker</code> and <code>mongo-seeding</code> packages. This is achieved by using JS scripts nested in the <code>data</code> directory with the <strong>same name</strong> as the collection to populate (e.g. <code>data/users/users.js</code>). <strong>Be warned that running the seeder will drop your existing database.</strong><br></p>
+<p>To run the service, ensure the <code>MONGODB_URI</code> and <code>MONGODB_DB_NAME</code> environment variables are exported and then in the <code>mock_data</code> directory run:</p>
+<pre><code>$ node index.js
+</code></pre>
+<p>Your database collections should then automatically be populated with a 4 month range of sample data including 1 month in the future to avoid having to reseed as frequently. The seeding scripts also provide the option of saving the sample data to a file; to do so uncomment the corresponding block of code at the end of the scripts.</p>
+<h4 id="mock_server"><a class="header" href="#mock_server">mock_server</a></h4>
+<p>The <code>mock_server</code> service provides a simple insecure WebSocket server which can be used in place of the production Wonderville server during development. Once connected, it will emit a user from the <code>sample_data.json</code> file every 3 seconds. To use the service, uncomment the development server variables in the <code>.env</code> file (i.e. the variables referencing <code>ws://localhost:3210</code>) and restart the Docker containers.<br></p>
+<p>To start the server, in the <code>mock_server</code> directory run:</p>
+<pre><code>$ node index.js
+</code></pre>
+<p>The server will start on port 3210.</p>
 
                     </main>
 

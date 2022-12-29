@@ -4,7 +4,7 @@ const {
 } = require("mongo-seeding");
 
 const config = {
-  database: process.env.MONGODB_LOCAL_URI + "/wondervillActivityBoard?authSource=admin",
+  database: `${process.env.MONGODB_URI}/${process.env.MONGODB_DB_NAME}?authSource=admin`,
   dropDatabase: true, // Drop database before import
 };
 
