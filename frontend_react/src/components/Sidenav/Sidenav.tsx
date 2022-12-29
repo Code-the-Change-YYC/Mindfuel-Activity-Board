@@ -1,6 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
-import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
