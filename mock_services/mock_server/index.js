@@ -6,7 +6,7 @@ const wss = new WebSocketServer.Server({ port: 3210 })
 // Creating connection using websocket
 wss.on("connection", ws => {
     console.log("new client connected");
-    let rawData = fs.readFileSync('SampleHistoricalUserData.json');
+    let rawData = fs.readFileSync('sample_data.json');
     let parsedData = JSON.parse(rawData);
     let users = parsedData.users
 

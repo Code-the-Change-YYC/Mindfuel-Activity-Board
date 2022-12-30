@@ -114,6 +114,8 @@ const Home = () => {
       dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
     } else {
       dispatch(updateHistoricalUsers(null));
+      // Reset filter
+      setActivityFilter(undefined);
     }
   };
 

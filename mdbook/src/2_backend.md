@@ -11,14 +11,14 @@ Notable packages used in the backend are:
 - [recws](https://github.com/recws-org/recws) for WebSocket connections
 - [mongo-go-driver](https://github.com/mongodb/mongo-go-driver) for MongoDB connections
 
-#### Project structure:
+#### Project Structure
 ```
 ├── rest_golang
 │   ├── db        // (Package) Retrieving and updating data from MongoDB
 │   ├── model     // (Package) Type definitions for API and internal use
 │   ├── server    // (Package) REST API service (handler and router)
 │   ├── socket    // (Package) WebSocket listener
-│   ├── main.go   // Entry point to the application
+│   └── main.go   // Entry point to the application
 ```
 
 #### APIs
@@ -87,7 +87,7 @@ table {float:left}
 
 | Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
 |---|:---:|---|---|---|
-| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
 | `top` | N | Integer | The top number activities to return. | <pre>10</pre> |
 
 **Responses**<br>
