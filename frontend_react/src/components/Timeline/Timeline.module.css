@@ -14,12 +14,14 @@
   box-shadow: #ccc 0 2px 2px;
 }
 
-.timelineThumb:focus, .timelineThumb:hover, .timelineThumb:active {
+.timelineThumb:focus,
+.timelineThumb:hover,
+.timelineThumb:active {
   box-shadow: #ccc 0 2px 3px 1px;
 }
 
 .timelineRail {
-  color:var(--wv-purple);
+  color: var(--wv-purple);
   height: 3px;
   opacity: 1;
   pointer-events: None;
@@ -31,7 +33,7 @@
 }
 
 .timelineMarks {
-  background-color: var(--wv-purple)
+  background-color: var(--wv-purple);
 }
 
 .timelineMarkLabels {

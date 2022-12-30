@@ -10,8 +10,7 @@ import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 import styles from "./Socials.module.css";
 
-const twitterLink =
-  "https://twitter.com/MindFuelca";
+const twitterLink = "https://twitter.com/MindFuelca";
 
 const Socials = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);

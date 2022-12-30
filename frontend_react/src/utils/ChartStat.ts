@@ -4,4 +4,3 @@ export type ChartStat = {
   color: string;
   percentage: number;
 };
-

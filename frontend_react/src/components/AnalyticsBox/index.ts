@@ -1,3 +1,3 @@
-import AnalyticsBox from './AnalyticsBox'
+import AnalyticsBox from "./AnalyticsBox";
 
 export default AnalyticsBox;

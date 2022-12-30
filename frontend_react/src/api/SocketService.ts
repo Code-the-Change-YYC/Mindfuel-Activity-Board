@@ -30,7 +30,7 @@ const connect = (websocketAddress: string) => {
       store.dispatch(setLoading(false));
       store.dispatch(
         setAlert(
-          `Live connection was closed. Reconnect will be attempted in ${timeout/1000} seconds.`,
+          `Live connection was closed. Reconnect will be attempted in ${timeout / 1000} seconds.`,
           "error"
         )
       );

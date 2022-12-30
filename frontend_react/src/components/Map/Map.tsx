@@ -21,25 +21,31 @@ type MapProps = {
 };
 
 type Position = {
-  lat: number,
-  lng: number,
-  weight?: number
-}
+  lat: number;
+  lng: number;
+  weight?: number;
+};
 
 type Heatmap = {
-  positions: Position[],
-  options: {   
-      radius?: number,   
-      opacity?: number,
-  }
-}
+  positions: Position[];
+  options: {
+    radius?: number;
+    opacity?: number;
+  };
+};
 
 const Map = (props: MapProps) => {
-  const [center, setCenter] = useState<Coords>({ lat: props.center.latitude, lng: props.center.longitude });
+  const [center, setCenter] = useState<Coords>({
+    lat: props.center.latitude,
+    lng: props.center.longitude,
+  });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
   const [mapsApi, setMapsApi] = useState<google.maps.Map>();
-  const [heatmapData, setHeatmapData] = useState<Heatmap>({positions: [], options: {}});
+  const [heatmapData, setHeatmapData] = useState<Heatmap>({
+    positions: [],
+    options: {},
+  });
   const [disableDoubleClickZoom, setDisableDoubleClickZoom] = useState(false);
   const defaultZoom = 3;
 
@@ -78,14 +84,15 @@ const Map = (props: MapProps) => {
   // Update the markers on the map when historical or live users are added
   useEffect(() => {
     if (!_.isNil(groupedUsers)) {
-      let locationList: any = [];
+      const locationList: any = [];
       const markers: ReactElement[] = [];
       Object.entries(groupedUsers).forEach(([, users], index) => {
         // Set the marker as open if the new user is contained in the list of users
         const open: boolean = !_.isNil(newUser) && _.some(users, newUser);
-        locationList.push(
-          {lat: users[0].payload.location.latitude, lng: users[0].payload.location.longitude}
-        )
+        locationList.push({
+          lat: users[0].payload.location.latitude,
+          lng: users[0].payload.location.longitude,
+        });
         markers.push(
           <MapMarker
             key={`${index} + ${open}`}
@@ -103,10 +110,10 @@ const Map = (props: MapProps) => {
       const heatmapEntries = {
         positions: locationList,
         options: {
-          radius: 35
-        }
-      }
-      setHeatmapData(heatmapEntries)
+          radius: 35,
+        },
+      };
+      setHeatmapData(heatmapEntries);
       setMarkers(markers);
 
       if (_.isNil(historicalUsers) && !_.isNil(newUser)) {
@@ -167,7 +174,7 @@ const Map = (props: MapProps) => {
 
   return (
     <div className={styles.map}>
-      {!heatmapEnabled && 
+      {!heatmapEnabled && (
         <GoogleMapReact
           bootstrapURLKeys={{
             key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
@@ -179,13 +186,13 @@ const Map = (props: MapProps) => {
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}
-          heatmapLibrary={true}          
+          heatmapLibrary={true}
           heatmap={undefined}
         >
           {markers}
         </GoogleMapReact>
-      }
-      {heatmapEnabled &&
+      )}
+      {heatmapEnabled && (
         <GoogleMapReact
           bootstrapURLKeys={{
             key: `${[process.env.REACT_APP_GOOGLE_MAPS_API_KEY]}`,
@@ -197,10 +204,10 @@ const Map = (props: MapProps) => {
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}
-          heatmapLibrary={true}          
+          heatmapLibrary={true}
           heatmap={heatmapData}
         ></GoogleMapReact>
-      }
+      )}
     </div>
   );
 };

@@ -20,10 +20,7 @@ const AppAlert = (props: AlertProps) => {
   useEffect(() => {
     // Automatically close success alerts after 3 seconds
     const timer = setTimeout(() => {
-      if (
-        props.alert.severity === "success" ||
-        props.alert.severity === "info"
-      ) {
+      if (props.alert.severity === "success" || props.alert.severity === "info") {
         onClose();
       }
     }, 3000);
@@ -39,11 +36,7 @@ const AppAlert = (props: AlertProps) => {
   };
 
   return (
-    <Alert
-      onClose={onClose}
-      classes={alertClasses}
-      severity={props.alert.severity}
-    >
+    <Alert onClose={onClose} classes={alertClasses} severity={props.alert.severity}>
       {props.alert.message}
     </Alert>
   );

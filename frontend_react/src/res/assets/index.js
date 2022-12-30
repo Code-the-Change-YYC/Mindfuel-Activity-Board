@@ -5,11 +5,4 @@ import VideoMapMarker from "./map-marker-video.svg";
 import StoryMapMarker from "./map-marker-story.svg";
 import Logo from "./wonderville-logo.png";
 
-export {
-  ActivityMapMarker,
-  GameMapMarker,
-  VideoMapMarker,
-  StoryMapMarker,
-  SessionMapMarker,
-  Logo,
-};
+export { ActivityMapMarker, GameMapMarker, VideoMapMarker, StoryMapMarker, SessionMapMarker, Logo };

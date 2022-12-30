@@ -27,8 +27,7 @@ const useAnalyticsData = (
   liveCounts: LiveCounts,
   historicalCounts: { [cat: string]: number } | null
 ) => {
-  const [analyticsData, setAnalyticsData] =
-    useState<Record<string, AnalyticsData>>(initialData);
+  const [analyticsData, setAnalyticsData] = useState<Record<string, AnalyticsData>>(initialData);
 
   useEffect(() => {
     const updateData = (

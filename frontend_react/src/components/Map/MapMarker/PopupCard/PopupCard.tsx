@@ -1,12 +1,12 @@
 import React from "react";
 
+import { Card } from "@material-ui/core";
 import _ from "lodash";
 
 import wondervilleLogo from "../../../../res/assets/wonderville-logo.png";
 import { AssetType } from "../../../../utils/AssetType.enum";
 import { User } from "../../../../utils/User";
 import styles from "./PopupCard.module.css";
-import { Card } from "@material-ui/core";
 
 type PopupCardProps = {
   user: User;
@@ -46,9 +46,7 @@ const PopupCard = (props: PopupCardProps) => {
       )}
 
       <div className={styles.wrapper + " " + styles.assetText}>{name}</div>
-      <div className={styles.wrapper + " " + styles.locationText}>
-        {locString}
-      </div>
+      <div className={styles.wrapper + " " + styles.locationText}>{locString}</div>
     </Card>
   );
 };

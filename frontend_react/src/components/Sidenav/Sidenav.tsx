@@ -1,38 +1,34 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
+import { FormControlLabel, FormGroup, Switch } from "@material-ui/core/";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import { FormControlLabel, FormGroup, Switch } from '@material-ui/core/';
 import { StylesProvider } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector } from "react-redux";
 
 import useAnalyticsData from "../../hooks/useAnalyticsData";
 import { Logo } from "../../res/assets";
-import { AnalyticsData } from "../../utils/AnalyticsData";
-import { AppState, LiveCounts } from "../../utils/AppState";
-import { User } from "../../utils/User";
-import { Location } from "../../utils/Location";
-import AnalyticsBox from "../AnalyticsBox";
-import styles from "./Sidenav.module.css";
 import { toggleHeatmap } from "../../state/actions";
 import store from "../../state/store";
+import { AnalyticsData } from "../../utils/AnalyticsData";
+import { AppState, LiveCounts } from "../../utils/AppState";
+import { Location } from "../../utils/Location";
+import { User } from "../../utils/User";
+import AnalyticsBox from "../AnalyticsBox";
+import styles from "./Sidenav.module.css";
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
   const [selected, setSelected] = useState(false);
-  const [locations, setLocations] = useState<Location[]>([])
+  const [locations, setLocations] = useState<Location[]>([]);
   const historicalCounts: { [cat: string]: number } | null = useSelector(
     (state: AppState) => state.historicalCounts
   );
-  const liveCounts: LiveCounts = useSelector(
-    (state: AppState) => state.liveCounts
-  );
-  const users: User[] = useSelector(
-    (state: any) => state.historicalUsers
-  )
+  const liveCounts: LiveCounts = useSelector((state: AppState) => state.liveCounts);
+  const users: User[] = useSelector((state: any) => state.historicalUsers);
   const analyticsData = useAnalyticsData(liveCounts, historicalCounts);
 
   const buttonClasses = {
@@ -47,13 +43,11 @@ const Sidenav = () => {
   const switchClasses = {
     switchBase: styles.switchBase,
     checked: styles.checked,
-    track: styles.switchButton
+    track: styles.switchButton,
   };
 
   useEffect(() => {
-    const getAnalyticsBoxes = (data: {
-      [id: string]: AnalyticsData;
-    }): ReactElement[] => {
+    const getAnalyticsBoxes = (data: { [id: string]: AnalyticsData }): ReactElement[] => {
       return Object.keys(data).map((key) => {
         return (
           <AnalyticsBox
@@ -71,15 +65,15 @@ const Sidenav = () => {
 
   useEffect(() => {
     store.dispatch(toggleHeatmap(selected));
-  }, [selected])
+  }, [selected]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleHeatmap = () => {
-    setSelected(!selected)
-  }
+    setSelected(!selected);
+  };
 
   const drawer = (
     <div className={styles.sidenav}>
@@ -89,22 +83,22 @@ const Sidenav = () => {
       <div className={styles.sidenavContent}>
         <div className={styles.analyticsBoxes}>{analyticsBoxes}</div>
         <FormGroup>
-          <FormControlLabel 
-            style={{color: "#ffdd00"}}
+          <FormControlLabel
+            style={{ color: "#ffdd00" }}
             control={
               <Switch
-                checked={selected} 
-                onClick={handleHeatmap} 
+                checked={selected}
+                onClick={handleHeatmap}
                 color="default"
                 size="medium"
                 classes={{
                   track: switchClasses.track,
                   switchBase: switchClasses.switchBase,
-                  checked: switchClasses.checked
+                  checked: switchClasses.checked,
                 }}
               />
-            } 
-            label="Heat Map" 
+            }
+            label="Heat Map"
             labelPlacement="start"
           />
         </FormGroup>

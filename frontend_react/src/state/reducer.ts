@@ -32,10 +32,7 @@ const initialState: AppState = {
   heatmapEnabled: false,
 };
 
-const rootReducer = (
-  state: AppState | undefined = initialState,
-  action: any
-) => {
+const rootReducer = (state: AppState | undefined = initialState, action: any) => {
   switch (action.type) {
     case Action.ADD_LIVE_USER:
       const user: User = action.user;
@@ -48,7 +45,7 @@ const rootReducer = (
       }
 
       const liveCounts = updateLiveCounts(user, { ...state.liveCounts });
-    
+
       return {
         ...state,
         newUser: user,
@@ -69,9 +66,9 @@ const rootReducer = (
       };
     case Action.TOGGLE_HEATMAP:
       return {
-        ...state, 
+        ...state,
         heatmapEnabled: action.heatmapEnabled,
-      }
+      };
     case Action.SET_ALERT:
       return {
         ...state,

@@ -25,7 +25,7 @@ const useGroupedUsers = (
     const getGroupedUsers = (users: User[]) => {
       // Group users by location
       const groupedUsers = groupByLocation(users);
-      
+
       // Sort users in descending order by date at each location
       for (const locKey in groupedUsers) {
         groupedUsers[locKey].sort((a: User, b: User) => b.date - a.date);
