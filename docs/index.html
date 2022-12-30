@@ -3,9 +3,7 @@
   <head>
     <!-- Book generated using mdBook -->
     <meta charset="UTF-8" />
-    <title>
-      Introduction - Wonderville Activity Activity Board Documentation
-    </title>
+    <title>Frontend - Wonderville Activity Activity Board Documentation</title>
     <!-- Custom HTML head -->
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -92,13 +90,8 @@
     <nav id="sidebar" class="sidebar" aria-label="Table of contents">
       <div class="sidebar-scrollbox">
         <ol class="chapter">
-          <li class="chapter-item expanded affix">
-            <a href="../../index.html" class="active">Introduction</a>
-          </li>
-          <li class="chapter-item expanded affix"></li>
-          <li class="part-title">User Guide</li>
           <li class="chapter-item expanded">
-            <a href="1_frontend.html"
+            <a href="1_frontend.html" class="active"
               ><strong aria-hidden="true">1.</strong> Frontend</a
             >
           </li>
@@ -233,98 +226,154 @@
 
         <div id="content" class="content">
           <main>
-            <h1 id="introduction">
-              <a class="header" href="#introduction">Introduction</a>
+            <h1 id="frontend">
+              <a class="header" href="#frontend">Frontend</a>
             </h1>
-            <h3 id="about-the-project">
-              <a class="header" href="#about-the-project">About the Project</a>
-            </h3>
             <p>
-              The Wonderville Activity Board was built by a team from
-              <a href="https://www.codethechangeyyc.ca/">Code the Change YYC</a>
-              in collaboration with
-              <a href="https://wonderville.org/">Wonderville</a>. Wonderville is
-              is an education technology non-profit focusing on STEM learning
-              products for children in K-12. The Activity Board was created as a
-              tool for location-based monitoring of both historical and realtime
-              users of Wonderville's online products.
+              The frontend was developed with React v16 and Redux with
+              Typescript. Similar to the backend, it listens to the WebSocket
+              server for live users to display on the map. Additionally, it will
+              call the Go backend APIs to fetch historical users within a
+              provided time range along with correponding statistics.<br />
             </p>
-            <div align="center">
-              <img
-                src="assets/app-demo.gif"
-                alt="app-demo.gif"
-                style="
-                  border-radius: 2.5px;
-                  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-                "
-              />
-            </div>
-            <h3 id="project-structure">
+            <p>
+              The project consists of only a single view (<code>Home.tsx</code>)
+              which serves as a mediator for its multiple child components (e.g.
+              <code>Timeline</code>, <code>SideNav</code>, <code>Socials</code>)
+              by receiving and passing necessary data through props.
+              Consequently, the <code>Home</code> component is also responsible
+              for managing certain state that lives outside of the Redux store
+              using State Hooks. Most of the API calls, performed via Redux
+              actions, are also centralized here.<br />
+            </p>
+            <p>Notable packages used in the frontend are:</p>
+            <ul>
+              <li>
+                <a href="https://www.npmjs.com/package/react">react</a> as the
+                frontend framework
+              </li>
+              <li>
+                <a href="https://www.npmjs.com/package/react-redux"
+                  >react-redux</a
+                >
+                for Redux bindings in React
+              </li>
+              <li>
+                <a href="https://www.npmjs.com/package/@material-ui/core"
+                  >@material-ui</a
+                >
+                for React components with Material Design
+              </li>
+              <li>
+                <a href="https://www.npmjs.com/package/google-map-react"
+                  >google-map-react</a
+                >
+                as the Google Maps API wrapper
+                <ul>
+                  <li>
+                    Requires setting the Google Maps API key as an environment
+                    variable
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a href="https://www.npmjs.com/package/react-twitter-embed"
+                  >react-twitter-embed</a
+                >
+                for embedding tweets from the MindFuel account
+              </li>
+              <li>
+                <a href="https://www.npmjs.com/package/recharts">recharts</a>
+                for charts
+              </li>
+            </ul>
+            <p>
+              For details on versioning, view the <code>package.json</code> file
+              in the frontend project.
+            </p>
+            <h4 id="project-structure">
               <a class="header" href="#project-structure">Project Structure</a>
-            </h3>
-            <pre><code>├── assets              // Assets for the documentation
-├── docs                // The documentation build files
-├── mdbook              // The documentation working files
-├── frontend_react      // The React frontend
-├── rest_golang         // The Go backend
-├── mock_services       // Helper services for development
-│   ├── mock_data       // Mock data seeding for MongoDB
-│   └── mock_server     // Mock WebSocket server
-└── docker-compose.yml  // The Docker Compose file
+            </h4>
+            <pre><code>├── frontend_react
+├── src
+│   ├── api             // API and Socket services for connecting to Go backend and WebSocket server
+│   ├── components      // Shared React components used on the page (TSX and CSS files)
+│   ├── hooks           // Shared custom React hooks
+│   ├── res
+│   │   └── assets      // Image and vector assets
+│   ├── state           // Redux logic
+│   │   ├── actions.ts
+│   │   ├── hooks.ts
+│   │   ├── reducer.ts
+│   │   └── store.ts
+│   ├── utils           // Helpers and utils (e.g. type definitions) used by multiple components
+│   └── views           // Pages of the application
+│       └── Home        // The home page of the application
+│           ├── Home.tsx
+│           └── Home.module.css
+├── src
+├── .eslintrc.cjs       // Rules for ESLint
+└── App.tsx             // Entry point to the application
 </code></pre>
-            <h3 id="application-architecture">
-              <a class="header" href="#application-architecture"
-                >Application Architecture</a
+            <h4 id="creating-a-production-build">
+              <a class="header" href="#creating-a-production-build"
+                >Creating a Production Build</a
               >
-            </h3>
+            </h4>
             <p>
-              The project is composed of a React frontend, Go REST backend and a
-              MongoDB database; all of which are containerized with Docker. The
-              frontend and backend listen to Wonderville's WebSocket server for
-              displaying and recording new user sessions. More information on
-              each service can be found in the upcoming sections.
+              By default, Docker compose is configured to run the development
+              server for the React application via <code>npm start</code>. To
+              instead create the build files to serve for production, run
+              <code>npm run build</code>. Reference the
+              <a href="https://create-react-app.dev/docs/production-build/"
+                >Create React App documentation</a
+              >
+              for more information on creating a production build.
             </p>
-            <div align="center">
-              <img
-                src="assets/app-architecture.png"
-                alt="app-architecture.png"
-                style="
-                  border-radius: 2.5px;
-                  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
-                "
-              />
-            </div>
-            <h3 id="quick-start">
-              <a class="header" href="#quick-start">Quick Start</a>
-            </h3>
-            <p>To quick start the application:</p>
-            <ol>
-              <li>Install Docker</li>
-              <li>Put the development .env file in the root of the project</li>
-              <li>Run <code>docker-compose up -d</code></li>
-            </ol>
+            <h4 id="redux-usage">
+              <a class="header" href="#redux-usage">Redux Usage</a>
+            </h4>
             <p>
-              More development related information can be found in the
-              Development section.
-            </p>
-            <h3 id="documentation">
-              <a class="header" href="#documentation">Documentation</a>
-            </h3>
-            <p>
-              Click
+              The project uses Redux architecture primarily for managing the
+              state of live and historical users in addition to more trivial
+              matters like application loading and alert states. For an in-depth
+              overview of Redux, review the
               <a
-                href="https://code-the-change-yyc.github.io/Mindfuel-Activity-Board"
-                >here</a
+                href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts"
+                >documentation</a
               >
-              to view documentation.
+              on the Redux website. Introducing Redux as it relates to this
+              project, the initial application state seen below is defined and
+              managed in the reducer (<code>reducer.ts</code>). Actions
+              (<code>actions.ts</code>) update this state through various
+              workflows of the application. Note that we use
+              <code>null</code> within the application state to indicate
+              <em>intentional</em> absence of a value.
             </p>
+            <pre><code>const initialUserCount: LiveCounts = {
+  sessions: 0,
+  countries: new Set(),
+  cities: new Set(),
+};
+
+const initialState: AppState = {
+  liveUsers: [],
+  historicalUsers: null,
+  historicalCounts: null,
+  liveCounts: initialUserCount,
+  newUser: null,
+  loading: false,
+  alert: null,
+  heatmapEnabled: false,
+};
+</code></pre>
           </main>
 
           <nav class="nav-wrapper" aria-label="Page navigation">
             <!-- Mobile navigation buttons -->
             <a
               rel="next"
-              href="1_frontend.html"
+              href="2_backend.html"
               class="mobile-nav-chapters next"
               title="Next chapter"
               aria-label="Next chapter"
@@ -340,7 +389,7 @@
       <nav class="nav-wide-wrapper" aria-label="Page navigation">
         <a
           rel="next"
-          href="1_frontend.html"
+          href="2_backend.html"
           class="nav-chapters next"
           title="Next chapter"
           aria-label="Next chapter"
