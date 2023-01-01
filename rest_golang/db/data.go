@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"os"
 	"sort"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,15 +12,18 @@ import (
 	"mindfuel.ca/activity_rest/model"
 )
 
-type activityStatsFields struct {
-	count int64 `bson:"count"`
-}
+var (
+	database                string
+	activityStatsCollection string
+	usersCollection         string
+)
 
-const (
-	database = "wondervillActivityBoard"
+func init() {
+	// Define database and connections
+	database = os.Getenv("MONGODB_DB_NAME")  // Connector ensures that this value exists
 	activityStatsCollection = "activityStats"
 	usersCollection = "users"
-)
+}
 
 // CreateIssue - Insert a new document in the collection.
 func InsertUser(client *mongo.Client, asset model.User) error {
@@ -72,7 +76,6 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, error) {
 	var counts model.RawCounts
 	collection := client.Database(database).Collection(usersCollection)
-
 
 	matchStage := bson.D{{Key: "$match", Value: GetUserQuery(filter)}}
 	usersQuery := bson.A{bson.D{{Key: "$count", Value: "count"}}}
