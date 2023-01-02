@@ -265,15 +265,20 @@
               the root of the project, but they can alternatively be split up
               between each service.
             </p>
-            <pre><code>CHOKIDAR_USEPOLLING=true
+            <pre><code>// React
+CHOKIDAR_USEPOLLING=true
 REACT_APP_GOOGLE_MAPS_API_KEY // The Google Maps Javascript API key
 REACT_APP_MINDFUEL_WEBSOCKET  // The WebSocket server address (can either production or mock development server)
 REACT_APP_GOLANG_API          // The backend API path
 
+// Go
+GO_MINDFUEL_WEBSOCKET         // The WebSocket server address (can either production or mock development server)
+
+// Mongo (used by Docker and Go)
 MONGODB_DB_NAME               // The MongoDB database name
 MONGODB_USERNAME              // The username for the Mongo DB root user
 MONGODB_PWD                   // The password for the Mongo DB root user
-MONGODB_URI                   // The Mongo DB connection string
+MONGODB_URI                   // The Mongo DB connection string (requires the root user credentials)
 </code></pre>
             <h4 id="mock-services">
               <a class="header" href="#mock-services">Mock Services</a>
@@ -305,7 +310,8 @@ MONGODB_URI                   // The Mongo DB connection string
               <code>MONGODB_DB_NAME</code> environment variables are exported
               and then in the <code>mock_data</code> directory run:
             </p>
-            <pre><code>$ node index.js
+            <pre><code>$ npm install
+$ node index.js
 </code></pre>
             <p>
               Your database collections should then automatically be populated
@@ -332,7 +338,8 @@ MONGODB_URI                   // The Mongo DB connection string
               To start the server, in the <code>mock_server</code> directory
               run:
             </p>
-            <pre><code>$ node index.js
+            <pre><code>$ npm install
+$ node index.js
 </code></pre>
             <p>The server will start on port 3210.</p>
           </main>
