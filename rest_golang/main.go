@@ -24,7 +24,7 @@ func main() {
 	// Connect to MongoDB
 	mongoClient, err := db.GetMongoClient()
 	if err != nil {
-		logger.Error.Fatal("Error creating a MongoDB client: ", err)
+		logger.Error.Fatal("Error creating a MongoDB client:", err)
 	}
 	logger.Info.Println("Successfully connected to MongoDB.")
 
@@ -38,7 +38,7 @@ func main() {
 	// Start socket listener as a separate GO routine
 	wg.Add(1)
 	go func() {
-		socket.Listen(ctx, addr, mongoClient)
+		socket.Listen(ctx, mongoClient)
 		wg.Done()
 	}()
 

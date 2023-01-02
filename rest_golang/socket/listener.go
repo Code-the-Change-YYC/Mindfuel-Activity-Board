@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/url"
+	"os"
+
 	"time"
 
 	"github.com/recws-org/recws"
@@ -17,12 +19,11 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 	var msg interface{}
 	err := json.Unmarshal([]byte(message), &msg)
 	if err != nil {
-		logger.Error.Println("Error in unmarshalling json: ", err)
+		logger.Error.Println("Error in unmarshalling json:", err)
 		return
 	}
 	// Cast the message into a map to see what kind of message it is
 	msgMap := (msg).(map[string]interface{})
-
 	var user model.User
 	dateTime := time.Now().UTC()
 	user.Date = dateTime
@@ -35,52 +36,57 @@ func messageHandler(mongoClient *mongo.Client, message []byte) {
 			return
 		}
 		db.InsertUser(mongoClient, user)
-		return
-	} else {
-		logger.Warning.Println("Unrecognized message - User Insertion:", msg)
-	}
 
-	if val, ok := msgMap["type"]; ok && val == model.WondervilleAsset {
-		err = json.Unmarshal([]byte(message), &user)
-		if err != nil {
-			logger.Error.Printf("Error in unmarshalling json: %s\n%s", err, message)
-			return
+		// Insert/update Activity Stats only for Wonderville Asset types
+		if val == model.WondervilleAsset {
+			db.InsertOrUpdateActivityStats(mongoClient, user)
 		}
-		db.InsertActivityStats(mongoClient, user)
 	} else {
-		logger.Warning.Println("Unrecognized message - ActivityStats Insertion:", msg)
+		logger.Warning.Println("Unrecognized message type - User Insertion:", msg)
+		return
 	}
 }
 
-func Listen(ctx context.Context, addr *string, mongoClient *mongo.Client) {
+func Listen(ctx context.Context, mongoClient *mongo.Client) {
 	logger.Info.Println("Starting socket listener.")
 
-	// if testing locally, comment the below line and
-	// uncomment the one below it
-	u := url.URL{Scheme: "wss", Host: *addr}
-	// u := url.URL{Scheme: "ws", Host: *addr}
+	addr := os.Getenv("GO_MINDFUEL_WEBSOCKET")
+	if addr == "" {
+		logger.Error.Fatalf("You must set your 'GO_MINDFUEL_WEBSOCKET' environmental variable")
+	}
+
+	u, err := url.Parse(addr)
+	if err != nil {
+		logger.Error.Fatalf("Invalid WebSocket address: %s\n%v", addr, err)
+	}
 
 	// from https://github.com/recws-org/recws
-	retryTimeout := 30 * time.Second
+	retryTimeout := 60 * time.Second
 	ws := recws.RecConn{
 		KeepAliveTimeout: 0,
 		RecIntvlMin:      retryTimeout,
 	}
 	ws.Dial(u.String(), nil)
+	if ws.IsConnected() {
+		logger.Info.Printf("Websocket connected: %s", ws.GetURL())
+	}
 
-	// the program will always be trying to connect every 30 seconds until
+	// the program will always be trying to connect every 60 seconds until
 	// the connection is established.
+	retryCount := 0
 	for {
 		select {
 		case <-ctx.Done():
 			go ws.Close()
-			logger.Error.Printf("Websocket closed %s", ws.GetURL())
+			logger.Error.Printf("Websocket closed: %s", ws.GetURL())
 			return
 		default:
-			if ws.IsConnected() {
-				logger.Info.Printf("Websocket connected %s", ws.GetURL())
-			} else {
-				logger.Error.Printf("Websocket disconnected %s", ws.GetURL())
+			if retryCount > 0 && ws.IsConnected() {
+				logger.Info.Printf("Websocket connected: %s", ws.GetURL())
+				retryCount = 0
+			} else if !ws.IsConnected() {
+				logger.Error.Printf("Websocket disconnected: %s. Will retry connecting in %s.", ws.GetURL(), retryTimeout.String())
+				retryCount++
 				time.Sleep(retryTimeout)
 				continue
 			}

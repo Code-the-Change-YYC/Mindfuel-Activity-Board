@@ -2,13 +2,13 @@ package db
 
 import (
 	"context"
-	"log"
 	"os"
 	"sort"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"mindfuel.ca/activity_rest/logger"
 	"mindfuel.ca/activity_rest/model"
 )
 
@@ -20,7 +20,7 @@ var (
 
 func init() {
 	// Define database and connections
-	database = os.Getenv("MONGODB_DB_NAME")  // Connector ensures that this value exists
+	database = os.Getenv("MONGODB_DB_NAME") // Connector ensures that this value exists
 	activityStatsCollection = "activityStats"
 	usersCollection = "users"
 }
@@ -32,13 +32,13 @@ func InsertUser(client *mongo.Client, asset model.User) error {
 	// Perform InsertOne operation & validate against the error.
 	_, err := collection.InsertOne(context.TODO(), asset)
 	if err != nil {
-		log.Println(log.Ldate, " Error inserting into the DB:", err)
+		logger.Error.Println("Error inserting new user session into the DB: ", err)
 		return err
 	}
 	if asset.Type == model.WondervilleAsset {
-		log.Println(log.Ldate, " Inserted Wonderville Asset User:", *asset.Payload.Ip)
+		logger.Info.Println("Inserted Wonderville Asset User:", asset.Payload.Asset.Name)
 	} else {
-		log.Println(log.Ldate, " Inserted Wonderville Session User:", asset.Payload.Location.Region)
+		logger.Info.Println("Inserted Wonderville Session User from:", asset.Payload.Location.Country)
 	}
 
 	// Return success without any error.
@@ -55,7 +55,7 @@ func GetUsers(client *mongo.Client, filter model.UserFilter) ([]model.User, erro
 	sampleStage := bson.D{{Key: "$sample", Value: bson.D{{Key: "size", Value: filter.MaxUsers}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, sampleStage})
 	if err != nil {
-		log.Println(log.Ldate, " No user found - ", users, err)
+		logger.Error.Println("Unable to get users:", err)
 		return users, err
 	}
 	defer cursor.Close(context.TODO())
@@ -85,7 +85,7 @@ func GetCounts(client *mongo.Client, filter model.UserFilter) (model.RawCounts, 
 	facetStage := bson.D{{Key: "$facet", Value: bson.D{{Key: "sessions", Value: usersQuery}, {Key: "countries", Value: countriesQuery}, {Key: "cities", Value: citiesQuery}}}}
 	cursor, err := collection.Aggregate(context.TODO(), mongo.Pipeline{matchStage, facetStage})
 	if err != nil {
-		log.Println(log.Ldate, " Not able to provide count - ", counts, err)
+		logger.Error.Println("Not able to get counts:", counts, err)
 		return counts, err
 	}
 	defer cursor.Close(context.TODO())
@@ -119,7 +119,7 @@ func GetActivityStats(client *mongo.Client, filter model.StatsFilter) ([]model.A
 	}
 
 	if err != nil {
-		log.Println(log.Ldate, " No activity stat found - ", activityStats, err)
+		logger.Error.Println("Unable to get activity stats:", err)
 		return activityStats, err
 	}
 
@@ -174,8 +174,7 @@ func GetFilterOptions(client *mongo.Client) ([]model.FilterOption, error) {
 }
 
 // Inserts a new activity or updates the hits field of an existing activity in the activityStats collection
-func InsertActivityStats(client *mongo.Client, user model.User) error {
-	var err error
+func InsertOrUpdateActivityStats(client *mongo.Client, user model.User) error {
 	//Create a handle to the respective collection in the database.
 	collection := client.Database(database).Collection(activityStatsCollection)
 	//Check to see if activity is in the DB, if so update hit counter else
@@ -187,13 +186,13 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 	cursor, err := collection.Find(context.TODO(), filter)
 
 	if err != nil {
-		panic(err)
+		logger.Error.Printf("Error while inserting Activity Stats for %s: %v", incomingActivityName, err)
 	}
 
 	var res []bson.M
 
 	if err = cursor.All(context.TODO(), &res); err != nil {
-		panic(err)
+		logger.Error.Printf("Error while inserting Activity Stats for %s: %v", incomingActivityName, err)
 	}
 
 	if len(res) > 0 {
@@ -201,9 +200,11 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 			bson.D{{Key: "$inc", Value: bson.D{{Key: "hits", Value: 1}}}}, options.Update().SetUpsert(true))
 
 		if err != nil {
-			log.Fatal(err)
+			logger.Error.Printf("Unable to update Activity Stats for %s: %v", incomingActivityName, err)
 			return err
 		}
+
+		logger.Info.Println("Updated Activity Stats record:", incomingActivityName)
 	} else {
 		assetName := user.Payload.Asset.Name
 		assetURL := user.Payload.Asset.Url
@@ -221,9 +222,11 @@ func InsertActivityStats(client *mongo.Client, user model.User) error {
 		_, err := collection.InsertOne(context.TODO(), activityToInsert)
 
 		if err != nil {
-			log.Fatal(err)
+			logger.Error.Printf("Unable to insert Activity Stats for %s: %v", incomingActivityName, err)
 			return err
 		}
+
+		logger.Info.Println("Inserted new Activity Stats record:", incomingActivityName)
 	}
 	//Return success without any error.
 	return nil

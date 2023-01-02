@@ -36,14 +36,14 @@ const (
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	filter, err := GetUserQueryParams(r.URL.Query())
 	if err != nil {
-		logger.Error.Println("Error decoding query parameters: ", err)
+		logger.Error.Println("Error decoding query parameters:", err)
 		http.Error(w, errorQueryParams, http.StatusInternalServerError)
 		return
 	}
 
 	users, err := db.GetUsers(h.Client, filter)
 	if err != nil {
-		logger.Error.Println("Error processing GetUsers: ", err)
+		logger.Error.Println("Error processing GetUsers:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
 	} else if len(users) == 0 {
@@ -52,7 +52,7 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	rawCounts, err := db.GetCounts(h.Client, filter)
 	if err != nil {
-		logger.Error.Println("Error processing GetCounts: ", err)
+		logger.Error.Println("Error processing GetCounts:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
 	}
@@ -72,14 +72,14 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 	filter, err := GetStatsQueryParams(r.URL.Query())
 	if err != nil {
-		logger.Error.Println("Error decoding query parameters: ", err)
+		logger.Error.Println("Error decoding query parameters:", err)
 		http.Error(w, errorQueryParams, http.StatusInternalServerError)
 		return
 	}
 
 	activityStats, err := db.GetActivityStats(h.Client, filter)
 	if err != nil {
-		logger.Error.Println("Error processing GetActivityStats: ", err)
+		logger.Error.Println("Error processing GetActivityStats:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
 	} else if len(activityStats) == 0 {
@@ -96,7 +96,7 @@ func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) GetUserFilterOptions(w http.ResponseWriter, r *http.Request) {
 	filterOptions, err := db.GetFilterOptions(h.Client)
 	if err != nil {
-		logger.Error.Println("Error processing GetUserFilterOptions: ", err)
+		logger.Error.Println("Error processing GetUserFilterOptions:", err)
 		http.Error(w, errorGeneric, http.StatusInternalServerError)
 		return
 	}
