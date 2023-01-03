@@ -2,7 +2,7 @@ version: "3.7"
 services:
   frontend_react:
     container_name: frontend_react
-    image: node:13.12.0-alpine
+    image: node:14-alpine
     working_dir: /app
     volumes:
       - ./frontend_react:/app
@@ -11,7 +11,8 @@ services:
       - "8081:3000"
     depends_on:
       - rest_api
-    command: "npm start"
+    command: >
+      sh -c "npm install && npm start"
     restart: always
     env_file: .env
     # Needed for compose

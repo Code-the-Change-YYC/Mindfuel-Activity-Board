@@ -33,16 +33,19 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.9.4"
   },
   "scripts": {
-    "start": "npm install && react-scripts start",
-    "build": "npm install && react-scripts build",
-    "test": "npm install && react-scripts test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx",
     "lint-fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "cd .. && husky install frontend_react/.husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,6 +67,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.29.3",
     "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "prettier": "2.8.1",
     "pretty-quick": "^3.1.3"
   }
