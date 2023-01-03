@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"flag"
-	"log"
 	"sync"
 
 	"mindfuel.ca/activity_rest/db"
+	"mindfuel.ca/activity_rest/logger"
 	"mindfuel.ca/activity_rest/server"
 	"mindfuel.ca/activity_rest/socket"
 )
@@ -21,13 +21,12 @@ var wg = sync.WaitGroup{}
 
 func main() {
 	ctx := context.Background()
-
 	// Connect to MongoDB
 	mongoClient, err := db.GetMongoClient()
 	if err != nil {
-		log.Fatal(log.Ldate, " Error creating a MongoDB client: ", err)
+		logger.Error.Fatal("Error creating a MongoDB client:", err)
 	}
-	log.Println(log.Ldate, " Successfully connected to MongoDB.")
+	logger.Info.Println("Successfully connected to MongoDB.")
 
 	// Defer disconnection
 	defer func() {
@@ -39,7 +38,7 @@ func main() {
 	// Start socket listener as a separate GO routine
 	wg.Add(1)
 	go func() {
-		socket.Listen(ctx, addr, mongoClient)
+		socket.Listen(ctx, mongoClient)
 		wg.Done()
 	}()
 

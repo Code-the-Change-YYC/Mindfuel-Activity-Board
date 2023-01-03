@@ -2,13 +2,13 @@ package db
 
 import (
 	"context"
-	"log"
 	"os"
 	"sync"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"mindfuel.ca/activity_rest/logger"
 )
 
 /* Used to create a singleton object of MongoDB client.
@@ -28,14 +28,18 @@ func GetMongoClient() (*mongo.Client, error) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
-		CONNECTIONSTRING := os.Getenv("MONGODB_URI")
+		connectionString := os.Getenv("MONGODB_URI")
+		databaseName := os.Getenv("MONGODB_DB_NAME")
 
-		if CONNECTIONSTRING == "" {
-			log.Fatal(log.Ldate, " You must set your 'MONGODB_URI' environmental variable, current MONGODB_URI: ", CONNECTIONSTRING)
+		if connectionString == "" {
+			logger.Error.Fatal("You must set your 'MONGODB_URI' environmental variable")
 		}
-		log.Println(log.Ldate, "Connected to MongoDB")
+		if databaseName == "" {
+			logger.Error.Fatal("You must set your 'MONGODB_DB_NAME' environmental variable")
+		}
+
 		// Set client options
-		clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
+		clientOptions := options.Client().ApplyURI(connectionString)
 		// Connect to MongoDB
 		client, err := mongo.Connect(ctx, clientOptions)
 		if err != nil {

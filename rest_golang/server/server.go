@@ -1,16 +1,16 @@
 package server
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"go.mongodb.org/mongo-driver/mongo"
+	"mindfuel.ca/activity_rest/logger"
 )
 
 func Start(mongoClient *mongo.Client) {
-	log.Println(log.Ldate, " Starting HTTP server...")
+	logger.Info.Println("Starting REST server...")
 
 	r := chi.NewRouter()
 	r.Use(cors.Handler(cors.Options{
@@ -32,8 +32,8 @@ func Start(mongoClient *mongo.Client) {
 		r.Mount("/activity-filter-options", activityFilterOptionsRouter(handler))
 	})
 
-	log.Println(log.Ldate, " Listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", r))
+	logger.Info.Println("REST server listening on port 8080")
+	logger.Error.Fatal(http.ListenAndServe(":8080", r))
 }
 
 func usersRouter(handler *Handler) http.Handler {

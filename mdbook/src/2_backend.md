@@ -1,23 +1,28 @@
 # Backend & APIs
 
 The backend for the project is written in Go and performs two functions:
+
 1. Serves REST APIs for retrieving user information and stats
 2. Acts as a listener to Wonderville's WebSocket and subsequently records new users and updates stats in the MongoDB database.
 
-The socket listener is decoupled from the REST API service through a `goroutine`, meaning any interruptions to the REST service will not affect the recording of new data from the socket server. The socket listener will also automatically retry connecting to the socket if the WebSocket server goes down.<br>
+The socket listener is decoupled from the REST API service through a `goroutine`, meaning any interruptions to the REST service will not affect the recording of new data from the socket server. The socket listener will also automatically retry connecting every 60 seconds to the WebSocket server upon disconnection. The application logs are outputted to the `rest_golang/logs.txt` file.<br>
 
 Notable packages used in the backend are:
+
 - [chi](https://github.com/go-chi/chi) for the REST API service
 - [recws](https://github.com/recws-org/recws) for WebSocket connections
 - [mongo-go-driver](https://github.com/mongodb/mongo-go-driver) for MongoDB connections
 
 #### Project Structure
+
 ```
 ├── rest_golang
 │   ├── db        // (Package) Retrieving and updating data from MongoDB
+│   ├── logger    // (Package) Application logger
 │   ├── model     // (Package) Type definitions for API and internal use
 │   ├── server    // (Package) REST API service (handler and router)
 │   ├── socket    // (Package) WebSocket listener
+│   ├── logs.txt  // Application logs
 │   └── main.go   // Entry point to the application
 ```
 
@@ -32,16 +37,17 @@ table {float:left}
 **Description**: Gets historical users and the total counts of users, uniques cities and unique countries.<br>
 **Parameters**:
 
-| Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
-|---|:---:|---|---|---|
-| `startDate` | Y | String | The start of the date range in ISO string format. | <pre>2022-10-04T14:48:00.000Z</pre> |
-| `maxUsers` | Y | Integer | The maximum number of users to return. | <pre>100</pre> |
-| `mapBounds` | Y | Object | The latitude and longitude boundaries used to search for users.  Latitude and longitude values are integers. | <pre>{<br> lat: {<br>  lower: -49.68,<br>  upper: 84.71<br>}, <br> lng: {<br>  lower: -175.25, <br>  upper: -52.74<br>}</pre> |
-| `filter` | N | Object | The activity filter value.<br><br> Valid filter categories are *Category* or *ActivityType*. If *Category* is chosen, you can specify *Game*, *Video*, *Activity* or *Story* as the filter type. | <pre>{<br> filterCategory: "Category", <br> filterType: "Game"<br>}</pre> |
+| Parameter   | Required? | Type    | <div style="width:290px">Description</div>                                                                                                                                                       | Example                                                                                                                   |
+| ----------- | :-------: | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `startDate` |     Y     | String  | The start of the date range in ISO string format.                                                                                                                                                | <pre>2022-10-04T14:48:00.000Z</pre>                                                                                       |
+| `maxUsers`  |     Y     | Integer | The maximum number of users to return.                                                                                                                                                           | <pre>100</pre>                                                                                                            |
+| `mapBounds` |     Y     | Object  | The latitude and longitude boundaries used to search for users. Latitude and longitude values are integers.                                                                                      | <pre>{<br> lat: {<br> lower: -49.68,<br> upper: 84.71<br>}, <br> lng: {<br> lower: -175.25, <br> upper: -52.74<br>}</pre> |
+| `filter`    |     N     | Object  | The activity filter value.<br><br> Valid filter categories are _Category_ or _ActivityType_. If _Category_ is chosen, you can specify _Game_, _Video_, _Activity_ or _Story_ as the filter type. | <pre>{<br> filterCategory: "Category", <br> filterType: "Game"<br>}</pre>                                                 |
 
 **Responses**<br>
 **Success**: `200 OK`<br>
 **Content**:
+
 ```
 {
   "users": [
@@ -78,6 +84,7 @@ table {float:left}
   }
 }
 ```
+
 <br>
 
 `v1/api/activity-stats`<br><br>
@@ -85,14 +92,15 @@ table {float:left}
 **Description**: Gets activity hit counts in descending order by the number of hits.<br>
 **Parameters**:
 
-| Parameter | Required? | Type | <div style="width:290px">Description</div> | Example |
-|---|:---:|---|---|---|
-| `startDate` | N | String | The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
-| `top` | N | Integer | The top number activities to return. | <pre>10</pre> |
+| Parameter   | Required? | Type    | <div style="width:290px">Description</div>                                                                       | Example                             |
+| ----------- | :-------: | ------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `startDate` |     N     | String  | The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `top`       |     N     | Integer | The top number activities to return.                                                                             | <pre>10</pre>                       |
 
 **Responses**<br>
 **Success**: `200 OK`<br>
 **Content**:
+
 ```
 {
   "stats": [
@@ -115,6 +123,7 @@ table {float:left}
   ]
 }
 ```
+
 <br>
 
 `v1/api/activity-filter-options`<br><br>
@@ -124,6 +133,7 @@ table {float:left}
 **Responses**<br>
 **Success**: `200 OK`<br>
 **Content**:
+
 ```
 {
   "options": [
