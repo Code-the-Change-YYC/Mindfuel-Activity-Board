@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Slider from "@material-ui/core/Slider";
 import { StylesProvider } from "@material-ui/core/styles";
@@ -43,7 +43,7 @@ const marks = [
 ];
 
 const Timeline = (props: TimelineProps) => {
-  const defaultTimelineValue = 50;
+  const [selectedValue, setSelectedValue] = useState<number | number[]>(50);
   const classes = {
     root: styles.timelineRoot,
     thumb: styles.timelineThumb,
@@ -55,11 +55,15 @@ const Timeline = (props: TimelineProps) => {
 
   useEffect(() => {
     // Load initial data for default selection of 1 week
-    props.onDateChange(getTimelineDate(defaultTimelineValue));
+    props.onDateChange(getTimelineDate(selectedValue));
   }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number | number[]) => {
-    props.onDateChange(getTimelineDate(newValue));
+    // Prevent duplicate requests
+    if (newValue != selectedValue) {
+      setSelectedValue(newValue);
+      props.onDateChange(getTimelineDate(newValue));
+    }
   };
 
   return (
@@ -67,7 +71,7 @@ const Timeline = (props: TimelineProps) => {
       <Slider
         classes={classes}
         ThumbComponent={ThumbComponent}
-        defaultValue={defaultTimelineValue}
+        defaultValue={selectedValue}
         step={null}
         marks={marks}
         onChangeCommitted={handleChange}

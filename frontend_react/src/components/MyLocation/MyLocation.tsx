@@ -1,0 +1,49 @@
+import React from "react";
+
+import IconButton from "@material-ui/core/IconButton";
+import MyLocationIcon from "@material-ui/icons/MyLocation";
+import StylesProvider from "@material-ui/styles/StylesProvider";
+
+import { setAlert, setAppUserLocation } from "../../state/actions";
+import { useAppDispatch } from "../../state/hooks";
+import styles from "./MyLocation.module.css";
+
+const MyLocation = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    // Get user location on app initialization
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          dispatch(
+            setAppUserLocation({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            })
+          );
+        },
+        () => dispatch(setAlert("Do not have location permissions.", "info"))
+      );
+    }
+  };
+
+  const iconClasses = {
+    root: styles.myLocationButton,
+  };
+
+  return (
+    <StylesProvider injectFirst>
+      <IconButton
+        aria-label="open drawer"
+        color="inherit"
+        onClick={handleClick}
+        classes={iconClasses}
+      >
+        <MyLocationIcon style={{ fontSize: 20, color: "#52247F" }} />
+      </IconButton>
+    </StylesProvider>
+  );
+};
+
+export default MyLocation;

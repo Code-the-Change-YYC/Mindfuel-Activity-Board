@@ -29,6 +29,7 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  appUserLocation: null,
   heatmapEnabled: false,
 };
 
@@ -68,6 +69,11 @@ const rootReducer = (state: AppState | undefined = initialState, action: any) =>
       return {
         ...state,
         heatmapEnabled: action.heatmapEnabled,
+      };
+    case Action.SET_APP_USER_LOCATION:
+      return {
+        ...state,
+        appUserLocation: action.appUserLocation,
       };
     case Action.SET_ALERT:
       return {

@@ -67,6 +67,7 @@ const MapMarker = (props: any) => {
               max={9}
               classes={badgeClasses}
               invisible={isBadgeInvisible}
+              overlap="rectangular"
             />
           )}
           <Popper

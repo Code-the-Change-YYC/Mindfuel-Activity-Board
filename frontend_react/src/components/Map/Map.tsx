@@ -17,7 +17,6 @@ import MapMarker from "./MapMarker/MapMarker";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
-  center: AppUserLocation;
 };
 
 type Position = {
@@ -34,10 +33,15 @@ type Heatmap = {
   };
 };
 
+const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
+  latitude: 48.354594,
+  longitude: -99.99805,
+};
+
 const Map = (props: MapProps) => {
   const [center, setCenter] = useState<Coords>({
-    lat: props.center.latitude,
-    lng: props.center.longitude,
+    lat: DEFAULT_APP_USER_LOCATION.latitude,
+    lng: DEFAULT_APP_USER_LOCATION.longitude,
   });
   const [mapTypeId, setMapTypeId] = useState("roadmap");
   const [markers, setMarkers] = useState<ReactElement[]>([]);
@@ -53,8 +57,11 @@ const Map = (props: MapProps) => {
   const liveUsers: User[] = useSelector((state: AppState) => state.liveUsers);
   const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
   const newUser: User | null = useSelector((state: AppState) => state.newUser);
-  const heatmapEnabled: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const groupedUsers = useGroupedUsers(liveUsers, historicalUsers);
+  const appUserLocation: AppUserLocation | null = useSelector(
+    (state: AppState) => state.appUserLocation
+  );
+  const heatmapEnabled: boolean = useSelector((state: AppState) => state.heatmapEnabled);
 
   // Hide map control for mobile screens
   const showMapControl = useMediaQuery((theme: Theme) => theme.breakpoints.up("sm"));
@@ -78,8 +85,10 @@ const Map = (props: MapProps) => {
 
   // Update map center on props change, e.g. when user gives location permission after timeout
   useEffect(() => {
-    setCenter({ lat: props.center.latitude, lng: props.center.longitude });
-  }, [props.center]);
+    if (!_.isNil(appUserLocation)) {
+      setCenter({ lat: appUserLocation.latitude, lng: appUserLocation.longitude });
+    }
+  }, [appUserLocation]);
 
   // Update the markers on the map when historical or live users are added
   useEffect(() => {

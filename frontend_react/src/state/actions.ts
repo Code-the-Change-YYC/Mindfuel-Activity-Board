@@ -6,6 +6,7 @@ import { Action } from "../utils/Action.enum";
 import { AlertModel } from "../utils/Alert.model";
 import { ApiServiceInterface, UsersApiResponse } from "../utils/ApiServiceInterface";
 import { AppState, MAX_USERS } from "../utils/AppState";
+import { AppUserLocation } from "../utils/AppUserLocation.model";
 import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
@@ -94,5 +95,12 @@ export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
     type: Action.UPDATE_HISTORICAL_USERS,
     historicalUsers: response?.users,
     historicalCounts: response?.counts,
+  };
+};
+
+export const setAppUserLocation = (appUserLocation: AppUserLocation) => {
+  return {
+    type: Action.SET_APP_USER_LOCATION,
+    appUserLocation: appUserLocation,
   };
 };
