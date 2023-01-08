@@ -22,7 +22,7 @@ const ThumbComponent = (props: any) => {
 const marks = [
   {
     value: 0,
-    label: "3 mths",
+    label: "1 yr",
   },
   {
     value: 25,
