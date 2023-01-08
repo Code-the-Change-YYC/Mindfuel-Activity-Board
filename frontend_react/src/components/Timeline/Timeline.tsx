@@ -43,7 +43,9 @@ const marks = [
 ];
 
 const Timeline = (props: TimelineProps) => {
-  const [selectedValue, setSelectedValue] = useState<number | number[]>(50);
+  const defaultValue = 50; // Default set to 1 week
+  const [selectedValue, setSelectedValue] = useState<number | number[]>(defaultValue);
+
   const classes = {
     root: styles.timelineRoot,
     thumb: styles.timelineThumb,
@@ -71,7 +73,7 @@ const Timeline = (props: TimelineProps) => {
       <Slider
         classes={classes}
         ThumbComponent={ThumbComponent}
-        defaultValue={selectedValue}
+        defaultValue={defaultValue}
         step={null}
         marks={marks}
         onChangeCommitted={handleChange}

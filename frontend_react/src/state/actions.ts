@@ -29,16 +29,7 @@ export const fetchHistoricalUsers = (
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));
 
-        const usersLength: number = response.data.users.length;
-        const sessions: number = response.data.counts.sessions;
-        if (usersLength < sessions) {
-          dispatch(
-            setAlert(
-              `There were lots of users! Only showing ${usersLength} of ${sessions} total user sessions on the map.`,
-              "info"
-            )
-          );
-        } else if (usersLength === 0) {
+        if (response.data.users.length === 0) {
           dispatch(
             setAlert(
               "No users found for your selection. Please try again with a different time, filter or location!",
