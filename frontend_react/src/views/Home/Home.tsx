@@ -14,7 +14,7 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import { fetchHistoricalUsers, setLoading, updateHistoricalUsers } from "../../state/actions";
+import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
@@ -25,10 +25,6 @@ import styles from "./Home.module.css";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
-  const loading = useSelector((state: AppState) => state.loading);
-  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
-  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [startDate, setStartDate] = useState<Date | null>();
@@ -37,6 +33,12 @@ const Home = () => {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
   };
+
+  // App state variables
+  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
+  const loading = useSelector((state: AppState) => state.loading);
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
 
   useEffect(() => {
     // Connect to socket on mount
@@ -51,13 +53,16 @@ const Home = () => {
   }, []); // Pass in an empty array to only run an effect once.
 
   useEffect(() => {
+    setShowAreaButton(false);
     getHistoricalUsers();
   }, [heatmapToggle]);
 
-  const handleMapBoundsChange = (mapBounds?: MapBounds) => {
-    setMapBounds(mapBounds);
-    if (!_.isNil(historicalUsers)) {
-      setShowAreaButton(true);
+  const handleMapBoundsChange = (newMapBounds?: MapBounds) => {
+    if (!_.isEqual(newMapBounds, mapBounds)) {
+      setMapBounds(newMapBounds);
+      if (!_.isNil(historicalUsers)) {
+        setShowAreaButton(true);
+      }
     }
   };
 
