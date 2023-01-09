@@ -14,16 +14,13 @@ import { toggleHeatmap } from "../../state/actions";
 import store from "../../state/store";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import { AppState, LiveCounts } from "../../utils/AppState";
-import { Location } from "../../utils/Location";
-import { User } from "../../utils/User";
 import AnalyticsBox from "../AnalyticsBox";
 import styles from "./Sidenav.module.css";
 
 const Sidenav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
-  const [selected, setSelected] = useState(false);
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [heatMapEnabled, setHeatMapEnabled] = useState(false);
   const historicalCounts: { [cat: string]: number } | null = useSelector(
     (state: AppState) => state.historicalCounts
   );
@@ -55,15 +52,15 @@ const Sidenav = () => {
   }, [analyticsData]);
 
   useEffect(() => {
-    store.dispatch(toggleHeatmap(selected));
-  }, [selected]);
+    store.dispatch(toggleHeatmap(heatMapEnabled));
+  }, [heatMapEnabled]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleHeatmap = () => {
-    setSelected(!selected);
+    setHeatMapEnabled(!heatMapEnabled);
   };
 
   const drawer = (
@@ -76,7 +73,7 @@ const Sidenav = () => {
         <FormGroup>
           <FormControlLabel
             style={{ color: "white" }}
-            control={<Switch checked={selected} onClick={handleHeatmap} size="medium" />}
+            control={<Switch checked={heatMapEnabled} onClick={handleHeatmap} size="medium" />}
             label="Heat Map"
             labelPlacement="start"
           />

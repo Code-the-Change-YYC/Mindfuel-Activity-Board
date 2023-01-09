@@ -12,6 +12,7 @@ export type AppState = {
   alert: AlertModel | null;
   appUserLocation: AppUserLocation | null;
   heatmapEnabled: boolean;
+  isWebSocketConnected: boolean;
 };
 
 export type LiveCounts = {

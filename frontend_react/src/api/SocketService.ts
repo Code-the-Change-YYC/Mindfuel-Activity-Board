@@ -1,22 +1,20 @@
-import { addLiveUser, setLoading, setAlert } from "../state/actions";
+import { Color } from "@material-ui/lab/Alert";
+import _ from "lodash";
+
+import { addLiveUser, setAlert, setWebSocketConnectionStatus } from "../state/actions";
 import store from "../state/store";
+import { AppState } from "../utils/AppState";
 import { SocketServiceInterface } from "../utils/SocketServiceInterface";
 import { User } from "../utils/User";
 
-let retries = 0;
-const timeout = 60000;
+const timeout = 30000;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
-    store.dispatch(setLoading(true));
     SocketService.webSocket = new WebSocket(websocketAddress);
 
     SocketService.webSocket.onopen = () => {
-      store.dispatch(setLoading(false));
-      if (retries > 0) {
-        retries = 0; // Reset retries count
-        store.dispatch(setAlert("Live connection successfully established!"));
-      }
+      store.dispatch(setWebSocketConnectionStatus(true));
     };
 
     SocketService.webSocket.onmessage = (event) => {
@@ -27,28 +25,13 @@ const connect = (websocketAddress: string) => {
     };
 
     SocketService.webSocket.onclose = () => {
-      store.dispatch(setLoading(false));
-      store.dispatch(
-        setAlert(
-          `Live connection was closed. Reconnect will be attempted in ${timeout / 1000} seconds.`,
-          "error"
-        )
-      );
+      store.dispatch(setWebSocketConnectionStatus(false));
 
-      if (retries < 10) {
-        setTimeout(() => {
-          retries++;
-          SocketService.webSocket = undefined;
-          SocketService.connect(websocketAddress);
-        }, timeout);
-      } else {
-        store.dispatch(
-          setAlert(
-            "Max live connection retries reached. Please refresh the page to try connecting again.",
-            "error"
-          )
-        );
-      }
+      // Retry after timeout
+      setTimeout(() => {
+        SocketService.webSocket = undefined;
+        SocketService.connect(websocketAddress);
+      }, timeout);
     };
 
     SocketService.webSocket.onerror = (err) => {
@@ -77,11 +60,21 @@ const parseSocketData = (socketData: string) => {
   }
 };
 
+const alert = (message: string, severity: Color) => {
+  const appState: AppState = store.getState();
+
+  // Only alert when 'Live' is selected on the timeline
+  if (_.isNil(appState.historicalUsers)) {
+    store.dispatch(setAlert(message, severity));
+  }
+};
+
 const SocketService: SocketServiceInterface = {
   webSocket: undefined,
   connect: connect,
   disconnect: disconnect,
   parseSocketData: parseSocketData,
+  alert: alert,
 };
 
 export default SocketService;

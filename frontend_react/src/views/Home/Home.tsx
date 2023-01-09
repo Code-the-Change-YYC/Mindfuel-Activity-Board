@@ -14,6 +14,7 @@ import Sidenav from "../../components/Sidenav/Sidenav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
+import WSConnectionStatus from "../../components/WSConnectionStatus/WSConnectionStatus";
 import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
@@ -29,6 +30,7 @@ const Home = () => {
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [startDate, setStartDate] = useState<Date | null>();
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
+  const [showWSConnectionStatus, setShowWSConnectionStatus] = useState<boolean>(false);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
@@ -78,8 +80,11 @@ const Home = () => {
     setShowAreaButton(false);
     if (!_.isNil(startDate)) {
       dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
+      setShowWSConnectionStatus(false);
     } else {
+      // 'Live' selected
       dispatch(updateHistoricalUsers(null));
+      setShowWSConnectionStatus(true);
       // Reset filter
       setActivityFilter(undefined);
     }
@@ -114,8 +119,11 @@ const Home = () => {
         <div className={styles.centeredContainer}>
           {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.searchAreaButton}>
+            {showWSConnectionStatus && (
+              <WSConnectionStatus isVisible={showWSConnectionStatus}></WSConnectionStatus>
+            )}
             {showSearchAreaButton && (
-              <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
+              <SearchAreaButton onClick={handleSearchAreaClick}></SearchAreaButton>
             )}
           </div>
           <div className={styles.timeline}>

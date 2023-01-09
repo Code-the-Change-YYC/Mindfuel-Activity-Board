@@ -1,0 +1,20 @@
+.offlineChip {
+  color: #611a15;
+  background-color: #fdecea;
+  border-radius: 20px;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 30%);
+}
+
+.offlineIcon {
+  color: #f44336;
+}
+
+.onlineChip {
+  color: #1e4620;
+  background-color: #eff6ed;
+  box-shadow: 0px 2px 2px rgb(0 0 0 / 30%);
+}
+
+.onlineIcon {
+  color: #2e7d32;
+}

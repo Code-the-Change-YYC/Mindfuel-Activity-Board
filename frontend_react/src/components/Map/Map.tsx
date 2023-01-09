@@ -199,7 +199,7 @@ const Map = (props: MapProps) => {
           onGoogleApiLoaded={handleGoogleApiLoad}
           onChange={handleMapChange}
           onMapTypeIdChange={handleMapTypeIdChange}
-          defaultZoom={zoom}
+          zoom={zoom}
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}
@@ -217,7 +217,7 @@ const Map = (props: MapProps) => {
           onGoogleApiLoaded={handleGoogleApiLoad}
           onChange={handleMapChange}
           onMapTypeIdChange={handleMapTypeIdChange}
-          defaultZoom={zoom}
+          zoom={zoom}
           center={center}
           options={defaultMapOptions}
           yesIWantToUseGoogleMapApiInternals={true}

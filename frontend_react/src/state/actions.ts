@@ -95,3 +95,10 @@ export const setAppUserLocation = (appUserLocation: AppUserLocation) => {
     appUserLocation: appUserLocation,
   };
 };
+
+export const setWebSocketConnectionStatus = (isWebSocketConnected: boolean) => {
+  return {
+    type: Action.SET_WEBSOCKET_CONNECTION_STATUS,
+    isWebSocketConnected: isWebSocketConnected,
+  };
+};
