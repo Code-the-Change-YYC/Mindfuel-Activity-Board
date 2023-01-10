@@ -9,11 +9,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "../../utils/AppState";
 import styles from "./WSConnectionStatus.module.css";
 
-type WSConnectionStatusProps = {
-  isVisible: boolean;
-};
-
-const WSConnectionStatus = (props: WSConnectionStatusProps) => {
+const WSConnectionStatus = (props: { isVisible: boolean }) => {
   const [showConnected, setShowConnected] = useState<boolean>(false);
   const isWebSocketConnected: boolean = useSelector(
     (state: AppState) => state.isWebSocketConnected

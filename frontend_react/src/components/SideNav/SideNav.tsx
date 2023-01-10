@@ -15,9 +15,9 @@ import store from "../../state/store";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import { AppState, LiveCounts } from "../../utils/AppState";
 import AnalyticsBox from "../AnalyticsBox";
-import styles from "./Sidenav.module.css";
+import styles from "./SideNav.module.css";
 
-const Sidenav = () => {
+const SideNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
   const [heatMapEnabled, setHeatMapEnabled] = useState(false);
@@ -122,4 +122,4 @@ const Sidenav = () => {
   );
 };
 
-export default Sidenav;
+export default SideNav;

@@ -10,7 +10,7 @@ import Filter from "../../components/Filter/Filter";
 import Map from "../../components/Map/Map";
 import MyLocation from "../../components/MyLocation/MyLocation";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
-import Sidenav from "../../components/Sidenav/Sidenav";
+import SideNav from "../../components/SideNav/SideNav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
@@ -104,7 +104,7 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Sidenav></Sidenav>
+      <SideNav></SideNav>
       <div className={styles.map}>
         {alert && <AppAlert alert={alert}></AppAlert>}
         <div className={styles.buttonGroup}>
