@@ -11,6 +11,7 @@ const timeout = 30000;
 
 const connect = (websocketAddress: string) => {
   if (SocketService.webSocket === undefined) {
+    /* eslint-disable-next-line no-undef */
     SocketService.webSocket = new WebSocket(websocketAddress);
 
     SocketService.webSocket.onopen = () => {

@@ -21,7 +21,7 @@ const AnalyticsBox = (props: AnalyticsBox) => {
         <div className={styles.totalNumber}>{numberValue}</div>
         <div className={styles.totalText}>{props.textValue}</div>
       </div>
-      <img className={styles.icon} src={props.icon} />
+      <img alt="analytics-icon" className={styles.icon} src={props.icon} />
     </Card>
   );
 };

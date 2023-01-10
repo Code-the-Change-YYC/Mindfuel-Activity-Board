@@ -115,7 +115,7 @@ const Filter = (props: FilterProps) => {
           variant="dot"
           overlap="rectangular"
         />
-        <img className={styles.filterIcon} src={filterIcon} />
+        <img alt="filter" className={styles.filterIcon} src={filterIcon} />
       </IconButton>
       <Popover
         classes={popoverClasses}

@@ -43,7 +43,7 @@ const marks = [
 ];
 
 const Timeline = (props: TimelineProps) => {
-  const defaultValue = 50; // Default set to 1 week
+  const defaultValue = 25; // Default set to 1 month
   const [selectedValue, setSelectedValue] = useState<number | number[]>(defaultValue);
 
   const classes = {

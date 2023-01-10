@@ -118,7 +118,7 @@ const Home = () => {
         <Map onMapBoundsChange={handleMapBoundsChange}></Map>
         <div className={styles.centeredContainer}>
           {loading && <CircularProgress classes={loadingClasses} />}
-          <div className={styles.searchAreaButton}>
+          <div className={styles.topInfo}>
             {showWSConnectionStatus && (
               <WSConnectionStatus isVisible={showWSConnectionStatus}></WSConnectionStatus>
             )}

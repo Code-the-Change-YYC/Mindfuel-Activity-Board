@@ -13,8 +13,10 @@ const MyLocation = () => {
 
   const handleClick = () => {
     // Get user location on app initialization
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
+    /* eslint-disable-next-line no-undef */
+    const nav: Navigator = navigator;
+    if (nav.geolocation) {
+      nav.geolocation.getCurrentPosition(
         (position) => {
           dispatch(
             setAppUserLocation({
