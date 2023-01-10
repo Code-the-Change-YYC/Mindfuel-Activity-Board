@@ -4,7 +4,6 @@ import Chip from "@material-ui/core/Chip";
 import { StylesProvider } from "@material-ui/core/styles";
 import CloudDoneIcon from "@material-ui/icons/CloudDone";
 import CloudOffIcon from "@material-ui/icons/CloudOff";
-import _ from "lodash";
 import { useSelector } from "react-redux";
 
 import { AppState } from "../../utils/AppState";
