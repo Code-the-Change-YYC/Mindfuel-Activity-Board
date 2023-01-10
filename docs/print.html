@@ -313,8 +313,26 @@
 │           ├── Home.tsx
 │           └── Home.module.css
 ├── src
+├── .prettierrc.json    // Settings for Prettier
 ├── .eslintrc.cjs       // Rules for ESLint
 └── App.tsx             // Entry point to the application
+</code></pre>
+            <h4 id="linting-and-formatting">
+              <a class="header" href="#linting-and-formatting"
+                >Linting and Formatting</a
+              >
+            </h4>
+            <p>
+              The frontend uses ESLint and Prettier to maintain consistent code
+              style and formatting. Linting and formatting fixes are
+              automatically run on staged frontend files through a pre-commit
+              hook using
+              <a href="https://www.npmjs.com/package/husky">husky</a>. You can
+              also manually run linting to find and fix errors using the
+              following:
+            </p>
+            <pre><code>$ npm run lint
+$ npm run lint-fix
 </code></pre>
             <h4 id="creating-a-production-build">
               <a class="header" href="#creating-a-production-build"
@@ -365,7 +383,9 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  appUserLocation: null
   heatmapEnabled: false,
+  isWebSocketConnected: false,
 };
 </code></pre>
             <div style="break-before: page; page-break-before: always"></div>

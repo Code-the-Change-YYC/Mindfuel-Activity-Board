@@ -37,8 +37,18 @@ For details on versioning, view the `package.json` file in the frontend project.
 │           ├── Home.tsx
 │           └── Home.module.css
 ├── src
+├── .prettierrc.json    // Settings for Prettier
 ├── .eslintrc.cjs       // Rules for ESLint
 └── App.tsx             // Entry point to the application
+```
+
+#### Linting and Formatting
+
+The frontend uses ESLint and Prettier to maintain consistent code style and formatting. Linting and formatting fixes are automatically run on staged frontend files through a pre-commit hook using [husky](https://www.npmjs.com/package/husky). You can also manually run linting to find and fix errors using the following:
+
+```
+$ npm run lint
+$ npm run lint-fix
 ```
 
 #### Creating a Production Build
@@ -64,7 +74,8 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
-  appUserLocation: null;
+  appUserLocation: null
   heatmapEnabled: false,
+  isWebSocketConnected: false,
 };
 ```

@@ -8,14 +8,14 @@ Object.assign(window.search, {
   index: {
     documentStore: {
       docInfo: {
-        0: { body: 308, breadcrumbs: 2, title: 1 },
+        0: { body: 355, breadcrumbs: 2, title: 1 },
         1: { body: 375, breadcrumbs: 4, title: 2 },
         2: { body: 211, breadcrumbs: 2, title: 1 },
         3: { body: 295, breadcrumbs: 2, title: 1 },
       },
       docs: {
         0: {
-          body: "The frontend was developed with React v16 and Redux with Typescript. Similar to the backend, it listens to the WebSocket server for live users to display on the map. Additionally, it will call the Go backend APIs to fetch historical users within a provided time range along with correponding statistics. The project consists of only a single view (Home.tsx) which serves as a mediator for its multiple child components (e.g. Timeline, SideNav, Socials) by receiving and passing necessary data through props. Consequently, the Home component is also responsible for managing certain state that lives outside of the Redux store using State Hooks. Most of the API calls, performed via Redux actions, are also centralized here. Notable packages used in the frontend are: react as the frontend framework react-redux for Redux bindings in React @material-ui for React components with Material Design google-map-react as the Google Maps API wrapper Requires setting the Google Maps API key as an environment variable react-twitter-embed for embedding tweets from the MindFuel account recharts for charts For details on versioning, view the package.json file in the frontend project. Project Structure ├── frontend_react\n├── src\n│ ├── api // API and Socket services for connecting to Go backend and WebSocket server\n│ ├── components // Shared React components used on the page (TSX and CSS files)\n│ ├── hooks // Shared custom React hooks\n│ ├── res\n│ │ └── assets // Image and vector assets\n│ ├── state // Redux logic\n│ │ ├── actions.ts\n│ │ ├── hooks.ts\n│ │ ├── reducer.ts\n│ │ └── store.ts\n│ ├── utils // Helpers and utils (e.g. type definitions) used by multiple components\n│ └── views // Pages of the application\n│ └── Home // The home page of the application\n│ ├── Home.tsx\n│ └── Home.module.css\n├── src\n├── .eslintrc.cjs // Rules for ESLint\n└── App.tsx // Entry point to the application Creating a Production Build By default, Docker compose is configured to run the development server for the React application via npm start. To instead create the build files to serve for production, run npm run build. Reference the Create React App documentation for more information on creating a production build. Redux Usage The project uses Redux architecture primarily for managing the state of live and historical users in addition to more trivial matters like application loading and alert states. For an in-depth overview of Redux, review the documentation on the Redux website. Introducing Redux as it relates to this project, the initial application state seen below is defined and managed in the reducer (reducer.ts). Actions (actions.ts) update this state through various workflows of the application. Note that we use null within the application state to indicate intentional absence of a value. const initialUserCount: LiveCounts = { sessions: 0, countries: new Set(), cities: new Set(),\n}; const initialState: AppState = { liveUsers: [], historicalUsers: null, historicalCounts: null, liveCounts: initialUserCount, newUser: null, loading: false, alert: null, heatmapEnabled: false,\n};",
+          body: "The frontend was developed with React v16 and Redux with Typescript. Similar to the backend, it listens to the WebSocket server for live users to display on the map. Additionally, it will call the Go backend APIs to fetch historical users within a provided time range along with correponding statistics. The project consists of only a single view (Home.tsx) which serves as a mediator for its multiple child components (e.g. Timeline, SideNav, Socials) by receiving and passing necessary data through props. Consequently, the Home component is also responsible for managing certain state that lives outside of the Redux store using State Hooks. Most of the API calls, performed via Redux actions, are also centralized here. Notable packages used in the frontend are: react as the frontend framework react-redux for Redux bindings in React @material-ui for React components with Material Design google-map-react as the Google Maps API wrapper Requires setting the Google Maps API key as an environment variable react-twitter-embed for embedding tweets from the MindFuel account recharts for charts For details on versioning, view the package.json file in the frontend project. Project Structure ├── frontend_react\n├── src\n│ ├── api // API and Socket services for connecting to Go backend and WebSocket server\n│ ├── components // Shared React components used on the page (TSX and CSS files)\n│ ├── hooks // Shared custom React hooks\n│ ├── res\n│ │ └── assets // Image and vector assets\n│ ├── state // Redux logic\n│ │ ├── actions.ts\n│ │ ├── hooks.ts\n│ │ ├── reducer.ts\n│ │ └── store.ts\n│ ├── utils // Helpers and utils (e.g. type definitions) used by multiple components\n│ └── views // Pages of the application\n│ └── Home // The home page of the application\n│ ├── Home.tsx\n│ └── Home.module.css\n├── src\n├── .prettierrc.json // Settings for Prettier\n├── .eslintrc.cjs // Rules for ESLint\n└── App.tsx // Entry point to the application Linting and Formatting The frontend uses ESLint and Prettier to maintain consistent code style and formatting. Linting and formatting fixes are automatically run on staged frontend files through a pre-commit hook using husky . You can also manually run linting to find and fix errors using the following: $ npm run lint\n$ npm run lint-fix Creating a Production Build By default, Docker compose is configured to run the development server for the React application via npm start. To instead create the build files to serve for production, run npm run build. Reference the Create React App documentation for more information on creating a production build. Redux Usage The project uses Redux architecture primarily for managing the state of live and historical users in addition to more trivial matters like application loading and alert states. For an in-depth overview of Redux, review the documentation on the Redux website. Introducing Redux as it relates to this project, the initial application state seen below is defined and managed in the reducer (reducer.ts). Actions (actions.ts) update this state through various workflows of the application. Note that we use null within the application state to indicate intentional absence of a value. const initialUserCount: LiveCounts = { sessions: 0, countries: new Set(), cities: new Set(),\n}; const initialState: AppState = { liveUsers: [], historicalUsers: null, historicalCounts: null, liveCounts: initialUserCount, newUser: null, loading: false, alert: null, appUserLocation: null heatmapEnabled: false, isWebSocketConnected: false,\n};",
           breadcrumbs: "Frontend » Frontend",
           id: "0",
           title: "Frontend",
@@ -767,6 +767,31 @@ Object.assign(window.search, {
                     docs: {},
                   },
                 },
+                u: {
+                  df: 0,
+                  docs: {},
+                  s: {
+                    df: 0,
+                    docs: {},
+                    e: {
+                      df: 0,
+                      docs: {},
+                      r: {
+                        df: 0,
+                        docs: {},
+                        l: {
+                          df: 0,
+                          docs: {},
+                          o: {
+                            c: { df: 1, docs: { 0: { tf: 1.0 } } },
+                            df: 0,
+                            docs: {},
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
             r: {
@@ -849,7 +874,14 @@ Object.assign(window.search, {
                     a: {
                       df: 0,
                       docs: {},
-                      t: { df: 2, docs: { 1: { tf: 1.0 }, 3: { tf: 1.0 } } },
+                      t: {
+                        df: 3,
+                        docs: {
+                          0: { tf: 1.0 },
+                          1: { tf: 1.0 },
+                          3: { tf: 1.0 },
+                        },
+                      },
                     },
                     df: 0,
                     docs: {},
@@ -1191,7 +1223,11 @@ Object.assign(window.search, {
               },
             },
             o: {
-              d: { df: 0, docs: {}, e: { df: 1, docs: { 3: { tf: 1.0 } } } },
+              d: {
+                df: 0,
+                docs: {},
+                e: { df: 2, docs: { 0: { tf: 1.0 }, 3: { tf: 1.0 } } },
+              },
               df: 0,
               docs: {},
               l: {
@@ -1232,6 +1268,11 @@ Object.assign(window.search, {
                   },
                   df: 0,
                   docs: {},
+                  i: {
+                    df: 0,
+                    docs: {},
+                    t: { df: 1, docs: { 0: { tf: 1.0 } } },
+                  },
                 },
                 p: {
                   df: 0,
@@ -1325,7 +1366,7 @@ Object.assign(window.search, {
                     s: {
                       df: 0,
                       docs: {},
-                      t: { df: 1, docs: { 0: { tf: 1.0 } } },
+                      t: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
                     },
                   },
                   t: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
@@ -2063,6 +2104,15 @@ Object.assign(window.search, {
                 },
               },
             },
+            r: {
+              df: 0,
+              docs: {},
+              r: {
+                df: 0,
+                docs: {},
+                o: { df: 0, docs: {}, r: { df: 1, docs: { 0: { tf: 1.0 } } } },
+              },
+            },
             s: {
               df: 0,
               docs: {},
@@ -2077,7 +2127,7 @@ Object.assign(window.search, {
                     docs: {},
                     t: {
                       df: 1,
-                      docs: { 0: { tf: 1.0 } },
+                      docs: { 0: { tf: 1.4142135623730951 } },
                       r: {
                         c: {
                           ".": {
@@ -2160,7 +2210,7 @@ Object.assign(window.search, {
               l: {
                 df: 0,
                 docs: {},
-                s: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
+                s: { df: 1, docs: { 0: { tf: 1.7320508075688772 } } },
               },
             },
             df: 0,
@@ -2183,7 +2233,7 @@ Object.assign(window.search, {
                 e: {
                   df: 3,
                   docs: {
-                    0: { tf: 1.7320508075688772 },
+                    0: { tf: 2.0 },
                     1: { tf: 1.0 },
                     3: { tf: 2.449489742783178 },
                   },
@@ -2239,6 +2289,8 @@ Object.assign(window.search, {
                   },
                 },
               },
+              n: { d: { df: 1, docs: { 0: { tf: 1.0 } } }, df: 0, docs: {} },
+              x: { df: 1, docs: { 0: { tf: 1.7320508075688772 } } },
             },
             o: {
               df: 0,
@@ -2252,7 +2304,7 @@ Object.assign(window.search, {
                   o: {
                     df: 0,
                     docs: {},
-                    w: { df: 1, docs: { 3: { tf: 1.0 } } },
+                    w: { df: 2, docs: { 0: { tf: 1.0 }, 3: { tf: 1.0 } } },
                   },
                 },
               },
@@ -2263,7 +2315,13 @@ Object.assign(window.search, {
                   a: {
                     df: 0,
                     docs: {},
-                    t: { df: 1, docs: { 1: { tf: 1.4142135623730951 } } },
+                    t: {
+                      df: 2,
+                      docs: {
+                        0: { tf: 1.7320508075688772 },
+                        1: { tf: 1.4142135623730951 },
+                      },
+                    },
                   },
                   df: 0,
                   docs: {},
@@ -2360,7 +2418,10 @@ Object.assign(window.search, {
                             },
                           },
                           df: 2,
-                          docs: { 0: { tf: 2.23606797749979 }, 3: { tf: 1.0 } },
+                          docs: {
+                            0: { tf: 2.6457513110645907 },
+                            3: { tf: 1.0 },
+                          },
                         },
                         df: 0,
                         docs: {},
@@ -2743,7 +2804,7 @@ Object.assign(window.search, {
                 docs: {},
                 k: {
                   df: 1,
-                  docs: { 0: { tf: 1.7320508075688772 } },
+                  docs: { 0: { tf: 2.0 } },
                   s: {
                     ".": {
                       df: 0,
@@ -2969,6 +3030,15 @@ Object.assign(window.search, {
                     docs: {},
                   },
                 },
+              },
+            },
+            u: {
+              df: 0,
+              docs: {},
+              s: {
+                df: 0,
+                docs: {},
+                k: { df: 0, docs: {}, i: { df: 1, docs: { 0: { tf: 1.0 } } } },
               },
             },
           },
@@ -3228,6 +3298,70 @@ Object.assign(window.search, {
               df: 0,
               docs: {},
               o: { df: 1, docs: { 1: { tf: 1.4142135623730951 } } },
+              w: {
+                df: 0,
+                docs: {},
+                e: {
+                  b: {
+                    df: 0,
+                    docs: {},
+                    s: {
+                      df: 0,
+                      docs: {},
+                      o: {
+                        c: {
+                          df: 0,
+                          docs: {},
+                          k: {
+                            df: 0,
+                            docs: {},
+                            e: {
+                              df: 0,
+                              docs: {},
+                              t: {
+                                c: {
+                                  df: 0,
+                                  docs: {},
+                                  o: {
+                                    df: 0,
+                                    docs: {},
+                                    n: {
+                                      df: 0,
+                                      docs: {},
+                                      n: {
+                                        df: 0,
+                                        docs: {},
+                                        e: {
+                                          c: {
+                                            df: 0,
+                                            docs: {},
+                                            t: {
+                                              df: 1,
+                                              docs: { 0: { tf: 1.0 } },
+                                            },
+                                          },
+                                          df: 0,
+                                          docs: {},
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                df: 0,
+                                docs: {},
+                              },
+                            },
+                          },
+                        },
+                        df: 0,
+                        docs: {},
+                      },
+                    },
+                  },
+                  df: 0,
+                  docs: {},
+                },
+              },
             },
           },
           j: {
@@ -3333,7 +3467,12 @@ Object.assign(window.search, {
             i: {
               df: 0,
               docs: {},
-              n: { df: 0, docs: {}, k: { df: 1, docs: { 2: { tf: 1.0 } } } },
+              n: {
+                df: 0,
+                docs: {},
+                k: { df: 1, docs: { 2: { tf: 1.0 } } },
+                t: { df: 1, docs: { 0: { tf: 2.23606797749979 } } },
+              },
               s: {
                 df: 0,
                 docs: {},
@@ -3490,6 +3629,19 @@ Object.assign(window.search, {
                   },
                   df: 0,
                   docs: {},
+                  t: {
+                    a: {
+                      df: 0,
+                      docs: {},
+                      i: {
+                        df: 0,
+                        docs: {},
+                        n: { df: 1, docs: { 0: { tf: 1.0 } } },
+                      },
+                    },
+                    df: 0,
+                    docs: {},
+                  },
                 },
               },
               n: {
@@ -3500,6 +3652,15 @@ Object.assign(window.search, {
                 },
                 df: 0,
                 docs: {},
+                u: {
+                  a: {
+                    df: 0,
+                    docs: {},
+                    l: { df: 1, docs: { 0: { tf: 1.0 } } },
+                  },
+                  df: 0,
+                  docs: {},
+                },
               },
               p: {
                 b: {
@@ -3933,10 +4094,7 @@ Object.assign(window.search, {
               docs: {},
               m: {
                 df: 2,
-                docs: {
-                  0: { tf: 1.4142135623730951 },
-                  3: { tf: 1.4142135623730951 },
-                },
+                docs: { 0: { tf: 2.0 }, 3: { tf: 1.4142135623730951 } },
               },
             },
             u: {
@@ -3945,7 +4103,7 @@ Object.assign(window.search, {
               l: {
                 df: 0,
                 docs: {},
-                l: { df: 1, docs: { 0: { tf: 2.23606797749979 } } },
+                l: { df: 1, docs: { 0: { tf: 2.449489742783178 } } },
               },
               m: {
                 b: {
@@ -4253,6 +4411,55 @@ Object.assign(window.search, {
             r: {
               df: 0,
               docs: {},
+              e: {
+                df: 1,
+                docs: { 0: { tf: 1.0 } },
+                t: {
+                  df: 0,
+                  docs: {},
+                  t: {
+                    df: 0,
+                    docs: {},
+                    i: {
+                      df: 0,
+                      docs: {},
+                      e: {
+                        df: 0,
+                        docs: {},
+                        r: {
+                          df: 1,
+                          docs: { 0: { tf: 1.4142135623730951 } },
+                          r: {
+                            c: {
+                              ".": {
+                                df: 0,
+                                docs: {},
+                                j: {
+                                  df: 0,
+                                  docs: {},
+                                  s: {
+                                    df: 0,
+                                    docs: {},
+                                    o: {
+                                      df: 0,
+                                      docs: {},
+                                      n: { df: 1, docs: { 0: { tf: 1.0 } } },
+                                    },
+                                  },
+                                },
+                              },
+                              df: 0,
+                              docs: {},
+                            },
+                            df: 0,
+                            docs: {},
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
               i: {
                 df: 0,
                 docs: {},
@@ -4955,7 +5162,7 @@ Object.assign(window.search, {
               n: {
                 df: 2,
                 docs: {
-                  0: { tf: 1.7320508075688772 },
+                  0: { tf: 2.6457513110645907 },
                   3: { tf: 2.23606797749979 },
                 },
               },
@@ -5165,10 +5372,7 @@ Object.assign(window.search, {
               },
               t: {
                 df: 2,
-                docs: {
-                  0: { tf: 1.7320508075688772 },
-                  3: { tf: 2.23606797749979 },
-                },
+                docs: { 0: { tf: 2.0 }, 3: { tf: 2.23606797749979 } },
               },
             },
             h: {
@@ -5364,6 +5568,7 @@ Object.assign(window.search, {
               a: {
                 df: 0,
                 docs: {},
+                g: { df: 0, docs: {}, e: { df: 1, docs: { 0: { tf: 1.0 } } } },
                 r: {
                   df: 0,
                   docs: {},
@@ -5457,6 +5662,11 @@ Object.assign(window.search, {
                   docs: {},
                 },
               },
+              y: {
+                df: 0,
+                docs: {},
+                l: { df: 0, docs: {}, e: { df: 1, docs: { 0: { tf: 1.0 } } } },
+              },
             },
             u: {
               b: {
@@ -5542,7 +5752,7 @@ Object.assign(window.search, {
                       docs: {},
                       h: {
                         df: 2,
-                        docs: { 0: { tf: 1.4142135623730951 }, 1: { tf: 1.0 } },
+                        docs: { 0: { tf: 1.7320508075688772 }, 1: { tf: 1.0 } },
                       },
                     },
                   },
@@ -5881,7 +6091,7 @@ Object.assign(window.search, {
               a: { df: 0, docs: {}, g: { df: 1, docs: { 0: { tf: 1.0 } } } },
               df: 4,
               docs: {
-                0: { tf: 2.449489742783178 },
+                0: { tf: 3.0 },
                 1: { tf: 1.7320508075688772 },
                 2: { tf: 1.7320508075688772 },
                 3: { tf: 2.6457513110645907 },
@@ -7155,6 +7365,31 @@ Object.assign(window.search, {
                     docs: {},
                   },
                 },
+                u: {
+                  df: 0,
+                  docs: {},
+                  s: {
+                    df: 0,
+                    docs: {},
+                    e: {
+                      df: 0,
+                      docs: {},
+                      r: {
+                        df: 0,
+                        docs: {},
+                        l: {
+                          df: 0,
+                          docs: {},
+                          o: {
+                            c: { df: 1, docs: { 0: { tf: 1.0 } } },
+                            df: 0,
+                            docs: {},
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
             r: {
@@ -7237,7 +7472,14 @@ Object.assign(window.search, {
                     a: {
                       df: 0,
                       docs: {},
-                      t: { df: 2, docs: { 1: { tf: 1.0 }, 3: { tf: 1.0 } } },
+                      t: {
+                        df: 3,
+                        docs: {
+                          0: { tf: 1.0 },
+                          1: { tf: 1.0 },
+                          3: { tf: 1.0 },
+                        },
+                      },
                     },
                     df: 0,
                     docs: {},
@@ -7579,7 +7821,11 @@ Object.assign(window.search, {
               },
             },
             o: {
-              d: { df: 0, docs: {}, e: { df: 1, docs: { 3: { tf: 1.0 } } } },
+              d: {
+                df: 0,
+                docs: {},
+                e: { df: 2, docs: { 0: { tf: 1.0 }, 3: { tf: 1.0 } } },
+              },
               df: 0,
               docs: {},
               l: {
@@ -7620,6 +7866,11 @@ Object.assign(window.search, {
                   },
                   df: 0,
                   docs: {},
+                  i: {
+                    df: 0,
+                    docs: {},
+                    t: { df: 1, docs: { 0: { tf: 1.0 } } },
+                  },
                 },
                 p: {
                   df: 0,
@@ -7713,7 +7964,7 @@ Object.assign(window.search, {
                     s: {
                       df: 0,
                       docs: {},
-                      t: { df: 1, docs: { 0: { tf: 1.0 } } },
+                      t: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
                     },
                   },
                   t: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
@@ -8454,6 +8705,15 @@ Object.assign(window.search, {
                 },
               },
             },
+            r: {
+              df: 0,
+              docs: {},
+              r: {
+                df: 0,
+                docs: {},
+                o: { df: 0, docs: {}, r: { df: 1, docs: { 0: { tf: 1.0 } } } },
+              },
+            },
             s: {
               df: 0,
               docs: {},
@@ -8468,7 +8728,7 @@ Object.assign(window.search, {
                     docs: {},
                     t: {
                       df: 1,
-                      docs: { 0: { tf: 1.0 } },
+                      docs: { 0: { tf: 1.4142135623730951 } },
                       r: {
                         c: {
                           ".": {
@@ -8551,7 +8811,7 @@ Object.assign(window.search, {
               l: {
                 df: 0,
                 docs: {},
-                s: { df: 1, docs: { 0: { tf: 1.4142135623730951 } } },
+                s: { df: 1, docs: { 0: { tf: 1.7320508075688772 } } },
               },
             },
             df: 0,
@@ -8574,7 +8834,7 @@ Object.assign(window.search, {
                 e: {
                   df: 3,
                   docs: {
-                    0: { tf: 1.7320508075688772 },
+                    0: { tf: 2.0 },
                     1: { tf: 1.0 },
                     3: { tf: 2.449489742783178 },
                   },
@@ -8630,6 +8890,8 @@ Object.assign(window.search, {
                   },
                 },
               },
+              n: { d: { df: 1, docs: { 0: { tf: 1.0 } } }, df: 0, docs: {} },
+              x: { df: 1, docs: { 0: { tf: 1.7320508075688772 } } },
             },
             o: {
               df: 0,
@@ -8643,7 +8905,7 @@ Object.assign(window.search, {
                   o: {
                     df: 0,
                     docs: {},
-                    w: { df: 1, docs: { 3: { tf: 1.0 } } },
+                    w: { df: 2, docs: { 0: { tf: 1.0 }, 3: { tf: 1.0 } } },
                   },
                 },
               },
@@ -8654,7 +8916,13 @@ Object.assign(window.search, {
                   a: {
                     df: 0,
                     docs: {},
-                    t: { df: 1, docs: { 1: { tf: 1.4142135623730951 } } },
+                    t: {
+                      df: 2,
+                      docs: {
+                        0: { tf: 1.7320508075688772 },
+                        1: { tf: 1.4142135623730951 },
+                      },
+                    },
                   },
                   df: 0,
                   docs: {},
@@ -8751,10 +9019,7 @@ Object.assign(window.search, {
                             },
                           },
                           df: 2,
-                          docs: {
-                            0: { tf: 2.6457513110645907 },
-                            3: { tf: 1.0 },
-                          },
+                          docs: { 0: { tf: 3.0 }, 3: { tf: 1.0 } },
                         },
                         df: 0,
                         docs: {},
@@ -9137,7 +9402,7 @@ Object.assign(window.search, {
                 docs: {},
                 k: {
                   df: 1,
-                  docs: { 0: { tf: 1.7320508075688772 } },
+                  docs: { 0: { tf: 2.0 } },
                   s: {
                     ".": {
                       df: 0,
@@ -9363,6 +9628,15 @@ Object.assign(window.search, {
                     docs: {},
                   },
                 },
+              },
+            },
+            u: {
+              df: 0,
+              docs: {},
+              s: {
+                df: 0,
+                docs: {},
+                k: { df: 0, docs: {}, i: { df: 1, docs: { 0: { tf: 1.0 } } } },
               },
             },
           },
@@ -9622,6 +9896,70 @@ Object.assign(window.search, {
               df: 0,
               docs: {},
               o: { df: 1, docs: { 1: { tf: 1.4142135623730951 } } },
+              w: {
+                df: 0,
+                docs: {},
+                e: {
+                  b: {
+                    df: 0,
+                    docs: {},
+                    s: {
+                      df: 0,
+                      docs: {},
+                      o: {
+                        c: {
+                          df: 0,
+                          docs: {},
+                          k: {
+                            df: 0,
+                            docs: {},
+                            e: {
+                              df: 0,
+                              docs: {},
+                              t: {
+                                c: {
+                                  df: 0,
+                                  docs: {},
+                                  o: {
+                                    df: 0,
+                                    docs: {},
+                                    n: {
+                                      df: 0,
+                                      docs: {},
+                                      n: {
+                                        df: 0,
+                                        docs: {},
+                                        e: {
+                                          c: {
+                                            df: 0,
+                                            docs: {},
+                                            t: {
+                                              df: 1,
+                                              docs: { 0: { tf: 1.0 } },
+                                            },
+                                          },
+                                          df: 0,
+                                          docs: {},
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                                df: 0,
+                                docs: {},
+                              },
+                            },
+                          },
+                        },
+                        df: 0,
+                        docs: {},
+                      },
+                    },
+                  },
+                  df: 0,
+                  docs: {},
+                },
+              },
             },
           },
           j: {
@@ -9727,7 +10065,12 @@ Object.assign(window.search, {
             i: {
               df: 0,
               docs: {},
-              n: { df: 0, docs: {}, k: { df: 1, docs: { 2: { tf: 1.0 } } } },
+              n: {
+                df: 0,
+                docs: {},
+                k: { df: 1, docs: { 2: { tf: 1.0 } } },
+                t: { df: 1, docs: { 0: { tf: 2.23606797749979 } } },
+              },
               s: {
                 df: 0,
                 docs: {},
@@ -9884,6 +10227,19 @@ Object.assign(window.search, {
                   },
                   df: 0,
                   docs: {},
+                  t: {
+                    a: {
+                      df: 0,
+                      docs: {},
+                      i: {
+                        df: 0,
+                        docs: {},
+                        n: { df: 1, docs: { 0: { tf: 1.0 } } },
+                      },
+                    },
+                    df: 0,
+                    docs: {},
+                  },
                 },
               },
               n: {
@@ -9894,6 +10250,15 @@ Object.assign(window.search, {
                 },
                 df: 0,
                 docs: {},
+                u: {
+                  a: {
+                    df: 0,
+                    docs: {},
+                    l: { df: 1, docs: { 0: { tf: 1.0 } } },
+                  },
+                  df: 0,
+                  docs: {},
+                },
               },
               p: {
                 b: {
@@ -10327,10 +10692,7 @@ Object.assign(window.search, {
               docs: {},
               m: {
                 df: 2,
-                docs: {
-                  0: { tf: 1.4142135623730951 },
-                  3: { tf: 1.4142135623730951 },
-                },
+                docs: { 0: { tf: 2.0 }, 3: { tf: 1.4142135623730951 } },
               },
             },
             u: {
@@ -10339,7 +10701,7 @@ Object.assign(window.search, {
               l: {
                 df: 0,
                 docs: {},
-                l: { df: 1, docs: { 0: { tf: 2.23606797749979 } } },
+                l: { df: 1, docs: { 0: { tf: 2.449489742783178 } } },
               },
               m: {
                 b: {
@@ -10647,6 +11009,55 @@ Object.assign(window.search, {
             r: {
               df: 0,
               docs: {},
+              e: {
+                df: 1,
+                docs: { 0: { tf: 1.0 } },
+                t: {
+                  df: 0,
+                  docs: {},
+                  t: {
+                    df: 0,
+                    docs: {},
+                    i: {
+                      df: 0,
+                      docs: {},
+                      e: {
+                        df: 0,
+                        docs: {},
+                        r: {
+                          df: 1,
+                          docs: { 0: { tf: 1.4142135623730951 } },
+                          r: {
+                            c: {
+                              ".": {
+                                df: 0,
+                                docs: {},
+                                j: {
+                                  df: 0,
+                                  docs: {},
+                                  s: {
+                                    df: 0,
+                                    docs: {},
+                                    o: {
+                                      df: 0,
+                                      docs: {},
+                                      n: { df: 1, docs: { 0: { tf: 1.0 } } },
+                                    },
+                                  },
+                                },
+                              },
+                              df: 0,
+                              docs: {},
+                            },
+                            df: 0,
+                            docs: {},
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
               i: {
                 df: 0,
                 docs: {},
@@ -11349,7 +11760,7 @@ Object.assign(window.search, {
               n: {
                 df: 2,
                 docs: {
-                  0: { tf: 1.7320508075688772 },
+                  0: { tf: 2.6457513110645907 },
                   3: { tf: 2.23606797749979 },
                 },
               },
@@ -11559,10 +11970,7 @@ Object.assign(window.search, {
               },
               t: {
                 df: 2,
-                docs: {
-                  0: { tf: 1.7320508075688772 },
-                  3: { tf: 2.23606797749979 },
-                },
+                docs: { 0: { tf: 2.0 }, 3: { tf: 2.23606797749979 } },
               },
             },
             h: {
@@ -11758,6 +12166,7 @@ Object.assign(window.search, {
               a: {
                 df: 0,
                 docs: {},
+                g: { df: 0, docs: {}, e: { df: 1, docs: { 0: { tf: 1.0 } } } },
                 r: {
                   df: 0,
                   docs: {},
@@ -11851,6 +12260,11 @@ Object.assign(window.search, {
                   docs: {},
                 },
               },
+              y: {
+                df: 0,
+                docs: {},
+                l: { df: 0, docs: {}, e: { df: 1, docs: { 0: { tf: 1.0 } } } },
+              },
             },
             u: {
               b: {
@@ -11936,7 +12350,7 @@ Object.assign(window.search, {
                       docs: {},
                       h: {
                         df: 2,
-                        docs: { 0: { tf: 1.4142135623730951 }, 1: { tf: 1.0 } },
+                        docs: { 0: { tf: 1.7320508075688772 }, 1: { tf: 1.0 } },
                       },
                     },
                   },
@@ -12275,7 +12689,7 @@ Object.assign(window.search, {
               a: { df: 0, docs: {}, g: { df: 1, docs: { 0: { tf: 1.0 } } } },
               df: 4,
               docs: {
-                0: { tf: 2.449489742783178 },
+                0: { tf: 3.0 },
                 1: { tf: 1.7320508075688772 },
                 2: { tf: 1.7320508075688772 },
                 3: { tf: 2.6457513110645907 },
