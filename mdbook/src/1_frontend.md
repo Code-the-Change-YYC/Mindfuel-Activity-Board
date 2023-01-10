@@ -14,7 +14,7 @@ Notable packages used in the frontend are:
 - [react-twitter-embed](https://www.npmjs.com/package/react-twitter-embed) for embedding tweets from the MindFuel account
 - [recharts](https://www.npmjs.com/package/recharts) for charts
 
-For details on versioning, view the `package.json` file in the frontend project.
+For development, it is recommended to use Node v14 and npm v6. For details on versioning of packages, view the `package.json` file in the frontend project.
 
 #### Project Structure
 
@@ -44,7 +44,7 @@ For details on versioning, view the `package.json` file in the frontend project.
 
 #### Linting and Formatting
 
-The frontend uses ESLint and Prettier to maintain consistent code style and formatting. Linting and formatting fixes are automatically run on staged frontend files through a pre-commit hook using [husky](https://www.npmjs.com/package/husky). You can also manually run linting to find and fix errors using the following:
+The frontend uses ESLint and Prettier to maintain consistent code style and formatting. Linting and formatting fixes are automatically run on staged frontend Typescript files through a pre-commit hook using [husky](https://www.npmjs.com/package/husky). You can also manually run linting to find and fix errors using the following:
 
 ```
 $ npm run lint
