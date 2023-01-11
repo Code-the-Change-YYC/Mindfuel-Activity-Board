@@ -43,7 +43,7 @@ const SideNav = () => {
             textValue={data[key].text}
             icon={data[key].icon}
             key={data[key].text}
-          ></AnalyticsBox>
+          />
         );
       });
     };

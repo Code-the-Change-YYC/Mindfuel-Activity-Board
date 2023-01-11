@@ -104,31 +104,27 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <SideNav></SideNav>
+      <SideNav />
       <div className={styles.map}>
-        {alert && <AppAlert alert={alert}></AppAlert>}
+        {alert && <AppAlert alert={alert} />}
         <div className={styles.buttonGroup}>
-          <Socials></Socials>
-          <StatsSummary></StatsSummary>
-          {startDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
+          <Socials />
+          <StatsSummary />
+          {startDate && mapBounds && <Filter onFilterChange={handleFilterChange} />}
         </div>
         <div className={styles.myLocationButton}>
-          <MyLocation></MyLocation>
+          <MyLocation />
         </div>
         <Map onMapBoundsChange={handleMapBoundsChange}></Map>
         <div className={styles.centeredContainer}>
           {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.topInfo}>
-            {showWSConnectionStatus && (
-              <WSConnectionStatus isVisible={showWSConnectionStatus}></WSConnectionStatus>
-            )}
-            {showSearchAreaButton && (
-              <SearchAreaButton onClick={handleSearchAreaClick}></SearchAreaButton>
-            )}
+            {showWSConnectionStatus && <WSConnectionStatus isVisible={showWSConnectionStatus} />}
+            {showSearchAreaButton && <SearchAreaButton onClick={handleSearchAreaClick} />}
           </div>
           <div className={styles.timeline}>
             {/* Ensure initial map bounds are captured before rendering timeline */}
-            {mapBounds && <Timeline onDateChange={handleDateChange}></Timeline>}
+            {mapBounds && <Timeline onDateChange={handleDateChange} />}
           </div>
         </div>
       </div>
