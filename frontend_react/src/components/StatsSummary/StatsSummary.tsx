@@ -45,7 +45,7 @@ const items = [
   },
   {
     value: 0,
-    label: "3 months",
+    label: "1 year",
   },
 ];
 
@@ -153,7 +153,7 @@ const StatsSummary = () => {
                 }}
               >
                 <Icon aria-label="open drawer" color="inherit">
-                  <Whatshot style={{ fontSize: 20, color: "red" }} />
+                  <Whatshot style={{ fontSize: 20, color: "#f7901e" }} />
                 </Icon>
                 Trending
               </InputLabel>

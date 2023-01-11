@@ -2,6 +2,8 @@ package server
 
 import (
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
@@ -12,11 +14,20 @@ import (
 func Start(mongoClient *mongo.Client) {
 	logger.Info.Println("Starting REST server...")
 
+	// Set allowed origins
+	var allowedOrigins []string
+	allowedOriginsEnv := os.Getenv("GO_ALLOWED_ORIGINS")
+	if allowedOriginsEnv == "" {
+		allowedOrigins = append(allowedOrigins, []string{"https://*", "http://*"}...)
+	} else {
+		allowedOrigins = append(allowedOrigins, strings.Split(allowedOriginsEnv, ",")...)
+	}
+
+	logger.Info.Println("Setting allowed origins to:", allowedOrigins)
+
 	r := chi.NewRouter()
 	r.Use(cors.Handler(cors.Options{
-		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
-		AllowedOrigins: []string{"https://*", "http://*"},
-		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedOrigins: allowedOrigins,
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders: []string{"Link"},

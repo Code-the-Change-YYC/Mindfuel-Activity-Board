@@ -1,4 +1,5 @@
 import { AlertModel } from "./Alert.model";
+import { AppUserLocation } from "./AppUserLocation.model";
 import { User } from "./User";
 
 export type AppState = {
@@ -9,7 +10,9 @@ export type AppState = {
   newUser: User | null;
   loading: boolean;
   alert: AlertModel | null;
+  appUserLocation: AppUserLocation | null;
   heatmapEnabled: boolean;
+  isWebSocketConnected: boolean;
 };
 
 export type LiveCounts = {

@@ -60,13 +60,20 @@ const MapMarker = (props: any) => {
     <StylesProvider injectFirst>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
-          <img ref={markerEl} className={styles.icon} src={mapMarkerIcon} onClick={handleClick} />
+          <img
+            alt="map-marker"
+            ref={markerEl}
+            className={styles.icon}
+            src={mapMarkerIcon}
+            onClick={handleClick}
+          />
           {users.length > 1 && (
             <Badge
               badgeContent={users.length}
               max={9}
               classes={badgeClasses}
               invisible={isBadgeInvisible}
+              overlap="rectangular"
             />
           )}
           <Popper

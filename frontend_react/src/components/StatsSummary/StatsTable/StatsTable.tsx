@@ -115,7 +115,7 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
       return stats.map((row: Stats) => (
         <TableRow key={row.name} classes={tableRowClasses}>
           <CustomTableCell component="th" scope="row">
-            <img src={icons[row.type]} className={styles.icon} />
+            <img alt="map-marker-legend" src={icons[row.type]} className={styles.icon} />
           </CustomTableCell>
           <CustomTableCell>{row.type}</CustomTableCell>
           <CustomTableCell>{row.name}</CustomTableCell>

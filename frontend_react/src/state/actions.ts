@@ -6,6 +6,7 @@ import { Action } from "../utils/Action.enum";
 import { AlertModel } from "../utils/Alert.model";
 import { ApiServiceInterface, UsersApiResponse } from "../utils/ApiServiceInterface";
 import { AppState, MAX_USERS } from "../utils/AppState";
+import { AppUserLocation } from "../utils/AppUserLocation.model";
 import { ActivityFilter } from "../utils/FilterOption.model";
 import { MapBounds } from "../utils/MapBounds";
 import { User } from "../utils/User";
@@ -28,16 +29,7 @@ export const fetchHistoricalUsers = (
         dispatch(updateHistoricalUsers(response.data));
         dispatch(setLoading(false));
 
-        const usersLength: number = response.data.users.length;
-        const sessions: number = response.data.counts.sessions;
-        if (usersLength < sessions) {
-          dispatch(
-            setAlert(
-              `There were lots of users! Only showing ${usersLength} of ${sessions} total user sessions on the map.`,
-              "info"
-            )
-          );
-        } else if (usersLength === 0) {
+        if (response.data.users.length === 0) {
           dispatch(
             setAlert(
               "No users found for your selection. Please try again with a different time, filter or location!",
@@ -94,5 +86,19 @@ export const updateHistoricalUsers = (response: UsersApiResponse | null) => {
     type: Action.UPDATE_HISTORICAL_USERS,
     historicalUsers: response?.users,
     historicalCounts: response?.counts,
+  };
+};
+
+export const setAppUserLocation = (appUserLocation: AppUserLocation) => {
+  return {
+    type: Action.SET_APP_USER_LOCATION,
+    appUserLocation: appUserLocation,
+  };
+};
+
+export const setWebSocketConnectionStatus = (isWebSocketConnected: boolean) => {
+  return {
+    type: Action.SET_WEBSOCKET_CONNECTION_STATUS,
+    isWebSocketConnected: isWebSocketConnected,
   };
 };

@@ -14,36 +14,24 @@ import { toggleHeatmap } from "../../state/actions";
 import store from "../../state/store";
 import { AnalyticsData } from "../../utils/AnalyticsData";
 import { AppState, LiveCounts } from "../../utils/AppState";
-import { Location } from "../../utils/Location";
-import { User } from "../../utils/User";
 import AnalyticsBox from "../AnalyticsBox";
-import styles from "./Sidenav.module.css";
+import styles from "./SideNav.module.css";
 
-const Sidenav = () => {
+const SideNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [analyticsBoxes, setAnalyticsBoxes] = useState<ReactElement[]>([]);
-  const [selected, setSelected] = useState(false);
-  const [locations, setLocations] = useState<Location[]>([]);
+  const [heatMapEnabled, setHeatMapEnabled] = useState(false);
   const historicalCounts: { [cat: string]: number } | null = useSelector(
     (state: AppState) => state.historicalCounts
   );
   const liveCounts: LiveCounts = useSelector((state: AppState) => state.liveCounts);
-  const users: User[] = useSelector((state: any) => state.historicalUsers);
   const analyticsData = useAnalyticsData(liveCounts, historicalCounts);
 
-  const buttonClasses = {
-    root: styles.dashboardButton,
-  };
   const iconClasses = {
     root: styles.menuIconButton,
   };
   const drawerClasses = {
     paper: styles.drawerPaper,
-  };
-  const switchClasses = {
-    switchBase: styles.switchBase,
-    checked: styles.checked,
-    track: styles.switchButton,
   };
 
   useEffect(() => {
@@ -55,7 +43,7 @@ const Sidenav = () => {
             textValue={data[key].text}
             icon={data[key].icon}
             key={data[key].text}
-          ></AnalyticsBox>
+          />
         );
       });
     };
@@ -64,15 +52,15 @@ const Sidenav = () => {
   }, [analyticsData]);
 
   useEffect(() => {
-    store.dispatch(toggleHeatmap(selected));
-  }, [selected]);
+    store.dispatch(toggleHeatmap(heatMapEnabled));
+  }, [heatMapEnabled]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleHeatmap = () => {
-    setSelected(!selected);
+    setHeatMapEnabled(!heatMapEnabled);
   };
 
   const drawer = (
@@ -84,20 +72,8 @@ const Sidenav = () => {
         <div className={styles.analyticsBoxes}>{analyticsBoxes}</div>
         <FormGroup>
           <FormControlLabel
-            style={{ color: "#ffdd00" }}
-            control={
-              <Switch
-                checked={selected}
-                onClick={handleHeatmap}
-                color="default"
-                size="medium"
-                classes={{
-                  track: switchClasses.track,
-                  switchBase: switchClasses.switchBase,
-                  checked: switchClasses.checked,
-                }}
-              />
-            }
+            style={{ color: "white" }}
+            control={<Switch checked={heatMapEnabled} onClick={handleHeatmap} size="medium" />}
             label="Heat Map"
             labelPlacement="start"
           />
@@ -146,4 +122,4 @@ const Sidenav = () => {
   );
 };
 
-export default Sidenav;
+export default SideNav;

@@ -61,16 +61,3 @@
 .dashboardButton:hover {
   background-color: #e7c800;
 }
-
-.switchButton {
-  color: #e7c800;
-  background-color: #e7c800;
-}
-
-.switchBase {
-  color: #e7c800;
-}
-
-.checked {
-  color: #ee7d3b;
-}

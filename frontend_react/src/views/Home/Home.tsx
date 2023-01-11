@@ -8,76 +8,41 @@ import SocketService from "../../api/SocketService";
 import AppAlert from "../../components/AppAlert/AppAlert";
 import Filter from "../../components/Filter/Filter";
 import Map from "../../components/Map/Map";
+import MyLocation from "../../components/MyLocation/MyLocation";
 import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
-import Sidenav from "../../components/Sidenav/Sidenav";
+import SideNav from "../../components/SideNav/SideNav";
 import Socials from "../../components/Socials/Socials";
 import StatsSummary from "../../components/StatsSummary/StatsSummary";
 import Timeline from "../../components/Timeline/Timeline";
-import { fetchHistoricalUsers, setLoading, updateHistoricalUsers } from "../../state/actions";
+import WSConnectionStatus from "../../components/WSConnectionStatus/WSConnectionStatus";
+import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
 import { useAppDispatch } from "../../state/hooks";
 import { AlertModel } from "../../utils/Alert.model";
 import { AppState } from "../../utils/AppState";
-import { AppUserLocation } from "../../utils/AppUserLocation.model";
 import { ActivityFilter } from "../../utils/FilterOption.model";
 import { MapBounds } from "../../utils/MapBounds";
 import { User } from "../../utils/User";
 import styles from "./Home.module.css";
 
-const DEFAULT_APP_USER_LOCATION: AppUserLocation = {
-  latitude: 48.354594,
-  longitude: -99.99805,
-};
-
 const Home = () => {
   const dispatch = useAppDispatch();
-  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
-  const loading = useSelector((state: AppState) => state.loading);
-  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
-  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>();
-  const [appUserLocation, setAppUserLocation] = useState<AppUserLocation>();
   const [mapBounds, setMapBounds] = useState<MapBounds>();
   const [startDate, setStartDate] = useState<Date | null>();
-  const [initializationText, setInitializationText] = useState<string>("Loading application...");
   const [showSearchAreaButton, setShowAreaButton] = useState<boolean>(false);
+  const [showWSConnectionStatus, setShowWSConnectionStatus] = useState<boolean>(false);
   const loadingClasses = {
     root: styles.loadingIndicatorRoot,
     colorPrimary: styles.loadingIndicatorColor,
   };
-  const appLoadingClasses = {
-    colorPrimary: styles.loadingIndicatorColor,
-  };
+
+  // App state variables
+  const alert: AlertModel | null = useSelector((state: AppState) => state.alert);
+  const loading = useSelector((state: AppState) => state.loading);
+  const historicalUsers: User[] | null = useSelector((state: AppState) => state.historicalUsers);
+  const heatmapToggle: boolean = useSelector((state: AppState) => state.heatmapEnabled);
 
   useEffect(() => {
-    // If no geolocation response is received within a timeout interval, set to default location
-    const appUserLocationTimeout = setTimeout(() => {
-      setInitializationText("Setting default location...");
-      setTimeout(() => setAppUserLocation(DEFAULT_APP_USER_LOCATION), 500);
-    }, 2500);
-
-    // Get user location on app initialization
-    if (!navigator.geolocation) {
-      setAppUserLocation(DEFAULT_APP_USER_LOCATION);
-    } else {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          dispatch(setLoading(true));
-          setAppUserLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          dispatch(setLoading(false));
-          clearTimeout(appUserLocationTimeout);
-        },
-        // Set to default location if user blocks geolocation or on timeout
-        () => {
-          setAppUserLocation(DEFAULT_APP_USER_LOCATION);
-          clearTimeout(appUserLocationTimeout);
-        },
-        { timeout: 3000 } // The amount of time the device can take to return a position
-      );
-    }
-
     // Connect to socket on mount
     const websocketAddress = `${[process.env.REACT_APP_MINDFUEL_WEBSOCKET]}`;
 
@@ -90,13 +55,16 @@ const Home = () => {
   }, []); // Pass in an empty array to only run an effect once.
 
   useEffect(() => {
+    setShowAreaButton(false);
     getHistoricalUsers();
   }, [heatmapToggle]);
 
-  const handleMapBoundsChange = (mapBounds?: MapBounds) => {
-    setMapBounds(mapBounds);
-    if (!_.isNil(historicalUsers)) {
-      setShowAreaButton(true);
+  const handleMapBoundsChange = (newMapBounds?: MapBounds) => {
+    if (!_.isEqual(newMapBounds, mapBounds)) {
+      setMapBounds(newMapBounds);
+      if (!_.isNil(historicalUsers)) {
+        setShowAreaButton(true);
+      }
     }
   };
 
@@ -112,8 +80,11 @@ const Home = () => {
     setShowAreaButton(false);
     if (!_.isNil(startDate)) {
       dispatch(fetchHistoricalUsers(startDate.toISOString(), mapBounds!, activityFilter));
+      setShowWSConnectionStatus(false);
     } else {
+      // 'Live' selected
       dispatch(updateHistoricalUsers(null));
+      setShowWSConnectionStatus(true);
       // Reset filter
       setActivityFilter(undefined);
     }
@@ -133,38 +104,30 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Sidenav></Sidenav>
-      {appUserLocation && (
-        <div className={styles.map}>
-          {alert && <AppAlert alert={alert}></AppAlert>}
-          <div className={styles.buttonGroup}>
-            <Socials></Socials>
-            <StatsSummary></StatsSummary>
-            {startDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
+      <SideNav />
+      <div className={styles.map}>
+        {alert && <AppAlert alert={alert} />}
+        <div className={styles.buttonGroup}>
+          <Socials />
+          <StatsSummary />
+          {startDate && mapBounds && <Filter onFilterChange={handleFilterChange} />}
+        </div>
+        <div className={styles.myLocationButton}>
+          <MyLocation />
+        </div>
+        <Map onMapBoundsChange={handleMapBoundsChange}></Map>
+        <div className={styles.centeredContainer}>
+          {loading && <CircularProgress classes={loadingClasses} />}
+          <div className={styles.topInfo}>
+            {showWSConnectionStatus && <WSConnectionStatus isVisible={showWSConnectionStatus} />}
+            {showSearchAreaButton && <SearchAreaButton onClick={handleSearchAreaClick} />}
           </div>
-          <Map onMapBoundsChange={handleMapBoundsChange} center={appUserLocation!}></Map>
-          <div className={styles.centeredContainer}>
-            {loading && <CircularProgress classes={loadingClasses} />}
-            <div className={styles.searchAreaButton}>
-              {showSearchAreaButton && (
-                <SearchAreaButton handleClick={handleSearchAreaClick}></SearchAreaButton>
-              )}
-            </div>
-            <div className={styles.timeline}>
-              {/* Ensure initial map bounds are captured before rendering timeline */}
-              {mapBounds && <Timeline onDateChange={handleDateChange}></Timeline>}
-            </div>
+          <div className={styles.timeline}>
+            {/* Ensure initial map bounds are captured before rendering timeline */}
+            {mapBounds && <Timeline onDateChange={handleDateChange} />}
           </div>
         </div>
-      )}
-      {!appUserLocation && (
-        <div className={styles.initializationContainer}>
-          {initializationText}
-          <div className={styles.appLoadingContainer}>
-            <CircularProgress classes={appLoadingClasses} />
-          </div>
-        </div>
-      )}
+      </div>
     </React.Fragment>
   );
 };

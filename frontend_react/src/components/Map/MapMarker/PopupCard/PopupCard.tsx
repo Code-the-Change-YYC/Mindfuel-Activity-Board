@@ -34,7 +34,7 @@ const PopupCard = (props: PopupCardProps) => {
   return (
     <Card className={styles.card + " " + styles.mainWrapper}>
       <div className={styles.assetImageContainer}>
-        <img className={styles.assetImage} src={imageUrl} />
+        <img alt="asset-pop-up" className={styles.assetImage} src={imageUrl} />
       </div>
       <div className={styles.dateContainer}>
         <span>{user.date.toLocaleDateString("en-CA")}</span>

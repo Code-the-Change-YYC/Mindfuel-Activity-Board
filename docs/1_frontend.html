@@ -1,300 +1,157 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en" class="sidebar-visible no-js light">
-  <head>
-    <!-- Book generated using mdBook -->
-    <meta charset="UTF-8" />
-    <title>Frontend - Wonderville Activity Activity Board Documentation</title>
-    <!-- Custom HTML head -->
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#ffffff" />
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Frontend - Wonderville Activity Activity Board Documentation</title>
+        <!-- Custom HTML head -->
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
 
-    <link rel="icon" href="favicon.svg" />
-    <link rel="shortcut icon" href="favicon.png" />
-    <link rel="stylesheet" href="css/variables.css" />
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/chrome.css" />
-    <link rel="stylesheet" href="css/print.css" media="print" />
-    <!-- Fonts -->
-    <link rel="stylesheet" href="FontAwesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="fonts/fonts.css" />
-    <!-- Highlight.js Stylesheets -->
-    <link rel="stylesheet" href="highlight.css" />
-    <link rel="stylesheet" href="tomorrow-night.css" />
-    <link rel="stylesheet" href="ayu-highlight.css" />
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
 
-    <!-- Custom theme stylesheets -->
-  </head>
-  <body>
-    <!-- Provide site root to javascript -->
-    <script>
-      var path_to_root = "";
-      var default_theme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "navy"
-        : "light";
-    </script>
-
-    <!-- Work around some values being stored in localStorage wrapped in quotes -->
-    <script>
-      try {
-        var theme = localStorage.getItem("mdbook-theme");
-        var sidebar = localStorage.getItem("mdbook-sidebar");
-
-        if (theme.startsWith('"') && theme.endsWith('"')) {
-          localStorage.setItem(
-            "mdbook-theme",
-            theme.slice(1, theme.length - 1)
-          );
-        }
-
-        if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
-          localStorage.setItem(
-            "mdbook-sidebar",
-            sidebar.slice(1, sidebar.length - 1)
-          );
-        }
-      } catch (e) {}
-    </script>
-
-    <!-- Set the theme before any content is loaded, prevents flash -->
-    <script>
-      var theme;
-      try {
-        theme = localStorage.getItem("mdbook-theme");
-      } catch (e) {}
-      if (theme === null || theme === undefined) {
-        theme = default_theme;
-      }
-      var html = document.querySelector("html");
-      html.classList.remove("no-js");
-      html.classList.remove("light");
-      html.classList.add(theme);
-      html.classList.add("js");
-    </script>
-
-    <!-- Hide / unhide sidebar before it is displayed -->
-    <script>
-      var html = document.querySelector("html");
-      var sidebar = "hidden";
-      if (document.body.clientWidth >= 1080) {
-        try {
-          sidebar = localStorage.getItem("mdbook-sidebar");
-        } catch (e) {}
-        sidebar = sidebar || "visible";
-      }
-      html.classList.remove("sidebar-visible");
-      html.classList.add("sidebar-" + sidebar);
-    </script>
-
-    <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-      <div class="sidebar-scrollbox">
-        <ol class="chapter">
-          <li class="chapter-item expanded">
-            <a href="1_frontend.html" class="active"
-              ><strong aria-hidden="true">1.</strong> Frontend</a
-            >
-          </li>
-          <li class="chapter-item expanded">
-            <a href="2_backend.html"
-              ><strong aria-hidden="true">2.</strong> Backend & APIs</a
-            >
-          </li>
-          <li class="chapter-item expanded">
-            <a href="3_database.html"
-              ><strong aria-hidden="true">3.</strong> Database</a
-            >
-          </li>
-          <li class="chapter-item expanded">
-            <a href="4_development.html"
-              ><strong aria-hidden="true">4.</strong> Development</a
-            >
-          </li>
-        </ol>
-      </div>
-      <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
-    </nav>
-
-    <div id="page-wrapper" class="page-wrapper">
-      <div class="page">
-        <div id="menu-bar-hover-placeholder"></div>
-        <div id="menu-bar" class="menu-bar sticky bordered">
-          <div class="left-buttons">
-            <button
-              id="sidebar-toggle"
-              class="icon-button"
-              type="button"
-              title="Toggle Table of Contents"
-              aria-label="Toggle Table of Contents"
-              aria-controls="sidebar"
-            >
-              <i class="fa fa-bars"></i>
-            </button>
-            <button
-              id="theme-toggle"
-              class="icon-button"
-              type="button"
-              title="Change theme"
-              aria-label="Change theme"
-              aria-haspopup="true"
-              aria-expanded="false"
-              aria-controls="theme-list"
-            >
-              <i class="fa fa-paint-brush"></i>
-            </button>
-            <ul
-              id="theme-list"
-              class="theme-popup"
-              aria-label="Themes"
-              role="menu"
-            >
-              <li role="none">
-                <button role="menuitem" class="theme" id="light">Light</button>
-              </li>
-              <li role="none">
-                <button role="menuitem" class="theme" id="rust">Rust</button>
-              </li>
-              <li role="none">
-                <button role="menuitem" class="theme" id="coal">Coal</button>
-              </li>
-              <li role="none">
-                <button role="menuitem" class="theme" id="navy">Navy</button>
-              </li>
-              <li role="none">
-                <button role="menuitem" class="theme" id="ayu">Ayu</button>
-              </li>
-            </ul>
-            <button
-              id="search-toggle"
-              class="icon-button"
-              type="button"
-              title="Search. (Shortkey: s)"
-              aria-label="Toggle Searchbar"
-              aria-expanded="false"
-              aria-keyshortcuts="S"
-              aria-controls="searchbar"
-            >
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-
-          <h1 class="menu-title">
-            Wonderville Activity Activity Board Documentation
-          </h1>
-
-          <div class="right-buttons">
-            <a
-              href="print.html"
-              title="Print this book"
-              aria-label="Print this book"
-            >
-              <i id="print-button" class="fa fa-print"></i>
-            </a>
-          </div>
-        </div>
-
-        <div id="search-wrapper" class="hidden">
-          <form id="searchbar-outer" class="searchbar-outer">
-            <input
-              type="search"
-              id="searchbar"
-              name="searchbar"
-              placeholder="Search this book ..."
-              aria-controls="searchresults-outer"
-              aria-describedby="searchresults-header"
-            />
-          </form>
-          <div id="searchresults-outer" class="searchresults-outer hidden">
-            <div id="searchresults-header" class="searchresults-header"></div>
-            <ul id="searchresults"></ul>
-          </div>
-        </div>
-        <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
         <script>
-          document
-            .getElementById("sidebar-toggle")
-            .setAttribute("aria-expanded", sidebar === "visible");
-          document
-            .getElementById("sidebar")
-            .setAttribute("aria-hidden", sidebar !== "visible");
-          Array.from(document.querySelectorAll("#sidebar a")).forEach(function (
-            link
-          ) {
-            link.setAttribute("tabIndex", sidebar === "visible" ? 0 : -1);
-          });
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
-        <div id="content" class="content">
-          <main>
-            <h1 id="frontend">
-              <a class="header" href="#frontend">Frontend</a>
-            </h1>
-            <p>
-              The frontend was developed with React v16 and Redux with
-              Typescript. Similar to the backend, it listens to the WebSocket
-              server for live users to display on the map. Additionally, it will
-              call the Go backend APIs to fetch historical users within a
-              provided time range along with correponding statistics.<br />
-            </p>
-            <p>
-              The project consists of only a single view (<code>Home.tsx</code>)
-              which serves as a mediator for its multiple child components (e.g.
-              <code>Timeline</code>, <code>SideNav</code>, <code>Socials</code>)
-              by receiving and passing necessary data through props.
-              Consequently, the <code>Home</code> component is also responsible
-              for managing certain state that lives outside of the Redux store
-              using State Hooks. Most of the API calls, performed via Redux
-              actions, are also centralized here.<br />
-            </p>
-            <p>Notable packages used in the frontend are:</p>
-            <ul>
-              <li>
-                <a href="https://www.npmjs.com/package/react">react</a> as the
-                frontend framework
-              </li>
-              <li>
-                <a href="https://www.npmjs.com/package/react-redux"
-                  >react-redux</a
-                >
-                for Redux bindings in React
-              </li>
-              <li>
-                <a href="https://www.npmjs.com/package/@material-ui/core"
-                  >@material-ui</a
-                >
-                for React components with Material Design
-              </li>
-              <li>
-                <a href="https://www.npmjs.com/package/google-map-react"
-                  >google-map-react</a
-                >
-                as the Google Maps API wrapper
-                <ul>
-                  <li>
-                    Requires setting the Google Maps API key as an environment
-                    variable
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a href="https://www.npmjs.com/package/react-twitter-embed"
-                  >react-twitter-embed</a
-                >
-                for embedding tweets from the MindFuel account
-              </li>
-              <li>
-                <a href="https://www.npmjs.com/package/recharts">recharts</a>
-                for charts
-              </li>
-            </ul>
-            <p>
-              For details on versioning, view the <code>package.json</code> file
-              in the frontend project.
-            </p>
-            <h4 id="project-structure">
-              <a class="header" href="#project-structure">Project Structure</a>
-            </h4>
-            <pre><code>├── frontend_react
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="1_frontend.html" class="active"><strong aria-hidden="true">1.</strong> Frontend</a></li><li class="chapter-item expanded "><a href="2_backend.html"><strong aria-hidden="true">2.</strong> Backend & APIs</a></li><li class="chapter-item expanded "><a href="3_database.html"><strong aria-hidden="true">3.</strong> Database</a></li><li class="chapter-item expanded "><a href="4_development.html"><strong aria-hidden="true">4.</strong> Development</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Wonderville Activity Activity Board Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="frontend"><a class="header" href="#frontend">Frontend</a></h1>
+<p>The frontend was developed with React v16 and Redux with Typescript. Similar to the backend, it listens to the WebSocket server for live users to display on the map. Additionally, it will call the Go backend APIs to fetch historical users within a provided time range along with correponding statistics.<br></p>
+<p>The project consists of only a single view (<code>Home.tsx</code>) which serves as a mediator for its multiple child components (e.g. <code>Timeline</code>, <code>SideNav</code>, <code>Socials</code>) by receiving and passing necessary data through props. Consequently, the <code>Home</code> component is also responsible for managing certain state that lives outside of the Redux store using State Hooks. Most of the API calls, performed via Redux actions, are also centralized here.<br></p>
+<p>Notable packages used in the frontend are:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/react">react</a> as the frontend framework</li>
+<li><a href="https://www.npmjs.com/package/react-redux">react-redux</a> for Redux bindings in React</li>
+<li><a href="https://www.npmjs.com/package/@material-ui/core">@material-ui</a> for React components with Material Design</li>
+<li><a href="https://www.npmjs.com/package/google-map-react">google-map-react</a> as the Google Maps API wrapper
+<ul>
+<li>Requires setting the Google Maps API key as an environment variable</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/react-twitter-embed">react-twitter-embed</a> for embedding tweets from the MindFuel account</li>
+<li><a href="https://www.npmjs.com/package/recharts">recharts</a> for charts</li>
+</ul>
+<p>For development, it is recommended to use Node v14 and npm v6. For details on versioning of packages, view the <code>package.json</code> file in the frontend project.</p>
+<h4 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h4>
+<pre><code>├── frontend_react
 ├── src
 │   ├── api             // API and Socket services for connecting to Go backend and WebSocket server
 │   ├── components      // Shared React components used on the page (TSX and CSS files)
@@ -312,45 +169,20 @@
 │           ├── Home.tsx
 │           └── Home.module.css
 ├── src
+├── .prettierrc.json    // Settings for Prettier
 ├── .eslintrc.cjs       // Rules for ESLint
 └── App.tsx             // Entry point to the application
 </code></pre>
-            <h4 id="creating-a-production-build">
-              <a class="header" href="#creating-a-production-build"
-                >Creating a Production Build</a
-              >
-            </h4>
-            <p>
-              By default, Docker compose is configured to run the development
-              server for the React application via <code>npm start</code>. To
-              instead create the build files to serve for production, run
-              <code>npm run build</code>. Reference the
-              <a href="https://create-react-app.dev/docs/production-build/"
-                >Create React App documentation</a
-              >
-              for more information on creating a production build.
-            </p>
-            <h4 id="redux-usage">
-              <a class="header" href="#redux-usage">Redux Usage</a>
-            </h4>
-            <p>
-              The project uses Redux architecture primarily for managing the
-              state of live and historical users in addition to more trivial
-              matters like application loading and alert states. For an in-depth
-              overview of Redux, review the
-              <a
-                href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts"
-                >documentation</a
-              >
-              on the Redux website. Introducing Redux as it relates to this
-              project, the initial application state seen below is defined and
-              managed in the reducer (<code>reducer.ts</code>). Actions
-              (<code>actions.ts</code>) update this state through various
-              workflows of the application. Note that we use
-              <code>null</code> within the application state to indicate
-              <em>intentional</em> absence of a value.
-            </p>
-            <pre><code>const initialUserCount: LiveCounts = {
+<h4 id="linting-and-formatting"><a class="header" href="#linting-and-formatting">Linting and Formatting</a></h4>
+<p>The frontend uses ESLint and Prettier to maintain consistent code style and formatting. Linting and formatting fixes are automatically run on staged frontend Typescript files through a pre-commit hook using <a href="https://www.npmjs.com/package/husky">husky</a>. You can also manually run linting to find and fix errors using the following:</p>
+<pre><code>$ npm run lint
+$ npm run lint-fix
+</code></pre>
+<h4 id="creating-a-production-build"><a class="header" href="#creating-a-production-build">Creating a Production Build</a></h4>
+<p>By default, Docker compose is configured to run the development server for the React application via <code>npm start</code>. To instead create the build files to serve for production, run <code>npm run build</code>. Reference the <a href="https://create-react-app.dev/docs/production-build/">Create React App documentation</a> for more information on creating a production build.</p>
+<h4 id="redux-usage"><a class="header" href="#redux-usage">Redux Usage</a></h4>
+<p>The project uses Redux architecture primarily for managing the state of live and historical users in addition to more trivial matters like application loading and alert states. For an in-depth overview of Redux, review the <a href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts">documentation</a> on the Redux website. Introducing Redux as it relates to this project, the initial application state seen below is defined and managed in the reducer (<code>reducer.ts</code>). Actions (<code>actions.ts</code>) update this state through various workflows of the application. Note that we use <code>null</code> within the application state to indicate <em>intentional</em> absence of a value.</p>
+<pre><code>const initialUserCount: LiveCounts = {
   sessions: 0,
   countries: new Set(),
   cities: new Set(),
@@ -364,52 +196,42 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  appUserLocation: null
   heatmapEnabled: false,
+  isWebSocketConnected: false,
 };
 </code></pre>
-          </main>
 
-          <nav class="nav-wrapper" aria-label="Page navigation">
-            <!-- Mobile navigation buttons -->
-            <a
-              rel="next"
-              href="2_backend.html"
-              class="mobile-nav-chapters next"
-              title="Next chapter"
-              aria-label="Next chapter"
-              aria-keyshortcuts="Right"
-            >
-              <i class="fa fa-angle-right"></i>
-            </a>
-            <div style="clear: both"></div>
-          </nav>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="next" href="2_backend.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="next" href="2_backend.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
         </div>
-      </div>
 
-      <nav class="nav-wide-wrapper" aria-label="Page navigation">
-        <a
-          rel="next"
-          href="2_backend.html"
-          class="nav-chapters next"
-          title="Next chapter"
-          aria-label="Next chapter"
-          aria-keyshortcuts="Right"
-        >
-          <i class="fa fa-angle-right"></i>
-        </a>
-      </nav>
-    </div>
+        <script>
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
-    <script>
-      window.playground_copyable = true;
-    </script>
-    <script src="elasticlunr.min.js"></script>
-    <script src="mark.min.js"></script>
-    <script src="searcher.js"></script>
-    <script src="clipboard.min.js"></script>
-    <script src="highlight.js"></script>
-    <script src="book.js"></script>
-
-    <!-- Custom JS scripts -->
-  </body>
+        <!-- Custom JS scripts -->
+    </body>
 </html>

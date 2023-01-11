@@ -51,10 +51,10 @@ export const getTimelineDate = (val: number | number[]): Date | undefined => {
 
   switch (val) {
     case 0:
-      date.setDate(date.getDate() - 3 * 30.4167);
+      date.setFullYear(date.getFullYear() - 1);
       break;
     case 25:
-      date.setDate(date.getDate() - 30.4167);
+      date.setMonth(date.getMonth() - 1);
       break;
     case 50:
       date.setDate(date.getDate() - 7);

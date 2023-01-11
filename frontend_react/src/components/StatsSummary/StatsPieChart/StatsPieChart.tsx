@@ -6,6 +6,7 @@ import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
 import { ChartStat } from "../../../utils/ChartStat";
 import { ActivityColourMap } from "../../../utils/FilterOption.model";
 import { Stats } from "../../../utils/Stats";
+import styles from "./StatsPieChart.module.css";
 
 const StatsPieChart = (props: { stats: Stats[] }) => {
   const [chartValues, setChartValues] = useState<ChartStat[]>([]);
@@ -45,41 +46,22 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
     setChartValues(newChart);
   };
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div
-          style={{
-            backgroundColor: "#ffdd00",
-            padding: "5px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+        <div className={styles.tooltipContainer}>
           <table>
             <tbody>
               <tr>
-                <th align="left">
-                  <text style={{ color: "#52247f" }}>{payload[0].payload.name}</text>
-                </th>
+                <th align="left">{payload[0].payload.name}</th>
               </tr>
               <tr>
-                <td>
-                  <text style={{ color: "#52247f" }}>Hits</text>
-                </td>
-                <td style={{ paddingLeft: "10px" }}>
-                  <text style={{ color: "#52247f" }}>{payload[0].payload.value}</text>
-                </td>
+                <td>Hits</td>
+                <td style={{ paddingLeft: "10px" }}>{payload[0].payload.value}</td>
               </tr>
               <tr>
-                <td>
-                  <text style={{ color: "#52247f" }}>Percentage</text>
-                </td>
-                <td style={{ paddingLeft: "10px" }}>
-                  <text style={{ color: "#52247f" }}>
-                    {payload[0].payload.percentage.toFixed(1)}%
-                  </text>
-                </td>
+                <td>Percentage</td>
+                <td style={{ paddingLeft: "10px" }}>{payload[0].payload.percentage.toFixed(1)}%</td>
               </tr>
             </tbody>
           </table>

@@ -113,8 +113,9 @@ const Filter = (props: FilterProps) => {
           invisible={_.isNil(selectedValue)}
           style={{ backgroundColor: selectedValue?.colour }}
           variant="dot"
+          overlap="rectangular"
         />
-        <img className={styles.filterIcon} src={filterIcon} />
+        <img alt="filter" className={styles.filterIcon} src={filterIcon} />
       </IconButton>
       <Popover
         classes={popoverClasses}

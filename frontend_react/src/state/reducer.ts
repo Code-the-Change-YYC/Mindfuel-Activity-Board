@@ -1,19 +1,8 @@
 import _ from "lodash";
 
-import * as sampleData from "../api/SampleUserData.json";
 import { Action } from "../utils/Action.enum";
 import { AppState, LiveCounts, MAX_USERS } from "../utils/AppState";
 import { User } from "../utils/User";
-
-sampleData.users.map((user) => {
-  const newUser: User = {
-    ...user,
-    date: new Date(),
-  };
-  return newUser;
-});
-
-// const sampleUsers: User[] = sampleData.users;
 
 const initialUserCount: LiveCounts = {
   sessions: 0,
@@ -29,7 +18,9 @@ const initialState: AppState = {
   newUser: null,
   loading: false,
   alert: null,
+  appUserLocation: null,
   heatmapEnabled: false,
+  isWebSocketConnected: false,
 };
 
 const rootReducer = (state: AppState | undefined = initialState, action: any) => {
@@ -68,6 +59,16 @@ const rootReducer = (state: AppState | undefined = initialState, action: any) =>
       return {
         ...state,
         heatmapEnabled: action.heatmapEnabled,
+      };
+    case Action.SET_APP_USER_LOCATION:
+      return {
+        ...state,
+        appUserLocation: action.appUserLocation,
+      };
+    case Action.SET_WEBSOCKET_CONNECTION_STATUS:
+      return {
+        ...state,
+        isWebSocketConnected: action.isWebSocketConnected,
       };
     case Action.SET_ALERT:
       return {

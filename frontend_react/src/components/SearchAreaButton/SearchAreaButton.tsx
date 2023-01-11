@@ -6,7 +6,7 @@ import { StylesProvider } from "@material-ui/core/styles";
 import styles from "./SearchAreaButton.module.css";
 
 type SearchAreaButtonProps = {
-  handleClick: () => void;
+  onClick: () => void;
 };
 
 const SearchAreaButton = (props: SearchAreaButtonProps) => {
@@ -16,7 +16,7 @@ const SearchAreaButton = (props: SearchAreaButtonProps) => {
 
   return (
     <StylesProvider injectFirst>
-      <Button size="small" classes={buttonClasses} variant="contained" onClick={props.handleClick}>
+      <Button size="small" classes={buttonClasses} variant="contained" onClick={props.onClick}>
         Search this area
       </Button>
     </StylesProvider>
