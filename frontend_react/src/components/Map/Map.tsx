@@ -7,7 +7,7 @@ import _ from "lodash";
 import { useSelector } from "react-redux";
 
 import styles from "./Map.module.css";
-import MapMarker from "./MapMarker/MapMarker";
+import MapMarker from "./MapMarker";
 import useGroupedUsers from "hooks/useGroupedUsers";
 import { AppState } from "utils/AppState";
 import { AppUserLocation } from "utils/AppUserLocation.model";
