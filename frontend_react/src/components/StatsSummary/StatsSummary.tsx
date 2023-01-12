@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Fade,
-  FormControl,
-  FormGroup,
-  Icon,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  StylesProvider,
-  Switch,
-} from "@material-ui/core";
+import Fade from "@material-ui/core/Fade";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import Icon from "@material-ui/core/Icon";
+import IconButton from "@material-ui/core/IconButton";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
+import Select from "@material-ui/core/Select";
+import Switch from "@material-ui/core/Switch";
 import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 import { AxiosResponse } from "axios";
 
 import ApiService from "../../api/ApiService";

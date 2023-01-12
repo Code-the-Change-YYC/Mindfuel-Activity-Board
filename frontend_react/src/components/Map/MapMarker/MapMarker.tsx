@@ -4,7 +4,7 @@ import Badge from "@material-ui/core/Badge";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
-import { StylesProvider } from "@material-ui/core/styles";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 import Carousel from "react-material-ui-carousel";
 
 import { getMapMarkerIconForUser } from "../../../utils/helpers";

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Slider from "@material-ui/core/Slider";
-import { StylesProvider } from "@material-ui/core/styles";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 
 import { getTimelineDate } from "../../utils/helpers";
 import styles from "./Timeline.module.css";

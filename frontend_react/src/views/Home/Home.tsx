@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 

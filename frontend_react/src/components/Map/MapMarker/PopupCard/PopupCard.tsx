@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card } from "@material-ui/core";
+import Card from "@material-ui/core/Card";
 import _ from "lodash";
 
 import wondervilleLogo from "../../../../res/assets/wonderville-logo.png";

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Button from "@material-ui/core/Button";
-import { StylesProvider } from "@material-ui/core/styles";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 
 import styles from "./SearchAreaButton.module.css";
 

@@ -4,9 +4,9 @@ import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
-import { StylesProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
 
