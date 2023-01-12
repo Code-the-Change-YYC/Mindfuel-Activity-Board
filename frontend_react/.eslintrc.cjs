@@ -36,6 +36,18 @@ module.exports = {
             group: "external",
             position: "before",
           },
+          {
+            pattern: "+(components|utils|api|state|hooks|res)/**",
+            group: "internal",
+          },
+          {
+            pattern: "./**",
+            group: "internal",
+          },
+          {
+            pattern: "../**",
+            group: "internal",
+          },
         ],
         pathGroupsExcludedImportTypes: ["react"],
         "newlines-between": "always",

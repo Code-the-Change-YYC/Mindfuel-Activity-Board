@@ -1,21 +1,23 @@
 import React, { ReactElement, useEffect, useState } from "react";
 
-import { FormControlLabel, FormGroup, Switch } from "@material-ui/core/";
 import Drawer from "@material-ui/core/Drawer";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import { StylesProvider } from "@material-ui/core/styles";
+import Switch from "@material-ui/core/Switch";
 import MenuIcon from "@material-ui/icons/Menu";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 import { useSelector } from "react-redux";
 
-import useAnalyticsData from "../../hooks/useAnalyticsData";
-import { Logo } from "../../res/assets";
-import { toggleHeatmap } from "../../state/actions";
-import store from "../../state/store";
-import { AnalyticsData } from "../../utils/AnalyticsData";
-import { AppState, LiveCounts } from "../../utils/AppState";
-import AnalyticsBox from "../AnalyticsBox";
 import styles from "./SideNav.module.css";
+import AnalyticsBox from "components/AnalyticsBox";
+import useAnalyticsData from "hooks/useAnalyticsData";
+import { Logo } from "res/assets";
+import { toggleHeatmap } from "state/actions";
+import store from "state/store";
+import { AnalyticsData } from "utils/AnalyticsData";
+import { AppState, LiveCounts } from "utils/AppState";
 
 const SideNav = () => {
   const [mobileOpen, setMobileOpen] = useState(false);

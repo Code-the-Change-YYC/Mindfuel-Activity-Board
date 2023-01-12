@@ -36,9 +36,9 @@ func InsertUser(client *mongo.Client, asset model.User) error {
 		return err
 	}
 	if asset.Type == model.WondervilleAsset {
-		logger.Info.Println("Inserted Wonderville Asset User:", asset.Payload.Asset.Name)
+		logger.Info.Printf("Inserted Wonderville Asset User (%s) from %s", asset.Payload.Asset.Name, asset.Payload.Location.Country)
 	} else {
-		logger.Info.Println("Inserted Wonderville Session User from:", asset.Payload.Location.Country)
+		logger.Info.Println("Inserted Wonderville Session User from", asset.Payload.Location.Country)
 	}
 
 	// Return success without any error.

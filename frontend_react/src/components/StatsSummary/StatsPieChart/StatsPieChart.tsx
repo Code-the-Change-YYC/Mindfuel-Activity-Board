@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recharts";
 
-import { ActivityTypeEnum } from "../../../utils/ActivityType.enum";
-import { ChartStat } from "../../../utils/ChartStat";
-import { ActivityColourMap } from "../../../utils/FilterOption.model";
-import { Stats } from "../../../utils/Stats";
 import styles from "./StatsPieChart.module.css";
+import { ActivityTypeEnum } from "utils/ActivityType.enum";
+import { ChartStat } from "utils/ChartStat";
+import { ActivityColourMap } from "utils/FilterOption.model";
+import { Stats } from "utils/Stats";
 
 const StatsPieChart = (props: { stats: Stats[] }) => {
   const [chartValues, setChartValues] = useState<ChartStat[]>([]);
