@@ -9,15 +9,15 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { AxiosResponse } from "axios";
 import _ from "lodash";
+import filterIcon from "res/assets/filter-icon.png";
+import { setAlert } from "state/actions";
+import { useAppDispatch } from "state/hooks";
+import { ActivityFilterField } from "utils/ActivityFIlterField.enum";
+import { ActivityTypeEnum } from "utils/ActivityType.enum";
+import { FilterOptionsApiResponse } from "utils/ApiServiceInterface";
+import { ActivityColourMap, ActivityFilter, FilterOption } from "utils/FilterOption.model";
 
 import ApiService from "../../api/ApiService";
-import filterIcon from "../../res/assets/filter-icon.png";
-import { setAlert } from "../../state/actions";
-import { useAppDispatch } from "../../state/hooks";
-import { ActivityFilterField } from "../../utils/ActivityFIlterField.enum";
-import { ActivityTypeEnum } from "../../utils/ActivityType.enum";
-import { FilterOptionsApiResponse } from "../../utils/ApiServiceInterface";
-import { ActivityColourMap, ActivityFilter, FilterOption } from "../../utils/FilterOption.model";
 import styles from "./Filter.module.css";
 
 type FilterProps = {

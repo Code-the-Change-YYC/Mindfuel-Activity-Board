@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl":"src",  // Imports are relative to src directory
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

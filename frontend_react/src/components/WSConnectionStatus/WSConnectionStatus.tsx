@@ -5,8 +5,8 @@ import CloudDoneIcon from "@material-ui/icons/CloudDone";
 import CloudOffIcon from "@material-ui/icons/CloudOff";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { useSelector } from "react-redux";
+import { AppState } from "utils/AppState";
 
-import { AppState } from "../../utils/AppState";
 import styles from "./WSConnectionStatus.module.css";
 
 const WSConnectionStatus = (props: { isVisible: boolean }) => {

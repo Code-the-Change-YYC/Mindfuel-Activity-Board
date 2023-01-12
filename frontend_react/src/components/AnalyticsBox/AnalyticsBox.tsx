@@ -1,8 +1,8 @@
 import React from "react";
 
 import Card from "@material-ui/core/Card";
+import { numberFormatter } from "utils/helpers";
 
-import { numberFormatter } from "../../utils/helpers";
 import styles from "./AnalyticsBox.module.css";
 
 type AnalyticsBox = {

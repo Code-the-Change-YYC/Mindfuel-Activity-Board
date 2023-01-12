@@ -8,14 +8,14 @@ import IconButton from "@material-ui/core/IconButton";
 import Switch from "@material-ui/core/Switch";
 import MenuIcon from "@material-ui/icons/Menu";
 import StylesProvider from "@material-ui/styles/StylesProvider";
+import useAnalyticsData from "hooks/useAnalyticsData";
 import { useSelector } from "react-redux";
+import { Logo } from "res/assets";
+import { toggleHeatmap } from "state/actions";
+import store from "state/store";
+import { AnalyticsData } from "utils/AnalyticsData";
+import { AppState, LiveCounts } from "utils/AppState";
 
-import useAnalyticsData from "../../hooks/useAnalyticsData";
-import { Logo } from "../../res/assets";
-import { toggleHeatmap } from "../../state/actions";
-import store from "../../state/store";
-import { AnalyticsData } from "../../utils/AnalyticsData";
-import { AppState, LiveCounts } from "../../utils/AppState";
 import AnalyticsBox from "../AnalyticsBox";
 import styles from "./SideNav.module.css";
 
