@@ -6,11 +6,11 @@ import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import Carousel from "react-material-ui-carousel";
-import { getMapMarkerIconForUser } from "utils/helpers";
-import { User } from "utils/User";
 
 import styles from "./MapMarker.module.css";
 import PopupCard from "./PopupCard/PopupCard";
+import { getMapMarkerIconForUser } from "utils/helpers";
+import { User } from "utils/User";
 
 const MapMarker = (props: any) => {
   const users: User[] = props.users;

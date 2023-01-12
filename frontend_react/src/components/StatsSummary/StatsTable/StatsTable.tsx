@@ -10,14 +10,14 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import withStyles from "@material-ui/styles/withStyles";
+
+import styles from "./StatsTable.module.css";
 import activityIcon from "res/assets/map-marker-activity.svg";
 import gameIcon from "res/assets/map-marker-game.svg";
 import storyIcon from "res/assets/map-marker-story.svg";
 import videoIcon from "res/assets/map-marker-video.svg";
 import { numberFormatter } from "utils/helpers";
 import { Stats } from "utils/Stats";
-
-import styles from "./StatsTable.module.css";
 
 const CustomTableCell = withStyles({
   root: {

@@ -3,10 +3,10 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 import StylesProvider from "@material-ui/styles/StylesProvider";
-import { setAlert, setAppUserLocation } from "state/actions";
-import { useAppDispatch } from "state/hooks";
 
 import styles from "./MyLocation.module.css";
+import { setAlert, setAppUserLocation } from "state/actions";
+import { useAppDispatch } from "state/hooks";
 
 const MyLocation = () => {
   const dispatch = useAppDispatch();

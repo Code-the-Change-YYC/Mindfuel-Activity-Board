@@ -3,17 +3,17 @@ import React, { ReactElement, useEffect, useState } from "react";
 
 import { Theme, useMediaQuery } from "@material-ui/core";
 import GoogleMapReact, { ChangeEventValue, Coords, Maps } from "google-map-react";
-import useGroupedUsers from "hooks/useGroupedUsers";
 import _ from "lodash";
 import { useSelector } from "react-redux";
+
+import styles from "./Map.module.css";
+import MapMarker from "./MapMarker/MapMarker";
+import useGroupedUsers from "hooks/useGroupedUsers";
 import { AppState } from "utils/AppState";
 import { AppUserLocation } from "utils/AppUserLocation.model";
 import { Location } from "utils/Location";
 import { MapBounds } from "utils/MapBounds";
 import { User } from "utils/User";
-
-import styles from "./Map.module.css";
-import MapMarker from "./MapMarker/MapMarker";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;

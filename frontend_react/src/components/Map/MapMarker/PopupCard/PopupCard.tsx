@@ -2,11 +2,11 @@ import React from "react";
 
 import Card from "@material-ui/core/Card";
 import _ from "lodash";
+
+import styles from "./PopupCard.module.css";
 import wondervilleLogo from "res/assets/wonderville-logo.png";
 import { AssetType } from "utils/AssetType.enum";
 import { User } from "utils/User";
-
-import styles from "./PopupCard.module.css";
 
 type PopupCardProps = {
   user: User;

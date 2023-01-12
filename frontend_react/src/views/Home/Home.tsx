@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
+import _ from "lodash";
+import { useSelector } from "react-redux";
+
+import styles from "./Home.module.css";
 import SocketService from "api/SocketService";
 import AppAlert from "components/AppAlert/AppAlert";
 import Filter from "components/Filter/Filter";
@@ -12,8 +16,6 @@ import Socials from "components/Socials/Socials";
 import StatsSummary from "components/StatsSummary/StatsSummary";
 import Timeline from "components/Timeline/Timeline";
 import WSConnectionStatus from "components/WSConnectionStatus/WSConnectionStatus";
-import _ from "lodash";
-import { useSelector } from "react-redux";
 import { fetchHistoricalUsers, updateHistoricalUsers } from "state/actions";
 import { useAppDispatch } from "state/hooks";
 import { AlertModel } from "utils/Alert.model";
@@ -21,8 +23,6 @@ import { AppState } from "utils/AppState";
 import { ActivityFilter } from "utils/FilterOption.model";
 import { MapBounds } from "utils/MapBounds";
 import { User } from "utils/User";
-
-import styles from "./Home.module.css";
 
 const Home = () => {
   const dispatch = useAppDispatch();
