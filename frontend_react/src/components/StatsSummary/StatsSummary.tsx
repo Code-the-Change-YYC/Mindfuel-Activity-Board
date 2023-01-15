@@ -10,9 +10,18 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Modal from "@material-ui/core/Modal";
 import Select from "@material-ui/core/Select";
 import Switch from "@material-ui/core/Switch";
+import TextField from "@material-ui/core/TextField";
 import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
+import {
+  DateRangePicker,
+  DateRange,
+  DateRangeDelimiter,
+  LocalizationProvider,
+} from "@material-ui/pickers";
+import DateFnsAdapter from "@material-ui/pickers/adapter/date-fns";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { AxiosResponse } from "axios";
+import _ from "lodash";
 
 import StatsPieChart from "./StatsPieChart/StatsPieChart";
 import styles from "./StatsSummary.module.css";
@@ -51,6 +60,7 @@ const items = [
 const StatsSummary = () => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
+  const [value, setValue] = useState<DateRange<Date>>([null, null]);
   const [open, setOpen] = useState(false);
   const [stats, setStats] = useState<Stats[]>([]);
   const [chartVisibility, setChartVisibility] = useState<boolean>(false);
@@ -182,6 +192,21 @@ const StatsSummary = () => {
                 <Switch checked={chartVisibility} onClick={handleChartVisibility} />
               </FormGroup>
             </FormControl>
+            <LocalizationProvider dateAdapter={DateFnsAdapter}>
+              <DateRangePicker
+                startText="Start"
+                endText="End"
+                value={value}
+                onChange={(newValue) => setValue(newValue)}
+                renderInput={(startProps, endProps) => (
+                  <React.Fragment>
+                    <TextField {..._.omit(startProps, "variant")} />
+                    <DateRangeDelimiter> to </DateRangeDelimiter>
+                    <TextField {..._.omit(endProps, "variant")} />
+                  </React.Fragment>
+                )}
+              />
+            </LocalizationProvider>
             {chartVisibility && stats.length > 0 && <StatsPieChart stats={stats}></StatsPieChart>}
             {chartVisibility && stats.length <= 0 && (
               <div
