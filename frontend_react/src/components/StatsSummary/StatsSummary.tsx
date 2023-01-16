@@ -69,9 +69,6 @@ const StatsSummary = () => {
   const formClasses = {
     root: styles.form,
   };
-  const inputLabelClasses = {
-    root: styles.colorWhite,
-  };
   const selectClasses = {
     root: styles.colorWhite,
     select: styles.colorWhite,
@@ -145,68 +142,68 @@ const StatsSummary = () => {
       >
         <Fade in={open}>
           <div className={styles.modal}>
-            <FormControl
-              classes={formClasses}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "space-between",
-              }}
-            >
-              <InputLabel
-                classes={inputLabelClasses}
+            <div className={styles.options}>
+              <FormControl
+                classes={formClasses}
                 style={{
-                  color: "white",
                   display: "flex",
-                  alignItems: "center",
+                  flexDirection: "row",
+                  alignContent: "space-between",
                 }}
               >
-                <Icon aria-label="open drawer" color="inherit">
-                  <Whatshot style={{ fontSize: 20, color: "#f7901e" }} />
-                </Icon>
-                Trending
-              </InputLabel>
-              <Select
-                autoWidth={true}
-                value={trendingVal}
-                onChange={handleTimeValueChange}
-                classes={selectClasses}
-              >
-                {items.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              <FormGroup style={{ marginLeft: "auto" }}>
                 <InputLabel
-                  classes={inputLabelClasses}
                   style={{
                     color: "white",
-                    position: "relative",
-                    textAlign: "right",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  Chart
+                  <Icon aria-label="open drawer" color="inherit">
+                    <Whatshot style={{ fontSize: 20, color: "#f7901e" }} />
+                  </Icon>
+                  Trending
                 </InputLabel>
-                <Switch checked={chartVisibility} onClick={handleChartVisibility} />
-              </FormGroup>
-            </FormControl>
-            <LocalizationProvider dateAdapter={DateFnsAdapter}>
-              <DateRangePicker
-                startText="Start"
-                endText="End"
-                value={value}
-                onChange={(newValue) => setValue(newValue)}
-                renderInput={(startProps, endProps) => (
-                  <React.Fragment>
-                    <TextField {..._.omit(startProps, "variant")} />
-                    <DateRangeDelimiter> to </DateRangeDelimiter>
-                    <TextField {..._.omit(endProps, "variant")} />
-                  </React.Fragment>
-                )}
-              />
-            </LocalizationProvider>
+                <Select
+                  autoWidth={true}
+                  value={trendingVal}
+                  onChange={handleTimeValueChange}
+                  classes={selectClasses}
+                >
+                  {items.map((item) => (
+                    <MenuItem key={item.value} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormGroup style={{ marginLeft: "auto" }}>
+                  <InputLabel
+                    style={{
+                      color: "white",
+                      position: "relative",
+                      textAlign: "right",
+                    }}
+                  >
+                    Chart
+                  </InputLabel>
+                  <Switch checked={chartVisibility} onClick={handleChartVisibility} />
+                </FormGroup>
+              </FormControl>
+              <LocalizationProvider dateAdapter={DateFnsAdapter}>
+                <DateRangePicker
+                  startText="Start"
+                  endText="End"
+                  value={value}
+                  onChange={(newValue) => setValue(newValue)}
+                  renderInput={(startProps, endProps) => (
+                    <React.Fragment>
+                      <TextField {..._.omit(startProps, "variant")} />
+                      <DateRangeDelimiter> to </DateRangeDelimiter>
+                      <TextField {..._.omit(endProps, "variant")} />
+                    </React.Fragment>
+                  )}
+                />
+              </LocalizationProvider>
+            </div>
             {chartVisibility && stats.length > 0 && <StatsPieChart stats={stats}></StatsPieChart>}
             {chartVisibility && stats.length <= 0 && (
               <div
