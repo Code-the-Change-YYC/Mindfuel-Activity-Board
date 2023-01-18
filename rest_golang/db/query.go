@@ -52,7 +52,7 @@ func GetDistinctCountQuery(field string, key string) bson.A {
 func GetActivityStatsQuery(filter model.StatsFilter) []bson.D {
 
 	query := []bson.D{
-		{{Key: "$match", Value: bson.M{"$and": []bson.M{{"type": bson.M{"$eq": model.WondervilleAsset}}, {"date": bson.M{"$gt": filter.StartDate}}}}}},
+		{{Key: "$match", Value: bson.M{"$and": []bson.M{{"type": bson.M{"$eq": model.WondervilleAsset}}, {"date": bson.M{"$gt": filter.StartDate, "$lt": filter.EndDate}}}}}},
 		{{Key: "$group", Value: bson.D{
 			{Key: "_id", Value: "$payload.asset.name"},
 			{Key: "imageUrl", Value: bson.M{"$first": "$payload.asset.imageUrl"}},

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import MomentUtils from "@date-io/moment";
 import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Fade,
   FormControl,
   FormGroup,
@@ -14,7 +21,9 @@ import {
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
 import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { AxiosResponse } from "axios";
+import moment from "moment";
 
 import ApiService from "../../api/ApiService";
 import { setAlert } from "../../state/actions";
@@ -53,9 +62,12 @@ const StatsSummary = () => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
+  const [dialogueOpen, setDialogueOpen] = useState(false);
   const [stats, setStats] = useState<Stats[]>([]);
   const [chartVisibility, setChartVisibility] = useState<boolean>(false);
   const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
+  const [startDate, setStartDate] = useState<moment.Moment | null>(moment());
+  const [endDate, setEndDate] = useState<moment.Moment | null>(moment());
 
   const formClasses = {
     root: styles.form,
@@ -95,26 +107,51 @@ const StatsSummary = () => {
   const handleClose = () => setOpen(false);
 
   const handleTimeValueChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLoading(true);
-    const val = event.target.value as number;
-    setTrendingVal(val);
+    if (event.target.value != 1000) {
+      setLoading(true);
+      const val = event.target.value as number;
+      setTrendingVal(val);
 
-    const startDate = getTimelineDate(val);
-    ApiService.getActivityStats(startDate?.toISOString())
+      const startDate = getTimelineDate(val);
+      ApiService.getActivityStats(startDate?.toISOString(), new Date().toISOString())
+        .then(
+          (response: AxiosResponse<ActivityStatsApiResponse>) => {
+            setStats(response.data.stats);
+          },
+          () => handleApiError()
+        )
+        .finally(() => setLoading(false));
+    }
+  };
+
+  const handleChartVisibility = () => {
+    if (chartVisibility) setChartVisibility(false);
+    else setChartVisibility(true);
+  };
+
+  const handleDialogueSubmission = () => {
+    if (startDate === null || endDate === null) {
+      alert("Please enter both start date and end date");
+      return;
+    }
+    if (moment(endDate).diff(startDate, "days") > 365) {
+      alert("Please enter two dates that are only a year or less apart");
+      return;
+    }
+
+    setLoading(true);
+    ApiService.getActivityStats(startDate?.toISOString(), endDate?.toISOString())
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);
         },
         () => handleApiError()
       )
-      .finally(() => setLoading(false));
-  };
-
-  const handleChartVisibility = () => {
-    if (chartVisibility) setChartVisibility(false);
-    else {
-      setChartVisibility(true);
-    }
+      .finally(() => {
+        setLoading(false);
+        setDialogueOpen(false);
+        setTrendingVal(1000);
+      });
   };
 
   return (
@@ -168,6 +205,15 @@ const StatsSummary = () => {
                     {item.label}
                   </MenuItem>
                 ))}
+                <MenuItem
+                  key={1000}
+                  value={1000}
+                  onClick={() => {
+                    setDialogueOpen(true);
+                  }}
+                >
+                  Custom Range
+                </MenuItem>
               </Select>
               <FormGroup style={{ marginLeft: "auto" }}>
                 <InputLabel
@@ -202,6 +248,37 @@ const StatsSummary = () => {
           </div>
         </Fade>
       </Modal>
+      <Dialog disableEscapeKeyDown open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
+        <DialogTitle>Choose Dates</DialogTitle>
+        <DialogContent>
+          <Box>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DatePicker
+                autoOk
+                label="Start Date"
+                clearable
+                disableFuture
+                required
+                value={startDate}
+                onChange={setStartDate}
+              />
+              <DatePicker
+                autoOk
+                label="End Date"
+                clearable
+                required
+                disableFuture
+                value={endDate}
+                onChange={setEndDate}
+              />
+            </MuiPickersUtilsProvider>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogueOpen(false)}>Cancel</Button>
+          <Button onClick={handleDialogueSubmission}>Ok</Button>
+        </DialogActions>
+      </Dialog>
     </StylesProvider>
   );
 };

@@ -24,6 +24,8 @@ type StatsFilter struct {
 	Top                *int      `schema:"top"` // Limit return to the top number of activities
 	StartDateTimestamp *string   `schema:"startDate,omitempty"`
 	StartDate          time.Time `schema:"-"` // Used to store converted startDate, not included in raw query parameters
+	EndDateTimestamp   *string   `schema:"endDate,omitempty"`
+	EndDate            time.Time `schema:"-"` // Used to store converted EndDate, not included in raw query parameters
 }
 
 type UsersResponse struct {
