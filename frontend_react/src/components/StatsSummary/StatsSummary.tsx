@@ -156,11 +156,11 @@ const StatsSummary = () => {
       return;
     }
 
-    setStartDate(startDate.startOf("day"));
-    setEndDate(endDate.endOf("day"));
+    const apiStartDate = startDate.startOf("day");
+    const apiEndDate = endDate.endOf("day");
 
     setLoading(true);
-    ApiService.getActivityStats(startDate?.toISOString(), endDate?.toISOString())
+    ApiService.getActivityStats(apiStartDate?.toISOString(), apiEndDate?.toISOString())
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);
