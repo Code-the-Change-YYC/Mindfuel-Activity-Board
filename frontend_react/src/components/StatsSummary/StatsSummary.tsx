@@ -150,6 +150,13 @@ const StatsSummary = () => {
       alert("Please enter two dates that are only a year or less apart");
       return;
     }
+    if (startDate.isAfter(endDate)) {
+      alert("Please enter a valid range of dates");
+      return;
+    }
+
+    setStartDate(startDate.startOf("day"));
+    setEndDate(endDate.endOf("day"));
 
     setLoading(true);
     ApiService.getActivityStats(startDate?.toISOString(), endDate?.toISOString())
