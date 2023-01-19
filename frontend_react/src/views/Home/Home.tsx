@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 
-import { CircularProgress } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import _ from "lodash";
 import { useSelector } from "react-redux";
 
-import SocketService from "../../api/SocketService";
-import AppAlert from "../../components/AppAlert/AppAlert";
-import Filter from "../../components/Filter/Filter";
-import Map from "../../components/Map/Map";
-import MyLocation from "../../components/MyLocation/MyLocation";
-import SearchAreaButton from "../../components/SearchAreaButton/SearchAreaButton";
-import SideNav from "../../components/SideNav/SideNav";
-import Socials from "../../components/Socials/Socials";
-import StatsSummary from "../../components/StatsSummary/StatsSummary";
-import Timeline from "../../components/Timeline/Timeline";
-import WSConnectionStatus from "../../components/WSConnectionStatus/WSConnectionStatus";
-import { fetchHistoricalUsers, updateHistoricalUsers } from "../../state/actions";
-import { useAppDispatch } from "../../state/hooks";
-import { AlertModel } from "../../utils/Alert.model";
-import { AppState } from "../../utils/AppState";
-import { ActivityFilter } from "../../utils/FilterOption.model";
-import { MapBounds } from "../../utils/MapBounds";
-import { User } from "../../utils/User";
 import styles from "./Home.module.css";
+import SocketService from "api/SocketService";
+import AppAlert from "components/AppAlert";
+import Filter from "components/Filter";
+import Map from "components/Map";
+import MyLocation from "components/MyLocation";
+import SearchAreaButton from "components/SearchAreaButton";
+import SideNav from "components/SideNav";
+import Socials from "components/Socials";
+import StatsSummary from "components/StatsSummary";
+import Timeline from "components/Timeline";
+import WSConnectionStatus from "components/WSConnectionStatus";
+import { fetchHistoricalUsers, updateHistoricalUsers } from "state/actions";
+import { useAppDispatch } from "state/hooks";
+import { AlertModel } from "utils/Alert.model";
+import { AppState } from "utils/AppState";
+import { ActivityFilter } from "utils/FilterOption.model";
+import { MapBounds } from "utils/MapBounds";
+import { User } from "utils/User";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -104,31 +104,27 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <SideNav></SideNav>
+      <SideNav />
       <div className={styles.map}>
-        {alert && <AppAlert alert={alert}></AppAlert>}
+        {alert && <AppAlert alert={alert} />}
         <div className={styles.buttonGroup}>
-          <Socials></Socials>
-          <StatsSummary></StatsSummary>
-          {startDate && mapBounds && <Filter onFilterChange={handleFilterChange}></Filter>}
+          <Socials />
+          <StatsSummary />
+          {startDate && mapBounds && <Filter onFilterChange={handleFilterChange} />}
         </div>
         <div className={styles.myLocationButton}>
-          <MyLocation></MyLocation>
+          <MyLocation />
         </div>
         <Map onMapBoundsChange={handleMapBoundsChange}></Map>
         <div className={styles.centeredContainer}>
           {loading && <CircularProgress classes={loadingClasses} />}
           <div className={styles.topInfo}>
-            {showWSConnectionStatus && (
-              <WSConnectionStatus isVisible={showWSConnectionStatus}></WSConnectionStatus>
-            )}
-            {showSearchAreaButton && (
-              <SearchAreaButton onClick={handleSearchAreaClick}></SearchAreaButton>
-            )}
+            {showWSConnectionStatus && <WSConnectionStatus isVisible={showWSConnectionStatus} />}
+            {showSearchAreaButton && <SearchAreaButton onClick={handleSearchAreaClick} />}
           </div>
           <div className={styles.timeline}>
             {/* Ensure initial map bounds are captured before rendering timeline */}
-            {mapBounds && <Timeline onDateChange={handleDateChange}></Timeline>}
+            {mapBounds && <Timeline onDateChange={handleDateChange} />}
           </div>
         </div>
       </div>

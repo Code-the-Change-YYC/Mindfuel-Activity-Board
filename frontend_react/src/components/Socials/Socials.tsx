@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Popover from "@material-ui/core/Popover";
-import { StylesProvider } from "@material-ui/core/styles";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import Alert from "@material-ui/lab/Alert";
+import StylesProvider from "@material-ui/styles/StylesProvider";
 import { TwitterTimelineEmbed } from "react-twitter-embed";
 
 import styles from "./Socials.module.css";

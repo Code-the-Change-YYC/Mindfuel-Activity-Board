@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  CircularProgress,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  withStyles,
-} from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import withStyles from "@material-ui/styles/withStyles";
 
-import activityIcon from "../../../res/assets/map-marker-activity.svg";
-import gameIcon from "../../../res/assets/map-marker-game.svg";
-import storyIcon from "../../../res/assets/map-marker-story.svg";
-import videoIcon from "../../../res/assets/map-marker-video.svg";
-import { numberFormatter } from "../../../utils/helpers";
-import { Stats } from "../../../utils/Stats";
 import styles from "./StatsTable.module.css";
+import activityIcon from "res/assets/map-marker-activity.svg";
+import gameIcon from "res/assets/map-marker-game.svg";
+import storyIcon from "res/assets/map-marker-story.svg";
+import videoIcon from "res/assets/map-marker-video.svg";
+import { numberFormatter } from "utils/helpers";
+import { Stats } from "utils/Stats";
 
 const CustomTableCell = withStyles({
   root: {

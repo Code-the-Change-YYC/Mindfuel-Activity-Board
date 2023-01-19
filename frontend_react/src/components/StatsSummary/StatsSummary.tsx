@@ -28,15 +28,16 @@ import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { AxiosResponse } from "axios";
 import moment from "moment";
 
-import ApiService from "../../api/ApiService";
-import { setAlert } from "../../state/actions";
-import { useAppDispatch } from "../../state/hooks";
-import { ActivityStatsApiResponse } from "../../utils/ApiServiceInterface";
-import { getTimelineDate } from "../../utils/helpers";
-import { Stats } from "../../utils/Stats";
 import StatsPieChart from "./StatsPieChart/StatsPieChart";
 import styles from "./StatsSummary.module.css";
 import StatsTable from "./StatsTable/StatsTable";
+import { setAlert } from "state/actions";
+import { useAppDispatch } from "state/hooks";
+import { ActivityStatsApiResponse } from "utils/ApiServiceInterface";
+import { getTimelineDate } from "utils/helpers";
+import { Stats } from "utils/Stats";
+
+import ApiService from "../../api/ApiService";
 
 const items = [
   {

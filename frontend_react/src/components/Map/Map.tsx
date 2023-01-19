@@ -6,14 +6,14 @@ import GoogleMapReact, { ChangeEventValue, Coords, Maps } from "google-map-react
 import _ from "lodash";
 import { useSelector } from "react-redux";
 
-import useGroupedUsers from "../../hooks/useGroupedUsers";
-import { AppState } from "../../utils/AppState";
-import { AppUserLocation } from "../../utils/AppUserLocation.model";
-import { Location } from "../../utils/Location";
-import { MapBounds } from "../../utils/MapBounds";
-import { User } from "../../utils/User";
 import styles from "./Map.module.css";
-import MapMarker from "./MapMarker/MapMarker";
+import MapMarker from "./MapMarker";
+import useGroupedUsers from "hooks/useGroupedUsers";
+import { AppState } from "utils/AppState";
+import { AppUserLocation } from "utils/AppUserLocation.model";
+import { Location } from "utils/Location";
+import { MapBounds } from "utils/MapBounds";
+import { User } from "utils/User";
 
 type MapProps = {
   onMapBoundsChange: (mapBounds?: MapBounds) => void;
