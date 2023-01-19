@@ -14,6 +14,7 @@ import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { AxiosResponse } from "axios";
 
+import DateRangePicker from "./DateRangePicker";
 import StatsPieChart from "./StatsPieChart/StatsPieChart";
 import styles from "./StatsSummary.module.css";
 import StatsTable from "./StatsTable/StatsTable";
@@ -32,19 +33,19 @@ const items = [
   },
   {
     value: 75,
-    label: "1 day",
+    label: "Past day",
   },
   {
     value: 50,
-    label: "1 week",
+    label: "Past week",
   },
   {
     value: 25,
-    label: "1 month",
+    label: "Past month",
   },
   {
     value: 0,
-    label: "1 year",
+    label: "Past year",
   },
 ];
 
@@ -52,9 +53,11 @@ const StatsSummary = () => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
+  const [dialogueOpen, setDialogueOpen] = useState(false);
   const [stats, setStats] = useState<Stats[]>([]);
   const [chartVisibility, setChartVisibility] = useState<boolean>(false);
   const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
+  const CUSTOM_RANGE_VAL = 1000;
 
   const formClasses = {
     root: styles.form,
@@ -87,33 +90,39 @@ const StatsSummary = () => {
 
   const handleApiError = () => {
     dispatch(setAlert("Unable to fetch historical stats, please try again!", "error"));
+    setStats([]);
   };
 
-  const handleOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
-
   const handleTimeValueChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setLoading(true);
-    const val = event.target.value as number;
-    setTrendingVal(val);
+    if (event.target.value != CUSTOM_RANGE_VAL) {
+      const val = event.target.value as number;
+      setTrendingVal(val);
+      const startDate = getTimelineDate(val);
+      fetchActivityStats(startDate!, new Date(), false);
+    }
+  };
 
-    const startDate = getTimelineDate(val);
-    ApiService.getActivityStats(startDate?.toISOString())
+  const fetchActivityStats = (
+    startDate: Date | undefined,
+    endDate: Date,
+    isCustomRange: boolean
+  ) => {
+    setLoading(true);
+    ApiService.getActivityStats(startDate?.toISOString(), endDate.toISOString())
       .then(
         (response: AxiosResponse<ActivityStatsApiResponse>) => {
           setStats(response.data.stats);
         },
         () => handleApiError()
       )
-      .finally(() => setLoading(false));
-  };
+      .finally(() => {
+        setLoading(false);
+        setDialogueOpen(false);
 
-  const handleChartVisibility = () => {
-    if (chartVisibility) setChartVisibility(false);
-    else {
-      setChartVisibility(true);
-    }
+        if (isCustomRange) {
+          setTrendingVal(CUSTOM_RANGE_VAL);
+        }
+      });
   };
 
   return (
@@ -121,14 +130,14 @@ const StatsSummary = () => {
       <IconButton
         aria-label="open drawer"
         color="inherit"
-        onClick={handleOpen}
+        onClick={() => setOpen(true)}
         classes={iconClasses}
       >
         <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
       </IconButton>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         className={styles.modalContainer}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -167,6 +176,15 @@ const StatsSummary = () => {
                     {item.label}
                   </MenuItem>
                 ))}
+                <MenuItem
+                  key={CUSTOM_RANGE_VAL}
+                  value={CUSTOM_RANGE_VAL}
+                  onClick={() => {
+                    setDialogueOpen(true);
+                  }}
+                >
+                  Custom Range
+                </MenuItem>
               </Select>
               <FormGroup style={{ marginLeft: "auto" }}>
                 <InputLabel
@@ -179,7 +197,10 @@ const StatsSummary = () => {
                 >
                   Chart
                 </InputLabel>
-                <Switch checked={chartVisibility} onClick={handleChartVisibility} />
+                <Switch
+                  checked={chartVisibility}
+                  onClick={() => setChartVisibility(!chartVisibility)}
+                />
               </FormGroup>
             </FormControl>
             {chartVisibility && stats.length > 0 && <StatsPieChart stats={stats}></StatsPieChart>}
@@ -201,6 +222,11 @@ const StatsSummary = () => {
           </div>
         </Fade>
       </Modal>
+      <DateRangePicker
+        isOpen={dialogueOpen}
+        onDateRangeSubmission={fetchActivityStats}
+        onCancel={() => setDialogueOpen(false)}
+      />
     </StylesProvider>
   );
 };

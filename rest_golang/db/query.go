@@ -8,7 +8,7 @@ import (
 // Returns the user match query corresponding to the filters provided in the HTTP request.
 func GetUserQuery(filter model.UserFilter) bson.M {
 	matchQuery := bson.M{
-		"date":                      bson.M{"$gt": filter.StartDate},
+		"date":                      bson.M{"$gte": filter.StartDate},
 		"payload.location.latitude": bson.M{"$gte": filter.LatLower, "$lte": filter.LatUpper},
 	}
 
@@ -52,7 +52,7 @@ func GetDistinctCountQuery(field string, key string) bson.A {
 func GetActivityStatsQuery(filter model.StatsFilter) []bson.D {
 
 	query := []bson.D{
-		{{Key: "$match", Value: bson.M{"$and": []bson.M{{"type": bson.M{"$eq": model.WondervilleAsset}}, {"date": bson.M{"$gt": filter.StartDate}}}}}},
+		{{Key: "$match", Value: bson.M{"$and": []bson.M{{"type": bson.M{"$eq": model.WondervilleAsset}}, {"date": bson.M{"$gte": filter.StartDate, "$lte": filter.EndDate}}}}}},
 		{{Key: "$group", Value: bson.D{
 			{Key: "_id", Value: "$payload.asset.name"},
 			{Key: "imageUrl", Value: bson.M{"$first": "$payload.asset.imageUrl"}},

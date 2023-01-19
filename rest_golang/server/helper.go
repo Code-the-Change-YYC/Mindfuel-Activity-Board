@@ -36,6 +36,14 @@ func GetStatsQueryParams(params url.Values) (model.StatsFilter, error) {
 		filter.StartDate = startDate
 	}
 
+	if filter.EndDateTimestamp != nil {
+		endDate, err := time.Parse(time.RFC3339, params.Get("endDate"))
+		if err != nil {
+			return filter, err
+		}
+		filter.EndDate = endDate
+	}
+
 	if filter.Top == nil {
 		filter.Top = new(int) // Set as zero value int as to not limit the Mongo query
 	}

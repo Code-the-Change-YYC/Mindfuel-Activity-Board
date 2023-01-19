@@ -47,10 +47,11 @@ const getHistoricalUsers = (
 
 const getActivityStats = (
   startDate?: string,
+  endDate?: string,
   top?: number
 ): Promise<AxiosResponse<ActivityStatsApiResponse>> => {
   return http.get<ActivityStatsApiResponse>("/activity-stats", {
-    params: { startDate: startDate, top: top },
+    params: { startDate: startDate, endDate: endDate, top: top },
   });
 };
 
