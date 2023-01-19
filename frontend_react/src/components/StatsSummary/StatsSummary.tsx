@@ -18,8 +18,11 @@ import {
   Select,
   StylesProvider,
   Switch,
+  createTheme,
+  MuiThemeProvider,
 } from "@material-ui/core";
 import Modal from "@material-ui/core/Modal";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { EqualizerOutlined, Whatshot } from "@material-ui/icons";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { AxiosResponse } from "axios";
@@ -68,6 +71,7 @@ const StatsSummary = () => {
   const [trendingVal, setTrendingVal] = useState<number>(items[0].value);
   const [startDate, setStartDate] = useState<moment.Moment | null>(moment());
   const [endDate, setEndDate] = useState<moment.Moment | null>(moment());
+  const matches = useMediaQuery("(min-width:600px)");
 
   const formClasses = {
     root: styles.form,
@@ -83,6 +87,14 @@ const StatsSummary = () => {
   const iconClasses = {
     root: styles.statsButton,
   };
+
+  const customTheme = createTheme({
+    palette: {
+      primary: {
+        main: "#52247f",
+      },
+    },
+  });
 
   useEffect(() => {
     // Get initial data on instantiation
@@ -248,30 +260,47 @@ const StatsSummary = () => {
           </div>
         </Fade>
       </Modal>
-      <Dialog disableEscapeKeyDown open={dialogueOpen} onClose={() => setDialogueOpen(false)}>
-        <DialogTitle>Choose Dates</DialogTitle>
+      <Dialog
+        disableEscapeKeyDown
+        open={dialogueOpen}
+        onClose={() => setDialogueOpen(false)}
+        PaperProps={{
+          style: {
+            backgroundColor: "#ffdd00",
+            color: "#52247f",
+            marginLeft: matches ? "265px" : "30px",
+          },
+        }}
+      >
+        <DialogTitle color={"#52247f"}>Choose Dates</DialogTitle>
         <DialogContent>
           <Box>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DatePicker
-                autoOk
-                label="Start Date"
-                clearable
-                disableFuture
-                required
-                value={startDate}
-                onChange={setStartDate}
-              />
-              <DatePicker
-                autoOk
-                label="End Date"
-                clearable
-                required
-                disableFuture
-                value={endDate}
-                onChange={setEndDate}
-              />
-            </MuiPickersUtilsProvider>
+            <MuiThemeProvider theme={customTheme}>
+              <MuiPickersUtilsProvider utils={MomentUtils}>
+                <DatePicker
+                  variant={matches ? "inline" : "dialog"}
+                  className={styles.datePicker}
+                  autoOk
+                  label="Start Date"
+                  clearable
+                  disableFuture
+                  required
+                  value={startDate}
+                  onChange={setStartDate}
+                />
+                <DatePicker
+                  variant={matches ? "inline" : "dialog"}
+                  className={styles.datePicker}
+                  autoOk
+                  label="End Date"
+                  clearable
+                  required
+                  disableFuture
+                  value={endDate}
+                  onChange={setEndDate}
+                />
+              </MuiPickersUtilsProvider>
+            </MuiThemeProvider>
           </Box>
         </DialogContent>
         <DialogActions>
