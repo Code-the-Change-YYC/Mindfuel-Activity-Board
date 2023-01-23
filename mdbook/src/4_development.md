@@ -48,7 +48,7 @@ Two services were created to assist with the development process by providing a 
 
 #### mock_data
 
-The `mock_data` service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the `raw_data` directory) and randomized stats using the `faker` and `mongo-seeding` packages. This is achieved by using JS scripts nested in the `data` directory with the **same name** as the collection to populate (e.g. `data/users/users.js`). You can also choose to update the `index.js` script to drop the existing database before import.<br>
+The `mock_data` service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the `raw_data` directory) and randomized stats using the `faker` and `mongo-seeding` packages. This is achieved by using JS scripts nested in the `data` directory with the **same name** as the collection to populate (e.g. `data/users/users.js`). **Be warned that running the seeder will drop your existing database.**<br>
 
 To run the service, ensure the `MONGODB_USERNAME`, `MONGODB_PWD` and `MONGODB_DB_NAME` environment variables are exported and then in the `mock_data` directory run:
 
