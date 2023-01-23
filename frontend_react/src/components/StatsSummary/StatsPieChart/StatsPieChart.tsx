@@ -80,7 +80,7 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
           data={chartValues}
           cx={"50%"}
           cy={"50%"}
-          outerRadius={"80%"}
+          outerRadius={"75%"}
           innerRadius={"60%"}
           paddingAngle={5}
           fill="#ffdd00"

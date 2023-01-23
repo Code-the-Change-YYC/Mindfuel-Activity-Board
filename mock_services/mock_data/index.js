@@ -4,9 +4,11 @@ const {
 } = require("mongo-seeding");
 
 const config = {
-  database: `${process.env.MONGODB_URI}/${process.env.MONGODB_DB_NAME}?authSource=admin`,
+  database: `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PWD}@localhost:27017/${process.env.MONGODB_DB_NAME}?authSource=admin`,
   dropDatabase: true, // Drop database before import
 };
+
+console.log(`Connecting to: ${config.database}`);
 
 const seeder = new Seeder(config);
 const collections = seeder.readCollectionsFromPath(
@@ -19,7 +21,7 @@ const collections = seeder.readCollectionsFromPath(
 seeder
   .import(collections)
   .then(() => {
-    console.log("Success");
+    console.log("Database seeded successfully!");
   })
   .catch((err) => {
     console.log("Error", err);
