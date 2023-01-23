@@ -16,6 +16,7 @@ import activityIcon from "res/assets/map-marker-activity.svg";
 import gameIcon from "res/assets/map-marker-game.svg";
 import storyIcon from "res/assets/map-marker-story.svg";
 import videoIcon from "res/assets/map-marker-video.svg";
+import { WVColorTheme } from "utils/ColorTheme.enum";
 import { numberFormatter } from "utils/helpers";
 import { Stats } from "utils/Stats";
 
@@ -105,7 +106,7 @@ const StatsTable = (props: { stats: Stats[]; loading: boolean }) => {
       return (
         <TableRow classes={tableRowClasses}>
           <CustomTableCell className={styles.loadingContainer} colSpan={4}>
-            <CircularProgress style={{ color: "#52247f" }} />
+            <CircularProgress style={{ color: WVColorTheme.PURPLE }} />
           </CustomTableCell>
         </TableRow>
       );

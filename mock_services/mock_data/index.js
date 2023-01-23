@@ -5,7 +5,7 @@ const {
 
 const config = {
   database: `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PWD}@localhost:27017/${process.env.MONGODB_DB_NAME}?authSource=admin`,
-  dropDatabase: true, // Drop database before import
+  dropDatabase: false, // Drop database before import
 };
 
 console.log(`Connecting to: ${config.database}`);

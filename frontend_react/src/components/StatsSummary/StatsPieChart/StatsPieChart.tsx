@@ -5,6 +5,7 @@ import { PieChart, Pie, Legend, Tooltip, Cell, ResponsiveContainer } from "recha
 import styles from "./StatsPieChart.module.css";
 import { ActivityTypeEnum } from "utils/ActivityType.enum";
 import { ChartStat } from "utils/ChartStat";
+import { WVColorTheme } from "utils/ColorTheme.enum";
 import { ActivityColourMap } from "utils/FilterOption.model";
 import { Stats } from "utils/Stats";
 
@@ -83,8 +84,8 @@ const StatsPieChart = (props: { stats: Stats[] }) => {
           outerRadius={"75%"}
           innerRadius={"60%"}
           paddingAngle={5}
-          fill="#ffdd00"
-          stroke="#52247f"
+          fill={WVColorTheme.YELLOW}
+          stroke={WVColorTheme.PURPLE}
           label={(data: ChartStat) => `${data.percentage.toFixed(1)}%`}
           labelLine={false}
         >

@@ -14,7 +14,7 @@ Notable packages used in the frontend are:
 - [react-twitter-embed](https://www.npmjs.com/package/react-twitter-embed) for embedding tweets from the MindFuel account
 - [recharts](https://www.npmjs.com/package/recharts) for charts
 
-For development, it is recommended to use Node v14 and npm v6. For details on versioning of packages, view the `package.json` file in the frontend project.
+For development, it is recommended to use **Node v14** and **npm v6**. For details on versioning of packages, view the `package.json` file in the frontend project.
 
 #### Project Structure
 
