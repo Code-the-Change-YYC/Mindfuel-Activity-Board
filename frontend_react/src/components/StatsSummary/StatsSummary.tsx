@@ -21,6 +21,7 @@ import StatsTable from "./StatsTable/StatsTable";
 import { setAlert } from "state/actions";
 import { useAppDispatch } from "state/hooks";
 import { ActivityStatsApiResponse } from "utils/ApiServiceInterface";
+import { WVColorTheme } from "utils/ColorTheme.enum";
 import { getTimelineDate } from "utils/helpers";
 import { Stats } from "utils/Stats";
 
@@ -133,7 +134,7 @@ const StatsSummary = () => {
         onClick={() => setOpen(true)}
         classes={iconClasses}
       >
-        <EqualizerOutlined style={{ fontSize: 30, color: "#52247F" }} />
+        <EqualizerOutlined style={{ fontSize: 30, color: WVColorTheme.PURPLE }} />
       </IconButton>
       <Modal
         open={open}
@@ -161,7 +162,7 @@ const StatsSummary = () => {
                 }}
               >
                 <Icon aria-label="open drawer" color="inherit">
-                  <Whatshot style={{ fontSize: 20, color: "#f7901e" }} />
+                  <Whatshot style={{ fontSize: 20, color: WVColorTheme.ORANGE }} />
                 </Icon>
                 Trending
               </InputLabel>

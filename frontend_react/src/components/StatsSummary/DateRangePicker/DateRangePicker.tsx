@@ -16,11 +16,12 @@ import moment, { Moment } from "moment";
 import styles from "./DateRangePicker.module.css";
 import { setAlert } from "state/actions";
 import { useAppDispatch } from "state/hooks";
+import { WVColorTheme } from "utils/ColorTheme.enum";
 
 const customTheme = createTheme({
   palette: {
     primary: {
-      main: "#52247f",
+      main: WVColorTheme.PURPLE,
     },
   },
 });
@@ -68,13 +69,13 @@ const DateRangePicker = (props: DateRangePickerProps) => {
       onClose={props.onCancel}
       PaperProps={{
         style: {
-          backgroundColor: "#ffdd00",
-          color: "#52247f",
+          backgroundColor: WVColorTheme.YELLOW,
+          color: WVColorTheme.PURPLE,
           marginLeft: matches ? "265px" : "30px", // Account for SideNav
         },
       }}
     >
-      <DialogTitle color={"#52247f"}>Choose Dates</DialogTitle>
+      <DialogTitle color={WVColorTheme.PURPLE}>Choose Dates</DialogTitle>
       <DialogContent>
         <Box>
           <MuiThemeProvider theme={customTheme}>

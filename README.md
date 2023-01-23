@@ -37,8 +37,9 @@ To quick start the application:
 1. Install Docker
 2. Put the development .env file in the root of the project
 3. Run `docker compose --env-file .env up -d`
+4. The frontend of the application should be available on `http://localhost:8081/`
 
-More development related information can be found in the Development section.
+More development and troubleshooting related information can be found in the Development section of the documentation.
 
 ### Documentation
 

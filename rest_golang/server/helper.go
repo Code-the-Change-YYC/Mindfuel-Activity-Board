@@ -1,6 +1,7 @@
 package server
 
 import (
+	"errors"
 	"net/url"
 	"time"
 
@@ -26,6 +27,11 @@ func GetStatsQueryParams(params url.Values) (model.StatsFilter, error) {
 	var filter model.StatsFilter
 	if err := decoder.Decode(&filter, params); err != nil {
 		return filter, err
+	}
+
+	// End date is required if a start date is provided to complete the date range
+	if filter.StartDateTimestamp != nil && filter.EndDateTimestamp == nil  {
+		return filter, errors.New("End date required")
 	}
 
 	if filter.StartDateTimestamp != nil {

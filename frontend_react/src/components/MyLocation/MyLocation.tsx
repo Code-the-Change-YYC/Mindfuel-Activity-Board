@@ -7,6 +7,7 @@ import StylesProvider from "@material-ui/styles/StylesProvider";
 import styles from "./MyLocation.module.css";
 import { setAlert, setAppUserLocation } from "state/actions";
 import { useAppDispatch } from "state/hooks";
+import { WVColorTheme } from "utils/ColorTheme.enum";
 
 const MyLocation = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ const MyLocation = () => {
         onClick={handleClick}
         classes={iconClasses}
       >
-        <MyLocationIcon style={{ fontSize: 20, color: "#52247F" }} />
+        <MyLocationIcon style={{ fontSize: 20, color: WVColorTheme.PURPLE }} />
       </IconButton>
     </StylesProvider>
   );
