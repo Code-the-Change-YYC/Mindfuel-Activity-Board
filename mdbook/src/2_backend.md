@@ -34,7 +34,7 @@ table {float:left}
 
 `v1/api/users`<br><br>
 **Methods**: `GET`<br>
-**Description**: Gets historical users and the total counts of users, uniques cities and unique countries.<br>
+**Description**: Gets historical users and the total counts of users, uniques cities and unique countries relative to the given start date.<br>
 **Parameters**:
 
 | Parameter   | Required? | Type    | <div style="width:290px">Description</div>                                                                                                                                                       | Example                                                                                                                   |
@@ -89,12 +89,13 @@ table {float:left}
 
 `v1/api/activity-stats`<br><br>
 **Methods**: `GET`<br>
-**Description**: Gets activity hit counts in descending order by the number of hits.<br>
+**Description**: Gets activity hit counts in descending order by the number of hits for the given date range.<br>
 **Parameters**:
 
 | Parameter   | Required? | Type    | <div style="width:290px">Description</div>                                                                       | Example                             |
 | ----------- | :-------: | ------- | ---------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
 | `startDate` |     N     | String  | The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned. | <pre>2022-10-04T14:48:00.000Z</pre> |
+| `endDate`   |     N     | String  | The end of the date range in ISO string format. Required if `startDate` is provided.                             | <pre>2022-11-05T14:48:00.000Z</pre> |
 | `top`       |     N     | Integer | The top number activities to return.                                                                             | <pre>10</pre>                       |
 
 **Responses**<br>

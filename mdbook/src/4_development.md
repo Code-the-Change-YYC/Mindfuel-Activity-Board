@@ -40,7 +40,7 @@ MONGODB_URI                   // The Mongo DB connection string (requires the ro
 ```
 
 #### Updating this documentation
-This documentation was built with [mdbook](https://rust-lang.github.io/mdBook/). After updating any of the files in the `mdbook` directory, run `mdbook build` to create a new documentation build which will be named `book`. This directory needs to be moved to the top-level of the directory and renamed to `docs` where it will then be used by either GitHub Actions or GitLab CI/CD to deploy the documentation. 
+This documentation was built with [mdbook](https://rust-lang.github.io/mdBook/). After updating any of the files in the `mdbook` directory, run `mdbook build` to create a new documentation build which will be named `book`. This builds needs to be moved to the top-level of the repository and renamed to `docs` where it will then be used by either GitHub Actions or GitLab CI/CD to deploy the documentation. 
 
 #### Mock Services
 
@@ -48,7 +48,7 @@ Two services were created to assist with the development process by providing a 
 
 #### mock_data
 
-The `mock_data` service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the `raw_data` directory) and randomized stats using the `faker` and `mongo-seeding` packages. This is achieved by using JS scripts nested in the `data` directory with the **same name** as the collection to populate (e.g. `data/users/users.js`). You can also choose to update the `index.js` script to drop the database before import.<br>
+The `mock_data` service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the `raw_data` directory) and randomized stats using the `faker` and `mongo-seeding` packages. This is achieved by using JS scripts nested in the `data` directory with the **same name** as the collection to populate (e.g. `data/users/users.js`). You can also choose to update the `index.js` script to drop the existing database before import.<br>
 
 To run the service, ensure the `MONGODB_USERNAME`, `MONGODB_PWD` and `MONGODB_DB_NAME` environment variables are exported and then in the `mock_data` directory run:
 

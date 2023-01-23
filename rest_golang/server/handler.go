@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/schema"
@@ -30,14 +31,14 @@ var decoder = schema.NewDecoder()
 
 const (
 	errorGeneric     = "Something went wrong! Please try again."
-	errorQueryParams = "Error decoding query parameters."
+	errorQueryParams = "Error decoding query parameters"
 )
 
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	filter, err := GetUserQueryParams(r.URL.Query())
 	if err != nil {
 		logger.Error.Println("Error decoding query parameters:", err)
-		http.Error(w, errorQueryParams, http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("%s: %s", errorQueryParams, err), http.StatusInternalServerError)
 		return
 	}
 
@@ -73,7 +74,7 @@ func (h *Handler) GetActivityStats(w http.ResponseWriter, r *http.Request) {
 	filter, err := GetStatsQueryParams(r.URL.Query())
 	if err != nil {
 		logger.Error.Println("Error decoding query parameters:", err)
-		http.Error(w, errorQueryParams, http.StatusInternalServerError)
+		http.Error(w, fmt.Sprintf("%s: %s", errorQueryParams, err), http.StatusInternalServerError)
 		return
 	}
 
