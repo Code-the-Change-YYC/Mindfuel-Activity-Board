@@ -150,7 +150,7 @@
 <li><a href="https://www.npmjs.com/package/react-twitter-embed">react-twitter-embed</a> for embedding tweets from the MindFuel account</li>
 <li><a href="https://www.npmjs.com/package/recharts">recharts</a> for charts</li>
 </ul>
-<p>For development, it is recommended to use Node v14 and npm v6. For details on versioning of packages, view the <code>package.json</code> file in the frontend project.</p>
+<p>For development, it is recommended to use <strong>Node v14</strong> and <strong>npm v6</strong>. For details on versioning of packages, view the <code>package.json</code> file in the frontend project.</p>
 <h4 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h4>
 <pre><code>├── frontend_react
 ├── src
@@ -231,7 +231,7 @@ table {float:left}
 </style>
 <p><code>v1/api/users</code><br><br>
 <strong>Methods</strong>: <code>GET</code><br>
-<strong>Description</strong>: Gets historical users and the total counts of users, uniques cities and unique countries.<br>
+<strong>Description</strong>: Gets historical users and the total counts of users, uniques cities and unique countries relative to the given start date.<br>
 <strong>Parameters</strong>:</p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th style="text-align: center">Required?</th><th>Type</th><th><div style="width:290px">Description</div></th><th>Example</th></tr></thead><tbody>
 <tr><td><code>startDate</code></td><td style="text-align: center">Y</td><td>String</td><td>The start of the date range in ISO string format.</td><td><pre>2022-10-04T14:48:00.000Z</pre></td></tr>
@@ -281,10 +281,11 @@ table {float:left}
 <br>
 <p><code>v1/api/activity-stats</code><br><br>
 <strong>Methods</strong>: <code>GET</code><br>
-<strong>Description</strong>: Gets activity hit counts in descending order by the number of hits.<br>
+<strong>Description</strong>: Gets activity hit counts in descending order by the number of hits for the given date range.<br>
 <strong>Parameters</strong>:</p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th style="text-align: center">Required?</th><th>Type</th><th><div style="width:290px">Description</div></th><th>Example</th></tr></thead><tbody>
 <tr><td><code>startDate</code></td><td style="text-align: center">N</td><td>String</td><td>The start of the date range in ISO string format. If this is not included, all-time hit counts will be returned.</td><td><pre>2022-10-04T14:48:00.000Z</pre></td></tr>
+<tr><td><code>endDate</code></td><td style="text-align: center">N</td><td>String</td><td>The end of the date range in ISO string format. Required if <code>startDate</code> is provided.</td><td><pre>2022-11-05T14:48:00.000Z</pre></td></tr>
 <tr><td><code>top</code></td><td style="text-align: center">N</td><td>Integer</td><td>The top number activities to return.</td><td><pre>10</pre></td></tr>
 </tbody></table>
 </div>
@@ -410,6 +411,10 @@ table {float:left}
 <p>The project's three services are containerized with Docker compose. The configuration for the services is specified in <code>docker-compose.yml</code> which uses environment variables from the <code>.env</code> file to set certain parameters. To spin up all three services, run the following command from the root of the project:</p>
 <pre><code>$ docker compose --env-file .env up -d
 </code></pre>
+<p><strong>Note</strong>: M1 mac users may need to update the <code>docker-compose.yml</code> file to include platform information before the containers can start successfully, for example:</p>
+<pre><code>image: arm64v8/mongo:latest
+platform: linux/arm64/v8
+</code></pre>
 <h4 id="environment-variables"><a class="header" href="#environment-variables">Environment Variables</a></h4>
 <p>It is necessary to set multiple environment variables so that the services can start successfully. This also includes creating and setting the <a href="https://developers.google.com/maps/documentation/javascript/get-api-key"><strong>Google Maps Javascript API key</strong></a> which is used by the frontend. An overview of the necessary environment variables is provided below. For convenience during development, these were set in a single <code>.env</code> file in the root of the project, but they can alternatively be split up between each service.</p>
 <pre><code>// React
@@ -428,17 +433,19 @@ MONGODB_USERNAME              // The username for the Mongo DB root user
 MONGODB_PWD                   // The password for the Mongo DB root user
 MONGODB_URI                   // The Mongo DB connection string (requires the root user credentials)
 </code></pre>
+<h4 id="updating-this-documentation"><a class="header" href="#updating-this-documentation">Updating this documentation</a></h4>
+<p>This documentation was built with <a href="https://rust-lang.github.io/mdBook/">mdbook</a>. After updating any of the files in the <code>mdbook</code> directory, run <code>mdbook build</code> to create a new documentation build which will be named <code>book</code>. This builds needs to be moved to the top-level of the repository and renamed to <code>docs</code> where it will then be used by either GitHub Actions or GitLab CI/CD to deploy the documentation. </p>
 <h4 id="mock-services"><a class="header" href="#mock-services">Mock Services</a></h4>
 <p>Two services were created to assist with the development process by providing a source of mock data and a development WebSocket server.</p>
 <h4 id="mock_data"><a class="header" href="#mock_data">mock_data</a></h4>
 <p>The <code>mock_data</code> service seeds your MongoDB instance with a sample set of Wonderville asset data (found in the <code>raw_data</code> directory) and randomized stats using the <code>faker</code> and <code>mongo-seeding</code> packages. This is achieved by using JS scripts nested in the <code>data</code> directory with the <strong>same name</strong> as the collection to populate (e.g. <code>data/users/users.js</code>). <strong>Be warned that running the seeder will drop your existing database.</strong><br></p>
-<p>To run the service, ensure the <code>MONGODB_URI</code> and <code>MONGODB_DB_NAME</code> environment variables are exported and then in the <code>mock_data</code> directory run:</p>
+<p>To run the service, ensure the <code>MONGODB_USERNAME</code>, <code>MONGODB_PWD</code> and <code>MONGODB_DB_NAME</code> environment variables are exported and then in the <code>mock_data</code> directory run:</p>
 <pre><code>$ npm install
 $ node index.js
 </code></pre>
-<p>Your database collections should then automatically be populated with a 4 month range of sample data including 1 month in the future to avoid having to reseed as frequently. The seeding scripts also provide the option of saving the sample data to a file; to do so uncomment the corresponding block of code at the end of the scripts.</p>
+<p>Your database collections should then automatically be populated with a 4 month range of sample data including 1 month in the future to avoid having to reseed as frequently. The seeding scripts also provide the option of saving the sample data to a file; to do so uncomment the corresponding block of code at the end of the scripts in the <code>data</code> directory.</p>
 <h4 id="mock_server"><a class="header" href="#mock_server">mock_server</a></h4>
-<p>The <code>mock_server</code> service provides a simple insecure WebSocket server which can be used in place of the production Wonderville server during development. Once connected, it will emit a user from the <code>sample_data.json</code> file every 3 seconds. To use the service, uncomment the development server variables in the <code>.env</code> file (i.e. the variables referencing <code>ws://localhost:3210</code>) and restart the Docker containers.<br></p>
+<p>The <code>mock_server</code> service provides a simple insecure WebSocket server which can be used in place of the production Wonderville server during development. Once connected, it will emit a user from the <code>sample_data.json</code> file every 3 seconds. To use the service, set the WebSocket related environment variables in <code>.env</code> (i.e. <code>REACT_APP_MINDFUEL_WEBSOCKET</code> and/or <code>GO_MINDFUEL_WEBSOCKET</code>) to <code>ws://localhost:3210</code> and restart the Docker containers.<br></p>
 <p>To start the server, in the <code>mock_server</code> directory run:</p>
 <pre><code>$ npm install
 $ node index.js

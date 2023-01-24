@@ -42,4 +42,3 @@ rl.question("Warning: This operation will drop your existing database. Do you wa
 
   rl.close();
 });
-
