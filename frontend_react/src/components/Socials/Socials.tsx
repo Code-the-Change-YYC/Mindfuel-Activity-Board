@@ -43,7 +43,7 @@ const Socials = () => {
       setPlaceholder(loadingPlaceholder);
 
       // Timeout timer for loading of Tweets, loading may fail if tracking prevention is turned on
-      const timer = setTimeout(() => setPlaceholder(failedPlaceholder), 5000);
+      const timer = setTimeout(() => setPlaceholder(failedPlaceholder), 10000);
 
       return () => {
         clearTimeout(timer);
@@ -93,7 +93,7 @@ const Socials = () => {
         <TwitterTimelineEmbed
           sourceType="profile"
           screenName="mindfuelca"
-          options={{ height: 400, width: 275 }}
+          options={{ height: 400, width: 275, tweetLimit: 15 }}
           noFooter={true}
           noHeader={true}
           placeholder={placeholder}
